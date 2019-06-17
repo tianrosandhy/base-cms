@@ -1,10 +1,11 @@
 {
-    "name": "laravel/laravel",
+    "name": "tianrosandhy/base-cms",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Base CMS from Laravel Framework.",
     "keywords": [
         "framework",
-        "laravel"
+        "laravel",
+        "tianrosandhy"
     ],
     "license": "MIT",
     "require": {
