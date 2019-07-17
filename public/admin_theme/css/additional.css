@@ -582,3 +582,7 @@ ul.nav{
 .col:last-child .closer{
 	right:5px;
 }
+
+.btn-sm{
+	padding:0.5rem 0.81rem!important;
+}

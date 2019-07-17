@@ -21,7 +21,6 @@
 		@endif
 		@endif
 
-		<a href="#" class="btn btn-info btn-sm table-search-btn active"><i class="fa fa-sm fa-search fa-fw"></i> <span>Show</span> Search Box</a>
 	</div>
 
 

@@ -125,6 +125,9 @@ class AdminBaseController extends Controller
 	}
 
 	protected function insertLanguage($lang, $table, $field, $id, $content){
+		if(empty($content)){
+			return ; //kalau content kosong, gausa save aja sekalian.. buang2 waktu
+		}
 		$repo = (new CrudRepository('translator'));
 		$cek = $repo->filterFirst([
 			['table', '=', $table],

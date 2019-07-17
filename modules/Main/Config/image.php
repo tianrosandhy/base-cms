@@ -17,12 +17,14 @@ return [
 
     'driver' => 'gd',
     'thumbs' => [
+        'extralarge' => 2000,
         'large' => 1200,
         'medium' => 600,
-        'small' => 300,
+        'small' => 400,
+        'extrasmall' => 200,
         'thumb' => 100
     ],
-    'crop' => 300,
+    'crop' => 500,
     'quality' => 60,
 
 ];
