@@ -4,6 +4,5 @@ return [
 	'load' => [
 	    //register new module service provider here 
 	    //or just add to provider lists in config/app.php
-	    \Module\Main\MainServiceProvider::class,
 	],
 ];
