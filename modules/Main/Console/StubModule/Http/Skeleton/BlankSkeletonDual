@@ -7,6 +7,7 @@ use DataSource;
 
 class BlankSkeleton extends DataTable
 {
+	public $route = 'blank';
 
 	//MANAGE STRUKTUR DATA KOLOM DAN FORM
 	public function __construct(){
@@ -43,16 +44,16 @@ class BlankSkeleton extends DataTable
 			'id' => $this->checkerFormat($row),
 			'title' => $row->outputTranslate('title'),
 			'description' => $row->outputTranslate('description'),
-			'is_active' => $this->switcher($row, 'is_active', 'blank/switch'),
+			'is_active' => $this->switcher($row, 'is_active', 'admin.'.$this->route.'.switch'),
 			'action' => self::editButton($row) . self::deleteButton($row)
 		];
 	}
 
 	protected function editButton($row){
-		if(has_access('admin.blank.update')){
+		if(has_access('admin.'.$this->route.'.update')){
 			return $this->actionButton(
 				'Edit', 
-				url()->route('admin.blank.edit', ['id' => $row->id]), 
+				url()->route('admin.'.$this->route.'.edit', ['id' => $row->id]), 
 				[
 					'class' => ['btn', 'btn-sm', 'btn-info edit-btn'],
 					'data-id' => $row->id
@@ -62,10 +63,10 @@ class BlankSkeleton extends DataTable
 	}
 
 	protected function deleteButton($row){
-		if(has_access('admin.blank.delete')){
+		if(has_access('admin.'.$this->route.'.delete')){
 			return $this->actionButton(
 				'Delete', 
-				url()->route('admin.blank.delete', ['id' => $row->id]), 
+				url()->route('admin.'.$this->route.'.delete', ['id' => $row->id]), 
 				[
 					'class' => ['btn', 'btn-sm', 'btn-danger delete-button'],
 					'data-id' => $row->id

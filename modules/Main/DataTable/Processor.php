@@ -52,10 +52,21 @@ class Processor
 	}
 
 	public function switcher($row, $field='is_active', $url='post/switch'){
+		if(strpos($url, '.') !== false){
+			try{
+				$url = url()->route($url);
+			}catch(\Exception $e){
+				$url = admin_url($url);
+			}
+		}
+		else{
+			$url = admin_url($url);
+		}
+
 		return view('main::inc.switchery', [
 			'id' => $row->id, 
 			'field' => $field,
-			'url' => admin_url($url),
+			'url' => $url,
 			'value' => $row->{$field}
 		])->render();
 	}
