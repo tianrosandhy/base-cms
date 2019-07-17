@@ -1,0 +1,34 @@
+<?php
+namespace Module\Blank\Http\Controllers;
+
+use Module\Main\Http\Repository\CrudRepository;
+use Module\Main\Http\Controllers\AdminBaseController;
+use Module\Blank\Http\Skeleton\BlankSkeleton;
+use Module\Main\Transformer\Exportable;
+
+class BlankController extends AdminBaseController
+{
+	use Exportable;
+	public $hint = 'blank';
+
+	public function repo(){
+		return $this->hint;
+	}
+
+	public function skeleton(){
+		return new BlankSkeleton;
+	}
+
+	public function afterValidation($mode='create'){
+
+	}
+
+	public function afterCrud($instance){
+
+	}
+
+	public function image_field(){
+		return ['image'];
+	}
+
+}
