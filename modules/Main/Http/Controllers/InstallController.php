@@ -22,17 +22,76 @@ class InstallController extends Controller{
 		$has_install = $this->checkHasInstall();
 		//redirect to base route if already installed
 		$db = $this->checkDatabaseConnection();
+		$env = $this->getEnv();
 
 		return view('main::install', compact(
 			'db',
-			'has_install'
+			'has_install',
+			'env'
 		));
+	}
+
+	protected function updateEnv(){
+		$env = $this->getEnv();
+		$lists = config('module-setting.install.used_env');
+		$i = 0;
+		foreach($env as $line){
+			$saved_line[$i] = $line;
+			foreach($lists as $cek){
+				if(strpos($line, $cek) !== false){
+					if($this->request->{$cek}){
+						$val = $this->request->{$cek};
+						if(strpos($val, ' ') !== false){
+							//append tanda petik kalo ada spasinya
+							$val = '"'.$val.'"';
+						}
+						$saved_line[$i] = $cek.'='.$val;
+					}
+				}
+			}
+			$i++;
+		}
+
+		//save saved_line to .env
+		return $this->saveEnv($saved_line);
+	}
+
+	protected function getEnv(){
+		try{
+			$env_path = base_path('.env');
+			$file = fopen($env_path, 'rw');
+			$env = fread($file, filesize($env_path));
+			$env = explode("\r\n", $env);
+
+		}catch(\Exception $e){
+			$env_path = false;
+			$env = [];
+		}
+		return $env;
+	}
+
+	protected function saveEnv($arr){
+		try{
+			$string = implode("\r\n", $arr);
+			$env_path = base_path(".env");
+			file_put_contents($env_path, $string);
+		}catch(\Exception $e){
+			return false;
+		}
+		return true;
 	}
 
 	public function process(){
 		$db = $this->checkDatabaseConnection();
 		if($db){
-			return route('cms.install')->with(['error' => 'Please fix the database connection problem first']);
+			//check if has database config has changed parameters
+			$env = $this->updateEnv();
+			if($env){
+				return redirect()->route('cms.install')->with(['success' => 'File .env has been updated.']);
+			}
+			else{
+				return redirect()->route('cms.install')->with(['error' => 'Please update the .env file manually before you can continue install this CMS']);
+			}
 		}
 
 		$validate = Validator::make($this->request->all(), [

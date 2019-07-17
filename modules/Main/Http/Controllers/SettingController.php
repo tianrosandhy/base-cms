@@ -3,7 +3,7 @@ namespace Module\Main\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;
-use Module\Base\Models\SettingStructure;
+use Module\Main\Models\SettingStructure;
 use ImageService;
 use Module\Main\Http\Repository\CrudRepository;
 use Storage;
