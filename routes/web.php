@@ -2,7 +2,7 @@
 Route::get('/', function () {
 	$installed = true;
 	try{
-		$check = \DB::table('cms_install')->get();
+		$check = \DB::table('cms_installs')->get();
 	}catch(\Exception $e){
 		$installed = false;
 	}

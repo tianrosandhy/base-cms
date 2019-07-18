@@ -25,7 +25,11 @@
 <link rel="stylesheet" href="{{ admin_asset('css/style.css') }}">
 <link class="main-stylesheet" href="{!! admin_asset('css/additional.css') !!}" rel="stylesheet" type="text/css" />
 
+@if(setting('admin.favicon'))
 <link rel="icon" type="image/png" href="{{ storage_url(thumbnail(setting('admin.favicon'), 'small')) }}" />
+@else
+<link rel="icon" type="image/png" href="{{ asset('admin_theme/img/logo.png') }}" />
+@endif
 <script src="{{ admin_asset('vendor/base/jquery-3.4.1.min.js') }}"></script>
 @stack ('style')
 @stack ('styles')

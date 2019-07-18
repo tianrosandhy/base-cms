@@ -172,15 +172,26 @@ class InstallController extends Controller{
 		try{
 			//check connection exists
 			#will return error if connection failed
-			DB::table(DB::raw('DUAL'))->first([DB::raw(1)]);
+			DB::query(DB::raw('SELECT 1'));
 		}catch(\Exception $e){
+			dd($e);
 			return 'Wrong database connection';
 		}
 
 		try{
 			//check database exists
 			#will return error if database not exists
-			DB::select('SHOW TABLES');
+			if(config('database.default') == 'sqlsrv'){
+				$cek_database = DB::select("SELECT name FROM master.sys.databases where name='".env('DB_DATABASE')."'");
+				if(empty($cek_database)){
+					return 'Database not exists';
+				}
+			}
+			else{
+				//mysql basic checker
+				DB::select('SHOW TABLES');
+			}
+
 		}catch(\Exception $e){
 			return 'Database not exists';
 		}
