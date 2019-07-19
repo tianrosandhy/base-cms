@@ -10,11 +10,14 @@ if(!isset($name)){
 <div class="row">
 	<div class="{{ isset($horizontal) ? 'col-sm-6' : 'col-sm-12' }}">
 		<div style="padding-bottom:.5em;">
-			<span style="font-size:.7em; padding:0 1em; opacity:.5;">Maximum Upload Size : {{ number_format((file_upload_max_size(config('cms.max_filesize.image')) / 1024 /1024), 2) }} MB</span>
+			<?php
+			$max_size = (file_upload_max_size(config('cms.max_filesize.image')) / 1024 /1024);
+			?>
+			<span style="opacity:.5; font-size:.7em; padding:0 .75em;">Maximum Upload Size : {{ number_format($max_size, 2) }} MB</span>
 		</div>
-        <div class="dropzone custom-dropzone dz-clickable mydropzone" data-hash="{{ $hash }}" data-target="{{ admin_url('api/store-images') . ( isset($path) ? '?path='.$path : '' ) }}"></div>
+        <div class="dropzone custom-dropzone dz-clickable mydropzone" data-hash="{{ $hash }}" upload-limit="{{ intval($max_size) }}" data-target="{{ admin_url('api/store-images') . ( isset($path) ? '?path='.$path : '' ) }}"></div>
 	</div>
-	<div class="{{ isset($horizontal) ? 'col-sm-3' : 'col-sm-12' }}">
+	<div class="{{ isset($horizontal) ? 'col-sm-6' : 'col-sm-12' }}">
 		<div class="uploaded-holder" data-hash="{{ $hash }}">
 			@if(isset($value))
 				@if(strlen($value) > 0)

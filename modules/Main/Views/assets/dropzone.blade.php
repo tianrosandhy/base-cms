@@ -210,11 +210,16 @@ function refreshDropzone(){
 	$(".mydropzone").each(function(){
 		var ajaxurl = $(this).data("target");
 		var dropzonehash = $(this).attr('data-hash');
+		var maxsize = $(this).attr('upload-limit');
+		if(maxsize.length == 0){
+			maxsize = 2;
+		}
 
 		if($(this).find('.dz-default').length == 0){
 			$(this).dropzone({
 				url : ajaxurl,
 				acceptedFiles : 'image/*',
+				maxFilesize : maxsize,
 				sending : function(file, xhr, formData){
 					formData.append("_token", window.CSRF_TOKEN);
 				},
@@ -246,11 +251,16 @@ function refreshDropzone(){
 	$(".mydropzone-multiple").each(function(){
 		var ajaxurl = $(this).data("target");
 		var dropzonehash = $(this).attr('data-hash');
+		var maxsize = $(this).attr('upload-limit');
+		if(maxsize.length == 0){
+			maxsize = 5;
+		}
 
 		if($(this).find('.dz-default').length == 0){
 			$(this).dropzone({
 				url : ajaxurl,
 				acceptedFiles : 'image/*',
+				maxFilesize : maxsize,
 				sending : function(file, xhr, formData){
 					formData.append("_token", window.CSRF_TOKEN);
 				},
@@ -286,6 +296,10 @@ function refreshDropzone(){
 	$(".filedropzone").each(function(){
 		var ajaxurl = $(this).data("target");
 		var dropzonehash = $(this).attr('data-hash');
+		var maxsize = $(this).attr('upload-limit');
+		if(maxsize.length == 0){
+			maxsize = 5;
+		}
 
 		if($(this).find('.dz-default').length == 0){
 			acc = $(this).attr('accept');
@@ -295,6 +309,7 @@ function refreshDropzone(){
 			$(this).dropzone({
 				url : ajaxurl,
 				acceptedFiles : acc,
+				maxFilesize : parseInt(maxsize),
 				sending : function(file, xhr, formData){
 					formData.append("_token", window.CSRF_TOKEN);
 				},
@@ -328,6 +343,10 @@ function refreshDropzone(){
 	$(".filedropzone-multiple").each(function(){
 		var ajaxurl = $(this).data("target");
 		var dropzonehash = $(this).attr('data-hash');
+		var maxsize = $(this).attr('upload-limit');
+		if(maxsize.length == 0){
+			maxsize = 5;
+		}
 
 		if($(this).find('.dz-default').length == 0){
 			acc = $(this).attr('accept');
@@ -337,6 +356,7 @@ function refreshDropzone(){
 			$(this).dropzone({
 				url : ajaxurl,
 				acceptedFiles : acc,
+				maxFilesize : maxsize,
 				sending : function(file, xhr, formData){
 					formData.append("_token", window.CSRF_TOKEN);
 				},

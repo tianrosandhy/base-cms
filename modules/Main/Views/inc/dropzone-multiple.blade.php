@@ -9,7 +9,10 @@ if(!isset($name)){
 <input type="hidden" data-hash="{{ $hash }}" name="{{ $name }}" class="dropzone_uploaded listen_uploaded_image_multiple" value="{{ isset($value) ? $value : '' }}">
 <div class="row">
 	<div class="{{ isset($horizontal) ? 'col-sm-6' : 'col-sm-12' }}">
-		<div class="dropzone custom-dropzone dz-clickable mydropzone-multiple" data-hash="{{ $hash }}" data-target="{{ admin_url('api/store-images') . ( isset($path) ? '?path='.$path : '' ) }}"></div>
+		<?php
+		$max_size = (file_upload_max_size(config('cms.max_filesize.image')) / 1024 /1024);
+		?>
+		<div class="dropzone custom-dropzone dz-clickable mydropzone-multiple" data-hash="{{ $hash }}" upload-limit="{{ intval($max_size) }}" data-target="{{ admin_url('api/store-images') . ( isset($path) ? '?path='.$path : '' ) }}"></div>
 	</div>
 	<div class="{{ isset($horizontal) ? 'col-sm-6' : 'col-sm-12' }}">
 		<div class="uploaded-holder" data-hash="{{ $hash }}">

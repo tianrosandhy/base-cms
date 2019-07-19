@@ -10,9 +10,12 @@ if(!isset($name)){
 <div class="row">
 	<div class="{{ isset($horizontal) ? 'col-sm-6' : 'col-sm-12' }}">
 		<div style="padding-bottom:.5em;">
-			<span style="opacity:.5; font-size:.7em; padding:0 .75em;">Maximum Upload Size : {{ number_format((file_upload_max_size(config('cms.max_filesize.file')) / 1024 /1024), 2) }} MB</span>
+			<?php
+			$max_size = (file_upload_max_size(config('cms.max_filesize.file')) / 1024 /1024);
+			?>
+			<span style="opacity:.5; font-size:.7em; padding:0 .75em;">Maximum Upload Size : {{ number_format($max_size, 2) }} MB</span>
 		</div>
-		<div class="dropzone custom-dropzone dz-clickable filedropzone" data-hash="{{ $hash }}" {!! isset($attr['accept']) ? 'accept="'.$attr['accept'].'"' : '' !!} data-target="{{ admin_url('api/store-files') }}"></div>
+		<div class="dropzone custom-dropzone dz-clickable filedropzone" data-hash="{{ $hash }}" upload-limit="{{ intval($max_size) }}" {!! isset($attr['accept']) ? 'accept="'.$attr['accept'].'"' : '' !!} data-target="{{ admin_url('api/store-files') }}"></div>
 	</div>
 	<div class="{{ isset($horizontal) ? 'col-sm-6' : 'col-sm-12' }}">
 		<div class="uploaded-holder" data-hash="{{ $hash }}">
