@@ -61,7 +61,7 @@ class InstallController extends Controller{
 			$env_path = base_path('.env');
 			$file = fopen($env_path, 'rw');
 			$env = fread($file, filesize($env_path));
-			$env = explode("\r\n", $env);
+			$env = explode("\n", $env);
 
 		}catch(\Exception $e){
 			$env_path = false;
@@ -72,7 +72,7 @@ class InstallController extends Controller{
 
 	protected function saveEnv($arr){
 		try{
-			$string = implode("\r\n", $arr);
+			$string = implode("\n", $arr);
 			$env_path = base_path(".env");
 			file_put_contents($env_path, $string);
 		}catch(\Exception $e){

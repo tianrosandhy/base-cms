@@ -80,9 +80,9 @@ trait Resizeable
 	}
 
 
-	public function imageThumbnail($field_name, $thumb='', $height=80){
+	public function imageThumbnail($field_name, $thumb='', $height=80, $fancybox_class='gallery'){
 		$thumbnail = $this->getThumbnailUrl($field_name, $thumb);
-		return '<img src="'.$thumbnail.'" style="height:'.$height.'px">';
+		return '<a href="'.$this->getThumbnailUrl($field_name, 'large').'" data-fancybox="'.$fancybox_class.'"><img src="'.$thumbnail.'" style="height:'.$height.'px; max-width:100%;"></a>';
 	}
 
 	public function imageThumbnails($field_name, $thumb='', $height=80){

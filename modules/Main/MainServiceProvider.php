@@ -34,6 +34,7 @@ class MainServiceProvider extends ServiceProvider
 			__DIR__.'/Config/model.php' => config_path('model.php'),
 			__DIR__.'/Config/image.php' => config_path('image.php'),
 			__DIR__.'/Config/modules.php' => config_path('modules.php'),
+			__DIR__.'/Config/module-setting.php' => config_path('module-setting.php'),
 			__DIR__.'/../../assets' => public_path(config('cms.admin.assets', 'admin_theme')),
 		], 'tianrosandhy-cms');
 	}

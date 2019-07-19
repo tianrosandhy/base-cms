@@ -214,6 +214,7 @@ function refreshDropzone(){
 		if($(this).find('.dz-default').length == 0){
 			$(this).dropzone({
 				url : ajaxurl,
+				acceptedFiles : 'image/*',
 				sending : function(file, xhr, formData){
 					formData.append("_token", window.CSRF_TOKEN);
 				},
@@ -249,6 +250,7 @@ function refreshDropzone(){
 		if($(this).find('.dz-default').length == 0){
 			$(this).dropzone({
 				url : ajaxurl,
+				acceptedFiles : 'image/*',
 				sending : function(file, xhr, formData){
 					formData.append("_token", window.CSRF_TOKEN);
 				},
@@ -286,8 +288,13 @@ function refreshDropzone(){
 		var dropzonehash = $(this).attr('data-hash');
 
 		if($(this).find('.dz-default').length == 0){
+			acc = $(this).attr('accept');
+			if(acc.length == 0){
+				acc = '*';
+			}
 			$(this).dropzone({
 				url : ajaxurl,
+				acceptedFiles : acc,
 				sending : function(file, xhr, formData){
 					formData.append("_token", window.CSRF_TOKEN);
 				},
@@ -323,8 +330,13 @@ function refreshDropzone(){
 		var dropzonehash = $(this).attr('data-hash');
 
 		if($(this).find('.dz-default').length == 0){
+			acc = $(this).attr('accept');
+			if(acc.length == 0){
+				acc = '*';
+			}
 			$(this).dropzone({
 				url : ajaxurl,
+				acceptedFiles : acc,
 				sending : function(file, xhr, formData){
 					formData.append("_token", window.CSRF_TOKEN);
 				},
