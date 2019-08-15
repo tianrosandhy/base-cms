@@ -4,16 +4,33 @@ namespace Module\Main\Http\Traits;
 trait BasicCrud
 {
 
+	public function prependIndex(){
+		return '';
+	}
+
+	public function appendIndex(){
+		return '';
+	}
+
+	public function appendIndexControlButton(){
+		return '';
+	}
+
 	//default index page
 	public function index(){
 		$datatable = $this->skeleton;
 		$title = self::usedLang('index.title');
 		$hint = $this->hint();
-
-		return view('main::master-table', compact(
+		$append_index = $this->appendIndex();
+		$prepend_index = $this->prependIndex();
+		$ctrl_button = $this->appendIndexControlButton();
+		return view(config('module-setting.'.$this->hint().'.view.index', 'main::master-table'), compact(
 			'title',
 			'hint',
-			'datatable'
+			'datatable',
+			'append_index',
+			'prepend_index',
+			'ctrl_button'
 		));
 	}
 
@@ -46,7 +63,7 @@ trait BasicCrud
 		if(method_exists($this, 'seoFields')){
 			$seo = $this->seoFields();
 		}
-		return view('main::master-crud', compact(
+		return view(config('module-setting.'.$this->hint().'.view.create', 'main::master-crud'), compact(
 			'title',
 			'forms',
 			'back',
@@ -116,7 +133,7 @@ trait BasicCrud
 			$seo = $this->seoFields($data);
 		}
 
-		return view('main::master-crud', compact(
+		return view(config('module-setting.'.$this->hint().'.view.edit', 'main::master-crud'), compact(
 			'title',
 			'forms',
 			'back',

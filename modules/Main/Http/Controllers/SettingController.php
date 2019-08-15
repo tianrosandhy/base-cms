@@ -20,7 +20,7 @@ class SettingController extends AdminBaseController
 
 	public function index(){
 		$settings = SettingStructure::get()->groupBy('group');
-		return view('main::setting', compact(
+		return view('main::module.setting', compact(
 			'settings'
 		));
 	}

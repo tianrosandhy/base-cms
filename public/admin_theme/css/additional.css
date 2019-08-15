@@ -453,6 +453,7 @@ table tbody tr td{
 .uploaded img{
 	border-radius:5px;
 	overflow:hidden;
+	max-width:100%;
 }
 
 .site-sidebar{

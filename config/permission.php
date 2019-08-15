@@ -8,7 +8,6 @@ return [
 			'admin.setting.store',
 			'admin.setting.update',
 			'admin.setting.delete',
-			'admin.maintenance.artisan'
 		],
 
 		'Log' => [

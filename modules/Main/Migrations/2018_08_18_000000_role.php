@@ -17,6 +17,7 @@ class Role extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('priviledge_list')->nullable();
+            $table->tinyInteger('is_sa')->nullable();
             $table->timestamps();
         });
     }

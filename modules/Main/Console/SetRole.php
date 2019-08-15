@@ -39,7 +39,7 @@ class SetRole extends Command
     public function handle()
     {
         $this->actionRunner();
-        $this->info('Administrator full permission has been created');
+        $this->info('Super Admin full permission has been created');
     }
 
     public function actionRunner(){
@@ -66,17 +66,28 @@ class SetRole extends Command
         }
 
         $out = json_encode($out);
-        $cek = DB::table('roles')->where('id', 1);
+
+        //super admin ga butuh list priviledge        
+        $cek = DB::table('roles')->where('is_sa', 1);
+        $save_data = [
+            'name' => 'Super Admin',
+            'priviledge_list' => null,
+            'is_sa' => 1
+        ];
         if($cek->count() == 0){
+            DB::table('roles')->insert($save_data);
+        }
+        else{
+            $cek->update($save_data);
+        }
+
+        //generate normal admin data
+        $normal = DB::table('roles')->whereNull('is_sa')->first();
+        if(empty($normal)){
             DB::table('roles')->insert([
-                'name' => 'Administrator',
+                'name' => 'Admin',
                 'priviledge_list' => $out
             ]);
         }
-        else{
-            $cek->update([
-                'priviledge_list' => $out
-            ]);
-        }        
     }
 }

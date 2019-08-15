@@ -18,18 +18,15 @@
 @if($file_log)
 
 <div class="panel">
-	<div style="padding:1em 1.5em">
-		<a href="{{ url()->route('admin.log.export') }}?active_log={{ $active_log }}" class="btn btn-primary">Export Log</a>
+	<div style="padding:1em 0">
+		<a href="{{ url()->route('admin.log.export') }}?active_log={{ $active_log }}" class="btn btn-primary btn-block">Export Log</a>
 	</div>
 	<div class="panel-body">
-		@if(strlen($file_log) > (100 * 1024))
+		@if(strlen($file_log) > (50 * 1024))
 		<div class="alert alert-warning">Log is too large to display. Just export it with the button above.</div>
 		@else
 		<textarea style="width:100%; height:500px;">{!! $file_log !!}</textarea>
 		@endif
-	</div>
-	<div style="padding:1em 1.5em">
-		<a href="{{ url()->route('admin.log.export') }}?active_log={{ $active_log }}" class="btn btn-primary">Export Log</a>
 	</div>
 </div>
 @endif

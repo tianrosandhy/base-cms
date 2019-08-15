@@ -7,7 +7,7 @@ trait Seo
 		if(empty($data)){
 			$data = $this->repo->model;
 		}
-		return view('main::additional-seo', compact(
+		return view('main::inc.additional-seo', compact(
 			'data'
 		));
 	}

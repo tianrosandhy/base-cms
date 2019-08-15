@@ -21,7 +21,6 @@ if(!isset($name)){
 		<div class="uploaded-holder" data-hash="{{ $hash }}">
 			@if(isset($value))
 				@if(strlen($value) > 0)
-					<strong>Uploaded Image : </strong>
 					<div class="uploaded">
 						@if(ImageService::pathExists($value))
 							<img src="{{ storage_url($value) }}" style="height:100px;">

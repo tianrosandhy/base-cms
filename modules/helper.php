@@ -82,6 +82,11 @@ function admin_data($field=''){
 	return false;
 }
 
+function is_sa(){
+	$sa = isset(Auth::user()->roles->is_sa) ? Auth::user()->roles->is_sa : false;
+	return (bool)$sa;
+}
+
 function has_access($route_name=''){
 	if(!is_admin_login()){
 		return false;
@@ -92,6 +97,14 @@ function has_access($route_name=''){
 	$role = $user->role_id;
 	$roles = new \Module\Main\Models\Role();
 	$roles_data = $roles->find($role);
+	if(empty($roles_data)){
+		return false;
+	}
+
+	if($roles_data->is_sa){
+		//super admin always have access in every page
+		return true;
+	}
 
 	$roles_data = isset($roles_data->priviledge_list) ? $roles_data->priviledge_list : '';
 	$priviledge = json_decode($roles_data);

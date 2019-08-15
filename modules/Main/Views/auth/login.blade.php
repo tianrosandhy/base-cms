@@ -59,6 +59,9 @@
                     <div class="text-center mt-4 font-weight-light">
                       Don't have an account? <a href="{{ admin_url('register') }}" class="text-primary">Create</a>
                     </div>
+                    <div class="text-center mt-4 font-weight-light">
+                      Already registered, but still not receive the activation link yet? <a href="#" data-toggle="modal" data-target="#resendModal">Resend Activation Link</a>
+                    </div>
                     @endif
                   </form>
                 </div>
@@ -80,7 +83,9 @@
     <!-- container-scroller -->
     @include ('main::auth.partials.resend-validation')
     @include ('main::auth.partials.reset-password')
+    @include ('main::auth.partials.resend-validation')
     @include ('main::template.modal')
+    @include ('main::template.alert-management')
 
     @include ('main::template.scripts')
 </body>

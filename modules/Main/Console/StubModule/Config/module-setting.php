@@ -11,6 +11,11 @@ return [
 			'store.success' => 'Blank data has been saved',
 			'update.success' => 'Blank data has been updated',
 			'delete.success' => 'Blank data has been deleted',
-		]
+		],
+		'view' => [
+			'index' => 'main::master-table',
+			'create' => 'main::master-crud',
+			'edit' => 'main::master-crud',
+		],
 	],
 ];

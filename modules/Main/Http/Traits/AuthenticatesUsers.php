@@ -43,10 +43,15 @@ trait AuthenticatesUsers
             return $this->sendLockoutResponse($request);
         }
         if ($this->attemptLogin($request)) {
-            if(Auth::user()->is_active <> 1){
+            if(Auth::user()->is_active == 0){
                 Auth::logout();
-                return back()->withErrors(['error' => 'Your account is still not activated yet.']);
+                return back()->withErrors(['error' => 'Your account is still not activated yet. <a href="#" data-toggle="modal" data-target="#resendModal">Resend activation link</a>']);
             }
+            if(Auth::user()->is_active == 9){
+                Auth::logout();
+                return back()->withErrors(['error' => 'Sorry, your account was blocked due security reason. Please contact the administrator for further action']);
+            }
+
             if(Auth::user()->role_id == 0){
                 Auth::logout();
                 return back()->withErrors(['error' => 'Your account is still not activated yet by admin']);

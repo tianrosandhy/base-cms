@@ -16,7 +16,7 @@ class PermissionController extends AdminBaseController
 
 	public function index(){
 		$lists = $this->repo->all();
-		return view('main::permission', compact(
+		return view('main::module.permission', compact(
 			'lists'
 		));
 	}
@@ -81,7 +81,8 @@ class PermissionController extends AdminBaseController
 			abort(404);
 		}
 
-		if($id == 1){
+		$data = $this->repo->show($id);
+		if($data->is_sa){
 			//admin pertama ga bole dihapus
 			return [
 				'type' => 'error',
@@ -106,7 +107,7 @@ class PermissionController extends AdminBaseController
 		$checked = json_decode($role->priviledge_list);
 		$checked = !$checked ? [] : $checked;
 
-		return view('main::show-priviledge', compact(
+		return view('main::module.show-priviledge', compact(
 			'role',
 			'all',
 			'checked',

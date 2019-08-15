@@ -21,6 +21,7 @@
 		@endif
 		@endif
 
+		{!! $ctrl_button !!}
 	</div>
 
 
@@ -32,10 +33,9 @@
 	<div class="clearfix"></div>
 </div>
 
-
-
+{!! $append_index !!}
 {!! $datatable->view() !!}
-
+{!! $prepend_index !!}
 
 @stop
 

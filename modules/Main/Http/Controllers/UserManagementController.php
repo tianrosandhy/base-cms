@@ -23,18 +23,6 @@ class UserManagementController extends AdminBaseController
 		return new UserSkeleton();
 	}
 
-	public function languageData(){
-		return [
-			'index.title' => 'User Management',
-			'create.title' => 'Add New User',
-			'edit.title' => 'Edit User Data',
-
-			'store.success' => 'User data has been saved',
-			'update.success' => 'User data has been updated',
-			'delete.success' => 'User data has been deleted',
-		];
-	}
-
 
 	//store dan update dibuat manual karena logicnya sedikit beda dari menu lain
 
@@ -59,7 +47,7 @@ class UserManagementController extends AdminBaseController
 			'password' => bcrypt(($this->request->password)),
 			'role_id' => ($this->request->role_id),
 			'image' => ($this->request->image),
-			'is_active' => 1
+			'is_active' => intval($this->request->is_active)
 		]);
 
 		return redirect()->route('admin.user.index')->with('success', 'User data has been saved');
@@ -93,8 +81,11 @@ class UserManagementController extends AdminBaseController
 
 		$post['name'] = ($this->request->name);
 		$post['email'] = ($this->request->email);
-		$post['role_id'] = ($this->request->role_id);
 		$post['image'] = ($this->request->image);
+		if($this->request->role_id){
+			$post['role_id'] = ($this->request->role_id);
+		}
+		$post['is_active'] = intval($this->request->is_active);
 
 		$pw = ($this->request->password);
 		$pw_conf = ($this->request->password_confirmation);
@@ -114,6 +105,12 @@ class UserManagementController extends AdminBaseController
 		}
 
 		$oldPriv = $show->role_id;
+
+		if($show->roles->is_sa && array_key_exists('role_id', $post)){
+			//role ga boleh diganti, dan harus selalu aktif
+			unset($post['role_id']);
+			unset($post['is_active']);
+		}
 
 		$this->repo->update($id, $post);
 

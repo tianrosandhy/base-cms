@@ -50,12 +50,24 @@ class UserSkeleton extends DataTable
 			->name('Priviledges')
 			->formColumn(12)
 			->inputType('select')
-			->createValidation('required', true)
+			->createValidation('required')
 			->dataSource(
 				DataSource::model('role')->options('name', [
-					['id', '>', 0]
+					['id', '>', 0],
+					['is_sa', '(null)']
 				])
 			);
+
+		$this->structure[] = DataStructure::field('is_active')
+			->name('User Status')
+			->formColumn(12)
+			->inputType('select')
+			->dataSource([
+				0 => 'Pending',
+				1 => 'Active',
+				9 => 'Blocked'
+			]);
+				
 	}
 
 
@@ -63,12 +75,14 @@ class UserSkeleton extends DataTable
 	
 	//MANAGE OUTPUT DATATABLE FORMAT PER BARIS
 	public function rowFormat($row, $as_excel=false){
+		$is_sa = isset($row->roles->is_sa) ? $row->roles->is_sa : false;
 		return [
 			'name' => $row->name,
 			'email' => $row->email,
 			'image' => '<img src="'.$row->getThumbnailUrl('image', 'thumb').'" style="height:50px">',
 			'role_id' => isset($row->roles->name) ? $row->roles->name : '<small style="color:#d00;"><em>no priviledge</em></small>',
-			'action' => self::editButton($row) . self::deleteButton($row)
+			'is_active' => '<span class="badge '.($row->is_active == 0 ? 'badge-warning' : ($row->is_active == 1 ? 'badge-success' : 'badge-danger')).'">'.( $row->is_active == 0 ? 'Pending' : ($row->is_active == 1 ? 'Active' : 'Blocked') ).'</span>',
+			'action' => self::editButton($row) . ($is_sa ? '' : self::deleteButton($row))
 		];
 	}
 

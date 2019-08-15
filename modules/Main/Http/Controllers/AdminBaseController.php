@@ -54,7 +54,7 @@ class AdminBaseController extends Controller
 	public function hint($var=''){
 		if(strlen($var) > 0)
 			return $var;
-		return $this->model;
+		return $this->hint;
 	}
 
 

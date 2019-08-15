@@ -30,7 +30,7 @@ class LogController extends AdminBaseController
         $available_log = $this->getAvailableFileLog();
         $file_log = $this->getFileLog($active_log);
 
-        return view('main::log', compact(
+        return view('main::module.log', compact(
             'title',
             'hint',
             'available_log',

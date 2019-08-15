@@ -65,6 +65,10 @@
                 <div class="text-center mt-4 font-weight-light">
                   Already have an account? <a href="{{ admin_url('login') }}" class="text-primary">Login</a>
                 </div>
+                <div class="text-center mt-4 font-weight-light">
+                  Already registered, but still not receive the activation link yet? <br><a href="#" data-toggle="modal" data-target="#resendModal">Resend Activation Link</a>
+                </div>
+
               </form>
             </div>
           </div>
@@ -77,6 +81,7 @@
   <!-- container-scroller -->
 
   @include ('main::template.modal')
+  @include ('main::auth.partials.resend-validation')
   @include ('main::template.scripts')
 </body>
 </html>
