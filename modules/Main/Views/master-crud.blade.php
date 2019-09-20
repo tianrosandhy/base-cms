@@ -2,6 +2,15 @@
 @if(!request()->ajax())
 	@include ('main::assets.dropzone')
 	@include ('main::assets.cropper')
+
+	@push ('style')
+	<link rel="stylesheet" href="{{ asset('vendor/laraberg/css/laraberg.css') }}">
+	@endpush
+	@push ('script')
+	<script src="https://unpkg.com/react@16.8.6/umd/react.production.min.js"></script>
+	<script src="https://unpkg.com/react-dom@16.8.6/umd/react-dom.production.min.js"></script>
+	<script src="{{ asset('vendor/laraberg/js/laraberg.js') }}"></script>
+	@endpush
 @endif
 
 @section ('content')
@@ -90,6 +99,19 @@ $(function(){
 		setFormGroupBg($(this));
 	});
 
+	var inc = 1;
+	if($("[data-gutenberg]").length){
+		$("[data-gutenberg]").each(function(){
+			obj = $(this);
+			obj.attr('id', 'gutenberg-' + inc);
+			Laraberg.init('gutenberg-'+inc, { 
+				laravelFilemanager: { 
+					prefix: '/laravel-filemanager' 
+				} 
+			});
+			inc++;
+		});
+	}
 });
 
 function setFormGroupBg(instance){

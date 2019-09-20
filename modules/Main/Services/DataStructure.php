@@ -191,6 +191,7 @@ class DataStructure
 			'daterange',
 			'view',
 			'color',
+			'gutenberg',
 		];
 
 		if(!in_array($type, $lists)){

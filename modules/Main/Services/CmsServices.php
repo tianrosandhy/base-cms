@@ -263,6 +263,10 @@ DATA =>
             if($input->input_type == 'richtext'){
                 $out = '<textarea '.$attr.' data-tinymce>'.$oldVal.'</textarea>';
             }
+            if($input->input_type == 'gutenberg'){
+                $out = '<textarea '.$attr.' hidden data-gutenberg>'.$oldVal.'</textarea>';
+            }
+
             if($input->input_type == 'select'){
                 $out = '<select '.$attr.'>';
                 //ambil nilai dari data source
