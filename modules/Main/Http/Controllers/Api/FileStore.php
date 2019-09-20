@@ -14,14 +14,25 @@ class FileStore extends AdminBaseController
 		$validate = self::validateInput();
 
 		//kalo sudah oke, proses
-		$fileHash = str_replace('.' . $this->request->file->extension(), '', $this->request->file->hashName());
-		$fileName = $fileHash . '.' . $this->request->file('file')->getClientOriginalExtension();
+		$file = $this->request->file('file');
+		$filename = $file->getClientOriginalName();
+		$extension = $file->getClientOriginalExtension();
+		$nameonly = str_replace('.'.$extension, '', $filename);
 
-		$path = $this->request->file->storeAs('files', $fileName);
+		//check if file already exists
+		$check_exists = Storage::exists('files/'.$nameonly.'.'.$extension);
+		if($check_exists){
+			$stored_name = $nameonly.'-'.substr(sha1(rand(1, 10000)), 0, 10).'.'.$extension;
+		}
+		else{
+			$stored_name = $nameonly.'.'.$extension;
+		}
+
+		$path = $this->request->file->storeAs('files', $stored_name);
 
 		$data = [
 			'path' => storage_url(str_replace('\\', '/', $path)),
-			'filename' => $fileName,
+			'filename' => $stored_name,
 		];
 
 		return $data;

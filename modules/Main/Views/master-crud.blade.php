@@ -1,17 +1,17 @@
-@extends ("main::master")
-@include ('main::assets.dropzone')
-@include ('main::assets.cropper')
-<?php
-if(!isset($multi_language)){
-	$multi_language = false; //default fallback
-}
-?>
+@extends ( request()->ajax() ? "main::master-ajax" : "main::master" )
+@if(!request()->ajax())
+	@include ('main::assets.dropzone')
+	@include ('main::assets.cropper')
+@endif
+
 @section ('content')
 
-<h3>{{ $title }}</h3>
+<h3 class="display-4 mb-3">{{ $title }}</h3>
+@if(!request()->ajax())
 <div class="padd">
 	<a href="{{ url()->route($back) }}" class="btn btn-sm btn-default btn-secondary">&laquo; Back</a>
 </div>
+@endif
 
 @include ('main::inc.lang-switcher', [
 	'model' => $forms->model,
@@ -41,6 +41,11 @@ if(!isset($multi_language)){
 				<div class="col-md-{{ $row->form_column }} col-sm-12">
 					<div class="form-group custom-form-group {!! $row->input_type == 'radio' ? 'radio-box' : '' !!}">
 						<label for="{{ $row->input_attribute['id'] }}" class="text-uppercase">{{ $row->name }}</label>
+						<?php
+						if(!isset($multi_language)){
+							$multi_language = false; //default fallback
+						}
+						?>
 						@if($multi_language)
 							@include ('main::inc.dynamic_input_multilanguage')
 						@else

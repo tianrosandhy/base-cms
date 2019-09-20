@@ -28,7 +28,6 @@ class LogController extends AdminBaseController
 
         $active_log = $this->request->active_log;
         $available_log = $this->getAvailableFileLog();
-        $file_log = $this->getFileLog($active_log);
 
         return view('main::module.log', compact(
             'title',
@@ -78,13 +77,9 @@ class LogController extends AdminBaseController
 
     public function export(){
         $active_log = $this->request->active_log;
-        $file_log = $this->getFileLog($active_log);
+        $file_log = $this->logPath($active_log);
         if(strlen($file_log) > 0){
-            header('Content-Type: text/plain');
-            header('Content-Disposition: attachment; filename="'.$active_log.'"');
-
-            echo $file_log;
-            exit();
+            return response()->download($file_log);
         }
     }
 

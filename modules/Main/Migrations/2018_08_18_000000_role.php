@@ -16,6 +16,7 @@ class Role extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->integer('role_owner')->nullable();
             $table->text('priviledge_list')->nullable();
             $table->tinyInteger('is_sa')->nullable();
             $table->timestamps();

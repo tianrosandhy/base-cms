@@ -1,4 +1,4 @@
-<div class="card card-body ov">
+<div class="card card-body">
 	<div class="container-fluid table-search-filter" style="display:none;">
 		<div class="row">
 		<?php
@@ -74,23 +74,25 @@
 		</div>
 	</div>
 
-	<div style="position:relative;">
-		<a href="#" style="position:absolute; right:0; z-index:99;" class="btn btn-secondary btn-sm table-search-btn active"><i class="fa fa-sm fa-search fa-fw"></i> <span>Show</span> Search Box</a>
+	<div style="position:relative; z-index:2;">
+		<a href="#" class="btn btn-secondary btn-sm table-search-btn active"><i class="fa fa-sm fa-search fa-fw"></i> <span>Show</span> Search Box</a>
 	</div>
 
-	<table class="table data-table">
-		<thead>
-			<tr>
-				@foreach($structure as $row)
-					@if($row->hide_table == false)
-						<th data-field="{{ $row->field }}" data-orderable="{{ $row->orderable }}"  id="datatable-{{ $row->field }}">{!! $row->name !!}</th>
-					@endif
-				@endforeach
-				<th>Action</th>
-			</tr>
-		</thead>
-		<tbody>
-			
-		</tbody>
-	</table>	
+	<div style="overflow-x:scroll; padding:1em 0;">
+		<table class="table data-table">
+			<thead>
+				<tr>
+					@foreach($structure as $row)
+						@if($row->hide_table == false)
+							<th data-field="{{ $row->field }}" data-orderable="{{ $row->orderable }}"  id="datatable-{{ $row->field }}">{!! $row->name !!}</th>
+						@endif
+					@endforeach
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				
+			</tbody>
+		</table>	
+	</div>
 </div>

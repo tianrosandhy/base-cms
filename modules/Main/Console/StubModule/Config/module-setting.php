@@ -2,7 +2,7 @@
 return [
 	'blank' => [
 		'upload_path' => 'blank',
-		'export_excel' => true,
+		'export_excel' => false,
 		'lang_data' => [
 			'index.title' => 'Blank Data',
 			'create.title' => 'Add New Blank',

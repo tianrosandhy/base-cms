@@ -51,7 +51,7 @@ class Processor
 		return []; //default use kalo pake format lama : ga mengembalikan nilai apa2
 	}
 
-	public function switcher($row, $field='is_active', $url='post/switch'){
+	public function switcher($row, $field='is_active', $url='post/switch', $pk='id'){
 		if(strpos($url, '.') !== false){
 			try{
 				$url = url()->route($url);
@@ -64,7 +64,7 @@ class Processor
 		}
 
 		return view('main::inc.switchery', [
-			'id' => $row->id, 
+			'id' => $row->{$pk}, 
 			'field' => $field,
 			'url' => $url,
 			'value' => $row->{$field}
@@ -163,11 +163,17 @@ class Processor
 			}
 		}
 
-		$orderBy = 'id';
+		$listing = (new CrudRepository($this->model))->modelTableListing();
+		$orderBy = $listing[0]; //asumsi kolom pertama itu primary key
 		$flow = 'DESC';
 		if(isset($this->field_definition[$this->request->order[0]['column']])){
 			$orderBy = $this->field_definition[$this->request->order[0]['column']];
 		}
+		if(!in_array($orderBy, $listing)){
+			$orderBy = $listing[0]; //balik order by id kalo ternyata kolom tsb gaisa disort
+		}
+
+
 		if(isset($this->request->order[0]['dir'])){
 			$flow = $this->request->order[0]['dir'];
 		}
@@ -177,8 +183,8 @@ class Processor
 		$ctx = (new CrudRepository($this->model))->paramManagement($ctx, $filter);
 		$ctx = $this->additionalSearchFilter($ctx);
 
-		$this->raw_data = $ctx->orderBy($orderBy, $flow)->skip($this->start)->take($this->length)->get();
 		$this->query_count = $ctx->count();
+		$this->raw_data = $ctx->orderBy($orderBy, $flow)->skip($this->start)->take($this->length)->get();
 	}
 
 	public function additionalSearchFilter($context){

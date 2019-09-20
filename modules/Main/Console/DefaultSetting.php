@@ -47,7 +47,7 @@ class DefaultSetting extends Command
                 'param' => 'title',
                 'name' => 'Site Title',
                 'description' => '',
-                'default_value' => ($title ? $title : 'Laravel CMS'),
+                'default_value' => ($title ? $title : 'Project Title Name'),
                 'type' => 'text',
                 'group' => 'site',              
             ],
@@ -55,7 +55,7 @@ class DefaultSetting extends Command
                 'param' => 'subtitle',
                 'name' => 'Site Subtitle',
                 'description' => '',
-                'default_value' => 'Laravel Based Site',
+                'default_value' => '',
                 'type' => 'text',
                 'group' => 'site',
             ],
@@ -84,14 +84,6 @@ class DefaultSetting extends Command
                 'group' => 'site'
             ],
             [
-                'param' => 'phone',
-                'name' => 'Site Phone Number',
-                'description' => 'Site Phone Number / Call Center',
-                'default_value' => '(0896) 2222 4614',
-                'type' => 'text',
-                'group' => 'site',
-            ],
-            [
                 'param' => 'mail_receiver',
                 'name' => 'Website Email Receiver',
                 'description' => 'All functional site email receiver',
@@ -116,33 +108,14 @@ class DefaultSetting extends Command
                 'type' => 'image',
                 'group' => 'admin',
             ],
-            
             [
-                'param' => 'image',
-                'name' => 'SEO Default Image',
-                'description' => 'Default SEO image in every page',
+                'param' => 'background',
+                'name' => 'Admin Login Background',
+                'description' => 'Image background used for admin page',
                 'default_value' => null,
                 'type' => 'image',
-                'group' => 'seo',
+                'group' => 'admin',
             ],
-            [
-                'param' => 'description',
-                'name' => 'SEO Default Description',
-                'description' => 'Default SEO description in every page',
-                'default_value' => null,
-                'type' => 'textarea',
-                'group' => 'seo',
-            ],
-            [
-                'param' => 'keywords',
-                'name' => 'SEO Default Keywords',
-                'description' => 'Default SEO keywords in every page',
-                'default_value' => null,
-                'type' => 'text',
-                'group' => 'seo',
-            ],
-            
-
 
             [
                 'param' => 'facebook',
@@ -200,8 +173,6 @@ class DefaultSetting extends Command
                 'type' => 'text',
                 'group' => 'social'
             ],
-
-
 
         ];
 

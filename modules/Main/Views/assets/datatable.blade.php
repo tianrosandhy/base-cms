@@ -15,6 +15,7 @@ $(function(){
 			'autoWidth' : false,
 			'searching'	: false,
 			'filter'	: false,
+			'stateSave'	: true,
 			'ajax'		: {
 				type : 'POST',
 				url	: '{{ $url }}',

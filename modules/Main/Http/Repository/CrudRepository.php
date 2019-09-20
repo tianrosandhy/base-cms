@@ -55,7 +55,7 @@ class CrudRepository{
 		return $data->get();
 	}
 
-	protected function modelTableListing(){
+	public function modelTableListing(){
 		$model = $this->model;
         return $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable());
 	}

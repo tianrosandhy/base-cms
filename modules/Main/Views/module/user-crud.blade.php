@@ -39,13 +39,13 @@ if(!isset($multi_language)){
 					<div class="password-toggle" style="display:none;">
 						<div class="row">
 							<div class="col-sm-6">
-								<div class="form-group">
+								<div class="form-group custom-form-group">
 									<label>New Password</label>
 									<input type="text" as-password name="password" class="form-control" maxlength="50">
 								</div>
 							</div>
 							<div class="col-sm-6">
-								<div class="form-group">
+								<div class="form-group custom-form-group">
 									<label>Repeat Password</label>
 									<input type="text" as-password name="password_confirmation" class="form-control" maxlength="50">
 								</div>
@@ -56,13 +56,13 @@ if(!isset($multi_language)){
 				@else
 				<div class="row">
 					<div class="col-sm-6">
-						<div class="form-group">
+						<div class="form-group custom-form-group">
 							<label>Password</label>
 							<input type="password" name="password" class="form-control" maxlength="50">
 						</div>
 					</div>
 					<div class="col-sm-6">
-						<div class="form-group">
+						<div class="form-group custom-form-group">
 							<label>Repeat Password</label>
 							<input type="password" name="password_confirmation" class="form-control" maxlength="50">
 						</div>
@@ -74,19 +74,24 @@ if(!isset($multi_language)){
 				$priv = collect($forms->structure)->where('field', 'role_id')->first();
 				$selc = old('role_id', isset($data->role_id) ? $data->role_id : null);
 				$is_sa = isset($data->roles->is_sa) ? $data->roles->is_sa : false;
+
+				$priv_output = isset($priv->data_source->output) ? $priv->data_source->output : (isset($priv->data_source) ? $priv->data_source : []);
 				?>
-				@if(isset($priv->data_source->output) && !$is_sa)
+				@if(!empty($priv_output) && !$is_sa)
+				@if(empty($data->id) || $data->id <> Auth::user()->id)
 				<div class="form-group custom-form-group">
 					<label>Priviledge</label>
 					<select name="role_id" class="form-control">
-						@foreach($priv->data_source->output as $idp => $valp)
+						@foreach($priv_output as $idp => $valp)
 						<option value="{{ $idp }}" {{ $idp == $selc ? 'selected' : '' }}>{{ $valp }}</option>
 						@endforeach
 					</select>
 				</div>
 				@endif
+				@endif
 
 				@if(!$is_sa)
+				@if($data->id <> Auth::user()->id)
 				<div class="form-group custom-form-group">
 					<label>User Status</label>
 					<select name="is_active" class="form-control">
@@ -99,6 +104,7 @@ if(!isset($multi_language)){
 						@endif
 					</select>
 				</div>
+				@endif
 				@endif
 
 			</div>

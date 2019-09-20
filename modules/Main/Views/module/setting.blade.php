@@ -26,7 +26,7 @@
 
 <form action="{{ url()->route('admin.setting.update') }}" method="post">
 	{{ csrf_field() }}
-	<ul class="nav nav-tabs nav-tabs-fillup d-none d-md-flex d-lg-flex d-xl-flex" role="tablist">
+	<ul class="nav nav-tabs nav-tabs-fillup d-md-flex d-lg-flex d-xl-flex" role="tablist">
 		@foreach($settings as $group => $data)
 		<li class="nav-item">
 			<a href="#" class="nav-link {{ $loop->iteration == 1 ? 'active' : '' }}" data-toggle="tab" data-target="#slide-{{ $group }}"><span>{{ strtoupper($group) }}</span></a>

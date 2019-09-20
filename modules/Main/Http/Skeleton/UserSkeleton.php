@@ -4,6 +4,7 @@ namespace Module\Main\Http\Skeleton;
 use Module\Main\DataTable\DataTable;
 use DataStructure;
 use DataSource;
+use Module\Main\Transformer\RoleStructure;
 
 class UserSkeleton extends DataTable
 {
@@ -52,10 +53,19 @@ class UserSkeleton extends DataTable
 			->inputType('select')
 			->createValidation('required')
 			->dataSource(
-				DataSource::model('role')->options('name', [
-					['id', '>', 0],
-					['is_sa', '(null)']
-				])
+				DataSource::customHandler(function(){
+					$current_role = request()->get('role');
+					$structure = (new RoleStructure($current_role));
+					if(request()->get('is_sa')){
+						$out[$current_role->id] = $current_role->name;
+						return $out + $structure->dropdown_list;
+					}
+					return [];
+				})
+				// DataSource::model('role')->options('name', [
+				// 	['id', '>', 0],
+				// 	['is_sa', '(null)']
+				// ])
 			);
 
 		$this->structure[] = DataStructure::field('is_active')
@@ -70,12 +80,20 @@ class UserSkeleton extends DataTable
 				
 	}
 
-
+	//manage custom filtering if required
+	public function additionalSearchFilter($context){
+		$structure = (new RoleStructure(request()->get('role')));
+		$lists = array_merge([request()->get('role')->id], $structure->array_only);
+		$context = $context->whereIn('role_id', $lists);
+		//$grab = $this->grabColumn('name');
+		return $context;
+	}
 
 	
 	//MANAGE OUTPUT DATATABLE FORMAT PER BARIS
 	public function rowFormat($row, $as_excel=false){
 		$is_sa = isset($row->roles->is_sa) ? $row->roles->is_sa : false;
+
 		return [
 			'name' => $row->name,
 			'email' => $row->email,

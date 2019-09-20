@@ -44,6 +44,10 @@ class DataSource
 		return $this->output;
 	}
 
+	public function customHandler(\Closure $callback){
+		$this->output = $callback();
+		return $callback();
+	}
 
 
 }

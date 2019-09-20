@@ -3,10 +3,15 @@
 <head>
   @include ('main::template.metadata')
 </head>
-<body>
+<body {{ isset($as_ajax) ? 'body-ajax' : '' }}>
   <div id="page-loader">
     <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
   </div>
+
+  <div class="success-handle">
+    <i class="fa fa-check fa-fw"></i>
+  </div>
+
   <div class="container-scroller">
     @include ('main::template.header')
     <!-- partial -->

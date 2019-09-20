@@ -15,9 +15,9 @@
         <ul class="nav flex-column sub-menu">
           @foreach($data['submenu'] as $subgroup => $subdata)
           <li class="nav-item first-submenu {{ $subdata['active'] ? 'active' : '' }}">
-            <a class="nav-link" href="{{ $subdata['url'] }}"> {{ $subgroup }} </a>
+            <a class="nav-link second-level" href="{{ $subdata['url'] }}"> {{ $subgroup }} {!! isset($subdata['submenu']) ? '<i class="menu-arrow"></i>' : '' !!}</a>
             @if(isset($subdata['submenu']))
-            <ul>
+            <ul class="ul-second-level">
               @foreach($subdata['submenu'] as $ssubgroup => $ssubdata)
               <li class="{{ $ssubdata['active'] ? 'active' : '' }}"><a href="{{ $ssubdata['url'] }}" class="menu-item">{{ $ssubgroup }}</a></li>
               @endforeach

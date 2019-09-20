@@ -1,6 +1,10 @@
 @extends ('main::master')
 
 @include ('main::assets.fancybox')
+@if($as_ajax)
+	@include ('main::assets.dropzone')
+	@include ('main::assets.cropper')
+@endif
 
 @section ('content')
 
@@ -11,8 +15,16 @@
 	<div class="pull-left float-xs-left">
 		@if(Route::has('admin.'.$hint.'.store'))
 		@if(has_access('admin.'.$hint.'.store'))
-		<a href="{{ url()->route('admin.'.$hint.'.store') }}" class="btn btn-primary">Add Data</a>
-		@endif
+			<?php
+			$hide = false;
+			if(config('module-setting.'.$hint.'.hide_create')){
+			    $hide=true;
+	    	}
+	    	?>
+    	    @if(!$hide)
+			<a href="{{ url()->route('admin.'.$hint.'.store') }}" class="btn btn-primary" {{ $as_ajax ? 'as-ajax' : '' }}>Add Data</a>
+            @endif
+    	@endif
 		@endif
 
 		@if(Route::has('admin.'.$hint.'.delete'))
@@ -37,6 +49,19 @@
 {!! $datatable->view() !!}
 {!! $prepend_index !!}
 
+<div class="modal fade fill-in" id="form-modal" tabindex="-1" role="dialog" aria-hidden="true">
+	<button type="button" title="Click to Dismiss" class="modal-custom-close" data-dismiss="modal" aria-hidden="true">
+		&times;
+	</button>
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-body default-modal-content">
+
+			</div>
+		</div>
+	</div>
+</div>
+
 @stop
 
 @push ('script')
@@ -57,4 +82,50 @@
 		}
 	});
 </script>
+@if($as_ajax)
+<script>
+$(function(){
+	$(document).on('click', "[as-ajax], [body-ajax] .edit-btn", function(e){
+		e.preventDefault();
+		//load from ajax
+		href = $(this).attr('href');
+		data = $.get(href, function(data){
+			$("#form-modal .modal-body").html(data);
+			$("#form-modal .modal-body form").attr('action', href);
+			$("#form-modal").modal({
+				backdrop: 'static',
+				keyboard : false
+			});
+		});
+	});
+
+	$(document).on('submit', "#form-modal .modal-body form", function(e){
+		e.preventDefault();
+		method = $(this).attr('method');
+		if(!method){
+			method = 'GET';
+		}
+
+		$.ajax({
+			url : $(this).attr('action'),
+			type : method,
+			dataType : 'json',
+			data : $(this).serialize(),
+			success : function(resp){
+				if(resp.type == 'success'){
+					$("#form-modal").modal('hide');
+					toggleSuccess();
+				}
+			},
+			error : function(resp){
+				handleAjaxError(resp);
+			}
+		});
+	});
+
+});
+
+
+</script>
+@endif
 @endpush

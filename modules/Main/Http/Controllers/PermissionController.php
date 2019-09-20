@@ -4,6 +4,7 @@ namespace Module\Main\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use Module\Main\Http\Repository\CrudRepository;
+use Module\Main\Transformer\RoleStructure;
 
 class PermissionController extends AdminBaseController
 {
@@ -15,9 +16,10 @@ class PermissionController extends AdminBaseController
 	}
 
 	public function index(){
-		$lists = $this->repo->all();
+		$structure = (new RoleStructure(request()->get('role')));
 		return view('main::module.permission', compact(
-			'lists'
+			'user_info',
+			'structure'
 		));
 	}
 
@@ -30,10 +32,18 @@ class PermissionController extends AdminBaseController
 		}
 
 		//simpen
-		$this->repo->insert([
+		$param = [
 			'name' => $this->request->name,
-			'priviledge_list' => ''
-		]);
+			'priviledge_list' => '',
+			'risk_limit' => $this->request->risk_limit,
+			'role_owner' => $this->request->role_owner ? $this->request->role_owner : null
+		];
+
+		if(!$this->request->get('is_sa')){
+			$param['role_owner'] = $this->request->get('role')->id;
+		}
+
+		$this->repo->insert($param);
 
 		return back()->with('success', 'Role has been added');
 	}
@@ -44,9 +54,20 @@ class PermissionController extends AdminBaseController
 			return back()->withErrors(['name' => $validate]);
 		}
 
-		$this->repo->update($id, [
-			'name' => $this->request->name
-		]);
+		$saveparam = [
+			'name' => $this->request->name,
+			'risk_limit' => $this->request->risk_limit,
+			'role_owner' => ($this->request->role_owner ? $this->request->role_owner : null)
+		];
+		//gaboleh nyimpen role diri sendiri supaya ga recursive
+		if($id == $this->request->role_owner){
+			unset($saveparam['role_owner']);
+		}
+
+		if(empty($saveparam['role_owner'])){
+			unset($saveparam['role_owner']);
+		}
+		$this->repo->update($id, $saveparam);
 
 		return back()->with('success', 'Role has been updated');
 	}
@@ -104,6 +125,41 @@ class PermissionController extends AdminBaseController
 	public function showPermission($id){
 		$role = $this->repo->show($id);
 		$all = config('permission');
+
+		//$all variable need to be rechecked
+		if(!$this->request->get('is_sa')){
+			$available = $this->request->get('base_permission');
+			$temp = [];
+			//loop 3 level
+			foreach($all as $label => $first){
+				if(!is_array($first)){
+					if(in_array($first, $available)){
+						$temp[$label] = $first;
+					}
+				}
+				else{
+					foreach($first as $sublabel => $second){
+						if(!is_array($second)){
+							if(in_array($second, $available)){
+								$temp[$label][$sublabel] = $second;
+							}
+						}
+						else{
+							foreach($second as $lastlabel => $third){
+								if(!is_array($third)){
+									if(in_array($third, $available)){
+										$temp[$label][$sublabel][$lastlabel] = $third;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			$all = $temp;
+		}
+
+
 		$checked = json_decode($role->priviledge_list);
 		$checked = !$checked ? [] : $checked;
 

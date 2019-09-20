@@ -16,21 +16,27 @@ trait BasicCrud
 		return '';
 	}
 
+	public function asAjax(){
+		return $this->as_ajax;
+	}
+
 	//default index page
 	public function index(){
-		$datatable = $this->skeleton;
+		$datatable = $this->skeleton();
 		$title = self::usedLang('index.title');
 		$hint = $this->hint();
 		$append_index = $this->appendIndex();
 		$prepend_index = $this->prependIndex();
 		$ctrl_button = $this->appendIndexControlButton();
+		$as_ajax = $this->asAjax();
 		return view(config('module-setting.'.$this->hint().'.view.index', 'main::master-table'), compact(
 			'title',
 			'hint',
 			'datatable',
 			'append_index',
 			'prepend_index',
-			'ctrl_button'
+			'ctrl_button',
+			'as_ajax'
 		));
 	}
 
@@ -54,15 +60,22 @@ trait BasicCrud
 
 	public function create(){
 		$title = self::usedLang('create.title');
-		$forms = $this->skeleton;
+		$forms = $this->skeleton();
 		$back = 'admin.'.$this->hint().'.index'; //back url
 		$multi_language = isset($this->multi_language) ? $this->multi_language : false;
 		$additional_field = $this->additionalField();
+		if(method_exists($this, 'additionalAcceptField')){
+			$additional_field .= $this->additionalAcceptField();
+		}
+
 		$prepend_field = $this->prependField();
 		$seo = '';
 		if(method_exists($this, 'seoFields')){
 			$seo = $this->seoFields();
 		}
+
+		//data = blank entity
+		$data = app(config('model.'.$this->model));
 		return view(config('module-setting.'.$this->hint().'.view.create', 'main::master-crud'), compact(
 			'title',
 			'forms',
@@ -70,13 +83,14 @@ trait BasicCrud
 			'multi_language',
 			'prepend_field',
 			'additional_field',
-			'seo'
+			'seo',
+			'data'
 		));
 	}
 
 	public function store(){
 		$this->setMode('store');
-		$this->skeleton->formValidation($this->multi_language, 'create');
+		$this->skeleton()->formValidation($this->multi_language, 'create');
 		$this->afterValidation('create');
 
 		//multiple values / relational type input is not processed here
@@ -84,6 +98,9 @@ trait BasicCrud
 
 		//multiple values / relational type can be freely managed here
 		$this->afterCrud($instance);
+		if(method_exists($this, 'afterCrudAccept')){
+			$this->afterCrudAccept($instance);
+		}
 		if(method_exists($this, 'storeSeo')){
 			$this->storeSeo($instance);
 		}
@@ -94,6 +111,12 @@ trait BasicCrud
 
 		\CMS::log($instance, 'ADMIN STORE DATA');
 
+		if(request()->ajax()){
+			return [
+				'type' => 'success',
+				'message' => self::usedLang('store.success')
+			];
+		}
 		return redirect()->route('admin.'. $this->hint() .'.index')->with('success', self::usedLang('store.success'));
 	}
 
@@ -115,7 +138,7 @@ trait BasicCrud
 
 	public function edit($id){
 		$title = self::usedLang('edit.title');
-		$forms = $this->skeleton;
+		$forms = $this->skeleton();
 		$back = 'admin.'.$this->hint().'.index';
 
 		$data = $this->repo->show($id);
@@ -128,6 +151,10 @@ trait BasicCrud
 		$multi_language = isset($this->multi_language) ? $this->multi_language : false;
 		$prepend_field = $this->prependField($data);
 		$additional_field = $this->additionalField($data);
+		if(method_exists($this, 'additionalAcceptField')){
+			$additional_field .= $this->additionalAcceptField($data);
+		}
+
 		$seo = '';
 		if(method_exists($this, 'seoFields')){
 			$seo = $this->seoFields($data);
@@ -147,7 +174,7 @@ trait BasicCrud
 
 	public function update($id=0){
 		$this->setMode('update');
-		$this->skeleton->formValidation($this->multi_language, 'update', $id);
+		$this->skeleton()->formValidation($this->multi_language, 'update', $id);
 		$this->afterValidation('update');
 		$show = $this->repo->show($id);
 		if(empty($show)){
@@ -162,6 +189,9 @@ trait BasicCrud
 		}
 		//multiple values / relational type can be freely managed here
 		$this->afterCrud($instance);
+		if(method_exists($this, 'afterCrudAccept')){
+			$this->afterCrudAccept($instance);
+		}
 
 		if($this->multi_language){
 			$this->storeLanguage($instance);
@@ -169,6 +199,12 @@ trait BasicCrud
 
 		\CMS::log($instance, 'ADMIN UPDATE DATA');
 
+		if(request()->ajax()){
+			return [
+				'type' => 'success',
+				'message' => self::usedLang('update.success')
+			];
+		}
 		return redirect()->route('admin.'. $this->hint() .'.index')->with('success', self::usedLang('update.success'));
 	}
 
@@ -206,7 +242,6 @@ trait BasicCrud
 					$datas[] = $this->repo->show($single_id);
 				}
 			}
-
 			if(empty($datas)){
 				abort(404);
 			}
@@ -214,12 +249,13 @@ trait BasicCrud
 			//delete loop process 
 			$deleted_ids = [];
 			foreach($datas as $row){
+				$pk = $row->getKeyName();
 				foreach($this->image_field() as $fld){
 					$this->removeImage($row, $fld);
-					$this->afterDelete($row->id);
+					$this->afterDelete($row->{$pk});
 				}
 				\CMS::log($row, 'ADMIN DELETE DATA');
-				$deleted_ids[] = $row->id;
+				$deleted_ids[] = $row->{$pk};
 				if($this->multi_language){
 					$this->removeLanguage($row);
 				}
@@ -288,7 +324,7 @@ trait BasicCrud
 	}
 
 	protected function getUsedField(){
-		$active_fields = $this->skeleton->getActiveFormFields();
+		$active_fields = $this->skeleton()->getActiveFormFields();
 		$inputData = [];
 		foreach($active_fields as $fields){
 			if(isset($this->request->{$fields})){

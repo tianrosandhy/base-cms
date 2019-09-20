@@ -231,7 +231,7 @@ DATA =>
             $lang = config('cms.lang.default');
         }
 
-        if(in_array($input->input_type, ['text', 'email', 'number'])){
+        if(in_array($input->input_type, ['text', 'email', 'number', 'color'])){
             $out = '<input type="'.$input->input_type.'" '.$attr.' value="'.$oldVal.'">';
         }
         else{

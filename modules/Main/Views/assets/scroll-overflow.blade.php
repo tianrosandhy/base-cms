@@ -36,6 +36,7 @@
 </style>
 @endpush
 
+@push('script')
 <script>
 $(function(){
 	var xovpos = 0;
@@ -175,7 +176,5 @@ $(function(){
 
 
 });
-
-
-
 </script>
+@endpush

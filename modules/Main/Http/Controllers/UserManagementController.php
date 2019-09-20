@@ -27,7 +27,7 @@ class UserManagementController extends AdminBaseController
 	//store dan update dibuat manual karena logicnya sedikit beda dari menu lain
 
 	public function store(){
-		$this->skeleton->formValidation(false, 'create');
+		$this->skeleton()->formValidation(false, 'create');
 
 		//pengecekan password confirmednya manual
 		$pass1 = ($this->request->password);
@@ -41,20 +41,22 @@ class UserManagementController extends AdminBaseController
 
 
 		//proses simpan
-		$this->repo->insert([
+		$saveparam = [
 			'name' => ($this->request->name),
 			'email' => ($this->request->email),
 			'password' => bcrypt(($this->request->password)),
 			'role_id' => ($this->request->role_id),
 			'image' => ($this->request->image),
 			'is_active' => intval($this->request->is_active)
-		]);
+		];
+
+		$this->repo->insert($saveparam);
 
 		return redirect()->route('admin.user.index')->with('success', 'User data has been saved');
 	}
 
 	public function update($id=0){
-		$this->skeleton->formValidation(false, 'update', $id);
+		$this->skeleton()->formValidation(false, 'update', $id);
 		$show = $this->repo->show($id);
 		if(empty($show)){
 			abort(404);
@@ -106,10 +108,16 @@ class UserManagementController extends AdminBaseController
 
 		$oldPriv = $show->role_id;
 
-		if($show->roles->is_sa && array_key_exists('role_id', $post)){
-			//role ga boleh diganti, dan harus selalu aktif
-			unset($post['role_id']);
-			unset($post['is_active']);
+		$remove_if_sa = [
+			'role_id',
+			'is_active'
+		];
+
+		foreach($remove_if_sa as $ris){
+			if($show->roles->is_sa && array_key_exists($ris, $post)){
+				//role ga boleh diganti, dan harus selalu aktif
+				unset($post[$ris]);
+			}
 		}
 
 		$this->repo->update($id, $post);

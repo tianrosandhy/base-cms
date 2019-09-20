@@ -23,10 +23,46 @@ class AdminAuth
             return $next($request);
 
         if($user){
-            //tapi kalo priviledgenya 0 ya gausa kasi
-            return $next($request);
+            $role = $user->roles;
+            if(!empty($role)){
+                $roles_bawahan = [];
+                foreach($role->children as $child){
+                    $roles_bawahan[] = $child->id;
+                    if($child->children){
+                        foreach($child->children as $subchild){
+                            $roles_bawahan[] = $subchild->id;
+                            if($subchild->children){
+                                foreach($subchild->children as $lastchild){
+                                    $roles_bawahan[] = $lastchild;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if($role->is_sa){
+                    //semuanya accessible
+                    $accessible_role = app(config('model.role'))->pluck('id')->toArray();
+                }
+                else{
+                    $accessible_role = array_merge([$role->id], $roles_bawahan);
+                }
+
+                //add request attribute
+                $request->attributes->add([
+                    'user' => $user,
+                    'role' => $role,
+                    'current_role' => $role->id,
+                    'is_sa' => $role->is_sa,
+                    'base_permission' => json_decode($role->priviledge_list, true),
+                    'subordinate_role' => $roles_bawahan,
+                    'accessible_role' => $accessible_role,
+                ]);
+
+                return $next($request);
+            }
         }
-        else 
-            return Redirect()->intended($request->segment(1)."/login");
+
+        return Redirect()->intended($request->segment(1)."/login");
     }
 }

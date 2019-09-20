@@ -67,8 +67,8 @@ class DataStructure
 	public function switcher($field='is_active', $name='Is Active', $col=6, $value=[]){
 		if(empty($value)){
 			$value = [
+				1 => 'Active',
 				0 => 'Draft',
-				1 => 'Live'
 			];
 		}
 
@@ -189,7 +189,8 @@ class DataStructure
 			'cropper',
 			'datetime',
 			'daterange',
-			'view'
+			'view',
+			'color',
 		];
 
 		if(!in_array($type, $lists)){

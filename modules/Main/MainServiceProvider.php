@@ -18,6 +18,7 @@ class MainServiceProvider extends ServiceProvider
 		if ($this->app->runningInConsole()) {
 	        $this->commands([
 	            Console\DefaultSetting::class,
+	            Console\UpdateStructure::class,
 	            Console\ModuleScaffold::class,
 	            Console\NewAdmin::class,
 	            Console\SetRole::class,

@@ -7,6 +7,8 @@ use Module\Main\Http\Repository\CrudRepository;
 use ImageService;
 use Module\Main\Http\Traits\BasicCrud;
 use Module\Main\Http\Middleware\AdminAuth;
+use Auth;
+use Illuminate\Validation\ValidationException;
 
 class AdminBaseController extends Controller
 {
@@ -20,20 +22,18 @@ class AdminBaseController extends Controller
 		$repo,
 		$skeleton,
 		$language = [],
-		$multi_language = false;
+		$multi_language = false,
+		$as_ajax = false;
 
 	public function __construct(Request $req){
 		$this->request = $req;
+		$this->middleware('auth');
 		$this->middleware(AdminAuth::class);
 
 		//register repository globally
 		if(method_exists($this, 'repo')){
 			$this->model = $this->repo();
 			$this->useRepo($this->repo());
-		}
-
-		if(method_exists($this, 'skeleton')){
-			$this->skeleton = $this->skeleton();
 		}
 
 		if(method_exists($this, 'languageData')){
@@ -60,8 +60,8 @@ class AdminBaseController extends Controller
 
 	//utk request datatable
 	public function table(){
-		//return output datatable json instance
-		return $this->skeleton->table();
+		//harus ada kesempatan mengupdate skeleton data, karena ga semua data ready di __construct()
+		return $this->skeleton()->table();
 	}
 
 
@@ -93,6 +93,16 @@ class AdminBaseController extends Controller
 
 	public function afterCrud($instance){
 		//
+	}
+
+	public function defaultRiskManagementAfterCrud($instance){
+		//user stamps
+		if(empty($instance->CreatedBy)){
+			$instance->CreatedBy = $this->currentUser()->id;
+		}
+		$instance->ModifiedBy = $this->currentUser()->id;
+		$instance->save();
+		return $instance;
 	}
 
 	public function storeLanguage($instance=[]){
@@ -176,6 +186,35 @@ class AdminBaseController extends Controller
 			ImageService::removeImage($instance->{$field});
 		}
 	}
-	
+
+	public function currentUser(){
+		return \Auth::user();
+	}
+
+	public function manageThrown($exception){
+		$json = [];
+        if(json_decode($exception->getMessage())){
+            $msg = json_decode($exception->getMessage(), true);
+            if($this->request->ajax()){
+            	$first = isset($msg['message']) ? $msg['message'] : $msg;
+            	return [
+            		'type' => 'error',
+            		'message' => $first
+            	];
+            }
+	        $error = ValidationException::withMessages(isset($msg['message']) ? $msg['message'] : $msg);
+	        throw $error;
+        }
+        else{
+            $msg = $exception->getMessage();
+            if($this->request->ajax()){
+            	return [
+            		'type' => 'error',
+            		'message' => $msg
+            	];
+            }
+            return redirect()->back()->with('error', $msg)->withInput();
+        }
+	}
 
 }

@@ -30,11 +30,25 @@ class DataTable extends Processor
 					$out[$i]['field'] = $row->field;
 					$out[$i]['input_type'] = $row->input_type;
 					$out[$i]['type'] = $row->data_source == 'text' ? 'text' : 'multiple';
+					$out[$i]['value'] = isset($this->request->columns[$i]['search']['value']) ? $this->request->columns[$i]['search']['value'] : null;
 				}
 				$i++;
 			}
 		}
 		return $out;
+	}
+
+	public function grabFieldValue($fieldname){
+		$search_array = collect($this->getSearchArray());
+		$grab = $search_array->where('field', $fieldname);
+		if($grab->count() > 0){
+			$grab = $grab->first();
+		}
+
+		if(isset($grab['value'])){
+			return $grab['value'];
+		}
+		return null;
 	}
 
 	public function actionButton($title='', $url, $attr=[]){

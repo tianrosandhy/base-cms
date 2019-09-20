@@ -303,8 +303,8 @@ function refreshDropzone(){
 
 		if($(this).find('.dz-default').length == 0){
 			acc = $(this).attr('accept');
-			if(acc.length == 0){
-				acc = '*';
+			if(!acc){
+				acc = null;
 			}
 			$(this).dropzone({
 				url : ajaxurl,
@@ -350,8 +350,8 @@ function refreshDropzone(){
 
 		if($(this).find('.dz-default').length == 0){
 			acc = $(this).attr('accept');
-			if(acc.length == 0){
-				acc = '*';
+			if(!acc){
+				acc = null;
 			}
 			$(this).dropzone({
 				url : ajaxurl,

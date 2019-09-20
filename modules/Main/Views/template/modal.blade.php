@@ -1,5 +1,5 @@
 <div class="modal fade fill-in" id="defaultModal" tabindex="-1" role="dialog" aria-hidden="true">
-	<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+	<button type="button" class="modal-custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	<div class="modal-dialog ">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -11,6 +11,7 @@
 		</div>
 	</div>
 </div>
+
 
 <div class="modal fade fill-in" id="alertModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog ">
