@@ -97,7 +97,7 @@ class UserSkeleton extends DataTable
 		return [
 			'name' => $row->name,
 			'email' => $row->email,
-			'image' => '<img src="'.$row->getThumbnailUrl('image', 'thumb').'" style="height:50px">',
+			'image' => $row->imageSetThumbnail('image', 'thumb', 50),
 			'role_id' => isset($row->roles->name) ? $row->roles->name : '<small style="color:#d00;"><em>no priviledge</em></small>',
 			'is_active' => '<span class="badge '.($row->is_active == 0 ? 'badge-warning' : ($row->is_active == 1 ? 'badge-success' : 'badge-danger')).'">'.( $row->is_active == 0 ? 'Pending' : ($row->is_active == 1 ? 'Active' : 'Blocked') ).'</span>',
 			'action' => self::editButton($row) . ($is_sa ? '' : self::deleteButton($row))

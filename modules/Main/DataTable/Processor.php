@@ -164,7 +164,10 @@ class Processor
 		}
 
 		$listing = (new CrudRepository($this->model))->modelTableListing();
-		$orderBy = $listing[0]; //asumsi kolom pertama itu primary key
+		if(empty($listing)){
+			return 'Invalid model or table instance';
+		}
+		$orderBy = isset($listing[0]) ? $listing[0] : null; //asumsi kolom pertama itu primary key
 		$flow = 'DESC';
 		if(isset($this->field_definition[$this->request->order[0]['column']])){
 			$orderBy = $this->field_definition[$this->request->order[0]['column']];

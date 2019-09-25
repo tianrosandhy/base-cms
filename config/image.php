@@ -16,13 +16,16 @@ return [
     */
 
     'driver' => 'gd',
+    'enable_webp' => true,
     'thumbs' => [
+        'extralarge' => 2000,
         'large' => 1200,
         'medium' => 600,
-        'small' => 300,
+        'small' => 400,
+        'extrasmall' => 200,
         'thumb' => 100
     ],
     'crop' => 300,
-    'quality' => 60,
+    'quality' => 80,
 
 ];

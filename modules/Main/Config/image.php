@@ -16,6 +16,7 @@ return [
     */
 
     'driver' => 'gd',
+    'enable_webp' => true,
     'thumbs' => [
         'extralarge' => 2000,
         'large' => 1200,

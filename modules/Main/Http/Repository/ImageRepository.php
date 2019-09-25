@@ -82,9 +82,14 @@ class ImageRepository
 		$finalpath = $path.$filename.'.'.$ext;
 
 		$image = $image->encode($ext, config('image.quality'));
-
 		//save file asli
         Storage::put($finalpath, (string)$image);
+		if(config('image.enable_webp')){
+			$image = $image->encode('webp', config('image.quality'));
+			//save file asli
+		    Storage::put($path.$filename.'.webp', (string)$image);
+		}
+
         //save thumbnail
         self::generateThumbnail($file, $path.$filename, $filetype);
 
@@ -101,8 +106,14 @@ class ImageRepository
 		$out = [];
 		foreach($thumbs as $name => $size){
 			$out[$name] = $filepath . '-'.$name.'.'.$extension;
+			if(config('image.enable_webp')){
+				$out[$name.'-webp'] = $filepath . '-'.$name.'.webp';
+			}
 		}
 		$out['cropped'] = $filepath . '-cropped.'.$extension;
+		if(config('image.enable_webp')){
+			$out['cropped-webp'] = $filepath . '-cropped.webp';
+		}
 
 		return $out;
 	}
@@ -143,11 +154,28 @@ class ImageRepository
 	            $finalpath.'-'.$name.'.'.$extension,
 	            (string) $image
 	        );
+	        if(config('image.enable_webp')){
+	        	$image = Image::make($file)->resize(
+	            	$size,
+		            null,
+		            function (Constraint $constraint) {
+		                $constraint->aspectRatio();
+		            }
+		        )->encode('webp', config('image.quality'));
+		        Storage::put(
+		            $finalpath.'-'.$name.'.webp',
+		            (string) $image
+		        );
+	        }
 		}
 
 		//generate cropped thumbnail
 		$image = Image::make($file)->fit(config('image.crop'))->encode($extension, config('image.quality'));
 		Storage::put($finalpath.'-cropped.'.$extension, (string)$image);
+		if(config('image.enable_webp')){
+			$image = Image::make($file)->fit(config('image.crop'))->encode('webp', config('image.quality'));
+			Storage::put($finalpath.'-cropped.webp', (string)$image);
+		}
     }
 
 
@@ -169,8 +197,14 @@ class ImageRepository
     }
 
     protected function unlinks($path){
+    	$ext = getExtension($path);
+    	$webp_path= str_replace('.'.$ext, '.webp', $path);
+
 		if(Storage::exists($path)){
 			Storage::delete($path);
+		}
+		if(Storage::exists($webp_path)){
+			Storage::delete($webp_path);
 		}
     }
 
