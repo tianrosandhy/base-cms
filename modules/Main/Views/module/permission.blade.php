@@ -30,7 +30,7 @@
 					@endif
 				</td>
 				<td>
-					<a href="#" class="btn btn-primary edit-permission" data-target="{{ url()->route('admin.permission.update', ['id' => $row['id']]) }}" data-title="{{ $row['label'] }}" data-risk_limit="{{ $row['risk_limit'] }}" data-owner="{{ $row['role_owner'] }}">Edit</a>
+					<a href="#" class="btn btn-primary edit-permission" data-target="{{ url()->route('admin.permission.update', ['id' => $row['id']]) }}" data-title="{{ $row['label'] }}" data-issa="{{ $row['is_sa'] }}" data-owner="{{ $row['role_owner'] }}">Edit</a>
 					@if(!$row['is_sa'])
 					<a href="{{ url()->route('admin.permission.delete', ['id' => $row['id']]) }}" class="btn btn-danger delete-button" >Delete</a>
 					@endif
@@ -66,7 +66,7 @@
 									<label>Type the role name below</label>
 									<input type="text" class="form-control" name="name">
 								</div>
-								<div class="form-group">
+								<div class="form-group" data-setrole>
 									<label>Set this role as children of</label>
 									<select name="role_owner" class="form-control select2">
 										<option value="">No Owner</option>
@@ -136,10 +136,16 @@ $(function(){
 		e.preventDefault();
 		$("#permissionModal form").attr('action', $(this).attr('data-target'));
 		$("#permissionModal form .form-group input[name='name']").val($(this).attr('data-title'));
-		$("#permissionModal form .form-group input[name='risk_limit']").val($(this).attr('data-risk_limit'));
 		$("#permissionModal form .form-group select[name=role_owner]").val($(this).attr('data-owner')).trigger('change.select2');
 		$("#permissionModal form button").html('Update Role');
 		$("#permissionModal").modal('show');
+
+		if($(this).attr('data-issa') == 1){
+			$("#permissionModal form [data-setrole]").hide();
+		}
+		else{
+			$("#permissionModal form [data-setrole]").show();
+		}
 	});
 
 });

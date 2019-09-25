@@ -35,7 +35,6 @@ class PermissionController extends AdminBaseController
 		$param = [
 			'name' => $this->request->name,
 			'priviledge_list' => '',
-			'risk_limit' => $this->request->risk_limit,
 			'role_owner' => $this->request->role_owner ? $this->request->role_owner : null
 		];
 
@@ -54,9 +53,9 @@ class PermissionController extends AdminBaseController
 			return back()->withErrors(['name' => $validate]);
 		}
 
+		$current_instance = $this->repo->show($id);
 		$saveparam = [
 			'name' => $this->request->name,
-			'risk_limit' => $this->request->risk_limit,
 			'role_owner' => ($this->request->role_owner ? $this->request->role_owner : null)
 		];
 		//gaboleh nyimpen role diri sendiri supaya ga recursive
@@ -65,6 +64,10 @@ class PermissionController extends AdminBaseController
 		}
 
 		if(empty($saveparam['role_owner'])){
+			unset($saveparam['role_owner']);
+		}
+
+		if($current_instance->is_sa){
 			unset($saveparam['role_owner']);
 		}
 		$this->repo->update($id, $saveparam);
