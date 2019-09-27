@@ -20,7 +20,7 @@ $(function(){
 	$(document).on('change', '.listen_uploaded_image', function(){
 		hash = $(this).attr('data-hash');
 		val = $(this).val();
-		$(".uploaded-holder[data-hash='"+hash+"']").html('<div class="uploaded"><img src="'+ STORAGE_URL + '/' + val+'"><span class="remove-asset" data-hash="'+hash+'">&times;</span></div>');
+		$(".uploaded-holder[data-hash='"+hash+"']").html('<div class="uploaded"><a href="'+ STORAGE_URL + '/' + val+'" data-fancybox="gallery"><img src="'+ STORAGE_URL + '/' + val+'" style="height:100px;"></a><span class="remove-asset" data-hash="'+hash+'">&times;</span></div>');
 	});
 
 	$(document).on('change', '.listen_uploaded_image_multiple', function(){
@@ -222,11 +222,13 @@ function refreshDropzone(){
 				maxFilesize : maxsize,
 				sending : function(file, xhr, formData){
 					formData.append("_token", window.CSRF_TOKEN);
+					disableAllButtons();
 				},
 				init : function(){
 					this.on("success", function(file, data){
 						$(".dropzone_uploaded[data-hash='"+dropzonehash+"']").val(data).change();
 						this.removeFile(file);
+						enableAllButtons();
 					});
 					this.on("addedfile", function() {
 				      if (this.files[1]!=null){
@@ -236,10 +238,12 @@ function refreshDropzone(){
 
 				    this.on("queuecomplete", function(){
 						this.removeAllFiles();
+						enableAllButtons();
 					});
 				    this.on("error", function(file, err, xhr){
 						this.removeAllFiles();
 						error_handling(err);
+						enableAllButtons();
 				    });
 				}
 			});		
@@ -263,6 +267,7 @@ function refreshDropzone(){
 				maxFilesize : maxsize,
 				sending : function(file, xhr, formData){
 					formData.append("_token", window.CSRF_TOKEN);
+					disableAllButtons();
 				},
 				init : function(){
 					this.on("success", function(file, data){
@@ -276,12 +281,15 @@ function refreshDropzone(){
 						}
 
 						$(".dropzone_uploaded[data-hash='"+dropzonehash+"']").val(newval).change();
+						enableAllButtons();
 					});
 
 				    this.on("queuecomplete", function(){
 						this.removeAllFiles();
+						enableAllButtons();
 					});
 				    this.on("error", function(file, err, xhr){
+						enableAllButtons();
 						this.removeAllFiles();
 						error_handling(err);
 				    });
@@ -312,12 +320,14 @@ function refreshDropzone(){
 				maxFilesize : parseInt(maxsize),
 				sending : function(file, xhr, formData){
 					formData.append("_token", window.CSRF_TOKEN);
+					disableAllButtons();
 				},
 				init : function(){
 					this.on("success", function(file, data){
 						data = window.JSON.stringify(data);
 						$(".dropzone_uploaded[data-hash='"+dropzonehash+"']").val(data).change();
 						this.removeFile(file);
+						enableAllButtons();
 					});
 					this.on("addedfile", function() {
 				      if (this.files[1]!=null){
@@ -327,10 +337,12 @@ function refreshDropzone(){
 
 				    this.on("queuecomplete", function(){
 						this.removeAllFiles();
+						enableAllButtons();
 					});
 				    this.on("error", function(file, err, xhr){
 						this.removeAllFiles();
 						error_handling(err);
+						enableAllButtons();
 				    });
 				}
 			});		
@@ -359,9 +371,11 @@ function refreshDropzone(){
 				maxFilesize : maxsize,
 				sending : function(file, xhr, formData){
 					formData.append("_token", window.CSRF_TOKEN);
+					disableAllButtons();
 				},
 				init : function(){
 					this.on("success", function(file, data){
+						enableAllButtons();
 						data = window.JSON.stringify(data);
 
 						oldval = $(".dropzone_uploaded[data-hash='"+dropzonehash+"']").val();
@@ -381,6 +395,7 @@ function refreshDropzone(){
 						this.removeAllFiles();
 					});
 				    this.on("error", function(file, err, xhr){
+						enableAllButtons();
 						this.removeAllFiles();
 						error_handling(err);
 				    });
@@ -390,6 +405,19 @@ function refreshDropzone(){
 		
 	});	
 
+}
+
+function disableAllButtons(){
+	$("button, a").attr('disabled', 'disabled').addClass('disabled').addClass('only-this');
+}
+
+function enableAllButtons(strict){
+	if(strict){
+		$(".only-this").removeAttr('disabled').removeClass('disabled').removeClass('only-this');
+	}
+	else{
+		$("button, a").removeAttr('disabled').removeClass('disabled');
+	}
 }
 
 </script>

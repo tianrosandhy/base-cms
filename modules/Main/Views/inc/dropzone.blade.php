@@ -23,7 +23,20 @@ if(!isset($name)){
 				@if(strlen($value) > 0)
 					<div class="uploaded">
 						@if(ImageService::pathExists($value))
-							<img src="{{ storage_url($value) }}" style="height:100px;">
+							<?php
+							$image_set = allImageSet($value);
+							?>
+							<a href="{{ isset($image_set['origin-webp']) ? storage_url($image_set['origin-webp']) : (isset($image_set['origin']) ? storage_url($image_set['origin']) : '#') }}" data-fancybox="gallery">
+								<picture>
+									@if(isset($image_set['thumb-webp']))
+									<source src="{{ storage_url($image_set['thumb-webp']) }}">
+									@endif
+									@if(isset($image_set['thumb']))
+									<source src="{{ storage_url($image_set['thumb']) }}">
+									@endif
+									<img src="{{ storage_url($image_set['thumb']) }}" style="height:100px;">
+								</picture>
+							</a>
 						@else
 							<img src="{{ admin_asset('img/broken-image.jpg') }}" style="height:100px;">
 						@endif

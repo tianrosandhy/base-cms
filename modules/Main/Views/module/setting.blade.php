@@ -1,6 +1,7 @@
 @extends ('main::master')
 
 @include ('main::assets.dropzone')
+@include ('main::assets.fancybox')
 
 @push ('style')
 <style>
