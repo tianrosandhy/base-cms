@@ -12,8 +12,13 @@ trait Seo
 		));
 	}
 
-	public function storeSeo($instance){
+	public function storeSeo($instance, $seo_field='seo'){
 		$table = $instance->getTable();
+		$listing = $instance->getConnection()->getSchemaBuilder()->getColumnListing($table);
+		if(!in_array($seo_field, $listing)){
+			//ga perlu save SEO kalau kolomnya not exists
+			return;
+		}
 
 		//manage SEO json data
 		$seo = [];

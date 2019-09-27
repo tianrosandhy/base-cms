@@ -174,7 +174,7 @@ DATA =>
 
         $out = '';
 
-        if(in_array($input->input_type, ['select', 'select_multiple', 'image', 'image_multiple', 'file', 'file_multiple', 'date', 'radio', 'checkbox', 'cropper', 'view', 'daterange']) || !$input->translate){
+        if(in_array($input->input_type, ['select', 'select_multiple', 'image', 'image_multiple', 'file', 'file_multiple', 'date', 'radio', 'checkbox', 'cropper', 'view', 'daterange', 'gutenberg']) || !$input->translate){
             //untuk input2 yg ga butuh multi language, langsung tampilkan default
             return self::getOutput($input, $attr, $oldVal, '', false, $data);
         }
