@@ -46,6 +46,8 @@
 				<label>{{ ucwords($row->name) }} - <small><mark>setting('{{ $row->group }}.{{ $row->param }}')</mark></small></label>
 				@if($row->type == 'text')
 				<input type="text" name="value[{{ $row->id }}]" value="{{ $row->default_value }}" class="form-control">
+				@elseif($row->type == 'number')
+				<input data-mask="000000000000" type="number" name="value[{{ $row->id }}]" value="{{ $row->default_value }}" class="form-control">
 				@elseif($row->type == 'textarea')
 				<textarea name="value[{{ $row->id }}]" class="form-control">{!! $row->default_value !!}</textarea>
 				@elseif($row->type == 'image')
@@ -122,6 +124,7 @@
 						?>
 						<select name="type" class="form-control switcher">
 							<option value="text" {{ $type == 'text' ? 'selected' : '' }}>Text</option>
+							<option value="number" {{ $type == 'number' ? 'selected' : '' }}>Number</option>
 							<option value="textarea" {{ $type == 'textarea' ? 'selected' : '' }}>Textarea</option>
 							<option value="image" {{ $type == 'image' ? 'selected' : '' }}>Image</option>
 						</select>
@@ -134,6 +137,9 @@
 						<div class="value-holder">
 							<div data-type="text">
 								<input type="text" name="value[text]" class="form-control" value="{{ old('value.text') }}">
+							</div>
+							<div data-type="number" style="display:none;">
+								<input data-mask="000000000000" type="number" name="value[number]" class="form-control" value="{{ old('value.number') }}">
 							</div>
 							<div data-type="textarea" style="display:none">
 								<textarea name="value[textarea]" class="form-control" value="{{ old('value.textarea') }}"></textarea>
@@ -191,8 +197,8 @@
 $(function(){
 	$(document).on('change', '.switcher', function(){
 		type = $(this).val();
-		$(".value-holder>div").slideUp();
-		$(".value-holder>div[data-type='"+type+"']").slideDown();
+		$(".value-holder>div").hide();
+		$(".value-holder>div[data-type='"+type+"']").show();
 	});
 
 	$(".select_custom").select2({

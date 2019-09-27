@@ -79,7 +79,7 @@ class CrudRepository{
 	public function paramManagement($obj, $param=[]){
 		$listing = $this->modelTableListing();
 		foreach($param as $key => $prm){
-			if(count($prm) == 1){
+			if(!is_array($prm)){
 				if(in_array($key, $listing)){
 					$obj = $this->operatorManagement($obj, $key, $prm);
 				}
