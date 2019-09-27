@@ -15,6 +15,13 @@ return [
 		'default' => 'en',
 	],
 
+	'social_login' => true,
+	'social_driver' => [
+		'facebook',
+		// 'twitter',
+		'google'
+	],
+
 	//overwrite default CMS route lists target here.
 	//source : vendor/tianrosandhy/cms/src/Main/Routes/...
 	'controller' => [

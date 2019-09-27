@@ -18,6 +18,19 @@
 
                   <form class="pt-3" method="post">
                     {{ csrf_field() }}
+                    @if(config('cms.social_login'))
+                    <div class="mb-3" align="center">
+                      @foreach(config('cms.social_driver') as $driver)
+                        @if(config('services.'.$driver.'.client_id') && config('services.'.$driver.'.client_secret'))
+                        <a href="{{ route('admin.social-login', ['mode' => $driver]) }}" class="btn btn-{{ $driver == 'facebook' ? 'primary' : ( $driver == 'google' ? 'danger' : 'secondary' ) }} btn-sm" style="margin-left:.5em; margin-right:.5em;">
+                          <i class="fa fa-{{ $driver }}"></i> {{ ucfirst($driver) }} Login
+                        </a>
+                        @endif
+                      @endforeach
+                    </div>
+                    @endif
+
+
                     <div class="form-group">
                       <label for="form-email">Email</label>
                       <div class="input-group">
@@ -26,7 +39,7 @@
                             <i class="mdi mdi-account-outline text-primary"></i>
                           </span>
                         </div>
-                        <input name="email" type="email" class="form-control form-control-lg border-left-0" id="form-email" placeholder="Email" maxlength="50" required>
+                        <input name="email" type="email" class="form-control border-left-0" id="form-email" placeholder="Email" maxlength="50" required>
                       </div>
                     </div>
                     <div class="form-group">
@@ -37,7 +50,7 @@
                             <i class="mdi mdi-lock-outline text-primary"></i>
                           </span>
                         </div>
-                        <input name="password" type="password" class="form-control form-control-lg border-left-0" id="exampleInputPassword" placeholder="Password">
+                        <input name="password" type="password" class="form-control border-left-0" id="exampleInputPassword" placeholder="Password">
                       </div>
                     </div>
                     <div class="my-2 d-flex justify-content-between align-items-center">
@@ -52,15 +65,21 @@
                         @endif
                     </div>
                     <div class="my-3">
-                      <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">LOGIN</button>
+                      <button type="submit" class="btn btn-block btn-primary font-weight-medium auth-form-btn">LOGIN</button>
                     </div>
 
                     @if(config('cms.admin.components.register'))
-                    <div class="text-center mt-4 font-weight-light">
-                      Don't have an account? <a href="{{ admin_url('register') }}" class="text-primary">Create</a>
-                    </div>
-                    <div class="text-center mt-4 font-weight-light">
-                      Already registered, but still not receive the activation link yet? <a href="#" data-toggle="modal" data-target="#resendModal">Resend Activation Link</a>
+                    <div class="row">
+                      <div class="col-5">
+                        <div class="text-center font-weight-light">
+                          <a href="{{ admin_url('register') }}" class="text-primary">Create Acount</a>
+                        </div>
+                      </div>
+                      <div class="col-7">
+                        <div class="text-center font-weight-light">
+                          <a href="#" data-toggle="modal" data-target="#resendModal">Resend Activation Link</a>
+                        </div>
+                      </div>
                     </div>
                     @endif
                   </form>

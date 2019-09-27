@@ -39,9 +39,13 @@ textarea{
 	z-index:9999!important;
 }
 .auth .brand-logo img{
-	max-height:80px;
-	max-width:80px;
+	max-height:50px;
+	max-width:50px;
 }
+.auth form .form-group{
+	margin-bottom:.5rem;
+}
+
 select.form-control, .dataTables_wrapper select{
 	color:#222;
 }

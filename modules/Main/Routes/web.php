@@ -2,6 +2,8 @@
 Route::get('/', 'MainController@index')->name('admin.splash');
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
+Route::get('login/social/{mode}', 'Auth\LoginController@socialRedirect')->name('admin.social-login');
+Route::match(['get', 'post'], 'callback/{mode}', 'Auth\LoginController@socialRedirectHandle');
 Route::match(['get', 'post'], 'logout', 'Auth\LoginController@logout');
 
 Route::get('register', 'Auth\RegisterController@showRegistrationForm');
