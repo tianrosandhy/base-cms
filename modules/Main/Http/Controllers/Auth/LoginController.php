@@ -44,7 +44,9 @@ class LoginController extends Controller
             return $social_validator;
         }
 
-        return Socialite::driver($type)->redirect();
+        return Socialite::driver($type)->with([
+            'prompt' => 'select_account'
+        ])->redirect();
     }
 
     public function socialRedirectHandle($type=''){
