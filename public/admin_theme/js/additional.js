@@ -37,7 +37,7 @@ $(function(){
 
 	$(document).on('click', '.closer', function(e){
 		e.preventDefault();
-		$(this).prev('input, select').val('').trigger('change');
+		$(this).closest('.form-group').find('input, select').val('').trigger('change').trigger('change.select2');
 	});
 
 	//switchery init

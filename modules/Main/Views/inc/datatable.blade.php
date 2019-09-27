@@ -50,7 +50,7 @@
 									<?php $source = $row->data_source; ?>
 								@endif
 								<div style="position:relative">
-									<select name="datatable_filter[{{ $rfield }}]" id="datatable-search-{{ $rfield }}" class="form-control">
+									<select name="datatable_filter[{{ $rfield }}]" id="datatable-search-{{ $rfield }}" class="form-control select2">
 										<option value="">Search {{ $row->name }}</option>
 										@foreach($source as $ids => $datas)
 										<option value="{{ $ids }}">{{ $datas }}</option>

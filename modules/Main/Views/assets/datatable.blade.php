@@ -75,7 +75,7 @@ $(function(){
 	$(document).on('keyup change', '.searchable input', $.debounce(300, function(){
 		tb_data.ajax.reload();
 	}));
-	$(document).on('change', '.searchable select', function(){
+	$(document).on('change change.select2', '.searchable select', function(){
 		tb_data.ajax.reload();
 	});	
 
