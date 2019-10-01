@@ -47,7 +47,7 @@ class ImageRepository
 
 	public function handleUpload($file, $path='', $filetype='jpg'){
 		$thumbs = config('image.thumbs');
-		$image = Image::make($file);
+		$image = Image::make($file)->orientate();
 
 		$filename = sha1(uniqid().time().rand(1,999999)); //kalo mw nyimpen by hash
 
@@ -143,7 +143,7 @@ class ImageRepository
 		
 		//generate resized thumbnail
 		foreach($thumbs as $name => $size){
-	        $image = Image::make($file)->resize(
+	        $image = Image::make($file)->orientate()->resize(
 	            $size,
 	            null,
 	            function (Constraint $constraint) {
@@ -170,7 +170,7 @@ class ImageRepository
 		}
 
 		//generate cropped thumbnail
-		$image = Image::make($file)->fit(config('image.crop'))->encode($extension, config('image.quality'));
+		$image = Image::make($file)->orientate()->fit(config('image.crop'))->encode($extension, config('image.quality'));
 		Storage::put($finalpath.'-cropped.'.$extension, (string)$image);
 		if(config('image.enable_webp')){
 			$image = Image::make($file)->fit(config('image.crop'))->encode('webp', config('image.quality'));
