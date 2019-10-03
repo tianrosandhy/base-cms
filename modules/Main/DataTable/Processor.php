@@ -186,7 +186,12 @@ class Processor
 		$ctx = (new CrudRepository($this->model))->paramManagement($ctx, $filter);
 		$ctx = $this->additionalSearchFilter($ctx);
 
-		$this->query_count = $ctx->count();
+		if($ctx instanceof \Illuminate\Database\Eloquent\Builder){
+			$this->query_count = $ctx->get()->count();
+		}
+		else{
+			$this->query_count = $ctx->count();
+		}
 		$this->raw_data = $ctx->orderBy($orderBy, $flow)->skip($this->start)->take($this->length)->get();
 	}
 
