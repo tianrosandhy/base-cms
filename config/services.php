@@ -46,17 +46,17 @@ return [
     'facebook' => [
         'client_id' => env('FACEBOOK_APP_ID'),
         'client_secret' => env('FACEBOOK_APP_SECRET'),
-        'redirect' => admin_url('callback/facebook'),
+        'redirect' => 'callback/facebook',
     ],
     'twitter' => [
         'client_id' => env('TWITTER_CONSUMER_API_KEY'),
         'client_secret' => env('TWITTER_CONSUMER_SECRET_KEY'),
-        'redirect' => admin_url('callback/twitter'),
+        'redirect' => 'callback/twitter',
     ],
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => admin_url('callback/google'),
+        'redirect' => 'callback/google',
     ],
 
 ];
