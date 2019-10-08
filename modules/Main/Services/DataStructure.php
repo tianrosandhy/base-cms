@@ -197,7 +197,7 @@ class DataStructure
 		if(!in_array($type, $lists)){
 			$type = 'text'; //paling default
 		}
-		if(in_array($type, ['select_multiple', 'image_multiple', 'file_multiple', 'daterange'])){
+		if(in_array($type, ['select_multiple', 'daterange'])){
 			$this->inputArray();
 		}
 
