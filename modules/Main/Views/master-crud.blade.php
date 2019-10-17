@@ -1,16 +1,23 @@
 @extends ( request()->ajax() ? "main::master-ajax" : "main::master" )
 @if(!request()->ajax())
-	@include ('main::assets.dropzone')
-	@include ('main::assets.cropper')
-
-	@push ('style')
-	<link rel="stylesheet" href="{{ asset('vendor/laraberg/css/laraberg.css') }}">
-	@endpush
-	@push ('script')
-	<script src="https://unpkg.com/react@16.8.6/umd/react.production.min.js"></script>
-	<script src="https://unpkg.com/react-dom@16.8.6/umd/react-dom.production.min.js"></script>
-	<script src="{{ asset('vendor/laraberg/js/laraberg.js') }}"></script>
-	@endpush
+	@if($used_plugin['dropzone'])
+		@include ('main::assets.dropzone')
+	@endif
+	@if($used_plugin['cropper'])
+		@include ('main::assets.cropper')
+	@endif
+	
+	{{-- Gutenberg itu makan resource yg besar. Daripada sembarangan diload, bikin berat mending dibikin optional --}}
+	@if($used_plugin['gutenberg'])
+		@push ('style')
+		<link rel="stylesheet" href="{{ asset('vendor/laraberg/css/laraberg.css') }}">
+		@endpush
+		@push ('script')
+		<script src="https://unpkg.com/react@16.8.6/umd/react.production.min.js"></script>
+		<script src="https://unpkg.com/react-dom@16.8.6/umd/react-dom.production.min.js"></script>
+		<script src="{{ asset('vendor/laraberg/js/laraberg.js') }}"></script>
+		@endpush
+	@endif
 @endif
 
 @section ('content')
@@ -125,7 +132,5 @@ function setFormGroupBg(instance){
 		instance.closest('.radio-box').removeClass('danger');
 	}
 }
-
-
 </script>
 @endpush

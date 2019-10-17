@@ -58,9 +58,32 @@ trait BasicCrud
 		$this->mode = $mode;
 	}
 
+	protected function getUsedPlugin($skeleton){
+		$collect = collect($skeleton);
+		$used_plugin = [
+			'gutenberg' => false,
+			'dropzone' => false,
+			'cropper' => false
+		];
+
+		if($collect->where('input_type', 'gutenberg')->count() > 0){
+			$used_plugin['gutenberg'] = true;
+		}
+		if($collect->whereIn('input_type', ['image', 'image_multiple', 'file', 'file_multiple'])->count() > 0){
+			$used_plugin['dropzone'] = true;
+		}
+		if($collect->where('input_type', 'cropper')->count() > 0){
+			$used_plugin['cropper'] = true;
+		}
+		return $used_plugin;
+	}
+
 	public function create(){
 		$title = self::usedLang('create.title');
 		$forms = $this->skeleton();
+
+		$used_plugin = $this->getUsedPlugin($forms->structure);
+
 		$back = 'admin.'.$this->hint().'.index'; //back url
 		$multi_language = isset($this->multi_language) ? $this->multi_language : false;
 		$additional_field = $this->additionalField();
@@ -84,7 +107,8 @@ trait BasicCrud
 			'prepend_field',
 			'additional_field',
 			'seo',
-			'data'
+			'data',
+			'used_plugin'
 		));
 	}
 
@@ -141,6 +165,8 @@ trait BasicCrud
 		$forms = $this->skeleton();
 		$back = 'admin.'.$this->hint().'.index';
 
+		$used_plugin = $this->getUsedPlugin($forms->structure);
+
 		$data = $this->repo->show($id);
 		if(empty($data)){
 			return back()->withErrors([
@@ -168,7 +194,8 @@ trait BasicCrud
 			'multi_language',
 			'prepend_field',
 			'additional_field',
-			'seo'
+			'seo',
+			'used_plugin'
 		));
 	}
 
