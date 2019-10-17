@@ -4,6 +4,7 @@ namespace Module\Main\Http\Repository;
 use Image;
 use Storage;
 use Intervention\Image\Constraint;
+use Module\Main\Jobs\GenerateImageThumbnail;
 
 class ImageRepository
 {
@@ -84,14 +85,9 @@ class ImageRepository
 		$image = $image->encode($ext, config('image.quality'));
 		//save file asli
         Storage::put($finalpath, (string)$image);
-		if(config('image.enable_webp')){
-			$image = $image->encode('webp', config('image.quality'));
-			//save file asli
-		    Storage::put($path.$filename.'.webp', (string)$image);
-		}
 
-        //save thumbnail
-        self::generateThumbnail($file, $path.$filename, $filetype);
+        //pastikan path file sudah benar, supaya background job bisa berjalan
+        GenerateImageThumbnail::dispatch($finalpath);
 
         return $finalpath;
 	}
