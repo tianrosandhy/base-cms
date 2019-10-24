@@ -113,6 +113,23 @@ class PermissionController extends AdminBaseController
 				'message' => 'You cannot delete the main administrator role'
 			];
 		}
+
+		//sebelum hapus, pastikan anak2nya tetap dalam kondisi terurus
+		$anak2list = $data->children;
+		$owner = $data->owner;
+
+		if(!empty($owner)){
+			$update_owner_to = $owner->id;
+		}
+		else{
+			$update_owner_to = null;
+		}
+
+		foreach($anak2list as $anak){
+			$anak->role_owner = $update_owner_to;
+			$anak->save();
+		}
+		
 		$this->repo->delete($id);
 
 		return [

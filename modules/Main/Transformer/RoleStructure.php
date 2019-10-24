@@ -82,7 +82,7 @@ class RoleStructure
 								}
 
 								if(isset($out[$row->id]['children'][$child->id]['children'][$subchild->id]['children'])){
-									$out[$row->id]['children'][$child->id]['children'][$subchild->id]['children'] = array_sort($out[$row->id]['children'][$child->id]['children'][$subchild->id]['children'], function($value){
+									$out[$row->id]['children'][$child->id]['children'][$subchild->id]['children'] = \Arr::sort($out[$row->id]['children'][$child->id]['children'][$subchild->id]['children'], function($value){
 										return $value['label'];
 									});
 								}
@@ -90,7 +90,7 @@ class RoleStructure
 							}
 
 							if(isset($out[$row->id]['children'][$child->id]['children'])){
-								$out[$row->id]['children'][$child->id]['children'] = array_sort($out[$row->id]['children'][$child->id]['children'], function($value){
+								$out[$row->id]['children'][$child->id]['children'] = \Arr::sort($out[$row->id]['children'][$child->id]['children'], function($value){
 									return $value['label'];
 								});
 							}
@@ -98,7 +98,7 @@ class RoleStructure
 					}
 
 					if(isset($out[$row->id]['children'])){
-						$out[$row->id]['children'] = array_sort($out[$row->id]['children'], function($value){
+						$out[$row->id]['children'] = \Arr::sort($out[$row->id]['children'], function($value){
 							return $value['label'];
 						});
 					}
