@@ -36,7 +36,7 @@ class GenerateImageThumbnail implements ShouldQueue
 			$image = $image->encode('webp', config('image.quality'));
 			//save file asli
 			$this->saveFile($this->filename.'.webp', (string)$image);
-			echo 'Saved target : "'.$this->access_path($this->filename.'.webp').'" ';
+			//echo 'Saved target : "'.$this->access_path($this->filename.'.webp').'" ';
 		}
 
         //save thumbnail
@@ -58,7 +58,7 @@ class GenerateImageThumbnail implements ShouldQueue
 	            }
 	        )->encode($this->extension, config('image.quality'));
 	        $this->saveFile($this->filename.'-'.$name.'.'.$this->extension, (string)$image);
-			echo 'Saved target : "'.$this->access_path($this->filename.'-'.$name.'.'.$this->extension).'" ';
+			//echo 'Saved target : "'.$this->access_path($this->filename.'-'.$name.'.'.$this->extension).'" ';
 
 	        if(config('image.enable_webp')){
 	        	$image = Image::make($this->access_path($this->image_path))->orientate()->resize(
@@ -69,19 +69,19 @@ class GenerateImageThumbnail implements ShouldQueue
 		            }
 		        )->encode('webp', config('image.quality'));
 		        $this->saveFile($this->filename.'-'.$name.'.webp', (string)$image);
-				echo 'Saved target : "'.$this->access_path($this->filename.'-'.$name.'.webp').'" ';
+				//echo 'Saved target : "'.$this->access_path($this->filename.'-'.$name.'.webp').'" ';
 	        }
 		}
 
 		//generate cropped thumbnail
 		$image = Image::make($this->access_path($this->image_path))->orientate()->fit(config('image.crop'))->encode($this->extension, config('image.quality'));
 		$this->saveFile($this->filename.'-cropped.'.$this->extension, (string)$image);
-        echo 'Saved target : "'.$this->access_path($this->filename.'-cropped.'.$this->extension).'" ';
+        //echo 'Saved target : "'.$this->access_path($this->filename.'-cropped.'.$this->extension).'" ';
 
 		if(config('image.enable_webp')){
 			$image = Image::make($this->access_path($this->image_path))->orientate()->fit(config('image.crop'))->encode('webp', config('image.quality'));
 			$this->saveFile($this->filename.'-cropped.webp', (string)$image);
-	        echo 'Saved target : "'.$this->access_path($this->filename.'-cropped.webp').'" ';
+	        //echo 'Saved target : "'.$this->access_path($this->filename.'-cropped.webp').'" ';
 		}
     }
 
