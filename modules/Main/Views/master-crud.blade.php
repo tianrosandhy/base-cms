@@ -34,7 +34,7 @@
 	'reload' => false
 ])
 
-<form action="" method="post">
+<form action="" method="post" class="crud-post">
 	{{ csrf_field() }}
 	<div class="card card-block card-body">
 		@if(isset($prepend_field))
@@ -119,7 +119,36 @@ $(function(){
 			inc++;
 		});
 	}
+
+
+	$(document).on('change', '.crud-post input, .crud-post select, .crud-post textarea', function(){
+		saveAsDraft();
+	});
+
+	setInterval(function(){
+		saveAsDraft();
+	}, 10000);
 });
+
+function saveAsDraft(){
+	data = $(".crud-post").serialize();
+	data += '&force_draft=true';
+	$.ajax({
+		url : $(".crud-post").attr('action'),
+		type : 'POST',
+		dataType : 'json',
+		data : data,
+		success : function(resp){
+			if(resp.force_draft && resp.id){
+				$(".crud-post").attr('action', resp.saveurl);
+				toggleSuccess();
+			}
+		},
+		error : function(resp){
+
+		}
+	});
+}
 
 function setFormGroupBg(instance){
 	boxval = instance.val();

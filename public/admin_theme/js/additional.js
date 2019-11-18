@@ -135,6 +135,19 @@ $(function(){
 
 });
 
+function toggleSuccess(reload){
+	$(".success-handle").addClass('active');
+	if(typeof tb_data != 'undefined'){
+		if(tb_data && typeof reload == 'undefined'){
+			tb_data.ajax.reload();
+		}
+	}
+	setTimeout(function(){
+		$(".success-handle").removeClass('active');
+	}, 2500);
+}
+
+
 function swal(type, messages){
 	$("#alertModal .modal-header h5").html(type);
 	out = '';

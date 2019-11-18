@@ -138,14 +138,17 @@ trait BasicCrud
 		if(request()->ajax()){
 			return [
 				'type' => 'success',
-				'message' => self::usedLang('store.success')
+				'message' => self::usedLang('store.success'),
+				'force_draft' => (bool)$this->request->force_draft,
+				'id' => $instance->id,
+				'saveurl' => url()->route('admin.'.$this->hint.'.update', ['id' => $instance->id])
 			];
 		}
 		return redirect()->route('admin.'. $this->hint() .'.index')->with('success', self::usedLang('store.success'));
 	}
 
 	//store process dipisah biar bisa dioverwrite
-	public function storeQuery(){
+	public function storeQuery($is_active_field='is_active'){
 		$inputData = self::getUsedField();
 
 		//masing-masing input data difilter, apakah nama fieldnya exists atau tidak
@@ -153,6 +156,13 @@ trait BasicCrud
 		foreach($inputData as $fld => $value){
 			if(!in_array($fld, $listingColumn)){
 				unset($inputData[$fld]);
+			}
+		}
+
+		//kalau ada request force_draft, sekalipun pilih status aktif, maka status otomatis aktif
+		if($this->request->force_draft){
+			if(isset($inputData[$is_active_field])){
+				$inputData[$is_active_field] = 0; //force to draft
 			}
 		}
 
@@ -200,12 +210,20 @@ trait BasicCrud
 	}
 
 	public function update($id=0){
+		//force_draft ga berlaku di update data, supaya datanya ga langsung berubah
+
 		$this->setMode('update');
 		$this->skeleton()->formValidation($this->multi_language, 'update', $id);
 		$this->afterValidation('update');
 		$show = $this->repo->show($id);
 		if(empty($show)){
 			abort(404);
+		}
+
+
+		//gausa force draft kalo udah aktif
+		if($this->request->force_draft && $show->is_active > 0){
+			exit();
 		}
 
 		//multiple values / relational type input is not processed here
@@ -229,14 +247,17 @@ trait BasicCrud
 		if(request()->ajax()){
 			return [
 				'type' => 'success',
-				'message' => self::usedLang('update.success')
+				'message' => self::usedLang('update.success'),
+				'force_draft' => (bool)$this->request->force_draft,
+				'id' => intval($id),
+				'saveurl' => url()->route('admin.'.$this->hint.'.update', ['id' => $id])
 			];
 		}
 		return redirect()->route('admin.'. $this->hint() .'.index')->with('success', self::usedLang('update.success'));
 	}
 
 	//update process dipisah biar bisa dioverwrite
-	public function updateQuery($id){
+	public function updateQuery($id, $is_active_field='is_active'){
 		$inputData = self::getUsedField();
 
 		//masing-masing input data difilter, apakah nama fieldnya exists atau tidak
@@ -246,7 +267,12 @@ trait BasicCrud
 				unset($inputData[$fld]);
 			}
 		}
-		
+
+		if($this->request->force_draft && isset($inputData[$is_active_field])){
+			//memastikan data draft tidak jadi active dulu sampai benar2 disave
+			unset($inputData[$is_active_field]);
+		}
+
 		$instance = $this->repo->update($id, $inputData);
 		return $instance;
 	}
