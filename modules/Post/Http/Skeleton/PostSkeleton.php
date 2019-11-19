@@ -68,6 +68,21 @@ class PostSkeleton extends DataTable
 			->orderable(false)
 			->setImageDirPath(config('module-setting.post.upload_path'));
 
+		$this->structure[] = DataStructure::field('related[]')
+			->name('Related To')
+			->formColumn(12)
+			->inputType('select_multiple')
+			->dataSource(DataSource::model('post')->options('title', [
+				['is_active', '=', 1]
+			]))
+			->arraySource(function($data){
+				if($data->related->count() > 0){
+					return $data->related->pluck('id');
+				}
+				return [];
+			});
+				
+
 		$this->structure[] = DataStructure::switcher('is_active', 'Is Active', 12);
 		
 	}
@@ -93,6 +108,13 @@ class PostSkeleton extends DataTable
 			}
 		}
 
+		$related = '';
+		if($row->related->count() > 0){
+			foreach($row->related as $rel){
+				$related .= '<span class="badge badge-primary mb-1">'.$rel->title.'</span> ';
+			}
+		}
+
 		return [
             'id' => $this->checkerFormat($row),
 			'title' => $row->title,
@@ -100,6 +122,7 @@ class PostSkeleton extends DataTable
 			'category' => $category,
 			'tags' => $row->tags,
 			'image' => $row->imageThumbnail('image', 'thumb', 75),
+			'related' => $related,
 			'is_active' => $this->switcher($row, 'is_active', 'admin.'.$this->route.'.switch'),
 			'action' => self::editButton($row) . self::deleteButton($row)
 		];

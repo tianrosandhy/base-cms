@@ -8,6 +8,8 @@ class PostRelated extends Model
 {
 	use Resizeable;
 
+	public $table = 'post_relateds';
+
     protected $fillable = [
     ];
 

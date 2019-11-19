@@ -18,8 +18,36 @@ class PostController extends AdminBaseController implements WithRevision
 
 
 	public function afterCrud($instance){
-		if(is_array($this->request->category)){
-			$this->handleStoreCategory($instance, $this->request->category);
+		$cats = $this->request->category;
+		if(!$this->request->category){
+			$cats = [];
+		}
+		$this->handleStoreCategory($instance, $cats);
+
+		$rel = $this->request->related;
+		if(!$this->request->related){
+			$rel = [];
+		}
+		$this->handleStoreRelated($instance, $rel);
+	}
+
+	protected function handleStoreRelated($instance, $relateds=[]){
+		$relmodel = app(config('model.post_related'));
+		$check = $relmodel->where('post_id', $instance->id)->get();
+		foreach($relateds as $rel){
+			if($check->where('post_related_id', $instance->id)->count() == 0){
+				$relmodel->insert([
+					'post_id' => $instance->id,
+					'post_related_id' => $rel
+				]);
+			}
+		}
+
+		if(!empty($relateds)){
+			$relmodel->where('post_id', $instance->id)->whereNotIn('post_related_id', $relateds)->delete();
+		}
+		else{
+			$relmodel->where('post_id', $instance->id)->delete();
 		}
 	}
 
@@ -28,7 +56,7 @@ class PostController extends AdminBaseController implements WithRevision
 		$check = $catmodel->where('post_id', $instance->id)->get();
 		foreach($categories as $cat){
 			if($check->where('post_category_id', $cat)->count() == 0){
-				app(config('model.post_to_category'))->insert([
+				$catmodel->insert([
 					'post_id' => $instance->id,
 					'post_category_id' => $cat
 				]);
@@ -84,11 +112,28 @@ class PostController extends AdminBaseController implements WithRevision
 			$cat = '<div>'.$cat.'</div>';
 		}
 
+
+		$rel = '';
+		if(isset($data['related'])){
+			foreach($data['related'] as $c){
+				$rel .= '<span class="badge badge-primary mb-1">'.$c['title'].'</span> ';
+			}
+		}
+
+		if(strlen($rel) == 0){
+			$rel = '-';
+		}
+		else{
+			$rel = '<div>'.$rel.'</div>';
+		}
+
+
 		return [
 			'id' => $data['id'],
 			'Title' => $data['title'],
 			'Description' => descriptionMaker($data['description'], 10),
 			'Category' => $cat,
+			'Related Post' => $rel,
 			'Updated' => date('d M Y H:i:s', strtotime($data['updated_at']))
 		];
 	}
@@ -107,6 +152,10 @@ class PostController extends AdminBaseController implements WithRevision
 		if(isset($revision_data['category'])){
 			$cats = collect($revision_data['category'])->pluck('id')->toArray();
 			$this->handleStoreCategory($instance, $cats);
+		}
+		if(isset($revision_data['related'])){
+			$rels = collect($revision_data['related'])->pluck('id')->toArray();
+			$this->handleStoreRelated($instance, $rels);
 		}
 	}
 
