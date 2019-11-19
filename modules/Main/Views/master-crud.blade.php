@@ -115,7 +115,6 @@
 					<thead>
 						<tr>
 							<th>Rev. No</th>
-							<th>Last Update</th>
 							<th>Data</th>
 							<th></th>
 						</tr>
@@ -124,7 +123,6 @@
 						@foreach(collect($revisions)->sortKeysDesc() as $no => $data)
 						<tr>
 							<td>{{ $no }}</td>
-							<td>{{ isset($data['updated_at']) ? date('d M Y H:i:s', strtotime($data['updated_at'])) : '-' }}</td>
 							<td>
 								@foreach($data as $key => $value)
 									@if(in_array($key, ['id', 'created_at', 'is_active']))
@@ -132,7 +130,7 @@
 									@endif
 									@if(!empty($value))
 									<div class="mb-2">
-										<strong>{{ $key }}</strong> : {{ $value }}
+										<strong>{{ $key }}</strong> : {!! $value !!}
 									</div>
 									@endif
 								@endforeach

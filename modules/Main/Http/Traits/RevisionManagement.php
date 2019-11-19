@@ -5,13 +5,16 @@ trait RevisionManagement
 {
 	public function generateRevision($old_instance){
 		//in case mau menyimpan data revisi dalam struktur yang lebih rumit, old_instance bisa diolah dan ditambah2kan dalam format array dulu.
-		$revision_data = $old_instance->toArray();
+		$revision_data = $this->storeRevisionFormat($old_instance);
+		if(empty($revision_data)){
+			$revision_data = $old_instance->toArray();
+		}
 		$this->storeRevision($revision_data);
 	}
 
 	
 
-	public function getCurrentRevision($instance_id){
+	public function getCurrentRevision($instance_id, $reformat=true){
 		$table_name = $this->repo->model->getTable();
 		$grab = app(config('model.revision'))->where([
 			'table' => $table_name,
@@ -21,15 +24,20 @@ trait RevisionManagement
 		$out = [];
 		if($grab->count() > 0){
 			foreach($grab as $row){
-				$out[$row->revision_no] = $this->reformatRevision(json_decode($row->revision_data, true));
+				if($reformat){
+					$out[$row->revision_no] = $this->reformatRevision(json_decode($row->revision_data, true));
+				}
+				else{
+					$out[$row->revision_no] = json_decode($row->revision_data, true);
+				}
 			}
 		}
 
 		return $out;
 	}
 
-	public function getRevisionNo($instance_id, $revision_id){
-		$lists = $this->getCurrentRevision($instance_id);
+	public function getRevisionNo($instance_id, $revision_id, $reformat=true){
+		$lists = $this->getCurrentRevision($instance_id, $reformat);
 		if(isset($lists[$revision_id])){
 			return $lists[$revision_id];
 		}
@@ -68,7 +76,7 @@ trait RevisionManagement
 
 
 	public function restoreRevision($id, $revision_no=0){
-		$grab = $this->getRevisionNo($id, $revision_no);
+		$grab = $this->getRevisionNo($id, $revision_no, false);
 		$old_instance = $this->repo->show($id);
 		if(!empty($grab) && !empty($old_instance)){
 			//set old instance jadi revisi

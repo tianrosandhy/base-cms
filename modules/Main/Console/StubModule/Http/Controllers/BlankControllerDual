@@ -34,6 +34,10 @@ class BlankController extends AdminBaseController implements WithRevision
 	}
 
 
+	//untuk override store format. default : by struktur model
+	public function storeRevisionFormat($instance){
+		return null;
+	}
 
 	//manage revision shown fields
 	public function reformatRevision($data=[]){

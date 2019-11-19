@@ -290,6 +290,10 @@ DATA =>
                     }
                 }
 
+                if($oldVal instanceof \Illuminate\Database\Eloquent\Collection || $oldVal instanceof \Illuminate\Support\Collection){
+                    $oldVal = $oldVal->toArray();
+                }
+
                 $source = isset($input->data_source->output) ? $input->data_source->output : $input->data_source;
                 foreach($source as $idd => $vall){
                     $out .= '<option value="'.$idd.'" '. (in_array($idd, $oldVal) ? 'selected' : '') .'>'.$vall.'</option>';

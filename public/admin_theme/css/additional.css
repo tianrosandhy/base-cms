@@ -644,7 +644,6 @@ ul.nav{
 .custom-form-group .select2-container--default .select2-selection--single, .custom-form-group .select2-container--default .select2-selection--multiple, .custom-form-group .select2-container{
 	border:none;
 	background:transparent;
-	padding:.5em;
 }
 
 .custom-form-group .feedback{
@@ -859,4 +858,9 @@ label.mandatory::after{
 
 .select2-container--default .select2-selection--single{
 	border:none;
+}
+
+.bootstrap-tagsinput{
+	height:3em;
+	padding:.5em;
 }
