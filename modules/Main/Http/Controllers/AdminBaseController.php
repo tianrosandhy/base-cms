@@ -95,15 +95,6 @@ class AdminBaseController extends Controller
 		//
 	}
 
-	public function defaultRiskManagementAfterCrud($instance){
-		//user stamps
-		if(empty($instance->CreatedBy)){
-			$instance->CreatedBy = $this->currentUser()->id;
-		}
-		$instance->ModifiedBy = $this->currentUser()->id;
-		$instance->save();
-		return $instance;
-	}
 
 	public function storeLanguage($instance=[]){
 		if(empty($instance)){

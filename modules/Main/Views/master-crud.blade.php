@@ -25,7 +25,16 @@
 <h3 class="display-4 mb-3">{{ $title }}</h3>
 @if(!request()->ajax())
 <div class="padd">
-	<a href="{{ url()->route($back) }}" class="btn btn-sm btn-default btn-secondary">&laquo; Back</a>
+	<div class="pull-left">
+		<a href="{{ url()->route($back) }}" class="btn btn-sm btn-default btn-secondary">&laquo; Back</a>	
+	</div>
+	
+	@if(isset($revisions))
+	<div class="pull-right">
+		<a href="#revisionModal" {!! count($revisions) > 0 ? '' : 'disabled' !!} data-toggle="modal" data-target="#revisionModal" class="btn btn-primary {!! count($revisions) > 0 ? '' : 'disabled' !!} btn-manage-revision">Manage Revisions</a>
+	</div>
+	@endif
+	<div class="clearfix"></div>
 </div>
 @endif
 
@@ -93,10 +102,59 @@
 	</div>
 </form>
 
+@if(isset($revisions))
+<div class="modal fade fill-in" id="revisionModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<button type="button" class="modal-custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<div class="modal-dialog ">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="text-left p-b-5 default-modal-title">Manage Revisions</h5>
+			</div>
+			<div class="modal-body default-modal-content">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Rev. No</th>
+							<th>Last Update</th>
+							<th>Data</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach(collect($revisions)->sortKeysDesc() as $no => $data)
+						<tr>
+							<td>{{ $no }}</td>
+							<td>{{ isset($data['updated_at']) ? date('d M Y H:i:s', strtotime($data['updated_at'])) : '-' }}</td>
+							<td>
+								@foreach($data as $key => $value)
+									@if(in_array($key, ['id', 'created_at', 'is_active']))
+										@continue;
+									@endif
+									@if(!empty($value))
+									<div class="mb-2">
+										<strong>{{ $key }}</strong> : {{ $value }}
+									</div>
+									@endif
+								@endforeach
+							</td>
+							<td>
+								<a href="{{ route('admin.'.$hint.'.revision', ['id' => $data['id'], 'rev' => $no]) }}" class="btn btn-secondary">Restore to this version</a>
+							</td>
+						</tr>
+						@endforeach
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+@endif
+
 @stop
 
 @push ('script')
 <script>
+var draft_interval;
 $(function(){
 	$('.radio-box').each(function(){
 		setFormGroupBg($(this).find('input:checked'));
@@ -125,9 +183,9 @@ $(function(){
 		saveAsDraft();
 	});
 
-	setInterval(function(){
+	draft_interval = setInterval(function(){
 		saveAsDraft();
-	}, 10000);
+	}, 20000);
 });
 
 function saveAsDraft(){
@@ -145,7 +203,8 @@ function saveAsDraft(){
 			}
 		},
 		error : function(resp){
-
+			//kalo error, gausa jalanin lagi
+			clearInterval(draft_interval);
 		}
 	});
 }

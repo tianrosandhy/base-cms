@@ -5,7 +5,7 @@ return [
 		'menu' => [
 			'Blanks' => [
 				'route' => 'admin.blank.index',
-				'icon' => '',
+				'icon' => 'fa fa-check-circle',
 				'sort' => 0
 			],
 		],

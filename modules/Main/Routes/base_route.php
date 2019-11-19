@@ -10,4 +10,5 @@ if(isset($bs_url) && isset($bs_controller) && isset($bs_route)){
 	Route::get($bs_url.'/{id}', $bs_controller.'@edit')->name('admin.'.$bs_route.'.edit');
 	Route::post($bs_url.'/{id}', $bs_controller.'@update')->name('admin.'.$bs_route.'.update');
 	Route::post($bs_url.'/delete/{id}', $bs_controller.'@delete')->name('admin.'.$bs_route.'.delete');
+	Route::get($bs_url.'/revision/{id}/{rev}', $bs_controller.'@restoreRevision')->name('admin.'.$bs_route.'.revision');
 }

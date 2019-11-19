@@ -1,8 +1,11 @@
 <?php
 namespace Module\Main\Http\Traits;
 
+use Module\Main\Contracts\WithRevision;
+
 trait BasicCrud
 {
+	use RevisionManagement;
 
 	public function prependIndex(){
 		return '';
@@ -87,9 +90,6 @@ trait BasicCrud
 		$back = 'admin.'.$this->hint().'.index'; //back url
 		$multi_language = isset($this->multi_language) ? $this->multi_language : false;
 		$additional_field = $this->additionalField();
-		if(method_exists($this, 'additionalAcceptField')){
-			$additional_field .= $this->additionalAcceptField();
-		}
 
 		$prepend_field = $this->prependField();
 		$seo = '';
@@ -122,9 +122,6 @@ trait BasicCrud
 
 		//multiple values / relational type can be freely managed here
 		$this->afterCrud($instance);
-		if(method_exists($this, 'afterCrudAccept')){
-			$this->afterCrudAccept($instance);
-		}
 		if(method_exists($this, 'storeSeo')){
 			$this->storeSeo($instance);
 		}
@@ -174,6 +171,7 @@ trait BasicCrud
 		$title = self::usedLang('edit.title');
 		$forms = $this->skeleton();
 		$back = 'admin.'.$this->hint().'.index';
+		$hint = $this->hint();
 
 		$used_plugin = $this->getUsedPlugin($forms->structure);
 
@@ -187,13 +185,16 @@ trait BasicCrud
 		$multi_language = isset($this->multi_language) ? $this->multi_language : false;
 		$prepend_field = $this->prependField($data);
 		$additional_field = $this->additionalField($data);
-		if(method_exists($this, 'additionalAcceptField')){
-			$additional_field .= $this->additionalAcceptField($data);
-		}
 
 		$seo = '';
 		if(method_exists($this, 'seoFields')){
 			$seo = $this->seoFields($data);
+		}
+
+
+		if($this instanceof WithRevision){
+			//grab revision data
+			$revisions = $this->getCurrentRevision($id);
 		}
 
 		return view(config('module-setting.'.$this->hint().'.view.edit', 'main::master-crud'), compact(
@@ -205,7 +206,9 @@ trait BasicCrud
 			'prepend_field',
 			'additional_field',
 			'seo',
-			'used_plugin'
+			'used_plugin',
+			'revisions',
+			'hint'
 		));
 	}
 
@@ -222,9 +225,19 @@ trait BasicCrud
 
 
 		//gausa force draft kalo udah aktif
-		if($this->request->force_draft && $show->is_active > 0){
+		if($this->request->force_draft){
 			exit();
 		}
+
+
+		//ga perlu dijalankan dalam draft mode
+		if(!$this->request->force_draft){
+			//create revision before run the update
+			if($this instanceof WithRevision){
+				$this->generateRevision($show);
+			}
+		}
+
 
 		//multiple values / relational type input is not processed here
 		$instance = $this->updateQuery($id);
@@ -234,9 +247,6 @@ trait BasicCrud
 		}
 		//multiple values / relational type can be freely managed here
 		$this->afterCrud($instance);
-		if(method_exists($this, 'afterCrudAccept')){
-			$this->afterCrudAccept($instance);
-		}
 
 		if($this->multi_language){
 			$this->storeLanguage($instance);
