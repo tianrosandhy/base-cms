@@ -11,4 +11,17 @@ class PostComment extends Model
     protected $fillable = [
     ];
 
+
+    public function post(){
+    	return $this->belongsTo('Module\Post\Models\Post');
+    }
+
+    public function parent(){
+    	return $this->belongsTo('Module\Post\Models\PostComment', 'reply_to');
+    }
+
+    public function child(){
+    	return $this->hasMany('Module\Post\Models\PostComment', 'reply_to');
+    }
+
 }

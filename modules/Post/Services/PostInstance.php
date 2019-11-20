@@ -15,6 +15,74 @@ class PostInstance extends BaseInstance
 
 
 
+	public function structure(){
+		if($this->data){
+			$out = $this->data->toArray();
+			$out['category'] = [];
+			$out['related'] = [];
+			$out['likes'] = [];
+
+			$out['image'] = $this->data->getThumbnailUrl('image', 'large');
+
+			$tags = explode(',', $this->data->tags);
+			$out['tags'] = $tags;
+			foreach($this->data->category as $cat){
+				$out['category'][$cat->id] = [
+					'id' => $cat->id,
+					'name' => $cat->name,
+					'slug' => $cat->slug,
+				];
+			}
+			
+			foreach($this->data->likes as $li){
+				$out['likes'][$li->id] = [
+					'id' => $li->id,
+					'ip' => $li->ip,
+					'user_id' => $li->user_id,
+				];
+			}
+			
+			return $out;
+		}
+		else{
+			throw new InstanceException(($this->getMessage('NO_DATA_DEFINED')));
+		}
+	}
+
+
+	public function comment($data=[], $as_admin=false){
+		if($this->data){
+			if($as_admin){
+				$data['name'] = 'Administrator';
+				$data['email'] = setting('site.email', 'admin@localhost');
+				$data['phone'] = setting('site.phone');
+				$data['is_admin_reply'] = 1;
+				$data['is_active'] = 1;
+			}
+			else{
+				$data['is_admin_reply'] = null;
+				$data['is_active'] = 0;
+			}
+
+			$com = app(config('model.post_comment'));
+			$com->post_id = $this->data->id;
+			foreach($data as $fld => $val){
+				$com->{$fld} = $val;
+			}
+			try{
+				$com->save();
+			}catch(\Exception $e){
+				throw new InstanceException($this->getMessage('SAVE_FAILED'));
+			}
+
+			return $com;
+		}
+		else{
+			throw new InstanceException($this->getMessage('NO_DATA_DEFINED'));
+		}
+	}
+
+
 	//custom handler for post only instance
 	public function like(){
 		if($this->data){

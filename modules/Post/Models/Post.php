@@ -23,4 +23,8 @@ class Post extends Model
     	return $this->hasMany('Module\Post\Models\PostLike');
     }
 
+    public function comment(){
+        return $this->hasMany('Module\Post\Models\PostComment');
+    }
+
 }

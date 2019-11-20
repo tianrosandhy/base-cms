@@ -6,6 +6,7 @@ use Module\Main\Http\Controllers\AdminBaseController;
 use Module\Post\Http\Skeleton\PostSkeleton;
 use Module\Main\Transformer\Exportable;
 use Module\Main\Contracts\WithRevision;
+use PostInstance;
 
 class PostController extends AdminBaseController implements WithRevision
 {
@@ -14,6 +15,54 @@ class PostController extends AdminBaseController implements WithRevision
 
 	public function repo(){
 		return $this->hint;
+	}
+
+	public function skeleton(){
+		return new PostSkeleton;
+	}
+
+	public function image_field(){
+		return ['image'];
+	}
+
+
+	public function detail($id){
+		$data = $this->repo->show($id);
+		if(empty($data)){
+			abort(404);
+		}
+		$title = $data->title;
+		$structure = PostInstance::setData($data)->structure();
+		return view('post::detail', compact(
+			'title',
+			'data',
+			'structure'
+		));
+	}
+
+	public function comment($id){
+		$data = $this->repo->show($id);
+		if(empty($data)){
+			abort(404);
+		}
+
+		$this->request->validate([
+			'message' => 'required'
+		], [
+			'message.required' => 'Please fill the message'
+		]);
+
+		//karena ini route admin, jadi comment semuanya as admin ya..
+		$pass = [
+			'message' => $this->request->message
+		];
+
+		if($this->request->reply_to){
+			$pass['reply_to'] = $this->request->reply_to;
+		}
+
+		PostInstance::setData($data)->comment($pass, true);
+		return back()->with('success', 'Comment data has been saved.');
 	}
 
 
@@ -159,17 +208,5 @@ class PostController extends AdminBaseController implements WithRevision
 		}
 	}
 
-
-	public function skeleton(){
-		return new PostSkeleton;
-	}
-
-	public function afterValidation($mode='create'){
-
-	}
-
-	public function image_field(){
-		return ['image'];
-	}
 
 }
