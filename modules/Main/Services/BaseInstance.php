@@ -2,13 +2,18 @@
 namespace Module\Main\Services;
 
 use Module\Main\Http\Repository\CrudRepository;
+use Illuminate\Database\Eloquent\Model;
+use Module\Main\Exceptions\InstanceException;
 
 class BaseInstance
 {
 	public 
 		$request, 
 		$model,
-		$initial;
+		$initial,
+		$data;
+
+	protected $message;
 
 	public function __construct($initial=''){
 		$this->request = request();
@@ -16,6 +21,11 @@ class BaseInstance
 		if($initial){
 			$this->setModel($initial);
 		}
+		$this->data = null;
+		$this->message = [
+			'NO_DATA_DEFINED' => 'You must set the data first before update the instance',
+			'SAVE_FAILED' => 'Failed to save the data'
+		];
 	}
 
 	public function setModel($initial=''){
@@ -38,6 +48,82 @@ class BaseInstance
 
 	public function filter($rule=[]){
 		return (new CrudRepository($this->initial))->filter($filter);
+	}
+
+	public function get($id, $pk='id'){
+		return (new CrudRepository($this->initial))->show($id, $pk);
+	}
+
+
+	public function setData($var){
+		if($var instanceof Model){
+			$this->data = $var;
+		}
+		else if(is_numeric($var)){
+			$this->data = $this->model->find($var);
+		}
+
+		return $this;
+	}
+
+
+	public function insert($param=[], $strict=false){
+		//proses insert dan update itu sebenarnya sama.. hanya saja insert membuat variabel $data jd kosong dulu
+		$this->data = $this->model;
+		$this->update($param, $strict);
+	}
+
+
+	//method dibawah ini by default hanya boleh dipakai kalau ada $this->data
+	public function update($param=[], $strict=false){
+		if($this->data){
+			$listing = $this->modelTableListing();
+
+			foreach($param as $field => $value){
+				if(in_array($field, $listing)){
+					$this->data->{$field} = $value;
+				}
+				else{
+					//bisa throw exception juga kalo mau
+					if($strict){
+						throw new InstanceException('Unknown field name ' . $field .' in update lists');
+					}
+				}
+			}
+			try{
+				$this->data->save();
+			}catch(\Exception $e){
+				throw new InstanceException($this->message['SAVE_FAILED']);
+			}
+			return $this;
+		}
+		else{
+			throw new InstanceException($this->message['NO_DATA_DEFINED']);
+		}
+	}
+
+	public function delete($strict=false, $is_active_field='is_active'){
+		if($this->data){
+			if($strict){
+				//hard delete
+				$this->data->delete();
+				$this->data = null;
+			}
+			else{
+				//set is active to 9
+				$this->data->update([
+					$is_active_field => 9
+				]);
+			}
+			return $this;
+		}
+		else{
+			throw new InstanceException($this->message['NO_DATA_DEFINED']);
+		}
+	}
+
+	protected function modelTableListing(){
+        return $this->model->getConnection()->getSchemaBuilder()->getColumnListing($this->model->getTable());
 	}
 
 }
