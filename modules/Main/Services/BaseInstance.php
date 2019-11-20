@@ -24,7 +24,8 @@ class BaseInstance
 		$this->data = null;
 		$this->message = [
 			'NO_DATA_DEFINED' => 'You must set the data first before update the instance',
-			'SAVE_FAILED' => 'Failed to save the data'
+			'SAVE_FAILED' => 'Failed to save the data',
+			'UNKNOWN_FIELD' => 'Unknown field name {field} in update lists',
 		];
 	}
 
@@ -86,19 +87,19 @@ class BaseInstance
 				else{
 					//bisa throw exception juga kalo mau
 					if($strict){
-						throw new InstanceException('Unknown field name ' . $field .' in update lists');
+						throw new InstanceException($this->getMessage('UNKNOWN_FIELD', ['field' => $field]));
 					}
 				}
 			}
 			try{
 				$this->data->save();
 			}catch(\Exception $e){
-				throw new InstanceException($this->message['SAVE_FAILED']);
+				throw new InstanceException($this->getMessage('SAVE_FAILED'));
 			}
 			return $this;
 		}
 		else{
-			throw new InstanceException($this->message['NO_DATA_DEFINED']);
+			throw new InstanceException($this->getMessage('NO_DATA_DEFINED'));
 		}
 	}
 
@@ -124,6 +125,21 @@ class BaseInstance
 
 	protected function modelTableListing(){
         return $this->model->getConnection()->getSchemaBuilder()->getColumnListing($this->model->getTable());
+	}
+
+	public function getMessage($name, $var=[]){
+		if(isset($this->message[$name])){
+			$msg = $this->message[$name];
+
+			if(!empty($var)){
+				foreach($var as $key => $alias){
+					$msg = str_replace('{'.$key.'}', $alias, $msg);
+				}
+			}
+
+			return $msg;
+		}
+		return null;
 	}
 
 }

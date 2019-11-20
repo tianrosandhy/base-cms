@@ -19,4 +19,8 @@ class Post extends Model
     	return $this->belongsToMany('Module\Post\Models\Post', 'post_relateds', 'post_id', 'post_related_id');
     }
 
+    public function likes(){
+    	return $this->hasMany('Module\Post\Models\PostLike');
+    }
+
 }

@@ -81,7 +81,11 @@ class PostSkeleton extends DataTable
 				}
 				return [];
 			});
-				
+		
+		$this->structure[] = DataStructure::field('like')
+			->name('Like')
+			->searchable(false)
+			->hideForm();
 
 		$this->structure[] = DataStructure::switcher('is_active', 'Is Active', 12);
 		
@@ -123,6 +127,7 @@ class PostSkeleton extends DataTable
 			'tags' => $row->tags,
 			'image' => $row->imageThumbnail('image', 'thumb', 75),
 			'related' => $related,
+			'like' => $row->likes->count() . ($row->likes->count() == 0 ? ' <span class="fa fa-heart-o text-danger"></span>' : ' <span class="fa fa-heart text-danger"></span>'),
 			'is_active' => $this->switcher($row, 'is_active', 'admin.'.$this->route.'.switch'),
 			'action' => self::editButton($row) . self::deleteButton($row)
 		];
