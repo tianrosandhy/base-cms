@@ -4,6 +4,7 @@ namespace Module\Post;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Module\Main\BaseServiceProvider;
+use Illuminate\Foundation\AliasLoader;
 
 class PostServiceProvider extends BaseServiceProvider
 {
@@ -46,6 +47,22 @@ class PostServiceProvider extends BaseServiceProvider
 	    $this->mergeConfigFrom(
 	        __DIR__.'/Config/module-setting.php', 'module-setting'
 	    );
+
+	    $this->registerAlias();
+	}
+
+	protected function registerAlias(){
+		$this->app->bind('post-facade', function ($app) {
+            return new Services\PostInstance($app);
+        });
+
+        $aliasData = [
+	        'PostInstance' => \Module\Post\Facades\PostFacade::class,
+        ];
+
+        foreach($aliasData as $al => $src){
+        	AliasLoader::getInstance()->alias($al, $src);
+        }
 	}
 
 
