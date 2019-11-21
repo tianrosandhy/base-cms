@@ -100,70 +100,33 @@
 <a href="{{ route('admin.navigation.index') }}" class="btn btn-sm btn-secondary">Back</a>
 
 <div class="card card-body mt-3 nav-holder">
-<?php
-$dummy = [
-	'Home' => [
-		'id' => 1,
-		'url' => url('home'),
-	],
-	'Products' => [
-		'id' => 2,
-		'url' => '#',
-		'submenu' => [
-			'Category 1' => [
-				'id' => 3,
-				'url' => url('category-1')
-			],
-			'Category 2' => [
-				'id' => 4,
-				'url' => url('category-1')
-			],
-			'Category 3' => [
-				'id' => 5,
-				'url' => url('category-1'),
-				'submenu' => [
-					'Level Terakhir Nui' => [
-						'id' => 7,
-						'url' => url('ehehe')
-					],
-					'Level Terakhir Lagi' => [
-						'id' => 8,
-						'url' => url('fak')
-					],
+	
+	<a href="#" class="btn btn-primary mb-3"><i class="fa fa-plus"></i> Add New Menu</a>
 
-				]
-			],
-		]
-	],
-	'Contact Us' => [
-		'id' => 6,
-		'url' => url('contact')
-	]
-];
-?>
+	@if(!empty($structure))
+		<small class="text-mute text-info">
+			<em>Click and drag left handle to reorder</em>
+		</small>
+	    <div class="dd nav-nestable" data-group="{{ $data->id }}" data-level="{{ intval($data->max_level) + 1 }}">
+	        <ol class="dd-list">
+	        	@foreach($structure as $label => $list)
+	                @include ('navigation::partials.nav-handle', [
+	                	'label' => $label,
+	                	'list' => $list,
+	                	'max_level' => $data->max_level,
+	                	'current_level' => 0
+	                ])
+	            @endforeach
+	        </ol>
+	    </div>
+	    <input type="hidden" readonly name="order-data" data-group="{{ $data->id }}">
 
-	<small class="text-mute text-info">
-		<em>Click and drag left handle to reorder</em>
-	</small>
-    <div class="dd nav-nestable" data-group="{{ $data->id }}" data-level="{{ intval($data->max_level) + 1 }}">
-        <ol class="dd-list">
-        	@foreach($dummy as $label => $list)
-                @include ('navigation::partials.nav-handle', [
-                	'label' => $label,
-                	'list' => $list,
-                	'max_level' => $data->max_level,
-                	'current_level' => 0
-                ])
-            @endforeach
-        </ol>
-    </div>
-    <input type="hidden" readonly name="order-data" data-group="{{ $data->id }}">
-
-    <div class="padd reorder-btn" style="display:none;" data-group="{{ $data->id }}">
-    	<div href="#" data-group="{{ $data->id }}" class="btn btn-primary">Save Order Data</div>
-    </div>
-
-
+	    <div class="padd reorder-btn" style="display:none;" data-group="{{ $data->id }}">
+	    	<div href="#" data-group="{{ $data->id }}" class="btn btn-primary">Save Order Data</div>
+	    </div>
+	@else
+		<div class="alert alert-warning">No navigation item data yet. Click [Add Menu] button above to start create new menu in <strong>{{ $data->group_name }}</strong></div>
+	@endif
 </div>
 @stop
 

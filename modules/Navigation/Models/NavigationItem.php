@@ -11,4 +11,7 @@ class NavigationItem extends Model
     protected $fillable = [
     ];
 
+    public function children(){
+    	return $this->hasMany('Module\Navigation\Models\NavigationItem', 'parent');
+    }
 }

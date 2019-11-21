@@ -5,6 +5,7 @@ use Module\Main\Http\Repository\CrudRepository;
 use Module\Main\Http\Controllers\AdminBaseController;
 use Module\Navigation\Http\Skeleton\NavigationSkeleton;
 use Module\Main\Transformer\Exportable;
+use NavigationInstance;
 
 class NavigationController extends AdminBaseController
 {
@@ -28,9 +29,12 @@ class NavigationController extends AdminBaseController
 			abort(404);
 		}
 
+		$structure = NavigationInstance::setData($data)->generateStructure();
+
 		return view('navigation::manage', compact(
 			'title',
-			'data'
+			'data',
+			'structure'
 		));
 	}
 

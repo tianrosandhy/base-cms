@@ -11,4 +11,8 @@ class Navigation extends Model
     protected $fillable = [
     ];
 
+    public function lists(){
+    	return $this->hasMany('Module\Navigation\Models\NavigationItem', 'group_id');
+    }
+
 }
