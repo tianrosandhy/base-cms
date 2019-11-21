@@ -93,6 +93,9 @@ class ModuleScaffold extends Command
 
             rename($module_dir .'/Migrations/2018_08_25_000000_blank.php', $module_dir .'/Migrations/2018_08_25_000000_'.$hint.'.php');
             rename($module_dir .'/Models/Blank.php', $module_dir .'/Models/'.$name.'.php');
+            rename($module_dir .'/Exceptions/BlankException.php', $module_dir .'/Exceptions/'.$name.'Exception.php');
+            rename($module_dir .'/Facades/BlankFacade.php', $module_dir .'/Facades/'.$name.'Facade.php');
+            rename($module_dir .'/Services/BlankInstance.php', $module_dir .'/Services/'.$name.'Instance.php');
 
 
             //rename file content
@@ -108,6 +111,9 @@ class ModuleScaffold extends Command
             self::changeContent($module_dir .'/Config/permission.php');
             self::changeContent($module_dir .'/Config/module-setting.php');
             self::changeContent($module_dir .'/Models/'.$name.'.php');
+            self::changeContent($module_dir .'/Exceptions/'.$name.'Exception.php');
+            self::changeContent($module_dir .'/Facades/'.$name.'Facade.php');
+            self::changeContent($module_dir .'/Services/'.$name.'Instance.php');
 
             $this->info('New module has been created for you. Now you just need to register the service provider (in config/modules.php or in config/app.php) , manage migration, manage the model and skeleton.');
         }

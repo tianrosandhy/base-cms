@@ -1,13 +1,13 @@
 <?php
-namespace Module\Blank\Facades;
+namespace Module\Navigation\Facades;
 use Illuminate\Support\Facades\Facade;
 /**
  * @see \Illuminate\Foundation\Application
  */
-class BlankFacade extends Facade
+class NavigationFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'blank-facade';
+        return 'navigation-facade';
     }
 }
