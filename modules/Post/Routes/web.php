@@ -6,3 +6,4 @@ Route::post('post/comment/{id}', 'PostController@comment')->name('admin.post.com
 
 
 generateAdminRoute('post_category', 'PostCategoryController', 'post_category');
+generateAdminRoute('post_comment', 'PostCommentController', 'post_comment');

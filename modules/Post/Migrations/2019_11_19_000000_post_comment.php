@@ -21,6 +21,7 @@ class PostComment extends Migration
             $table->string('phone')->nullable();
             $table->text('message')->nullable();
             $table->integer('reply_to')->nullable();
+            $table->tinyinteger('is_spam')->nullable();
             $table->integer('is_admin_reply')->nullable();
             $table->tinyinteger('is_active')->nullable();
             $table->timestamps();

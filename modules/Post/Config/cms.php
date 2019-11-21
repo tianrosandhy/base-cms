@@ -13,6 +13,9 @@ return [
 					'Posts Data' => [
 						'route' => 'admin.post.index',
 					],
+					'Post Comments' => [
+						'route' => 'admin.post_comment.index'
+					],
 				]
 			],
 		],

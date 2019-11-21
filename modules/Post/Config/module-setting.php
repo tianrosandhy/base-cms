@@ -37,4 +37,23 @@ return [
 			'edit' => 'main::master-crud',
 		],
 	],
+
+	'post_comment' => [
+		'upload_path' => 'post',
+		'export_excel' => false,
+		'lang_data' => [
+			'index.title' => 'Comment Data',
+			'create.title' => 'Add New Comment',
+			'edit.title' => 'Edit Comment Data',
+
+			'store.success' => 'Comment data has been saved',
+			'update.success' => 'Comment data has been updated',
+			'delete.success' => 'Comment data has been deleted',
+		],
+		'view' => [
+			'index' => 'main::master-table',
+			'create' => 'main::master-crud',
+			'edit' => 'main::master-crud',
+		],
+	],
 ];
