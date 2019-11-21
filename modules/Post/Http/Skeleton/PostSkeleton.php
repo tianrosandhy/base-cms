@@ -121,16 +121,29 @@ class PostSkeleton extends DataTable
 
 		return [
             'id' => $this->checkerFormat($row),
-			'title' => '<a href="'.route('admin.post.detail', ['id' => $row->id]).'">'.$row->title.'</a>',
-			'slug' => '<a href="'.route('admin.post.detail', ['id' => $row->id]).'">'.$row->slug.'</a>',
+			'title' => '<a class="text-black" style="display:block;" href="'.route('admin.post.detail', ['id' => $row->id]).'">'.$row->title.'</a>',
+			'slug' => '<a class="text-black" style="display:block;" href="'.route('admin.post.detail', ['id' => $row->id]).'">'.$row->slug.'</a>',
 			'category' => $category,
 			'tags' => $row->tags,
 			'image' => $row->imageThumbnail('image', 'thumb', 75),
 			'related' => $related,
 			'like' => $row->likes->count() . ($row->likes->count() == 0 ? ' <span class="fa fa-heart-o text-danger"></span>' : ' <span class="fa fa-heart text-danger"></span>'),
 			'is_active' => $this->switcher($row, 'is_active', 'admin.'.$this->route.'.switch'),
-			'action' => self::editButton($row) . self::deleteButton($row)
+			'action' => self::detailButton($row) . self::editButton($row) . self::deleteButton($row)
 		];
+	}
+
+	protected function detailButton($row){
+		if(has_access('admin.'.$this->route.'.detail')){
+			return $this->actionButton(
+				'Detail', 
+				url()->route('admin.'.$this->route.'.detail', ['id' => $row->id]), 
+				[
+					'class' => ['btn', 'btn-sm', 'btn-secondary detail-btn'],
+					'data-id' => $row->id
+				]
+			);
+		}
 	}
 
 	protected function editButton($row){

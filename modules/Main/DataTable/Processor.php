@@ -40,7 +40,30 @@ class Processor
 		foreach($this->raw_data as $row){
             $rf = $this->rowFormat($row);
             if(!empty($rf)){
-                $out[] = $rf;
+            	$tmp = [];
+            	$i = 0;
+
+            	$arval = array_values($rf);
+            	if(strpos($arval[0], 'multichecker_datatable') !== false){
+            		$btn_pos = 1;
+            	}
+            	else{
+            		$btn_pos = 0;
+            	}
+
+            	foreach($rf as $key => $value){
+        			$tmp[$key] = $value;
+            		if($i == $btn_pos){ //action button selalu dimunculkan di kolom kedua
+            			if(isset($rf['action'])){
+	            			$tmp[$key] .= '<div class="action-buttons" style="min-width:250px;">'.$rf['action'].'</div>';
+            			}
+            		}
+            		if($key == 'action'){
+            			$tmp[$key] = '';
+            		}
+            		$i++;
+            	}
+                $out[] = $tmp;
             }
 		}
 

@@ -864,3 +864,11 @@ label.mandatory::after{
 	height:3em;
 	padding:.5em;
 }
+
+
+.action-buttons{
+	padding-top:.75em;
+}
+.action-buttons .btn{
+	padding:.25em .75em!important;
+}
