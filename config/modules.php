@@ -3,5 +3,6 @@
 return [
 	'load' => [
 		\Module\Post\PostServiceProvider::class,
+		\Module\Page\PageServiceProvider::class,
 	],
 ];
