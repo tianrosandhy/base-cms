@@ -18,12 +18,11 @@ class NavigationProcessor
 
 	protected function generateTypeConfig(){
 		$typelist = config('module-setting.navigation.action_type');
-		if(isset($typelist[$this->post['type']])){
-			$used = $this->post['type'];
-		}
-		else{
-			//fallback
-			$used = 'no action';
+		$used = 'no action';
+		if(isset($this->post['type'])){
+			if(isset($typelist[$this->post['type']])){
+				$used = $this->post['type'];
+			}
 		}
 
 		$this->config = $typelist[$used];
@@ -111,6 +110,24 @@ class NavigationProcessor
 		else{
 			//ini cuma berlaku saat insert aja
 			$this->stored['sort_no'] = 999;
+		}
+	}
+
+
+
+
+
+	public function reorderData($row, $iteration=1, $parent=null){
+		$instance = app(config('model.navigation_item'))->find($row['id']);
+		$instance->sort_no = $iteration;
+		$instance->parent = $parent;
+		$instance->save();
+
+		if(isset($row['children'])){
+			$iter = 1;
+			foreach($row['children'] as $child){
+				$this->reorderData($child, $iter++, $row['id']);
+			}
 		}
 	}
 

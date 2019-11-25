@@ -23,6 +23,29 @@ class NavigationController extends AdminBaseController
 		return new NavigationSkeleton;
 	}
 
+	public function reorder($id){
+		$data = $this->repo->show($id);
+		if(empty($data)){
+			abort(404);
+		}
+
+		$order_data = json_decode($this->request->data, true);
+		if(!$order_data){
+			abort(400);
+		}
+
+		$iteration = 1;
+		foreach($order_data as $row){
+			$processor = new NavigationProcessor($this->request);
+			$processor->reorderData($row, $iteration++);
+		}
+
+		return [
+			'type' => 'success',
+			'message' => 'Reorder finish'
+		];
+	}
+
 	public function refresh($id){
 		$data = $this->repo->show($id);
 		if(empty($data)){

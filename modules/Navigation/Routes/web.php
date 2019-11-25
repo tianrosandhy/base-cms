@@ -6,3 +6,4 @@ Route::get('navigation/manage/{id}', 'NavigationController@manage')->name('admin
 Route::post('navigation/manage/{id}', 'NavigationController@storeManaged')->name('admin.navigation_item.store');
 Route::get('navigation-form/{id}', 'NavigationController@getEditForm')->name('admin.navigation_item.edit');
 Route::post('navigation-item/delete/{id}', 'NavigationController@deleteItem')->name('admin.navigation_item.delete');
+Route::post('navigation-item/reorder/{id}', 'NavigationController@reorder')->name('admin.navigation_item.reorder');

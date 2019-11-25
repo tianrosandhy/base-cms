@@ -55,6 +55,29 @@ $(function(){
 		});
 	});
 
+	$(document).on('click', '.reorder-btn', function(){
+		reorder_data = window.JSON.stringify($(".nav-nestable").nestable('serialize'));
+		$("#page-loader").show();
+		$.ajax({
+			url : window.BASE_URL + '/navigation-item/reorder/{{ $id }}',
+			type : 'POST',
+			dataType : 'json',
+			data : {
+				_token : window.CSRF_TOKEN,
+				data : reorder_data
+			},
+			success : function(resp){
+				toggleSuccess();
+				$(".reorder-btn").slideUp();
+				refreshNestable();
+			},
+			error : function(resp){
+				$("#page-loader").hide();
+				swal('error', ['Sorry, we cannot reorder the data right now. Please try again later']);
+			}
+		});
+	});
+
 	initAfterLoadModal();
 
 });
