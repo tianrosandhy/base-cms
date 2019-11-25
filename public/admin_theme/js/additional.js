@@ -12,7 +12,12 @@ $(function(){
 		delete_url = $(this).attr('href');
 		delete_url = delete_url || $(this).attr('data-target');
 		removedDiv = $(this).closest('.close-target');
-		deletePrompt(delete_url);
+		if($(this).attr('data-callback')){
+			deletePrompt(delete_url, $(this).attr('data-callback'));
+		}
+		else{
+			deletePrompt(delete_url);
+		}
 	});
 
 	$(".site-sidebar li.active").closest('li:not(.active)').addClass('active show').find('.collapse').addClass('show active'); 
@@ -237,13 +242,19 @@ function error_handling(resp){
 
 
 
-function deletePrompt(url){
-	output = '<p>Are you sure? Once deleted, you will not be able to recover the data</p><button class="btn btn-primary" data-dismiss="modal">Cancel</button> <button class="btn btn-danger" onclick="ajaxUrlProcess(\''+url+'\')">Yes, Delete</button>';
+function deletePrompt(url, callback){
+	dtcl = callback || '';
+
+	output = '<p>Are you sure? Once deleted, you will not be able to recover the data</p><button class="btn btn-primary" data-dismiss="modal">Cancel</button> <button class="btn btn-danger" onclick="ajaxUrlProcess(\''+url+'\' '+ (dtcl ? ',\''+dtcl+'\'' : '') +')">Yes, Delete</button>';
 	swal('Delete Confirmation', [output]);
 }
 
-function ajaxUrlProcess(url, ajax_type){
+function ajaxUrlProcess(url, callback, ajax_type){
 	ajax_type = ajax_type || 'POST';
+	cll = function(){};
+	if(callback){
+		cll = callback;
+	}
 
 	$.ajax({
 		url : url,
@@ -255,13 +266,20 @@ function ajaxUrlProcess(url, ajax_type){
 		success : function(resp){
 			if(resp.type == 'success'){
 				swal('success', [resp.message]);
-				if(removedDiv != undefined){
+				var fn = window[cll];
+				console.log(fn);
+				if(typeof fn == 'function'){
+					fn();
+				}
+
+				if(removedDiv != 'undefined'){
 					removedDiv.fadeOut(300);
 					setTimeout(function(){
 						removedDiv.remove();
 					}, 300);
 				}
-				if(typeof tb_data != undefined){
+
+				if(typeof tb_data != 'undefined'){
 					tb_data.ajax.reload();
 				}
 			}

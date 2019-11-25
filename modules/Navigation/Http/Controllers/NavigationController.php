@@ -23,6 +23,18 @@ class NavigationController extends AdminBaseController
 		return new NavigationSkeleton;
 	}
 
+	public function refresh($id){
+		$data = $this->repo->show($id);
+		if(empty($data)){
+			abort(404);
+		}
+		$structure = NavigationInstance::setData($data)->generateStructure();
+		return view('navigation::partials.navigation-item-list', compact(
+			'data',
+			'structure'
+		))->render();
+	}
+
 	public function manage($id){
 		$title = 'Manage Navigation';
 		$data = $this->repo->show($id);
@@ -35,7 +47,8 @@ class NavigationController extends AdminBaseController
 		return view('navigation::manage', compact(
 			'title',
 			'data',
-			'structure'
+			'structure',
+			'id'
 		));
 	}
 
@@ -61,6 +74,27 @@ class NavigationController extends AdminBaseController
 		$processor = new NavigationProcessor($this->request);
 		$processor->save();
 		return redirect()->back()->with('success', 'Navigation item data has been saved');
+	}
+
+	public function deleteItem($id){
+		$data = app(config('model.navigation_item'))->find($id);
+		if(empty($data)){
+			abort(404);
+		}
+
+		//cek peranakannya dulu. anak2nya diset ke parent yg sama spt data saat ini dulu
+		$current_parent = $data->parent;
+		if($data->children){
+			foreach($data->children as $child){
+				$child->parent = $current_parent;
+				$child->save();
+			}
+		}
+		$data->delete();
+		return [
+			'type' => 'success',
+			'message' => 'Navigation item data has been deleted successfully'
+		];
 	}
 
 }

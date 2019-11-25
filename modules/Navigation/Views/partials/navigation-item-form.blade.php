@@ -90,7 +90,7 @@
 				<select name="icon" class="form-control select-icon">
 					<option value="">No Icon</option>
 					@foreach($icon_lists as $icon)
-					<option value="fa fa-{{ $icon }}" {{ $sel == 'fa fa-'.$icon ? 'selected' : '' }} data-icon="{{ 'fa-'.$icon }}">{{ $icon }}</option>
+					<option value="fa fa-{{ trim($icon) }}" {{ $sel == 'fa fa-'.$icon ? 'selected' : '' }} data-icon="{{ 'fa-'.trim($icon) }}">{{ trim($icon) }}</option>
 					@endforeach
 				</select>
 			</div>

@@ -14,30 +14,10 @@
 	
 	<a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#navigationModal"><i class="fa fa-plus"></i> Add New Menu</a>
 
-	@if(!empty($structure))
-		<small class="text-mute text-info">
-			<em>Click and drag left handle to reorder</em>
-		</small>
-	    <div class="dd nav-nestable" data-group="{{ $data->id }}" data-level="{{ intval($data->max_level) + 1 }}">
-	        <ol class="dd-list">
-	        	@foreach($structure as $label => $list)
-	                @include ('navigation::partials.nav-handle', [
-	                	'label' => $label,
-	                	'list' => $list,
-	                	'max_level' => $data->max_level,
-	                	'current_level' => 0
-	                ])
-	            @endforeach
-	        </ol>
-	    </div>
-	    <input type="hidden" readonly name="order-data" data-group="{{ $data->id }}">
+	<div class="navigation-list-holder">
+		@include ('navigation::partials.navigation-item-list')
+	</div>
 
-	    <div class="padd reorder-btn" style="display:none;" data-group="{{ $data->id }}">
-	    	<div href="#" data-group="{{ $data->id }}" class="btn btn-primary">Save Order Data</div>
-	    </div>
-	@else
-		<div class="alert alert-warning">No navigation item data yet. Click [Add Menu] button above to start create new menu in <strong>{{ $data->group_name }}</strong></div>
-	@endif
 </div>
 @stop
 
@@ -49,14 +29,7 @@
 <script src="{{ admin_asset('vendor/jquery-nestable/jquery.nestable.min.js') }}"></script>
 <script>
 $(function(){
-	$(".nav-nestable").each(function(){
-		$(this).nestable({
-			maxDepth : parseInt($(this).attr('data-level'))
-		}).on('change', function(){
-			serializeGroup($(this).attr('data-group'));
-		});
-		serializeGroup($(this).attr('data-group'), true);
-	});
+	loadNestable();
 
 	$(document).on('change', '.action-toggle', function(){
 		initAfterLoadModal();
@@ -85,6 +58,40 @@ $(function(){
 	initAfterLoadModal();
 
 });
+
+function afterDeleteNavigation(){
+	//after delete called
+	refreshNestable();
+}
+
+function refreshNestable(){
+	$("#page-loader").show();
+	$(".navigation-list-holder").html('');
+	$.ajax({
+		url : window.BASE_URL + '/navigation-refresh/{{ $id }}',
+		dataType : 'html',
+		success : function(resp){
+			$(".navigation-list-holder").html(resp);
+			loadNestable();
+			$("#page-loader").hide();
+		},
+		error : function(resp){
+			swal('error', ['Sorry, we cannot refresh the navigation']);
+			$("#page-loader").hide();
+		}
+	});
+}
+
+function loadNestable(){
+	$(".nav-nestable").each(function(){
+		$(this).nestable({
+			maxDepth : parseInt($(this).attr('data-level'))
+		}).on('change', function(){
+			serializeGroup($(this).attr('data-group'));
+		});
+		serializeGroup($(this).attr('data-group'), true);
+	});	
+}
 
 function initAfterLoadModal(){
 	sel = $(".action-toggle").find('option:selected');

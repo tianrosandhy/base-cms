@@ -1,4 +1,4 @@
-<li class="dd-item dd3-item close-target" data-id="{{ $list['id'] }}">
+<li class="dd-item dd3-item" data-id="{{ $list['id'] }}">
 	<div class="dd-handle dd3-handle"></div>
 	<div class="dd3-content">
 		<a class="btn-update-menu btn-as-link" href="#">{{ $label }}</a>
@@ -7,7 +7,7 @@
 	    		<i class="fa fa-pencil"></i>
 	    		Edit
 	    	</a>
-	    	<a href="#" class="btn btn-sm btn-danger delete-button" title="Delete">
+	    	<a href="{{ route('admin.navigation_item.delete', ['id' => $list['id']]) }}" class="btn btn-sm btn-danger delete-button" data-callback="afterDeleteNavigation" title="Delete">
 	    		<i class="fa fa-trash"></i>
 	    		Delete
 	    	</a>
