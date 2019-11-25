@@ -14,11 +14,12 @@
             @endforeach
         </ol>
     </div>
+    @if(has_access('admin.navigation_item.reorder'))
     <input type="hidden" readonly name="order-data" data-group="{{ $data->id }}">
-
     <div class="padd reorder-btn" style="display:none;" data-group="{{ $data->id }}">
     	<div href="#" data-group="{{ $data->id }}" class="btn btn-primary">Save Order Data</div>
     </div>
+    @endif
 @else
 	<div class="alert alert-warning">No navigation item data yet. Click [Add Menu] button above to start create new menu in <strong>{{ $data->group_name }}</strong></div>
 @endif

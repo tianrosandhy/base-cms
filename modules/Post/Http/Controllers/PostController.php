@@ -7,10 +7,11 @@ use Module\Post\Http\Skeleton\PostSkeleton;
 use Module\Main\Transformer\Exportable;
 use Module\Main\Contracts\WithRevision;
 use PostInstance;
+use Module\Main\Transformer\Seo;
 
 class PostController extends AdminBaseController implements WithRevision
 {
-	use Exportable;
+	use Exportable, Seo;
 	public $hint = 'post';
 
 	public function repo(){

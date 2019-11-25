@@ -6,10 +6,11 @@ use Module\Main\Http\Controllers\AdminBaseController;
 use Module\Page\Http\Skeleton\PageSkeleton;
 use Module\Main\Transformer\Exportable;
 use Module\Main\Contracts\WithRevision;
+use Module\Main\Transformer\Seo;
 
 class PageController extends AdminBaseController implements WithRevision
 {
-	use Exportable;
+	use Exportable, Seo;
 	public $hint = 'page';
 
 	public function repo(){

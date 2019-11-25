@@ -60,10 +60,10 @@ class NavigationSkeleton extends DataTable
 	}
 
 	protected function manageButton($row){
-		if(has_access('admin.'.$this->route.'.manage')){
+		if(has_access('admin.navigation_item.manage')){
 			return $this->actionButton(
 				'Manage Menu', 
-				url()->route('admin.'.$this->route.'.manage', ['id' => $row->id]), 
+				url()->route('admin.navigation_item.manage', ['id' => $row->id]), 
 				[
 					'class' => ['btn', 'btn-sm', 'btn-secondary manage-btn'],
 					'data-id' => $row->id

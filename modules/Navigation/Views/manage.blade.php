@@ -11,8 +11,9 @@
 <a href="{{ route('admin.navigation.index') }}" class="btn btn-sm btn-secondary">Back</a>
 
 <div class="card card-body mt-3 nav-holder">
-	
+	@if(has_access('admin.navigation_item.store'))
 	<a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#navigationModal"><i class="fa fa-plus"></i> Add New Menu</a>
+	@endif
 
 	<div class="navigation-list-holder">
 		@include ('navigation::partials.navigation-item-list')

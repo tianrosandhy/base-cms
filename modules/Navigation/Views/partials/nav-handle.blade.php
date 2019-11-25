@@ -3,14 +3,18 @@
 	<div class="dd3-content">
 		<a class="btn-update-menu btn-as-link" href="#">{{ $label }}</a>
 		<div class="navigation-buttons">
+			@if(has_access('admin.navigation_item.edit'))
 	    	<a href="#" class="btn btn-sm btn-info btn-update-menu" data-navigation-item-id="{{ $list['id'] }}" title="Edit">
 	    		<i class="fa fa-pencil"></i>
 	    		Edit
 	    	</a>
+	    	@endif
+	    	@if(has_access('admin.navigation_item.delete'))
 	    	<a href="{{ route('admin.navigation_item.delete', ['id' => $list['id']]) }}" class="btn btn-sm btn-danger delete-button" data-callback="afterDeleteNavigation" title="Delete">
 	    		<i class="fa fa-trash"></i>
 	    		Delete
 	    	</a>
+	    	@endif
 		</div>
 	</div>
 	@if(isset($list['submenu']))
