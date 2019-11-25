@@ -3,7 +3,7 @@
 	<div class="dd3-content">
 		<a class="btn-update-menu btn-as-link" href="#">{{ $label }}</a>
 		<div class="navigation-buttons">
-	    	<a href="#" class="btn btn-sm btn-info btn-update-menu" title="Edit">
+	    	<a href="#" class="btn btn-sm btn-info btn-update-menu" data-navigation-item-id="{{ $list['id'] }}" title="Edit">
 	    		<i class="fa fa-pencil"></i>
 	    		Edit
 	    	</a>

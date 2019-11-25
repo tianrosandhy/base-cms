@@ -848,7 +848,6 @@ label.mandatory::after{
 }
 
 .select2-selection__rendered{
-	line-height:1em!important;
 	padding-top:.5em;
 }
 

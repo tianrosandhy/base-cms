@@ -1,0 +1,88 @@
+.navigation-example{
+	padding:1em;
+}
+.navigation-example::after{
+	content:'';
+	display:block;
+	position:relative;
+	clear:both;
+}
+
+.navigation-example ul{
+	display:block;
+	list-style:none;
+	margin:0; 
+	padding:0;
+}
+
+.navigation-example ul li, .navigation-example ul a{
+	display:block;
+	white-space:nowrap;
+}
+
+.navigation-example>ul>li{
+	float:left;
+	position:relative;
+	margin-right:5px;
+}
+.navigation-example ul>li>a{
+	background:#ddd;
+	padding:.5em;
+	color:#000;
+	text-transform:uppercase;
+}
+
+.navigation-example ul>li>ul{
+	position:absolute;
+	left:0;
+	padding-top:5px;
+}
+
+.navigation-example ul>li>ul>li>ul{
+	left:100%;
+	top:0;
+}
+
+.navigation-example ul ul{
+	display:none;
+}
+
+.navigation-example ul>li:hover>ul{
+	display:block;
+}
+
+.navigation-example>ul>li>a{
+	background:#222;
+	color:#fff;
+}
+
+
+
+.dd{
+	width:100%;
+	max-width:initial;
+}
+
+.dd-handle{
+	cursor:move;
+	height:40px;
+}
+.dd3-content{
+	height:40px;
+	line-height:30px;
+}
+.dd3-handle:before{
+	top:10px;
+}
+
+.navigation-buttons{
+	float:right;
+}
+
+.navigation-buttons .btn{
+	padding:.25em .6em!important;
+	font-size:10px;
+}
+.navigation-buttons .btn i{
+	font-size:10px;
+}

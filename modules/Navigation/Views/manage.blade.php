@@ -2,96 +2,7 @@
 
 @push ('style')
 <link rel="stylesheet" href="{{ admin_asset('vendor/jquery-nestable/jquery.nestable.min.css') }}">
-<style>
-	.navigation-example{
-		padding:1em;
-	}
-	.navigation-example::after{
-		content:'';
-		display:block;
-		position:relative;
-		clear:both;
-	}
-
-	.navigation-example ul{
-		display:block;
-		list-style:none;
-		margin:0; 
-		padding:0;
-	}
-	
-	.navigation-example ul li, .navigation-example ul a{
-		display:block;
-		white-space:nowrap;
-	}
-
-	.navigation-example>ul>li{
-		float:left;
-		position:relative;
-		margin-right:5px;
-	}
-	.navigation-example ul>li>a{
-		background:#ddd;
-		padding:.5em;
-		color:#000;
-		text-transform:uppercase;
-	}
-
-	.navigation-example ul>li>ul{
-		position:absolute;
-		left:0;
-		padding-top:5px;
-	}
-
-	.navigation-example ul>li>ul>li>ul{
-		left:100%;
-		top:0;
-	}
-
-	.navigation-example ul ul{
-		display:none;
-	}
-
-	.navigation-example ul>li:hover>ul{
-		display:block;
-	}
-
-	.navigation-example>ul>li>a{
-		background:#222;
-		color:#fff;
-	}
-
-
-
-	.dd{
-		width:100%;
-		max-width:initial;
-	}
-
-	.dd-handle{
-		cursor:move;
-		height:40px;
-	}
-	.dd3-content{
-		height:40px;
-		line-height:30px;
-	}
-	.dd3-handle:before{
-		top:10px;
-	}
-
-	.navigation-buttons{
-		float:right;
-	}
-
-	.navigation-buttons .btn{
-		padding:.25em .6em!important;
-		font-size:10px;
-	}
-	.navigation-buttons .btn i{
-		font-size:10px;
-	}
-</style>
+<link rel="stylesheet" href="{{ admin_asset('css/navigation.css') }}">
 @endpush
 
 @section ('content')
@@ -101,7 +12,7 @@
 
 <div class="card card-body mt-3 nav-holder">
 	
-	<a href="#" class="btn btn-primary mb-3"><i class="fa fa-plus"></i> Add New Menu</a>
+	<a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#navigationModal"><i class="fa fa-plus"></i> Add New Menu</a>
 
 	@if(!empty($structure))
 		<small class="text-mute text-info">
@@ -130,6 +41,10 @@
 </div>
 @stop
 
+@push ('modal')
+	@include ('navigation::partials.modal-crud')
+@endpush
+
 @push ('script')
 <script src="{{ admin_asset('vendor/jquery-nestable/jquery.nestable.min.js') }}"></script>
 <script>
@@ -143,7 +58,48 @@ $(function(){
 		serializeGroup($(this).attr('data-group'), true);
 	});
 
+	$(document).on('change', '.action-toggle', function(){
+		initAfterLoadModal();
+	});
+
+	$(document).on('click', '.btn-update-menu', function(){
+		target_id = $(this).attr('data-navigation-item-id');
+		$("#page-loader").show();
+		$.ajax({
+			url : window.BASE_URL + '/navigation-form/' + target_id,
+			type : 'GET',
+			dataType : 'html',
+			success : function(resp){
+				$("#navigationModal .default-modal-content").html(resp);
+				$("#navigationModal").modal('show');
+				$("#page-loader").hide();
+				initAfterLoadModal();
+			},
+			error : function(resp){
+				swal('error', ['Sorry, we cannot process your request right now']);
+				$("#page-loader").hide();
+			}
+		});
+	});
+
+	initAfterLoadModal();
+
 });
+
+function initAfterLoadModal(){
+	sel = $(".action-toggle").find('option:selected');
+	$(".action-type-value").slideUp();
+	$(".action-type-value[data-type='"+sel.attr('data-target')+"']").slideDown();
+
+	$(".select-icon").select2({
+		templateSelection : formatIcons,
+		templateResult : formatIcons,
+	});
+}
+
+function formatIcons(icon){
+	return $('<span><i class="fa fa-fw '+ $(icon.element).data('icon') +'"></i> '+ icon.text +'</span>');
+}
 
 function serializeGroup(group_id, first_try){
 	first_try = first_try || false;

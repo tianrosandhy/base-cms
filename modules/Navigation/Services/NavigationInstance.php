@@ -11,10 +11,10 @@ class NavigationInstance extends BaseInstance
 		parent::__construct('navigation');
 	}
 
-	public function generateStructure(){
+	public function generateStructure($max_level=null){
 		if($this->data){
 			$lists = $this->data->lists;
-			$max_level = $this->data->max_level;
+			$max_level = strlen($max_level) > 0 ? $max_level : $this->data->max_level;
 			$out = [];
 			if($lists->where('parent', null)->count() > 0){
 				foreach($lists->where('parent', null)->sortBy('sort_no') as $row){

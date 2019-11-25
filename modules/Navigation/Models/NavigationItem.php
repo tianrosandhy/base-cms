@@ -14,4 +14,8 @@ class NavigationItem extends Model
     public function children(){
     	return $this->hasMany('Module\Navigation\Models\NavigationItem', 'parent');
     }
+
+    public function group(){
+    	return $this->belongsTo('Module\Navigation\Models\Navigation', 'group_id');
+    }
 }
