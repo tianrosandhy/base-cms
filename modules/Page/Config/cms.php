@@ -5,7 +5,7 @@ return [
 		'menu' => [
 			'Pages' => [
 				'route' => 'admin.page.index',
-				'icon' => 'fa fa-check-circle',
+				'icon' => 'fa fa-file',
 				'sort' => 1
 			],
 		],

@@ -43,7 +43,7 @@ return [
 
 			'Settings' => [
 				'url' => '#',
-				'icon' => 'fa fa-users',
+				'icon' => 'fa fa-cog',
 				'sort' => 10000,
 				'submenu' => [
 					'General' => [

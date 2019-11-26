@@ -23,7 +23,7 @@
 
 <link rel="stylesheet" href="{{ admin_asset('vendor/datatables.net-bs4/dataTables.bootstrap4.css') }}">
 <link rel="stylesheet" href="{{ admin_asset('css/style.min.css') }}">
-<link class="main-stylesheet" href="{!! admin_asset('css/additional.css?v=1.1.0') !!}" rel="stylesheet" type="text/css" />
+<link class="main-stylesheet" href="{!! admin_asset('css/additional.css?v=1.2.0') !!}" rel="stylesheet" type="text/css" />
 
 @if(setting('admin.favicon'))
 <link rel="icon" type="image/png" href="{{ storage_url(thumbnail(setting('admin.favicon'), 'small')) }}" />

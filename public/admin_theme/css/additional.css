@@ -871,3 +871,77 @@ label.mandatory::after{
 .action-buttons .btn{
 	padding:.25em .75em!important;
 }
+
+
+
+/*media manager css*/
+.media-container{
+	position:relative;
+	background:#fff;
+	padding:1.5em;
+}
+
+.media-container .item{
+	display:inline-block;
+	vertical-align:top;
+	width:100px;
+	padding:.5em;
+	text-decoration:none;
+	transition:.25s ease;
+	-moz-transition:.25s ease;
+	-o-transition:.25s ease;
+	-webkit-transition:.25s ease;
+	-ms-transition:.25s ease;
+}
+
+.media-container .item:hover{
+	background:rgba(0,0,0,0.2);
+}
+
+.media-container .item .file-title{
+	font-size:smaller;
+	color:#333;
+	overflow:hidden;
+}
+
+.media-header{
+	padding:.5em 1em;
+	background:#333;
+	color:#fff;
+}
+
+.directory-breadcrumb{
+	display:inline-block;
+	padding:.5em 1em;
+	background:#000;
+	color:#fff;
+	margin-right:.5em;
+	transition:.25s ease;
+	-moz-transition:.25s ease;
+	-webkit-transition:.25s ease;
+	-o-transition:.25s ease;
+	-ms-transition:.25s ease;
+}
+
+.directory-breadcrumb:hover{
+	background:#fff;
+	color:#000;
+}
+
+.file-checker-label{
+	position:absolute; 
+	top:0; 
+	right:0; 
+	padding:.5em; 
+	cursor:pointer; 
+	background:rgba(255,255,255,.5);
+	transition:.25s ease;
+	-moz-transition:.25s ease;
+	-o-transition:.25s ease;
+	-webkit-transition:.25s ease;
+	-ms-transition:.25s ease;
+}
+
+.file-checker-label:hover{
+	background:rgba(200, 0, 0, .75);
+}
