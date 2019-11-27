@@ -132,6 +132,7 @@
 		<br>
 	@else
 	<div class="alert alert-info">The CMS has been installed.</div>
+	<a href="{{ url('/') }}" class="btn btn-primary">Go To Homepage</a>
 	<a href="{{ route('admin.splash') }}" class="btn btn-success">Go To Admin Panel</a>
 	@endif
 

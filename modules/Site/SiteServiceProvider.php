@@ -15,15 +15,31 @@ class SiteServiceProvider extends BaseServiceProvider
 	}
 
 	protected function mapping(Router $router){
-		$router->group([
-			'namespace' => $this->namespace, 
-			'middleware' => [
-				'web'
-			]
-		], function($router){
-			require realpath(__DIR__."/Routes/api.php");
-			require realpath(__DIR__."/Routes/web.php");
-		});
+		$installed = true;
+		try{
+		    $check = \DB::table('cms_installs')->get();
+		}catch(\Exception $e){
+		    $installed = false;
+		}
+
+		if(!$installed){
+			$router->get('/', function(){
+		        return redirect()->route('cms.install');		
+			});
+		}
+		else{
+			//site route only will be called when CMS has been installed
+			$router->group([
+				'namespace' => $this->namespace, 
+				'middleware' => [
+					'web'
+				]
+			], function($router){
+				require realpath(__DIR__."/Routes/api.php");
+				require realpath(__DIR__."/Routes/web.php");
+			});
+		}
+
 	}
 
 
