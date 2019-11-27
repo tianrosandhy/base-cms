@@ -11,6 +11,21 @@ class NavigationInstance extends BaseInstance
 		parent::__construct('navigation');
 	}
 
+	public function name($group_name){
+		$this->data = $this->model->where('group_name', $group_name)->first();
+		return $this;
+	}
+
+	public function structure($group_name){
+		$this->name($group_name);
+		if($this->data){
+			return $this->generateStructure();
+		}
+		else{
+			return [];
+		}
+	}
+
 	public function generateStructure($max_level=null){
 		if($this->data){
 			$lists = $this->data->lists;
@@ -39,6 +54,7 @@ class NavigationInstance extends BaseInstance
 				'type' => $row->type,
 				'url' => $row->url,
 				'new_tab' => $row->new_tab,
+				'icon' => $row->icon,
 			];
 
 			if($row->children->count() > 0){

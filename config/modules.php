@@ -6,5 +6,6 @@ return [
 		\Module\Post\PostServiceProvider::class,
 		\Module\Page\PageServiceProvider::class,
 		\Module\Media\MediaServiceProvider::class,
+		\Module\Site\SiteServiceProvider::class,
 	],
 ];
