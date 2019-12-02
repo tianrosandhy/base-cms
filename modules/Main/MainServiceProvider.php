@@ -5,12 +5,14 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Validator;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Database\Schema\Builder;
 
 class MainServiceProvider extends ServiceProvider
 {
 	protected $namespace = 'Module\Main\Http\Controllers';
 
 	public function boot(){
+		Builder::defaultStringLength(191);
 		//load migrations table
 		$this->loadMigrationsFrom(realpath(__DIR__."/Migrations"));
 		$this->registerValidator();

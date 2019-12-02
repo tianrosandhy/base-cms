@@ -105,7 +105,16 @@ class UserSkeleton extends DataTable
 	}
 
 	protected function editButton($row){
-		if(has_access('admin.user.update')){
+		$editable = true;
+		if(isset($row->roles->id) && isset(\Auth::user()->roles->id)){
+			//akun SA ga boleh diedit oleh akun non SA
+			if($row->roles->is_sa && !\Auth::user()->roles->is_sa){
+				$editable = false;
+			}
+		}
+
+
+		if(has_access('admin.user.update') && $editable){
 			return $this->actionButton(
 				'Edit', 
 				url()->route('admin.user.edit', ['id' => $row->id]), 
