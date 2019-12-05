@@ -4,7 +4,9 @@
 <h3>Role Permission Management</h3>
 
 <div class="padd">
+	@if(has_access('admin.permission.store'))
 	<a href="#" class="btn btn-primary add-new-role" data-toggle="modal" data-target="#permissionModal">Add New Role</a>
+	@endif
 </div>
 
 <div class="card card-body ov">
@@ -26,13 +28,19 @@
 						Superadmin can access anything
 					</div>
 					@else
-					<a href="#" class="btn btn-default btn-block btn-secondary btn-show-permission" data-target="{{ admin_url('setting/show-permission/'.$row['id']) }}"><i class="fa fa-cog"></i> Manage Permissions</a>
+						@if(has_access('admin.permission.manage'))
+						<a href="#" class="btn btn-default btn-block btn-secondary btn-show-permission" data-target="{{ admin_url('setting/show-permission/'.$row['id']) }}"><i class="fa fa-cog"></i> Manage Permissions</a>
+						@endif
 					@endif
 				</td>
 				<td>
+					@if(has_access('admin.permission.update'))
 					<a href="#" class="btn btn-primary edit-permission" data-target="{{ url()->route('admin.permission.update', ['id' => $row['id']]) }}" data-title="{{ $row['label'] }}" data-issa="{{ $row['is_sa'] }}" data-owner="{{ $row['role_owner'] }}">Edit</a>
+					@endif
 					@if(!$row['is_sa'])
-					<a href="{{ url()->route('admin.permission.delete', ['id' => $row['id']]) }}" class="btn btn-danger delete-button" >Delete</a>
+						@if(has_access('admin.permission.delete'))
+						<a href="{{ url()->route('admin.permission.delete', ['id' => $row['id']]) }}" class="btn btn-danger delete-button" >Delete</a>
+						@endif
 					@endif
 				</td>
 			</tr>
@@ -41,7 +49,12 @@
 			@if(count($structure->role_list) == 0)
 			<tr>
 				<td colspan="3">
-					<div class="alert alert-warning">You still not have a child priviledge. <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#permissionModal">Create New Role</a></div>
+					<div class="alert alert-warning">
+						You still not have a child priviledge. 
+						@if(has_access('admin.permission.store'))
+						<a href="#" class="btn btn-warning" data-toggle="modal" data-target="#permissionModal">Create New Role</a>
+						@endif
+					</div>
 				</td>
 			</tr>
 			@endif
