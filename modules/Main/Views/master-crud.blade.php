@@ -177,10 +177,6 @@ $(function(){
 	}
 
 
-	$(document).on('change', '.crud-post input, .crud-post select, .crud-post textarea', function(){
-		saveAsDraft();
-	});
-
 	draft_interval = setInterval(function(){
 		saveAsDraft();
 	}, 20000);

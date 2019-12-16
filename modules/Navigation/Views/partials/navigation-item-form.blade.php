@@ -33,6 +33,7 @@
 					</span>
 				</div>
 				@if(isset($param['model_source']))
+				@if(!empty(config('model.'.$param['model_source'])))
 				<?php
 				$source = app(config('model.'.$param['model_source']));
 				if($param['source_is_active_field']){
@@ -51,6 +52,7 @@
 				</div>
 				@else
 				<input type="text" name="url" value="{{ $sel_url }}" class="form-control" {!! $param['fillable'] ? '' : 'readonly="readonly"' !!}>
+				@endif
 				@endif
 			</div>
 			@else
