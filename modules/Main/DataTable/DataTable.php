@@ -6,6 +6,7 @@ use Module\Main\DataTable\Processor;
 use Illuminate\Http\Request;
 use Validator;
 use CMS;
+use FormService;
 
 class DataTable extends Processor
 {
@@ -52,7 +53,7 @@ class DataTable extends Processor
 	}
 
 	public function actionButton($title='', $url, $attr=[]){
-		$attr = CMS::combineAttribute($attr);
+		$attr = FormService::combineAttribute($attr);
 		return '<a href="'.$url.'" '.$attr.'>'.$title.'</a> ';
 	}
 

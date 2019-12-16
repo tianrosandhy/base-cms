@@ -6,7 +6,7 @@ if(!isset($default[def_lang()])){
 }
 
 if($row->value_source){
-	$default[def_lang()] = CMS::getDefaultValue($row->value_source, (isset($data->id) ? $data->id : 0));
+	$default[def_lang()] = FormService::getDefaultValue($row->value_source, (isset($data->id) ? $data->id : 0));
 }
 if($row->array_source){
 	if(!isset($data)){
@@ -33,4 +33,4 @@ else{
 	}
 }
 ?>
-{!! CMS::inputMultilang($row, $default, $data) !!}
+{!! FormService::inputMultilang($row, $default, $data) !!}

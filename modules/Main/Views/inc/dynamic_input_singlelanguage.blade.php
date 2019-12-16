@@ -4,7 +4,7 @@ if(!isset($default)){
 	$default = null;
 }
 if($row->value_source){
-	$default = CMS::getDefaultValue($row->value_source, (isset($data->id) ? $data->id : 0));
+	$default = FormService::getDefaultValue($row->value_source, (isset($data->id) ? $data->id : 0));
 }
 if($row->array_source){
 	if(!isset($data)){
@@ -31,4 +31,5 @@ else{
 	}
 }
 ?>
-{!! CMS::input($row, $default, $data ) !!}
+
+{!! FormService::input($row, $default, $data) !!}

@@ -198,6 +198,7 @@ class MainServiceProvider extends ServiceProvider
 	        'CMS' => \Module\Main\Facades\CmsFacades::class,
 	        'DataStructure' => \Module\Main\Facades\DataStructureFacades::class,
 	        'DataSource' => \Module\Main\Facades\DataSourceFacades::class,
+	        'FormService' => \Module\Main\Facades\FormFacades::class,
         ];
 
         foreach($aliasData as $al => $src){
