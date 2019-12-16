@@ -18,7 +18,6 @@ class PermissionController extends AdminBaseController
 	public function index(){
 		$structure = (new RoleStructure(request()->get('role')));
 		return view('main::module.permission', compact(
-			'user_info',
 			'structure'
 		));
 	}

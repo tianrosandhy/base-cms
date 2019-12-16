@@ -23,9 +23,16 @@ class SiteServiceProvider extends BaseServiceProvider
 		}
 
 		if(!$installed){
-			$router->get('/', function(){
-		        return redirect()->route('cms.install');		
-			});
+			if(env('APP_ENV') == 'local'){
+				$router->get('/', function(){
+			        return redirect()->route('cms.install');		
+				});
+			}
+			else{
+				$router->get('/', function(){
+					return 'Website is still not installed';
+				});
+			}
 		}
 		else{
 			//site route only will be called when CMS has been installed

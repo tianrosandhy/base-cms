@@ -28,14 +28,25 @@ class LogController extends AdminBaseController
 
         $active_log = $this->request->active_log;
         $available_log = $this->getAvailableFileLog();
+        $log_size = $this->getLogSize();
 
         return view('main::module.log', compact(
             'title',
             'hint',
             'available_log',
             'active_log',
-            'file_log'
+            'log_size'
         ));
+    }
+
+    public function getLogSize(){
+        $this->request->active_log;
+        $ava = $this->getAvailableFileLog();
+        if(in_array($this->request->active_log, $ava)){
+            $filepath = $this->logPath($this->request->active_log);
+            return filesize_formatted($filepath);
+        }
+        return false;
     }
 
     public function getFileLog($filename=''){

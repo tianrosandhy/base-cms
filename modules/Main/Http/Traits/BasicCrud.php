@@ -191,7 +191,7 @@ trait BasicCrud
 			$seo = $this->seoFields($data);
 		}
 
-
+		$revision = false;
 		if($this instanceof WithRevision){
 			//grab revision data
 			$revisions = $this->getCurrentRevision($id);
