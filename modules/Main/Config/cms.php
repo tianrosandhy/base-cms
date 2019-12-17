@@ -24,15 +24,22 @@ return [
 	'admin' => [
 		'prefix' => 'p4n3lb04rd',
 		'assets' => 'admin_theme',
-		'minified' => true,
-		'jquery_version' => 1, //1 or 3 only
-		'logo' => 'theme/img/logo_maxsol.png',
+		'jquery_version' => 3, //1 or 3 only
+		'logo' => 'img/logo.png',
 		'components' => [
 			'register' => true,
 			'forgot_password' => true,
 			'userinfo' => true,
 		],
 		'email_receiver' => 'tianrosandhy@gmail.com',
+		'styling' => [
+			'header' => [
+				'background' => '#0AA3DB',
+				'line_color' => '#333',
+				'line_height' => 3,
+				'text_color' => '#fff',
+			],
+		],
 
 		'menu' => [
 			'Dashboard' => [

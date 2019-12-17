@@ -627,10 +627,6 @@ ul.nav{
 
 
 /*custom styling*/
-.navbar{
-	border-bottom:7px solid #01AEF0;
-}
-
 .navbar .navbar-brand-wrapper{
 	border-right:none!important;
 }

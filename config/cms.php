@@ -31,15 +31,22 @@ return [
 	'admin' => [
 		'prefix' => 'p4n3lb04rd',
 		'assets' => 'admin_theme',
-		'minified' => true,
-		'jquery_version' => 1, //1 or 3 only
-		'logo' => 'theme/img/logo_maxsol.png',
+		'jquery_version' => 3, //1 or 3 only
+		'logo' => 'img/logo.png',
 		'components' => [
 			'register' => true,
 			'forgot_password' => true,
 			'userinfo' => true,
 		],
 		'email_receiver' => 'tianrosandhy@gmail.com',
+		'styling' => [
+			'header' => [
+				'background' => '#fff',
+				'line_color' => '#fff',
+				'line_height' => 0,
+				'text_color' => '#333',
+			],
+		],
 
 		'menu' => [
 			'Dashboard' => [
