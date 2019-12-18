@@ -121,7 +121,7 @@ class DefaultSetting extends Command
                 'param' => 'facebook',
                 'name' => 'Facebook Link',
                 'description' => 'Your facebook URL',
-                'default_value' => 'https://facebook.com/tianEXE',
+                'default_value' => 'https://facebook.com/',
                 'type' => 'text',
                 'group' => 'social'
             ],
@@ -129,7 +129,7 @@ class DefaultSetting extends Command
                 'param' => 'twitter',
                 'name' => 'Twitter Link',
                 'description' => 'Your twitter URL',
-                'default_value' => 'https://twitter.com/tianrosandhy',
+                'default_value' => 'https://twitter.com/',
                 'type' => 'text',
                 'group' => 'social'
             ],
@@ -137,7 +137,7 @@ class DefaultSetting extends Command
                 'param' => 'instagram',
                 'name' => 'Instagram Link',
                 'description' => 'Your instagram URL',
-                'default_value' => 'https://instagram.com/tianrosandhy',
+                'default_value' => 'https://instagram.com/',
                 'type' => 'text',
                 'group' => 'social'
             ],

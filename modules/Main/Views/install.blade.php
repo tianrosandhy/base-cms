@@ -10,7 +10,7 @@
 
 <div class="container">
 	<center style="padding-top:2em;">
-		<img src="{{ asset('admin_theme/img/logo.png') }}" alt="CMS TianRosandhy" style="height:40px">
+		<img src="{{ admin_asset(config('cms.admin.logo')) }}" alt="Maxsol CMS" style="height:20px">
 		<h2 class="display-2 mt-3">CMS Install</h2>
 	</center>
 
@@ -37,43 +37,6 @@
 					<li>You just have a bad luck</li>
 				</ul>
 			</div>
-			@if($env)
-			<form action="" method="post">
-				{{ csrf_field() }}
-				<table class="table table-sm">
-					<tbody>
-						<?php
-						$used_param = config('module-setting.install.used_env');
-						?>
-						@foreach($env as $param)
-						<?php
-						$pecah = explode('=', $param);
-						if(count($pecah) <> 2){
-							continue;
-						}
-						$key = $pecah[0];
-						$value = $pecah[1];
-						if(!in_array($key, $used_param)){
-							continue;
-						}
-						?>
-						<tr>
-							<td>{{ $key }}</td>
-							<td><input type="text" name="{{ $key }}" value="{{ $value }}" class="form-control" placeholder="null"></td>
-						</tr>
-						@endforeach
-					</tbody>
-					<tfoot>
-						<tr>
-							<td></td>
-							<td><button class="btn btn-primary">Update Database Config</button></td>
-						</tr>
-					</tfoot>
-				</table>
-			</form>
-			@else
-			<div class="alert alert-warning">We dont have permission to access your <strong>.env</strong> file. Please update them manually.</div>
-			@endif
 		@endif
 		
 		<br>

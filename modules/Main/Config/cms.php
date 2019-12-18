@@ -15,11 +15,6 @@ return [
 		'default' => 'en',
 	],
 
-	//overwrite default CMS route lists target here.
-	//source : vendor/tianrosandhy/cms/src/Main/Routes/...
-	'controller' => [
-		
-	],
 
 	'admin' => [
 		'prefix' => 'p4n3lb04rd',
@@ -31,7 +26,6 @@ return [
 			'forgot_password' => true,
 			'userinfo' => true,
 		],
-		'email_receiver' => 'tianrosandhy@gmail.com',
 		'styling' => [
 			'header' => [
 				'background' => '#0AA3DB',

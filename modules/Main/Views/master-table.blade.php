@@ -96,6 +96,12 @@ $(function(){
 				backdrop: 'static',
 				keyboard : false
 			});
+			if(typeof initPlugin == 'function'){
+				initPlugin();
+			}
+			if(typeof refreshDropzone == 'function'){
+				refreshDropzone();
+			}
 		});
 	});
 

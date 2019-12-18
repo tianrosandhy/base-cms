@@ -941,3 +941,41 @@ label.mandatory::after{
 .file-checker-label:hover{
 	background:rgba(200, 0, 0, .75);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.nav-list li a {
+	text-decoration: none;
+	display: block;
+	padding: 10px;
+	cursor: pointer;
+	border-bottom: 1px solid #ccc !important;
+	color: #555;
+}
+
+.nav-list a:hover{
+	color: #4d83ff;
+}
+
+.nav-list > li > a {
+	color: #C4C4C4;
+	font-size: 14px;
+	padding-left: 13px !important;
+	border-bottom: 1px solid #eee;
+}

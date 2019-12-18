@@ -1,5 +1,8 @@
 <!-- partial:partials/_sidebar.html -->
 <nav class="sidebar site-sidebar sidebar-offcanvas" id="sidebar" data-simplebar>
+
+
+
   <ul class="nav">
     @foreach(CMS::navigation() as $group => $data)
     <li class="nav-item {!! $data['active'] ? 'active' : '' !!}">
@@ -15,9 +18,9 @@
         <ul class="nav flex-column sub-menu">
           @foreach($data['submenu'] as $subgroup => $subdata)
           <li class="nav-item first-submenu {{ $subdata['active'] ? 'active' : '' }}">
-            <a class="nav-link second-level" href="{{ $subdata['url'] }}"> {{ $subgroup }} {!! isset($subdata['submenu']) ? '<i class="menu-arrow"></i>' : '' !!}</a>
+            <a class="nav-link second-level" href="{{ isset($subdata['submenu']) ? '#'.slugify($subgroup) : $subdata['url'] }}" {!! isset($subdata['submenu']) ? 'data-toggle="collapse"' : '' !!} > {{ $subgroup }} {!! isset($subdata['submenu']) ? '<i class="menu-arrow"></i>' : '' !!}</a>
             @if(isset($subdata['submenu']))
-            <ul class="ul-second-level">
+            <ul class="ul-second-level collapse" id="{{ slugify($subgroup) }}">
               @foreach($subdata['submenu'] as $ssubgroup => $ssubdata)
               <li class="{{ $ssubdata['active'] ? 'active' : '' }}"><a href="{{ $ssubdata['url'] }}" class="menu-item">{{ $ssubgroup }}</a></li>
               @endforeach
@@ -31,5 +34,6 @@
     </li>
     @endforeach
   </ul>
+
 </nav>
 <!-- partial -->
