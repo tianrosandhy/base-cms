@@ -21,5 +21,7 @@ class Role extends Model
     	return $this->hasMany('Module\Main\Models\Role', 'role_owner');
     }
     
-
+    public function getByName($role_name=''){
+        return $this->where('name', $role_name)->first();
+    }
 }

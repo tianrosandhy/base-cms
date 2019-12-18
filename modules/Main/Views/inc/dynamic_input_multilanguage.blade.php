@@ -15,6 +15,10 @@ if($row->array_source){
 
 	$default[def_lang()] = (call_user_func($row->array_source, $data));
 }
+elseif($row->value_data){
+	$fn = $row->value_data;
+	$default[def_lang()] = $fn($data);
+}
 else{
 	if(isset($data)){
 		if(method_exists($data, 'outputTranslate')){

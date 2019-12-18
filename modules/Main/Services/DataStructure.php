@@ -24,6 +24,7 @@ class DataStructure
 		$slug_target,
 		$value_source,
 		$array_source,
+		$value_data,
 		$imagedir_path,
 		$cropper_ratio,
 		$translate,
@@ -279,6 +280,10 @@ class DataStructure
     	return $this;
     }
 
+    public function valueData($function){
+    	$this->value_data = $function;
+    	return $this;
+    }
 
 
 

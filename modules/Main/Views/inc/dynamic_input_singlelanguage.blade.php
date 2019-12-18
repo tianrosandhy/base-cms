@@ -13,6 +13,10 @@ if($row->array_source){
 	
 	$default = (call_user_func($row->array_source, $data));
 }
+elseif($row->value_data){
+	$fn = $row->value_data;
+	$default = $fn($data);
+}
 else{
 	if(isset($data)){
 		if(method_exists($data, 'outputTranslate')){
