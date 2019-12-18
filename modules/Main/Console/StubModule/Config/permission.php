@@ -7,6 +7,7 @@ return [
 			'admin.blank.store',
 			'admin.blank.update',
 			'admin.blank.delete',
+			'admin.blank.switch'
 		],
 	],
 ];

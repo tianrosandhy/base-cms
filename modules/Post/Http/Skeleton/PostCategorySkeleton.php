@@ -59,7 +59,7 @@ class PostCategorySkeleton extends DataTable
 			'name' => $row->name,
 			'slug' => $row->slug,
 			'image' => $row->imageThumbnail('image', 'thumb', 75),
-			'is_active' => $this->switcher($row, 'is_active', 'admin.'.$this->route.'.switch'),
+			'is_active' => has_access('admin.'.$this->route.'.switch') ? $this->switcher($row, 'is_active', 'admin.'.$this->route.'.switch') : ( $row->is_active ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Draft</span>'),
 			'action' => self::editButton($row) . self::deleteButton($row)
 		];
 	}

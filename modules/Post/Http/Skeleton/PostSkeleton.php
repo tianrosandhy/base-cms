@@ -128,7 +128,7 @@ class PostSkeleton extends DataTable
 			'image' => $row->imageThumbnail('image', 'thumb', 75),
 			'related' => $related,
 			'like' => $row->likes->count() . ($row->likes->count() == 0 ? ' <span class="fa fa-heart-o text-danger"></span>' : ' <span class="fa fa-heart text-danger"></span>'),
-			'is_active' => $this->switcher($row, 'is_active', 'admin.'.$this->route.'.switch'),
+			'is_active' => has_access('admin.'.$this->route.'.switch') ? $this->switcher($row, 'is_active', 'admin.'.$this->route.'.switch') : ( $row->is_active ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Draft</span>'),
 			'action' => self::detailButton($row) . self::editButton($row) . self::deleteButton($row)
 		];
 	}
