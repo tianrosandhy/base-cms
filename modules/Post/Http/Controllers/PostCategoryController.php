@@ -47,7 +47,7 @@ class PostCategoryController extends AdminBaseController implements WithRevision
 		return new PostCategorySkeleton;
 	}
 
-	public function afterValidation($mode='create'){
+	public function afterValidation($mode='create', $instance=null){
 
 	}
 

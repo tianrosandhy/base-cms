@@ -20,7 +20,7 @@ class BlankController extends AdminBaseController implements WithRevision
 		return new BlankSkeleton;
 	}
 
-	public function afterValidation($mode='create'){
+	public function afterValidation($mode='create', $instance=null){
 
 	}
 

@@ -191,11 +191,6 @@ trait BasicCrud
 			$seo = $this->seoFields($data);
 		}
 
-		$revision = false;
-		if($this instanceof WithRevision){
-			//grab revision data
-			$revisions = $this->getCurrentRevision($id);
-		}
 
 		return view(config('module-setting.'.$this->hint().'.view.edit', 'main::master-crud'), compact(
 			'title',
@@ -207,7 +202,6 @@ trait BasicCrud
 			'additional_field',
 			'seo',
 			'used_plugin',
-			'revisions',
 			'hint'
 		));
 	}
@@ -217,11 +211,11 @@ trait BasicCrud
 
 		$this->setMode('update');
 		$this->skeleton()->formValidation($this->multi_language, 'update', $id);
-		$this->afterValidation('update');
 		$show = $this->repo->show($id);
 		if(empty($show)){
 			abort(404);
 		}
+		$this->afterValidation('update', $show);
 
 
 		//gausa force draft kalo udah aktif
