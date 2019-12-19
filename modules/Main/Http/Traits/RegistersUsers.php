@@ -51,7 +51,7 @@ trait RegistersUsers
         $mail->setSubject('Validation Request for ' . setting('site.title'));
         $mail->setTitle('User Registration confirmation');
         $mail->setContent('Hi, '.$instance->name.'. We just receive registration request for this email account. Please click the activation link below to activate your account now.');
-        $mail->addButton([
+        $mail->setButton([
             'label' => 'Activate Your Account',
             'url' => admin_url('activate/'.$instance->activation_key)
         ]);

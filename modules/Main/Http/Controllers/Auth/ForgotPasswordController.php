@@ -49,7 +49,7 @@ class ForgotPasswordController extends Controller
             $mail->setSubject('New password reset request for ' . setting('site.title') . ' admin panel account');
             $mail->setTitle('Password Reset Request');
             $mail->setContent('We just receive the order to reset your account. If you dont make such request, you can just ignore this email. To change your password, just click the button below.');
-            $mail->addButton([
+            $mail->setButton([
                 'label' => 'Reset Password',
                 'url' => admin_url('reset-password/'.$user->remember_token)
             ]);

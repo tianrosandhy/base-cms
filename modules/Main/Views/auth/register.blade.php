@@ -4,6 +4,9 @@
   @include ('main::template.metadata')
 </head>
 <body>
+  <div id="page-loader">
+    <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+  </div>
   <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
       <div class="content-wrapper d-flex align-items-center auth px-0">
@@ -82,6 +85,14 @@
 
   @include ('main::template.modal')
   @include ('main::auth.partials.resend-validation')
+  @include ('main::template.alert-management')
   @include ('main::template.scripts')
+  <script>
+  $(function(){
+    $('form').on('submit', function(){
+      $("#page-loader").show();
+    });
+  });
+  </script>
 </body>
 </html>

@@ -114,9 +114,12 @@ class UserManagementController extends AdminBaseController
 		];
 
 		foreach($remove_if_sa as $ris){
-			if($show->roles->is_sa && array_key_exists($ris, $post)){
-				//role ga boleh diganti, dan harus selalu aktif
-				unset($post[$ris]);
+			//utk menghindari case error krn user yg blm diset priviledgenya dari awal
+			if(isset($show->roles->id)){
+				if($show->roles->is_sa && array_key_exists($ris, $post)){
+					//role ga boleh diganti, dan harus selalu aktif
+					unset($post[$ris]);
+				}
 			}
 		}
 
@@ -136,7 +139,7 @@ class UserManagementController extends AdminBaseController
 		$mail->setSubject('Your registration to '. setting('site.title').' admin panel has been approved.');
 		$mail->setTitle('Registration Acceptance Information');
 		$mail->setContent('Hi, '. $instance->name .', your registration to admin panel of '. setting('site.title') .' has been approved by admin. Now you can login with the given priviledge. Click the button below if you want to go now.');
-		$mail->addButton([
+		$mail->setButton([
 			'label' => 'Login to Admin Panel',
 			'url' => admin_url('')
 		]);

@@ -82,6 +82,7 @@ if(!isset($multi_language)){
 				<div class="form-group custom-form-group">
 					<label>Priviledge</label>
 					<select name="role_id" class="form-control">
+						<option value="">- No Priviledge -</option>
 						@foreach($priv_output as $idp => $valp)
 						<option value="{{ $idp }}" {{ $idp == $selc ? 'selected' : '' }}>{{ $valp }}</option>
 						@endforeach

@@ -82,10 +82,12 @@ class UserSkeleton extends DataTable
 
 	//manage custom filtering if required
 	public function additionalSearchFilter($context){
-		$structure = (new RoleStructure(request()->get('role')));
-		$lists = array_merge([request()->get('role')->id], $structure->array_only);
-		$context = $context->whereIn('role_id', $lists);
-		//$grab = $this->grabColumn('name');
+		if(!request()->get('is_sa')){
+			$structure = (new RoleStructure(request()->get('role')));
+			$lists = array_merge([request()->get('role')->id], $structure->array_only);
+			$context = $context->whereIn('role_id', $lists);
+			//$grab = $this->grabColumn('name');
+		}
 		return $context;
 	}
 
