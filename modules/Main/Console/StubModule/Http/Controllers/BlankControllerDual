@@ -10,9 +10,11 @@ class BlankController extends AdminBaseController
 {
 	use Exportable;
 	public $multi_language = true; //set ke false kalau sedang tidak di dual language module
+	//hint => used as route name, url name, view alias
 	public $hint = 'blank';
 
 	public function repo(){
+		//repo => model alias used (default : same as hint)
 		return $this->hint;
 	}
 

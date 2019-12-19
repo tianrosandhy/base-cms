@@ -36,31 +36,4 @@ class PageController extends AdminBaseController
 		));
 	}
 
-	//untuk override store format. default : by struktur model
-	public function storeRevisionFormat($instance){
-		return null;
-	}
-
-	//manage revision shown fields
-	public function reformatRevision($data=[]){
-		return [
-			'id' => $data['id'],
-			'Title' => $data['title'],
-			'Description' => descriptionMaker($data['description']),
-			'Updated' => date('d M Y H:i:s', strtotime($data['updated_at']))
-		];
-	}
-
-	//revision activate condition
-	public function activateRevision($instance, $revision_data=[]){
-		//dynamically restore revision data
-		foreach($revision_data as $field => $value){
-			if(in_array($field, ['id', 'created_at', 'updated_at', 'is_active'])){
-				continue;
-			}
-			$instance->{$field} = $value;
-		}
-		$instance->save();
-	}
-
 }

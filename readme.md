@@ -1,71 +1,159 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+<p align="center"><img src="https://maxsol.id/img/nav-bar-logo.png"></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
 
-## About Laravel
+### Requirement
+- PHP 7.2 >
+- Check Laravel 6.0 requirement
+- Extension GD & EXIF for image processing
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+#### Installation
+- Run command **composer create-project tianrosandhy/cms** in your current project directory
+- Check your .env configuration. Make sure you give the right database connection, APP_URL must be set as your {base_url}, and the SMTP is in correct value (optional). 
+- If the database is empty, you will be automatically redirected to {base_url}/install when access {base_url} in browser.
+- Fill the installation form, then after installation succeeded, you will be redirected to {base_url}/p4n3lb04rd. You can change the admin url in config **cms.admin.prefix**
+- Create the **storage** directory manually in public folder. In this CMS by default filesystem setting is use "no_symlink" (you can update to "public" in "filesystems.default" config if you prefer the normal storage:link method) 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Module Creation
+- Run command **php artisan module:create**, then you will be prompted the module name. Type the module name (Ex : Product).  
+- Then you will be prompted if you want to use the module with dual language support or not. Type "yes" or "no".
+- Module scaffold will be created in "modules/{module_name}"
+- Register the new module service provider in config **modules.load**. For example, if your module name is "Product", then by default the service provider path will be "\Module\Product\ProductServiceProvider::class"
+- Manage the module migration file in **modules/{module_name}/Migrations/**, then run **php artisan migrate**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Module Management
+#### Config
+By default, module will have 4 default config : cms, model, module-setting, and permission.
 
-## Learning Laravel
+Config **cms** will control the module sidebar navigation.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```php
+return [
+  'admin' => [
+    'menu'  => [
+      'ModuleName' => [
+        'route' => 'admin.modulename.index',
+        'icon' => 'fa fa-check-circle',
+        'sort' => 0
+      ],
+    ],
+  ]
+];
+```
+you can define sub menu up to 2 more level by creating "submenu" array. By default, if the navigation item has submenu, then the "url" or "route" parameter will be ignored. Please check the format example below
+```php
+return [
+  'admin' => [
+    'menu'  => [
+      'ModuleName' => [
+        'route' => 'admin.modulename.index',
+        'icon' => 'fa fa-check-circle',
+        'sort' => 0,
+        'submenu' => [
+          'Submenu' => [
+            'route' => 'route.name'
+          ],
+          'Submenu 2' => [
+            'url' => 'url_example',
+          ],
+          'Submenu 3' => [
+            'submenu' => [
+              'Sub Child' => [
+                'route' => 'sub.route.name.'
+              ],
+              'Sub Child Again' => [
+                'url' => 'url_example'
+              ]
+            ]
+          ]
+        ]
+      ],
+    ],
+  ]
+];
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost you and your team's skills by digging into our comprehensive video library.
+Config **model** will register the model alias that you create. If you create the new model in the module, you can register the model with alias in this config, so you can access the model easily with **app(config('model.alias'))** or **new CrudRepository('alias')** 
+```php
+<?php
+return [
+	'modulename' => 'Module\ModuleName\Models\ModuleName',
+	'another' => 'Module\ModuleName\Models\Another',
+];
+```
 
-## Laravel Sponsors
+Config **module-setting** is contain the default text setting, and view name used in index, create, and edit page. By default, all module will use "main::master-table" view in index page, and "main::master-crud" view in create/edit page. If you need to customize the view in that method, you can change the value in this config. *In much case, I usually just override the index() or edit() method rather than only change the view*
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Config **permission** is contain the list of route that can have dynamic permission management. The format is Module -> Group Name -> list of permission. Please check the example below : 
+```php
+<?php
+//combine permission data
+return [
+  'Module Name' => [
+    'Post Data' => [
+      'admin.post.index',
+      'admin.post.store',
+      'admin.post.update',
+      'admin.post.delete',
+      'admin.post.switch'
+    ],
+    'Comments' => [
+      'admin.post_comment.index',
+      'admin.post_comment.store',
+      'admin.post_comment.update',
+      'admin.post_comment.delete',
+      'admin.post_comment.switch'
+    ],
+    'Category' => [
+      'admin.category.index',
+      'admin.category.store',
+      'admin.category.update',
+      'admin.category.delete',
+      'admin.category.switch'
+    ],
+  ],
+];
+```
+the permission lists will be shown in CMS in User Managements -> Priviledge -> Manage Permission. By default, you dont need to specify the super admin priviledge list, because SA can access anything. 
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
+#### Skeleton
+This is the core of your module. By generate the right skeleton, you will have the default index(), create(), and edit() page easily.
 
-## Contributing
+First, you need to define the skeleton **$structure (array)** in __construct(). the structure list will be use **DataStructure** instance (source : Module\Main\Services\DataStructure)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+The method required in DataStructure is : **field()** to define the field name in database, **name()** to define the shown name. By default all defined structured here will be shown in index table view, index search field, and CRUD Form. 
+- If you want to hide the structure in index table, you can use method **hideTable()** 
+- if you want to hide the structure in form you can use method **hideForm()**
+- If you want to hide the structure from search fields in index, you can use method **searchable(false)**
+- If you want to disable the orderable field in index table, you can use method **orderable(false)**
 
-## Security Vulnerabilities
+*Note : The full documentation of DataStructure will be update later (still need much improvement). For now, just check the Skeleton of base module for reference.*
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+After you define the structure lists in __construct(), next you must define the **rowFormat()** that will be used in table view. This method will return array, and all the structure *field* name must be exists as key in this method. The must exists return in this method is  "action" to hold the action buttons.
 
-## License
 
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+#### Controller
+ By default, you dont need much override in controller if the module is just some easy CRUD Module. The only override you need in controller is just **afterValidation()** and **afterCrud()**. 
+ **afterValidation()** is called in store & update method. By default the validation is defined in skeleton. But, if you need additional validation, you can run them here.
+ **afterCrud()** is called in store & update too. By default, the data saved is defined in skeleton. But if you need to store additional data in table or another table, you can run them here.
+
+#### View Override
+You can add components in the default main::master-table and main::master-crud view.
+- yourmodule::partials.index.before-table used before the table view in index()
+- yourmodule::partials.index.after-table used after the table view in index()
+- yourmodule::partials.index.control-button used in control button in index()
+- yourmodule::partials.crud.before-form used before the first form component in crud
+- yourmodule::partials.crud.after-form used after the last form component in crud
+
+
+
+
+#### DataStructure Components
+(update later)
+
+#### Helper
+(update later)
+
+#### Database Update in Staging
+(update later) 
+
