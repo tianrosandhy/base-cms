@@ -45,9 +45,9 @@
 	<div class="clearfix"></div>
 </div>
 
-{!! $append_index !!}
-{!! $datatable->view() !!}
 {!! $prepend_index !!}
+{!! $datatable->view() !!}
+{!! $append_index !!}
 
 <div class="modal fade fill-in" id="form-modal" tabindex="-1" role="dialog" aria-hidden="true">
 	<button type="button" title="Click to Dismiss" class="modal-custom-close" data-dismiss="modal" aria-hidden="true">
@@ -119,6 +119,7 @@ $(function(){
 			data : $(this).serialize(),
 			success : function(resp){
 				if(resp.type == 'success'){
+					$("#page-loader").hide();
 					$("#form-modal").modal('hide');
 					toggleSuccess();
 				}

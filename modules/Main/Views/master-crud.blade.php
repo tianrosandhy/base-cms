@@ -125,6 +125,9 @@ $(function(){
 		});
 	}
 
+	$(document).on('submit', '.crud-post', function(){
+		$("#page-loader").fadeIn();
+	});
 
 	draft_interval = setInterval(function(){
 		saveAsDraft();

@@ -5,13 +5,15 @@ use Module\Main\Http\Repository\CrudRepository;
 use Module\Main\Http\Controllers\AdminBaseController;
 use Module\Page\Http\Skeleton\PageSkeleton;
 use Module\Main\Transformer\Exportable;
-use Module\Main\Contracts\WithRevision;
 use Module\Main\Transformer\Seo;
 
-class PageController extends AdminBaseController implements WithRevision
+class PageController extends AdminBaseController
 {
 	use Exportable, Seo;
-	public $hint = 'page';
+	public 
+		$hint = 'page',
+		$as_ajax = true;
+
 
 	public function repo(){
 		return $this->hint;
