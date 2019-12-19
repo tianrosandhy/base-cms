@@ -7,7 +7,8 @@ class MainController extends AdminBaseController
 {
 
 	public function index(){
-		return view('main::module.dashboard');
+		$title = 'Dashboard';
+		return view('main::module.dashboard', compact('title'));
 	}
 
 	public function switchLang($lang=''){

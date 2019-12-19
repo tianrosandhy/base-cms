@@ -116,6 +116,14 @@ class DefaultSetting extends Command
                 'type' => 'image',
                 'group' => 'admin',
             ],
+            [
+                'param' => 'google_analytics_client_id',
+                'name' => 'Google Analytics Client ID',
+                'description' => 'GA Client ID for Dashboard',
+                'default_value' => null,
+                'type' => 'text',
+                'group' => 'admin',
+            ],
 
             [
                 'param' => 'facebook',

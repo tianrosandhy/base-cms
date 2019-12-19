@@ -19,7 +19,7 @@ return [
 	'admin' => [
 		'prefix' => 'p4n3lb04rd',
 		'assets' => 'admin_theme',
-		'jquery_version' => 3, //1 or 3 only
+		'google_analytic_dashboard' => true,
 		'logo' => 'img/logo.png',
 		'components' => [
 			'register' => true,

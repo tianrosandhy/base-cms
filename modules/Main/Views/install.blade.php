@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>TianRosandhy CMS Installer</title>
+	<title>Maxsol CMS Installer</title>
 	<link rel="stylesheet" href="{{ asset('admin_theme/css/style.css') }}">
 	<link rel="stylesheet" href="{{ asset('admin_theme/css/additional.css') }}">
 </head>
