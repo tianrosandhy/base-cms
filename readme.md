@@ -11,7 +11,6 @@
 - Check your .env configuration. Make sure you give the right database connection, APP_URL must be set as your {base_url}, and the SMTP is in correct value (optional). 
 - If the database is empty, you will be automatically redirected to {base_url}/install when access {base_url} in browser.
 - Fill the installation form, then after installation succeeded, you will be redirected to {base_url}/p4n3lb04rd. You can change the admin url in config **cms.admin.prefix**
-- Create the **storage** directory manually in public folder. In this CMS by default filesystem setting is use "no_symlink" (you can update to "public" in "filesystems.default" config if you prefer the normal storage:link method) 
 
 ### Module Creation
 - Run command **php artisan module:create**, then you will be prompted the module name. Type the module name (Ex : Product).  
