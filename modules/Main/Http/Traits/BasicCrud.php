@@ -8,14 +8,32 @@ trait BasicCrud
 	use RevisionManagement;
 
 	public function prependIndex(){
+		if($this->hint){
+			if(view()->exists($this->hint.'::partials.index.before-table')){
+				return view($this->hint.'::partials.index.before-table');
+			}
+		}
+		//fallback : blank
 		return '';
 	}
 
 	public function appendIndex(){
+		if($this->hint){
+			if(view()->exists($this->hint.'::partials.index.after-table')){
+				return view($this->hint.'::partials.index.after-table');
+			}
+		}
+		//fallback : blank
 		return '';
 	}
 
 	public function appendIndexControlButton(){
+		if($this->hint){
+			if(view()->exists($this->hint.'::partials.index.control-button')){
+				return view($this->hint.'::partials.index.control-button');
+			}
+		}
+		//fallback : blank
 		return '';
 	}
 
@@ -44,11 +62,20 @@ trait BasicCrud
 	}
 
 	public function additionalField($data=null){
-		//return html additional form data
+		if($this->hint){
+			if(view()->exists($this->hint.'::partials.crud.after-form')){
+				return view($this->hint.'::partials.crud.after-form', compact('data'));
+			}
+		}		
 		return '';
 	}
 
 	public function prependField($data=null){
+		if($this->hint){
+			if(view()->exists($this->hint.'::partials.crud.before-form')){
+				return view($this->hint.'::partials.crud.before-form', compact('data'));
+			}
+		}		
 		return '';
 	}
 
