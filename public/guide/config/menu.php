@@ -1,9 +1,6 @@
 <?php
 return [
-	'Introduction' => [
-		'Requirement' => 'requirement',
-		'Installation' => 'requirement'
-	],
+	'Introduction' => 'requirement',
 	'Module Management' => [
 		'Module Creation' => 'module_create',
 		'Module Config Setup' => 'module_config_setup',
@@ -11,6 +8,7 @@ return [
 		'Controller & View Setup' => 'module_controller_setup',
 	],
 	'DataStructure Components' => [
+		'Basic' => 'datastructure_basic',
 		'Input Type' => 'datastructure_inputtype',
 		'Data & Value Source' => 'datastructure_datasource',
 		'Table & Form Control' => 'datastructure_control',

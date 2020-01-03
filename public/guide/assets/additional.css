@@ -156,3 +156,13 @@ ul.nav li.nav-item:hover a, ul.nav li.nav-item.active a{
 p.lead{
     line-height:1.3em;
 }
+
+
+.site-sidebar{
+    position:relative;
+}
+
+ul.nav{
+    width:257px;
+    position:fixed;
+}
