@@ -1,0 +1,30 @@
+<?php
+return [
+  'admin' => [
+    'menu'  => [
+      'ModuleName' => [
+        'route' => 'admin.modulename.index',
+        'icon' => 'fa fa-check-circle',
+        'sort' => 0,
+        'submenu' => [
+          'Submenu' => [
+            'route' => 'route.name'
+          ],
+          'Submenu 2' => [
+            'url' => 'url_example',
+          ],
+          'Submenu 3' => [
+            'submenu' => [
+              'Sub Child' => [
+                'route' => 'sub.route.name.'
+              ],
+              'Sub Child Again' => [
+                'url' => 'url_example'
+              ]
+            ]
+          ]
+        ]
+      ],
+    ],
+  ]
+];
