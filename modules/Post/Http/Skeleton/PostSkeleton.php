@@ -88,6 +88,8 @@ class PostSkeleton extends DataTable
 			->hideForm();
 
 		$this->structure[] = DataStructure::switcher('is_active', 'Is Active', 12);
+
+		// dd($this->structure);
 		
 	}
 

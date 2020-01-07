@@ -79,6 +79,7 @@ class FormServices
 
 
     protected function getOutput($input, $attr, $oldVal, $lang='', $as_single=false, $data=null){
+        var_dump($input);die();
         if(strlen($lang) == 0){
             $lang = config('cms.lang.default');
         }
