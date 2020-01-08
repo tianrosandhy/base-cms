@@ -13,9 +13,9 @@ return [
 			'delete.success' => 'Themes data has been deleted',
 		],
 		'view' => [
-			'index' => 'main::master-table',
-			'create' => 'main::master-crud',
-			'edit' => 'main::master-crud',
+			'index' => 'themes::master-table',
+			'create' => 'themes::master-crud',
+			'edit' => 'themes::master-crud',
 		],
 	],
 ];
