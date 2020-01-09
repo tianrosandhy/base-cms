@@ -88,9 +88,7 @@ class GenerateImageThumbnail implements ShouldQueue
 
 	protected function saveFile($path, $data){
 		try{
-			$file = fopen($this->access_path($path), 'w');
-			fwrite($file, $data);
-			fclose($file);
+            Storage::put($path, (string)$data);
 		}catch(\Exception $e){
 			die('Current user : ' . $cu .' - is not have a permission');
 		}
@@ -98,7 +96,7 @@ class GenerateImageThumbnail implements ShouldQueue
 
 
     public function access_path($path){
-    	return public_path('storage/' . $path);
+        return Storage::path($path);
     }
 
 }
