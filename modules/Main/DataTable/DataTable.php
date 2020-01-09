@@ -68,7 +68,7 @@ class DataTable extends Processor
 		foreach($this->structure as $row){
 			if($row->hide_table == false){
 				$fld = str_replace('[]', '', $row->field);
-				if($row->input_type == 'date'){
+                if(in_array($row->input_type, ['date', 'datetime'])){
 					$out .= 'data.columns['.$i.']["search"]["value"] = $("#datatable-search-'.$fld.'-1").val() + "|" + $("#datatable-search-'.$fld.'-2").val(), ';
 				}
 				else{
