@@ -1,0 +1,33 @@
+<?php
+//SomeSkeleton.php
+
+
+//default datasources 
+$this->structure[] = DataStructure::field('project_type')
+	->name('Project Type')
+	->inputType('')
+	->dataSource([
+		'HEADSUP' => 'Heads Up',
+		'INPROGRESS' => 'In Progress',
+		'DONE' => 'Done',
+	]);
+
+//relational datasources
+$this->structure[] = DataStructure::field('post_id')
+	->name('Post')
+	->dataSource(DataSource::model('post')->options('post_title', [
+		['is_active', '=', 1]
+	]));
+
+//custom function handler datasources
+$this->structure[] = DataStructure::field('related_post')
+	->name('Related Posts')
+	->dataSource(DataSource::customHandler(function(){
+		//you can put any logic here, and then return the assoc array
+		$grab = app(config('model.another'));
+		$out = [];
+		foreach($grab as $row){
+			$out[$row->id] = $row->title . "( URL : ".$row->url.")";
+		}
+		return $out;
+	}));
