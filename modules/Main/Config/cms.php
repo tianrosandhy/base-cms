@@ -28,10 +28,10 @@ return [
 		],
 		'styling' => [
 			'header' => [
-				'background' => '#0AA3DB',
-				'line_color' => '#333',
-				'line_height' => 3,
-				'text_color' => '#fff',
+				'background' => '#fff',
+				'line_color' => '#fff',
+				'line_height' => 0,
+				'text_color' => '#333',
 			],
 		],
 
