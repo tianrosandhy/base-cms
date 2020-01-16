@@ -4,7 +4,6 @@ namespace Module\Media;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Module\Main\BaseServiceProvider;
-use Illuminate\Foundation\AliasLoader;
 
 class MediaServiceProvider extends BaseServiceProvider
 {
@@ -41,22 +40,7 @@ class MediaServiceProvider extends BaseServiceProvider
 	    	'permission' => __DIR__.'/Config/permission.php',
 	    	'module-setting' => __DIR__.'/Config/module-setting.php',
 	    ]);
-	    $this->registerAlias();
-	}
-
-
-	protected function registerAlias(){
-		$this->app->bind('media-facade', function ($app) {
-            return new Services\MediaInstance($app);
-        });
-
-        $aliasData = [
-	        'MediaInstance' => \Module\Media\Facades\MediaFacade::class,
-        ];
-
-        foreach($aliasData as $al => $src){
-        	AliasLoader::getInstance()->alias($al, $src);
-        }
+	    $this->registerFacadeAlias('MediaInstance', \Module\Media\Facades\MediaFacade::class);
 	}
 
 }

@@ -4,7 +4,6 @@ namespace Module\Blank;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Module\Main\BaseServiceProvider;
-use Illuminate\Foundation\AliasLoader;
 
 class BlankServiceProvider extends BaseServiceProvider
 {
@@ -42,22 +41,7 @@ class BlankServiceProvider extends BaseServiceProvider
 	    	'module-setting' => __DIR__.'/Config/module-setting.php',
 	    ]);
 
-	    $this->registerAlias();
-	}
-
-
-	protected function registerAlias(){
-		$this->app->bind('blank-facade', function ($app) {
-            return new Services\BlankInstance($app);
-        });
-
-        $aliasData = [
-	        'BlankInstance' => \Module\Blank\Facades\BlankFacade::class,
-        ];
-
-        foreach($aliasData as $al => $src){
-        	AliasLoader::getInstance()->alias($al, $src);
-        }
+	    $this->registerFacadeAlias('BlankInstance', \Module\Blank\Facades\BlankFacade::class);
 	}
 
 }

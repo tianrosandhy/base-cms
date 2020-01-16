@@ -4,7 +4,6 @@ namespace Module\Navigation;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Module\Main\BaseServiceProvider;
-use Illuminate\Foundation\AliasLoader;
 
 class NavigationServiceProvider extends BaseServiceProvider
 {
@@ -42,22 +41,8 @@ class NavigationServiceProvider extends BaseServiceProvider
 	    	'module-setting' => __DIR__.'/Config/module-setting.php',
 	    ]);
 
-	    $this->registerAlias();
+	    $this->registerFacadeAlias('NavigationInstance', \Module\Navigation\Facades\NavigationFacade::class);
 	}
 
-
-	protected function registerAlias(){
-		$this->app->bind('navigation-facade', function ($app) {
-            return new Services\NavigationInstance($app);
-        });
-
-        $aliasData = [
-	        'NavigationInstance' => \Module\Navigation\Facades\NavigationFacade::class,
-        ];
-
-        foreach($aliasData as $al => $src){
-        	AliasLoader::getInstance()->alias($al, $src);
-        }
-	}
 
 }

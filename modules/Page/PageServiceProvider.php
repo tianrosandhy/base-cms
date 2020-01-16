@@ -4,7 +4,6 @@ namespace Module\Page;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Module\Main\BaseServiceProvider;
-use Illuminate\Foundation\AliasLoader;
 
 class PageServiceProvider extends BaseServiceProvider
 {
@@ -42,22 +41,8 @@ class PageServiceProvider extends BaseServiceProvider
 	    	'module-setting' => __DIR__.'/Config/module-setting.php',
 	    ]);
 
-	    $this->registerAlias();
+	    $this->registerFacadeAlias('PageInstance', \Module\Page\Facades\PageFacade::class);
 	}
 
-
-	protected function registerAlias(){
-		$this->app->bind('page-facade', function ($app) {
-            return new Services\PageInstance($app);
-        });
-
-        $aliasData = [
-	        'PageInstance' => \Module\Page\Facades\PageFacade::class,
-        ];
-
-        foreach($aliasData as $al => $src){
-        	AliasLoader::getInstance()->alias($al, $src);
-        }
-	}
 
 }

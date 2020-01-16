@@ -1,13 +1,13 @@
 <?php
 namespace Module\Navigation\Facades;
+
 use Illuminate\Support\Facades\Facade;
-/**
- * @see \Illuminate\Foundation\Application
- */
+use Module\Navigation\Services\NavigationInstance;
+
 class NavigationFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'navigation-facade';
+        return NavigationInstance::class;
     }
 }
