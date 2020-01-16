@@ -35,19 +35,12 @@ class MediaServiceProvider extends BaseServiceProvider
 		$this->loadViewsFrom(realpath(__DIR__."/Views"), 'media');
 
 		//merge config
-		$this->mergeConfigFrom(
-	        __DIR__.'/Config/model.php', 'model'
-	    );
-	    $this->mergeConfigFrom(
-	        __DIR__.'/Config/cms.php', 'cms'
-	    );
-		$this->mergeConfigFrom(
-	        __DIR__.'/Config/permission.php', 'permission'
-	    );
-	    $this->mergeConfigFrom(
-	        __DIR__.'/Config/module-setting.php', 'module-setting'
-	    );
-
+	    $this->mergeConfigLists([
+	    	'model' => __DIR__.'/Config/model.php',
+	    	'cms' => __DIR__.'/Config/cms.php',
+	    	'permission' => __DIR__.'/Config/permission.php',
+	    	'module-setting' => __DIR__.'/Config/module-setting.php',
+	    ]);
 	    $this->registerAlias();
 	}
 

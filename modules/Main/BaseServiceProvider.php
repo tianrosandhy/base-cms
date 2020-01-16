@@ -9,6 +9,13 @@ use Illuminate\Support\Arr;
 class BaseServiceProvider extends ServiceProvider
 {
 
+    protected function mergeConfigLists($arr=[]){
+        foreach($arr as $cfg_name => $path){
+            $this->mergeConfigFrom($path, $cfg_name);
+        }
+    }
+
+
 	protected function mergeConfigFrom($path, $key)
     {
         $config = $this->app['config']->get($key, []);
