@@ -17,8 +17,9 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check()) {
-            return redirect(admin_url('/'));
+        //balikin ke default laravel (gabakal dipake di CMS admin)
+        if (Auth::check()) {
+            return redirect('home');
         }
 
         return $next($request);

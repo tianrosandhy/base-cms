@@ -18,7 +18,7 @@ class AdminAuth
      */
     public function handle($request, Closure $next)
     {
-        $user = Auth::user();
+        $user = admin_guard()->user();
         if($request->segment(1) == "login" || $request->segment(2) == "login")
             return $next($request);
 
@@ -50,7 +50,7 @@ class AdminAuth
             else{
                 //artinya user dlm kondisi logged in, tapi role tidak ditemukan.
                 //action : auto logout
-                Auth::logout();
+                admin_guard()->logout();
             }
         }
 

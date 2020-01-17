@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Module\Main\Http\Traits\AuthenticatesUsers;
 use Module\Main\Http\Repository\CrudRepository;
 use Socialite;
-use Auth;
+use Module\Main\Http\Middleware\RedirectIfAuthenticated;
 
 class LoginController extends Controller
 {
@@ -29,7 +29,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware(RedirectIfAuthenticated::class)->except('logout');
     }
 
 
@@ -62,7 +62,7 @@ class LoginController extends Controller
             $instance = (new CrudRepository('user'))->show($user->email, 'email');
             if($instance){
                 if($instance->is_active){
-                    Auth::loginUsingId($instance->id);
+                    admin_guard()->loginUsingId($instance->id);
                     return redirect($this->redirectTo());
                 }
                 else{

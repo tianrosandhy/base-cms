@@ -15,8 +15,15 @@ return [
 		'default' => 'en',
 	],
 
+	'social_login' => true,
+	'social_driver' => [
+		'facebook',
+		// 'twitter',
+		'google'
+	],
 
 	'admin' => [
+		'auth_guard_name' => 'admin',
 		'prefix' => 'p4n3lb04rd',
 		'assets' => 'admin_theme',
 		'google_analytic_dashboard' => true,
@@ -26,6 +33,7 @@ return [
 			'forgot_password' => true,
 			'userinfo' => true,
 		],
+		'email_receiver' => 'tianrosandhy@gmail.com',
 		'styling' => [
 			'header' => [
 				'background' => '#fff',

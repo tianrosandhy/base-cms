@@ -60,25 +60,5 @@ trait RegistersUsers
             ->send($mail);
     }
 
-    /**
-     * Get the guard to be used during registration.
-     *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
-     */
-    protected function guard()
-    {
-        return Auth::guard();
-    }
 
-    /**
-     * The user has been registered.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return mixed
-     */
-    protected function registered(Request $request, $user)
-    {
-        //
-    }
 }

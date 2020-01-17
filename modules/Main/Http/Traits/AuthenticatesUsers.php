@@ -43,17 +43,17 @@ trait AuthenticatesUsers
             return $this->sendLockoutResponse($request);
         }
         if ($this->attemptLogin($request)) {
-            if(Auth::user()->is_active == 0){
-                Auth::logout();
+            if(admin_guard()->user()->is_active == 0){
+                admin_guard()->logout();
                 return back()->withErrors(['error' => 'Your account is still not activated yet. <a href="#" data-toggle="modal" data-target="#resendModal">Resend activation link</a>']);
             }
-            if(Auth::user()->is_active == 9){
-                Auth::logout();
+            if(admin_guard()->user()->is_active == 9){
+                admin_guard()->logout();
                 return back()->withErrors(['error' => 'Sorry, your account was blocked due security reason. Please contact the administrator for further action']);
             }
 
-            if(!isset(Auth::user()->roles->id)){
-                Auth::logout();
+            if(!isset(admin_guard()->user()->roles->id)){
+                admin_guard()->logout();
                 return back()->withErrors(['error' => 'Your account is still not activated yet by admin']);
                 $this->sendFailedLoginResponse($request);
             }
@@ -101,7 +101,7 @@ trait AuthenticatesUsers
      */
     protected function attemptLogin(Request $request)
     {
-        return $this->guard()->attempt(
+        return admin_guard()->attempt(
             $this->credentials($request), $request->filled('remember')
         );
     }
@@ -132,7 +132,7 @@ trait AuthenticatesUsers
 
         $this->clearLoginAttempts($request);
 
-        return $this->authenticated($request, $this->guard()->user())
+        return $this->authenticated($request, admin_guard()->user())
                 ?: redirect()->intended($this->redirectPath());
     }
 
@@ -182,19 +182,10 @@ trait AuthenticatesUsers
     public function logout(Request $request)
     {
         \CMS::log([], 'ADMIN LOGOUT');
-        $this->guard()->logout();
+        admin_guard()->logout();
 
         $request->session()->invalidate();
         return redirect(admin_prefix());
     }
 
-    /**
-     * Get the guard to be used during authentication.
-     *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
-     */
-    protected function guard()
-    {
-        return Auth::guard();
-    }
 }
