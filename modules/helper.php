@@ -579,3 +579,7 @@ function filesize_formatted($path)
     $power = $size > 0 ? floor(log($size, 1024)) : 0;
     return number_format($size / pow(1024, $power), 2, '.', ',') . ' ' . $units[$power];
 }
+
+function random_color() {
+    return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+}
