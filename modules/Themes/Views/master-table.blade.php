@@ -61,7 +61,9 @@
 				<tr>
 					<td>{{ $theme->tname }}</td>
 					<td>{{ $theme->tdirectory }}</td>
-					<td>{{ ($theme->active) ? 'enable' : 'disable' }}</td>
+					<td>
+						<input type="checkbox" data-init-plugin="switchery" data-size="small" name="themes-active" value="{{ ($theme->active) ? 'enable' : 'disable' }}" data-theme="{{ $theme->tname }}" {{ ($theme->active) ? 'checked' : '' }}>
+					</td>
 				</tr>
 				@endforeach
 			</tbody>
@@ -87,57 +89,32 @@
 @stop
 
 @push ('script')
-@if($as_ajax)
 <script>
 $(function(){
-	$(document).on('click', "[as-ajax], [body-ajax] .edit-btn", function(e){
-		e.preventDefault();
-		//load from ajax
-		href = $(this).attr('href');
-		data = $.get(href, function(data){
-			$("#form-modal .modal-body").html(data);
-			$("#form-modal .modal-body form").attr('action', href);
-			$("#form-modal").modal({
-				backdrop: 'static',
-				keyboard : false
-			});
-			if(typeof initPlugin == 'function'){
-				initPlugin();
-			}
-			if(typeof refreshDropzone == 'function'){
-				refreshDropzone();
-			}
+	$('[data-init-plugin="switchery"]').each(function() {
+		var el = $(this);
+		new Switchery(el.get(0), {
+			size : el.data("size")
 		});
 	});
 
-	$(document).on('submit', "#form-modal .modal-body form", function(e){
-		e.preventDefault();
-		method = $(this).attr('method');
-		if(!method){
-			method = 'GET';
-		}
-
+	$('body').on('change', 'input[name="themes-active"]', function(evt) {
+		_theme = evt.currentTarget.dataset.theme;
 		$.ajax({
-			url : $(this).attr('action'),
-			type : method,
+			url : "{{ url()->route('admin.themes.set_active') }}",
+			type : 'POST',
 			dataType : 'json',
-			data : $(this).serialize(),
-			success : function(resp){
-				if(resp.type == 'success'){
-					$("#page-loader").hide();
-					$("#form-modal").modal('hide');
-					toggleSuccess();
-				}
+			data : {
+				_token : window.CSRF_TOKEN,
+				theme : _theme,
+			},
+			success : function(resp) {
+				console.log(resp);
 			},
 			error : function(resp){
-				handleAjaxError(resp);
 			}
 		});
 	});
-
 });
-
-
 </script>
-@endif
 @endpush

@@ -11,6 +11,8 @@ use Wiratama\Appearances\Theme\Exceptions\ThemeNotFoundException;
 use Wiratama\Appearances\Theme\Json;
 use Wiratama\Appearances\Theme\Theme;
 
+use Module\Main\Models\SettingStructure;
+
 class ThemeManager implements \Countable
 {
     private $app;
@@ -118,7 +120,7 @@ class ThemeManager implements \Countable
         $theme->thememenu = $themeJson->getJsonAttribute('thememenu');
         $theme->themeoption = $this->getThemeDataJsonAttribute($directory, 'themeoption');
         $theme->type = ucfirst($themeJson->getJsonAttribute('type'));
-        $theme->active = false; // $this->getStatus($theme); // false;
+        $theme->active = $this->getStatus($theme); // false;
         
         return $theme;
     }
@@ -169,8 +171,8 @@ class ThemeManager implements \Countable
     private function getStatus(Theme $theme)
     {
         if ($theme->type !== 'Backend') {
-            $active_theme = MTheme::findOrFail('frontend_theme');
-            return $active_theme->value == $theme->getName();
+            $active_theme = SettingStructure::where('param', 'frontend_theme')->first();
+            return $active_theme->default_value == $theme->getName();
         }
     }
 }

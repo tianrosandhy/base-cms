@@ -14,8 +14,6 @@ return [
 		],
 		'view' => [
 			'index' => 'themes::master-table',
-			'create' => 'themes::master-crud',
-			'edit' => 'themes::master-crud',
 		],
 	],
 ];

@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use Module\Main\Http\Middleware\AdminAuth;
 use Auth;
 use Illuminate\Validation\ValidationException;
-
+use Validator;
+use Module\Main\Http\Repository\CrudRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Module\Themes\Manager\ThemeManager;
+use Module\Main\Models\SettingStructure;
 
 class ThemesController extends Controller
 {
@@ -30,12 +32,10 @@ class ThemesController extends Controller
 		$this->middleware(AdminAuth::class);
 		$this->app = $app;
 		$this->themeManager = new ThemeManager($this->app, config('appearances.themes.paths')[0]);
+		$this->repo = new CrudRepository('theme_options');
 	}
 	
 	public function index(){
-		// dd($this->themeManager->allPublicThemes());
-		// echo "index";die();
-
 		$datatable = $this->themeManager->allPublicThemes();
 		$title = self::usedLang('index.title');
 		$hint = $this->hint();		
@@ -52,6 +52,22 @@ class ThemesController extends Controller
 			'ctrl_button',
 			'as_ajax'
 		));
+	}
+
+	public function setActive(){
+		$validate = Validator::make($this->request->all(), [
+			'theme' => 'required|string',
+		]);
+		if (!$validate->fails()) {
+			$active_theme = SettingStructure::where('param', 'frontend_theme')->first();
+			$active_theme->default_value = $this->request->input('theme');
+			$active_theme->save();
+		} else {
+			$errors = $validate->messages()->all();
+			$json = $errors;
+
+			return response()->json($json, 400);
+		}
 	}
 
 	protected function usedLang($param='') {
