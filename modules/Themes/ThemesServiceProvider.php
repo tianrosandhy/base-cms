@@ -5,6 +5,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Module\Main\BaseServiceProvider;
 use Illuminate\Foundation\AliasLoader;
+use Module\Main\Models\SettingStructure;
+use Appearances;
 
 class ThemesServiceProvider extends BaseServiceProvider
 {
@@ -12,6 +14,9 @@ class ThemesServiceProvider extends BaseServiceProvider
 
 	public function boot(){
 		$this->loadMigrationsFrom(realpath(__DIR__."/Migrations"));
+		$this->setActiveTheme();
+		echo "boot";
+		die();
 	}
 
 	protected function mapping(Router $router){
@@ -48,7 +53,7 @@ class ThemesServiceProvider extends BaseServiceProvider
 	        __DIR__.'/Config/module-setting.php', 'module-setting'
 	    );
 
-	    $this->registerAlias();
+		$this->registerAlias();
 	}
 
 
@@ -65,5 +70,19 @@ class ThemesServiceProvider extends BaseServiceProvider
         	AliasLoader::getInstance()->alias($al, $src);
         }
 	}
+
+	/**
+     * Set the active theme based on the settings
+     */
+    private function setActiveTheme()
+    {
+		$active_theme = SettingStructure::where('param', 'frontend_theme')->first();
+		$admin_prefix = config('cms.admin.prefix', 'p4n3lb04rd');
+		if(!preg_match('/'.$admin_prefix.'/',\Request::path())) {
+			Appearances::activate($active_theme->default_value, true);
+        }
+
+        return true;
+    }
 
 }

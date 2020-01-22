@@ -35,22 +35,42 @@ class ThemesController extends Controller
 		$this->repo = new CrudRepository('theme_options');
 	}
 	
-	public function index(){
+	public function index() {
 		$datatable = $this->themeManager->allPublicThemes();
+		$row_themes = count($datatable);
+		if($this->request->ajax()) {
+			$data_list = [];
+			foreach ($datatable as $key => $theme) {
+				$data_value = ($theme->active) ? 'enable' : 'disable';
+				$data_active = ($theme->active) ? 'checked' : '';
+				$data_list[] = array(
+					'name' => $theme->tname,
+					'path' => $theme->tdirectory,
+					'status' => '<div class="btn-group">
+						<input type="checkbox" data-init-plugin="switchery" data-size="small" name="themes-active" value="'.$data_value.'" data-theme="'.$theme->tname.'" '.$data_active.'>
+						</div>'
+				);
+			}
+
+			$response = array(
+				'draw' => $this->request->draw,
+				'data' => $data_list,
+				'recordsTotal' => $row_themes,
+      			'recordsFiltered' => $row_themes,
+			);
+	  
+	  
+			return response()->json($response);
+		}
+
 		$title = self::usedLang('index.title');
-		$hint = $this->hint();		
-		$append_index = $this->appendIndex();
-		$prepend_index = $this->prependIndex();
+		$hint = $this->hint();
 		$ctrl_button = $this->appendIndexControlButton();
-		$as_ajax = $this->asAjax();
+		
 		return view(config('module-setting.'.$this->hint().'.view.index'), compact(
 			'title',
 			'hint',
-			'datatable',
-			'append_index',
-			'prepend_index',
-			'ctrl_button',
-			'as_ajax'
+			'ctrl_button'
 		));
 	}
 
@@ -91,32 +111,14 @@ class ThemesController extends Controller
 	}
 
 	public function appendIndex(){
-		if($this->hint){
-			if(view()->exists($this->hint.'::partials.index.after-table')){
-				return view($this->hint.'::partials.index.after-table');
-			}
-		}
-		//fallback : blank
 		return '';
 	}
 
 	public function prependIndex(){
-		if($this->hint){
-			if(view()->exists($this->hint.'::partials.index.before-table')){
-				return view($this->hint.'::partials.index.before-table');
-			}
-		}
-		//fallback : blank
 		return '';
 	}
 
 	public function appendIndexControlButton(){
-		if($this->hint){
-			if(view()->exists($this->hint.'::partials.index.control-button')){
-				return view($this->hint.'::partials.index.control-button');
-			}
-		}
-		//fallback : blank
 		return '';
 	}
 

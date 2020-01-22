@@ -1,101 +1,82 @@
 @extends ('main::master')
 
-@include ('main::assets.fancybox')
-@if($as_ajax)
-	@include ('main::assets.dropzone')
-	@include ('main::assets.cropper')
-@endif
-
 @section ('content')
-
-<h3>{!! $title !!}</h3>
-
-
-<div class="padd">
-	<div class="pull-left float-xs-left">
-		@if(Route::has('admin.'.$hint.'.store'))
-		@if(has_access('admin.'.$hint.'.store'))
-			<?php
-			$hide = false;
-			if(config('module-setting.'.$hint.'.hide_create')){
-			    $hide=true;
-	    	}
-	    	?>
-    	    @if(!$hide)
-			<a href="{{ url()->route('admin.'.$hint.'.store') }}" class="btn btn-primary" {{ $as_ajax ? 'as-ajax' : '' }}>Add Data</a>
-            @endif
-    	@endif
-		@endif
-
-		@if(Route::has('admin.'.$hint.'.delete'))
-		@if(has_access('admin.'.$hint.'.delete'))
-		<a href="{{ url()->route('admin.'.$hint.'.delete', ['id' => 0]) }}" class="btn btn-danger batchbox multi-delete">Delete All Selected</a>
-		@endif
-		@endif
-
-		{!! $ctrl_button !!}
+	<h3>{!! $title !!}</h3>
+	<div class="card card-body">
+		<div style="overflow-x:scroll; padding:1em 0;">
+			<table class="table table-striped" id="datatable">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Path</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>	
+		</div>
 	</div>
+	<div class="modal fade fill-in" id="form-modal" tabindex="-1" role="dialog" aria-hidden="true">
+		<button type="button" title="Click to Dismiss" class="modal-custom-close" data-dismiss="modal" aria-hidden="true">
+			&times;
+		</button>
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-body default-modal-content">
 
-
-	@if(Route::has('admin.'.$hint.'.export') && config('module-setting.'.$hint.'.export_excel'))
-	<div class="pull-right float-xs-right">
-		<a href="{{ url()->route('admin.'.$hint.'.export') }}" class="btn btn-info">Export to Excel</a>
-	</div>
-	@endif
-	<div class="clearfix"></div>
-</div>
-
-{!! $prepend_index !!}
-<div class="card card-body">
-	<div style="overflow-x:scroll; padding:1em 0;">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Path</th>
-					<th>Status</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach($datatable as $theme)
-				<tr>
-					<td>{{ $theme->tname }}</td>
-					<td>{{ $theme->tdirectory }}</td>
-					<td>
-						<input type="checkbox" data-init-plugin="switchery" data-size="small" name="themes-active" value="{{ ($theme->active) ? 'enable' : 'disable' }}" data-theme="{{ $theme->tname }}" {{ ($theme->active) ? 'checked' : '' }}>
-					</td>
-				</tr>
-				@endforeach
-			</tbody>
-		</table>	
-	</div>
-</div>
-
-{!! $append_index !!}
-
-<div class="modal fade fill-in" id="form-modal" tabindex="-1" role="dialog" aria-hidden="true">
-	<button type="button" title="Click to Dismiss" class="modal-custom-close" data-dismiss="modal" aria-hidden="true">
-		&times;
-	</button>
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-body default-modal-content">
-
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-
 @stop
 
 @push ('script')
-<script>
-$(function(){
-	$('[data-init-plugin="switchery"]').each(function() {
-		var el = $(this);
-		new Switchery(el.get(0), {
-			size : el.data("size")
-		});
+<script type="text/javascript" src="{!! admin_asset('vendor/jquery-datatable/jquery.dataTables.js') !!}"></script>
+<script type="text/javascript">
+var table_theme;
+var page = 1;
+$(document).ready(function() {
+	table_theme = $('#datatable').DataTable({
+		responsive: true,
+		dom: 'lTtpi',
+		processing: true,
+		serverSide: true,
+		ajax: {
+			url: "{{ route('admin.themes.index') }}",
+			dataType: "json",
+			type: "POST",
+			data: function (response) {
+				key_search = {};
+				$('.filter-field').each( function () {
+					key = $(this).attr('name');
+					val = $(this).val();
+					key_search[key] = val;
+				});
+				return $.extend(false, {_token : CSRF_TOKEN}, key_search, response);
+			}
+		},
+		"preDrawCallback": function(settings) {
+			var api = this.api();
+			page = parseInt(api.rows().page()) + 1;
+      	},
+		"drawCallback": function(settings) {
+			$('[data-init-plugin="switchery"]').each(function() {
+				var el = $(this);
+				new Switchery(el.get(0), {
+					size : el.data("size")
+				});
+			});
+		},
+		columns: [
+			{data : 'name'},
+			{data : 'path'},
+			{data : 'status'},
+		],
+	});
+
+	$('.filter-btn').on('click', function(){
+		table_theme.draw();
 	});
 
 	$('body').on('change', 'input[name="themes-active"]', function(evt) {
@@ -108,10 +89,20 @@ $(function(){
 				_token : window.CSRF_TOKEN,
 				theme : _theme,
 			},
+			beforeSend: function() {
+				$('#page-loader').show();
+			},
 			success : function(resp) {
-				console.log(resp);
+				table_theme.draw();
+				setTimeout(() => {
+					$('#page-loader').hide();
+				}, 1000);
 			},
 			error : function(resp){
+				table_theme.draw();
+				setTimeout(() => {
+					$('#page-loader').hide();
+				}, 1000);
 			}
 		});
 	});
