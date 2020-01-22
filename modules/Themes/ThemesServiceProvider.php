@@ -15,8 +15,6 @@ class ThemesServiceProvider extends BaseServiceProvider
 	public function boot(){
 		$this->loadMigrationsFrom(realpath(__DIR__."/Migrations"));
 		$this->setActiveTheme();
-		echo "boot";
-		die();
 	}
 
 	protected function mapping(Router $router){
@@ -72,12 +70,27 @@ class ThemesServiceProvider extends BaseServiceProvider
 	}
 
 	/**
+     * Register all themes with activating them
+     */
+    private function registerAllThemes($active_theme = null)
+    {
+		$directories = $this->app['files']->directories(config('appearances.themes.paths'));
+        foreach ($directories as $directory) {
+			if(preg_match('/'.$active_theme.'/',$directory)) {
+				Appearances::registerPath($directory, true);
+			}
+        }
+    }
+
+	/**
      * Set the active theme based on the settings
      */
     private function setActiveTheme()
     {
-		$active_theme = SettingStructure::where('param', 'frontend_theme')->first();
 		$admin_prefix = config('cms.admin.prefix', 'p4n3lb04rd');
+		$active_theme = SettingStructure::where('param', 'frontend_theme')->first();
+		$this->registerAllThemes($active_theme->default_value);
+
 		if(!preg_match('/'.$admin_prefix.'/',\Request::path())) {
 			Appearances::activate($active_theme->default_value, true);
         }
