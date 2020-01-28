@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "24cb44846aa249658734bd718336849f",
+    "content-hash": "d2438edd85b599f5ccbbb6d1ed8e85a7",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -4047,10 +4047,16 @@
         {
             "name": "wiratama/appearances",
             "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wiratama/appearances.git",
+                "reference": "83eb28089e86c05366e9afc19bca49da42d3fcc2"
+            },
             "dist": {
-                "type": "path",
-                "url": "C:/xampp/htdocs/wiratama/appearances",
-                "reference": "ac0cadff2023720c315589871ca033462ba55015"
+                "type": "zip",
+                "url": "https://api.github.com/repos/wiratama/appearances/zipball/83eb28089e86c05366e9afc19bca49da42d3fcc2",
+                "reference": "83eb28089e86c05366e9afc19bca49da42d3fcc2",
+                "shasum": ""
             },
             "require": {
                 "illuminate/support": "~6.0",
@@ -4060,7 +4066,7 @@
             "require-dev": {
                 "mockery/mockery": "dev-master@dev"
             },
-            "type": "library",
+            "type": "project",
             "extra": {
                 "laravel": {
                     "providers": "Wiratama\\Appearances\\AppearancesServiceProvider"
@@ -4071,13 +4077,22 @@
                     "Wiratama\\Appearances\\": "src/Appearances"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Arya Wiratama",
                     "email": "aryawiratama99@gmail.com"
                 }
             ],
-            "description": "Laravel 6 theming package, based on floatingpoint/stylist"
+            "description": "Laravel 6 theming package, based on floatingpoint/stylist",
+            "keywords": [
+                "laravel",
+                "theme"
+            ],
+            "time": "2020-01-27T07:19:50+00:00"
         }
     ],
     "packages-dev": [

@@ -3,7 +3,7 @@
 return [
     'themes' => [
         'paths' => [
-            realpath(base_path('resources/views/themes')),
+            realpath(public_path('views/themes')),
         ],
         'activate' => null,
     ]

@@ -20,7 +20,7 @@
         "maatwebsite/excel": "^3.1",
         "unisharp/laravel-filemanager": "^1.9",
         "van-ons/laraberg": "^1.0",
-        "wiratama/appearances": "@dev"
+        "wiratama/appearances": "dev-master"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
@@ -56,12 +56,6 @@
             "Tests\\": "tests/"
         }
     },
-    "repositories": [
-        {
-          "type": "path",
-          "url": "C:/xampp/htdocs/wiratama/appearances"
-        }
-    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
