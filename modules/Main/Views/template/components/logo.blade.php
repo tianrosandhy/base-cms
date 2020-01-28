@@ -6,4 +6,4 @@ if(strlen(setting('admin.logo')) > 0){
 	}
 }
 ?>
-<img src="{{ $logo_image }}" alt="{{ setting('site.title') }}" style="object-fit:contain; {!! isset($width) ? 'width:'.$width.'px;' : '' !!} {!! isset($height) ? 'height:'.$height.'px;' : '' !!}">
+<img src="{{ $logo_image }}" alt="{{ setting('site.title') }}" style="object-fit:contain; {!! isset($width) ? ($width > 0 ? 'width:'.$width.'px;' : '') : '' !!} {!! isset($height) ? ($height > 0 ? 'height:'.$height.'px;' : '') : '' !!}">

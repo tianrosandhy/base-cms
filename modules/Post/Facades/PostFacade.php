@@ -1,13 +1,13 @@
 <?php
 namespace Module\Post\Facades;
+
 use Illuminate\Support\Facades\Facade;
-/**
- * @see \Illuminate\Foundation\Application
- */
+use Module\Post\Services\PostInstance;
+
 class PostFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'post-facade';
+        return PostInstance::class;
     }
 }

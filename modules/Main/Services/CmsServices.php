@@ -28,7 +28,7 @@ class CmsServices
             \Log::info('
 URL => '.url()->current().'
 LABEL => '.$label.'
-USER_ID => '.(isset(\Auth::user()->id) ? \Auth::user()->id : '-').'
+USER_ID => '.(isset(admin_guard()->user()->id) ? admin_guard()->user()->id : '-').'
 DATA => 
 '.json_encode($data, JSON_PRETTY_PRINT).'
 

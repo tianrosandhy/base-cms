@@ -4,7 +4,6 @@ namespace Module\Post;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Module\Main\BaseServiceProvider;
-use Illuminate\Foundation\AliasLoader;
 
 class PostServiceProvider extends BaseServiceProvider
 {
@@ -34,37 +33,15 @@ class PostServiceProvider extends BaseServiceProvider
 		$this->mapping($this->app->router);
 		$this->loadViewsFrom(realpath(__DIR__."/Views"), 'post');
 
-		//merge config
-		$this->mergeConfigFrom(
-	        __DIR__.'/Config/model.php', 'model'
-	    );
-	    $this->mergeConfigFrom(
-	        __DIR__.'/Config/cms.php', 'cms'
-	    );
-		$this->mergeConfigFrom(
-	        __DIR__.'/Config/permission.php', 'permission'
-	    );
-	    $this->mergeConfigFrom(
-	        __DIR__.'/Config/module-setting.php', 'module-setting'
-	    );
-
-	    $this->registerAlias();
+	    //merge config
+	    $this->mergeConfigLists([
+	    	'model' => __DIR__.'/Config/model.php',
+	    	'cms' => __DIR__.'/Config/cms.php',
+	    	'permission' => __DIR__.'/Config/permission.php',
+	    	'module-setting' => __DIR__.'/Config/module-setting.php',
+	    ]);
+	    $this->registerFacadeAlias('PostInstance', \Module\Post\Facades\PostFacade::class);
 	}
-
-	protected function registerAlias(){
-		$this->app->bind('post-facade', function ($app) {
-            return new Services\PostInstance($app);
-        });
-
-        $aliasData = [
-	        'PostInstance' => \Module\Post\Facades\PostFacade::class,
-        ];
-
-        foreach($aliasData as $al => $src){
-        	AliasLoader::getInstance()->alias($al, $src);
-        }
-	}
-
 
 
 }

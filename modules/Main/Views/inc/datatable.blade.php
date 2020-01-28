@@ -15,7 +15,7 @@
 							$rfield = str_replace('[]', '', $row->field);
 							?>
 							@if($row->data_source == 'text')
-								@if($row->input_type == 'date')
+	                            @if(in_array($row->input_type, ['date', 'datetime']))
 								<div class="row" data-daterangepicker>
 									<div class="col">
 										<input type="text" name="datatable_filter[{{ $rfield }}][]" id="datatable-search-{{ $rfield }}-1" placeholder="Start" date-start class="form-control">

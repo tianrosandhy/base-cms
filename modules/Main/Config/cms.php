@@ -15,8 +15,15 @@ return [
 		'default' => 'en',
 	],
 
+	'social_login' => true,
+	'social_driver' => [
+		'facebook',
+		// 'twitter',
+		'google'
+	],
 
 	'admin' => [
+		'auth_guard_name' => 'admin',
 		'prefix' => 'p4n3lb04rd',
 		'assets' => 'admin_theme',
 		'google_analytic_dashboard' => true,
@@ -26,12 +33,13 @@ return [
 			'forgot_password' => true,
 			'userinfo' => true,
 		],
+		'email_receiver' => 'tianrosandhy@gmail.com',
 		'styling' => [
 			'header' => [
-				'background' => '#0AA3DB',
-				'line_color' => '#333',
-				'line_height' => 3,
-				'text_color' => '#fff',
+				'background' => '#fff',
+				'line_color' => '#fff',
+				'line_height' => 0,
+				'text_color' => '#333',
 			],
 		],
 

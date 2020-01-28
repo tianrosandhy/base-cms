@@ -197,7 +197,6 @@
 
 
 @push ('script')
-<script type="text/javascript" src="{{ admin_asset('assets/plugins/classie/classie.js') }}"></script>
 <script>
 $(function(){
 	$(document).on('change', '.switcher', function(){

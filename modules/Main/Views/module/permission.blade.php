@@ -84,9 +84,6 @@
 									<select name="role_owner" class="form-control select2">
 										<option value="">No Owner</option>
 										@foreach($structure->dropdown_list as $id_role => $label_role)
-											@if(strpos($label_role, '***') !== false)
-												@continue;
-											@endif
 										<option value="{{ $id_role }}">{{ $label_role }}</option>
 										@endforeach
 									</select>

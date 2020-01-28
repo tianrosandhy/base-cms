@@ -141,9 +141,14 @@ class CrudRepository{
 			$exploded_value = explode('|', $value);
 			if(count($exploded_value) == 2){
 				if(strtotime($exploded_value[0]) && strtotime($exploded_value[1])){
+                    $used_format = 'Y-m-d';
+                    if(strpos($exploded_value[0], ' ') !== false){
+                        $used_format = 'Y-m-d H:i:s';
+                    }
+
 					$output = $output->whereBetween($field, [
-						date('Y-m-d', strtotime($exploded_value[0])),
-						date('Y-m-d', strtotime($exploded_value[1])),
+						date($used_format, strtotime($exploded_value[0])),
+						date($used_format, strtotime($exploded_value[1])),
 					]);
 				}
 				else{
@@ -156,9 +161,14 @@ class CrudRepository{
 			$exploded_value = explode('|', $value);
 			if(count($exploded_value) == 2){
 				if(strtotime($exploded_value[0]) && strtotime($exploded_value[1])){
+					$used_format = 'Y-m-d';
+                    if(strpos($exploded_value[0], ' ') !== false){
+                        $used_format = 'Y-m-d H:i:s';
+                    }
+
 					$output = $output->whereBetween($field, [
-						date('Y-m-d', strtotime($exploded_value[0])),
-						date('Y-m-d', strtotime($exploded_value[1])),
+						date($used_format, strtotime($exploded_value[0])),
+						date($used_format, strtotime($exploded_value[1])),
 					]);
 				}
 				else{

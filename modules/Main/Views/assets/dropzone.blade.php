@@ -226,6 +226,7 @@ function refreshDropzone(){
 				},
 				init : function(){
 					this.on("success", function(file, data){
+						data = file.xhr.responseText;
 						$(".dropzone_uploaded[data-hash='"+dropzonehash+"']").val(data).change();
 						this.removeFile(file);
 						enableAllButtons();
@@ -271,6 +272,7 @@ function refreshDropzone(){
 				},
 				init : function(){
 					this.on("success", function(file, data){
+						data = file.xhr.responseText;
 						this.removeFile(file);
 						oldval = $(".dropzone_uploaded[data-hash='"+dropzonehash+"']").val();
 						if(oldval.length > 0){

@@ -27,7 +27,6 @@ class AdminBaseController extends Controller
 
 	public function __construct(Request $req){
 		$this->request = $req;
-		$this->middleware('auth');
 		$this->middleware(AdminAuth::class);
 
 		//register repository globally
@@ -179,7 +178,7 @@ class AdminBaseController extends Controller
 	}
 
 	public function currentUser(){
-		return \Auth::user();
+		return admin_guard()->user();
 	}
 
 	public function manageThrown($exception){

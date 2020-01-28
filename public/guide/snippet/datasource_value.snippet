@@ -1,0 +1,33 @@
+<?php
+//SomeSkeleton.php
+
+
+//valueData example
+$this->structure[] = DataStructure::field('project_type')
+	->name('Project Type')
+	->inputType('')
+	->dataSource([
+		'HEADSUP' => 'Heads Up',
+		'INPROGRESS' => 'In Progress',
+		'DONE' => 'Done',
+	])
+	->valueData(function($data){
+		//$data is the instance of current model
+		return strtoupper($data->project_type);
+	});
+
+//array source example
+$this->structure[] = DataStructure::field('post_id')
+	->name('Post')
+	->dataSource(DataSource::model('post')->options('post_title', [
+		['is_active', '=', 1]
+	]))
+	->arraySource(function($data){
+		$out = [];
+		if(isset($data->related)){
+			foreach($data->related->where('is_active', 1) as $row){
+				$out[] = $row->id;
+			}
+		}
+		return $out;
+	});

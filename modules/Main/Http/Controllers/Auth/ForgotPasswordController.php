@@ -94,7 +94,7 @@ class ForgotPasswordController extends Controller
 
         //sekalian anggap login juga bole
         if($user->is_active == 1 && $user->role_id > 0){
-            Auth::attempt([
+            admin_guard()->attempt([
                 'email' => $user->email,
                 'password' => $this->request->password
             ]);

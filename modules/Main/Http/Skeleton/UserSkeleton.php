@@ -108,9 +108,9 @@ class UserSkeleton extends DataTable
 
 	protected function editButton($row){
 		$editable = true;
-		if(isset($row->roles->id) && isset(\Auth::user()->roles->id)){
+		if(isset($row->roles->id) && isset(admin_guard()->user()->roles->id)){
 			//akun SA ga boleh diedit oleh akun non SA
-			if($row->roles->is_sa && !\Auth::user()->roles->is_sa){
+			if($row->roles->is_sa && !admin_guard()->user()->roles->is_sa){
 				$editable = false;
 			}
 		}

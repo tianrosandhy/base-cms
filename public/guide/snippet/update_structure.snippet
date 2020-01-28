@@ -1,0 +1,39 @@
+<?php
+
+namespace Module\Main\Console;
+
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Schema;
+use Exception;
+
+class UpdateStructure extends Command
+{
+    protected $signature = 'update:structure';
+    protected $description = 'Implementasi perubahan struktur di local dan staging / production';
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    public function handle(){
+        try{
+            Schema::table('tbname', function($table){
+            	$table->text('tambahan_field')->nullable();
+            });
+            $this->info('"tambahan_field" has been added to tbname');
+        }catch(Exception $e){}
+
+        // you can generate the changes record as many as you like
+        try{
+            Schema::table('another_tbname', function($table){
+            	$table->text('tambahan_field')->nullable();
+            	$table->tinyinteger('is_active')->nullable();
+            });
+            $this->info('"tambahan_field" and "is_active" has been added to another_tbname');
+        }catch(Exception $e){}
+
+        //...
+    }
+
+}

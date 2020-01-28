@@ -149,14 +149,20 @@ class Processor
 			if($list['type'] == 'text'){
 				//ada sedikit masalah dgn php : simbol % kalau diikutin angka, ntar jadi URL decoded string.
 				//jadi kalo $filteredString ada angka didepannya, dgn terpaksa % di awalnya harus dihilangin -_-
-				if($list['input_type'] == 'date'){
+                if(in_array($list['input_type'], ['date', 'datetime'])){
 					$default_time = date('Y-m-d');
 					if(strlen(trim($filteredString)) > 1){
 						$pch = explode('|', $filteredString);
 						if(count($pch) == 2){
-							$atime = $pch[0];
-							$btime = $pch[1];
-
+                            if($list['input_type'] == 'date'){
+                                $atime = $pch[0];
+                                $btime = $pch[1];
+                            }
+                            else{
+                                $atime = $pch[0].' 00:00:00';
+                                $btime = $pch[1].' 23:59:59';
+                            }
+                            
 							if(strlen($atime) > 0 && strlen($btime) > 0){
 								$filter[] = [$list['field'], 'between('.$atime.'|'.$btime.')'];
 							}
