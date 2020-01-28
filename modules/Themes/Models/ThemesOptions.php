@@ -8,7 +8,7 @@ class ThemesOptions extends Model
 {
     use Resizeable;
     
-    protected $table = 'theme_options';
+    protected $table = 'themes_option';
 
     protected $fillable = [
     ];

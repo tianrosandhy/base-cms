@@ -185,9 +185,9 @@ class DefaultSetting extends Command
                 'param' => 'frontend_theme',
                 'name' => 'Active theme',
                 'description' => 'Your Active theme',
-                'default_value' => '',
+                'default_value' => 'theme1', //langsung kasi default theme aja
                 'type' => 'text',
-                'group' => 'hide'
+                'group' => 'site'
             ],
 
         ];
