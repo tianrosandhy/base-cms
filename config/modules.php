@@ -7,5 +7,6 @@ return [
 		\Module\Page\PageServiceProvider::class,
 		\Module\Media\MediaServiceProvider::class,
 		\Module\Site\SiteServiceProvider::class,
+		\Module\Themes\ThemesServiceProvider::class,
 	],
 ];

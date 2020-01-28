@@ -7,10 +7,10 @@ use SiteInstance;
 class SiteController extends Controller
 {
 	public function __construct(){
-
+		
 	}
 
 	public function index(){
-		return view('site::index');
+		return view('site/index');
 	}
 }

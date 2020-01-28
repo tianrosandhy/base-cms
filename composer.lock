@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "a16518e0b66ccc3d8de098b6ca17788e",
@@ -1304,6 +1304,74 @@
                 "psysh"
             ],
             "time": "2019-08-07T15:10:45+00:00"
+        },
+        {
+            "name": "laravelcollective/html",
+            "version": "v6.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LaravelCollective/html.git",
+                "reference": "bcc317d21a7e04eebcc81c4109fa84feaab63590"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/bcc317d21a7e04eebcc81c4109fa84feaab63590",
+                "reference": "bcc317d21a7e04eebcc81c4109fa84feaab63590",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/http": "^6.0",
+                "illuminate/routing": "^6.0",
+                "illuminate/session": "^6.0",
+                "illuminate/support": "^6.0",
+                "illuminate/view": "^6.0",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "illuminate/database": "^6.0",
+                "mockery/mockery": "~1.0",
+                "phpunit/phpunit": "~7.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "6.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Collective\\Html\\HtmlServiceProvider"
+                    ],
+                    "aliases": {
+                        "Form": "Collective\\Html\\FormFacade",
+                        "Html": "Collective\\Html\\HtmlFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Collective\\Html\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adam Engebretson",
+                    "email": "adam@laravelcollective.com"
+                },
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                }
+            ],
+            "description": "HTML and Form Builders for the Laravel Framework",
+            "homepage": "https://laravelcollective.com",
+            "time": "2019-10-02T00:37:39+00:00"
         },
         {
             "name": "league/flysystem",
@@ -4439,6 +4507,56 @@
                 "environment"
             ],
             "time": "2019-09-10T21:37:39+00:00"
+        },
+        {
+            "name": "wiratama/appearances",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wiratama/appearances.git",
+                "reference": "83eb28089e86c05366e9afc19bca49da42d3fcc2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wiratama/appearances/zipball/83eb28089e86c05366e9afc19bca49da42d3fcc2",
+                "reference": "83eb28089e86c05366e9afc19bca49da42d3fcc2",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~6.0",
+                "laravelcollective/html": "~6.0",
+                "php": ">=7.2.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "dev-master@dev"
+            },
+            "type": "project",
+            "extra": {
+                "laravel": {
+                    "providers": "Wiratama\\Appearances\\AppearancesServiceProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Wiratama\\Appearances\\": "src/Appearances"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arya Wiratama",
+                    "email": "aryawiratama99@gmail.com"
+                }
+            ],
+            "description": "Laravel 6 theming package, based on floatingpoint/stylist",
+            "keywords": [
+                "laravel",
+                "theme"
+            ],
+            "time": "2020-01-27T07:19:50+00:00"
         }
     ],
     "packages-dev": [
@@ -6204,7 +6322,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "wiratama/appearances": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

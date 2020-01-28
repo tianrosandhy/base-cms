@@ -181,6 +181,14 @@ class DefaultSetting extends Command
                 'type' => 'text',
                 'group' => 'social'
             ],
+            [
+                'param' => 'frontend_theme',
+                'name' => 'Active theme',
+                'description' => 'Your Active theme',
+                'default_value' => '',
+                'type' => 'text',
+                'group' => 'hide'
+            ],
 
         ];
 

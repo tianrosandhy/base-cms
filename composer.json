@@ -19,7 +19,8 @@
         "maatwebsite/excel": "^3.1",
         "spatie/laravel-analytics": "3.7",
         "unisharp/laravel-filemanager": "^1.9",
-        "van-ons/laraberg": "^1.0"
+        "van-ons/laraberg": "^1.0",
+        "wiratama/appearances": "dev-master"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
@@ -55,7 +56,6 @@
             "Tests\\": "tests/"
         }
     },
-    
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
