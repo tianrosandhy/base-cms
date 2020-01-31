@@ -1,4 +1,4 @@
 <?php
 return [
-	'themes' => 'Module\Themes\Models\Themes',
+	'themes' => 'Module\Themes\Models\ThemesOptions',
 ];

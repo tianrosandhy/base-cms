@@ -28,12 +28,13 @@ class ThemesController extends Controller
 		Request $request
 	) {
 		$this->request = $request;
-		$this->middleware('auth');
 		$this->middleware(AdminAuth::class);
 		$this->app = $app;
 		$this->themeManager = new ThemeManager($this->app, config('appearances.themes.paths')[0]);
 		$this->repo = new CrudRepository('theme_options');
+		$this->language = config('module-setting.'.$this->hint.'.lang_data');
 	}
+
 	
 	public function index() {
 		$datatable = $this->themeManager->allPublicThemes();

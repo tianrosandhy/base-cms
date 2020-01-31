@@ -1,8 +1,7 @@
 <?php
-//debug purpose
-$posts = SiteInstance::post()->paginate(1);
+$posts = SiteInstance::post()->paginate(10);
 ?>
-@extends ('site::template.master')
+@extends ('layouts.master')
 @section ('content')
 <div class="container">
 	<h2 class="mt-3 mb-3 display-4">This is just <b>Theme 1</b> Scaffolding Example</h2>
@@ -35,7 +34,9 @@ $posts = SiteInstance::post()->paginate(1);
 
 				<div class="excerpt mt-3">
 					<p class="lead">
+						@if(isset($data['excerpt']))
 						{!! $data['excerpt'] !!}
+						@endif
 					</p>
 				</div>
 			</div>

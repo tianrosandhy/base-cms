@@ -24,7 +24,7 @@ $level++;
 	@if($has_submenu)
 	<div class="dropdown-menu" aria-labelledby="{{ $alias }}-navigation">
 		@foreach($data['submenu'] as $sublabel => $subdata)
-			@include('themes.themes2.views.include.navigation-item', [
+			@include('include.navigation-item', [
 				'label' => $sublabel,
 				'data' => $subdata,
 				'level' => $level

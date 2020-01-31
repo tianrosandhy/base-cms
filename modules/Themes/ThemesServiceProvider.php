@@ -104,6 +104,7 @@ class ThemesServiceProvider extends BaseServiceProvider
 			}
 		}
 
+
         return true;
     }
 
