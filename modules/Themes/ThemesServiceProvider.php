@@ -87,31 +87,23 @@ class ThemesServiceProvider extends BaseServiceProvider
      */
     private function setActiveTheme()
     {
-		$admin_prefix = config('cms.admin.prefix', 'p4n3lb04rd');
-		$active_theme = SettingStructure::where('param', 'frontend_theme')->first();
-		if(!$active_theme){
-			//langsung buat default setting in case setting theme belum dibuat
-			//source : module/Main/Console/DefaultSetting.php
-			$theme_data = [
-                'param' => 'frontend_theme',
-                'name' => 'Active theme',
-                'description' => 'Your Active theme',
-                'default_value' => 'theme1',
-                'type' => 'text',
-                'group' => 'site'
-            ];
-            $active_theme = app(config('model.setting_structure'));
-            foreach($theme_data as $key => $val){
-            	$active_theme->$key = $val;
-            }
-            $active_theme->save();
+		$installed = true;
+		try{
+		    $check = \DB::table('cms_installs')->get();
+		}catch(\Exception $e){
+		    $installed = false;
+		}
+		
+		if($installed) {
+			$admin_prefix = config('cms.admin.prefix', 'p4n3lb04rd');
+			$active_theme = SettingStructure::where('param', 'frontend_theme')->first();
+			$this->registerAllThemes($active_theme->default_value);
+
+			if(!preg_match('/'.$admin_prefix.'/',\Request::path())) {
+				Appearances::activate($active_theme->default_value, true);
+			}
 		}
 
-		$this->registerAllThemes($active_theme->default_value);
-
-		if(!preg_match('/'.$admin_prefix.'/',\Request::path())) {
-			Appearances::activate($active_theme->default_value, true);
-        }
 
         return true;
     }
