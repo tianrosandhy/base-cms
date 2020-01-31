@@ -38,7 +38,7 @@ class RegisterController extends Controller
      */
     public function __construct(Request $req)
     {
-        $this->middleware('guest');
+        $this->middleware(RedirectIfAuthenticated::class)->except('logout');
         $this->request = $req;
     }
 

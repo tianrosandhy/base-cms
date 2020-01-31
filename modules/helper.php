@@ -60,8 +60,16 @@ function admin_asset($path){
 	return asset(config('cms.admin.assets') . '/'. $path);
 }
 
+function admin_guard_name(){
+	return config('cms.admin.auth_guard_name', 'web');
+}
+
+function admin_guard(){
+	return Auth::guard(admin_guard_name());
+}
+
 function is_admin_login(){
-	return Auth::check();
+	return admin_guard()->check();
 }
 
 function clean_input($string=''){
@@ -69,8 +77,8 @@ function clean_input($string=''){
 }
 
 function admin_data($field=''){
-	if(Auth::check()){
-		$user_data = Auth::user()->toArray();
+	if(admin_guard()->check()){
+		$user_data = admin_guard()->user()->toArray();
 		if(strlen($field) == 0)
 			return $user_data;
 		else{
@@ -83,7 +91,7 @@ function admin_data($field=''){
 }
 
 function is_sa(){
-	$sa = isset(Auth::user()->roles->is_sa) ? Auth::user()->roles->is_sa : false;
+	$sa = isset(admin_guard()->user()->roles->is_sa) ? admin_guard()->user()->roles->is_sa : false;
 	return (bool)$sa;
 }
 
@@ -93,7 +101,7 @@ function has_access($route_name=''){
 	}
 
 	//auth bawaan laravel ga ada relasi ke roles, jadi harus dibuat sendiri
-	$user = Auth::user();
+	$user = admin_guard()->user();
 	$role = $user->role_id;
 	$roles = new \Module\Main\Models\Role();
 	$roles_data = $roles->find($role);
@@ -570,4 +578,8 @@ function filesize_formatted($path)
     $units = array( 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
     $power = $size > 0 ? floor(log($size, 1024)) : 0;
     return number_format($size / pow(1024, $power), 2, '.', ',') . ' ' . $units[$power];
+}
+
+function random_color() {
+    return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
 }

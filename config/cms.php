@@ -22,13 +22,8 @@ return [
 		'google'
 	],
 
-	//overwrite default CMS route lists target here.
-	//source : vendor/tianrosandhy/cms/src/Main/Routes/...
-	'controller' => [
-		
-	],
-
 	'admin' => [
+		'auth_guard_name' => 'admin',
 		'prefix' => 'p4n3lb04rd',
 		'assets' => 'admin_theme',
 		'google_analytic_dashboard' => true,

@@ -4,7 +4,6 @@ namespace Module\Blank;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Module\Main\BaseServiceProvider;
-use Illuminate\Foundation\AliasLoader;
 
 class BlankServiceProvider extends BaseServiceProvider
 {
@@ -35,35 +34,14 @@ class BlankServiceProvider extends BaseServiceProvider
 		$this->loadViewsFrom(realpath(__DIR__."/Views"), 'blank');
 
 		//merge config
-		$this->mergeConfigFrom(
-	        __DIR__.'/Config/model.php', 'model'
-	    );
-	    $this->mergeConfigFrom(
-	        __DIR__.'/Config/cms.php', 'cms'
-	    );
-		$this->mergeConfigFrom(
-	        __DIR__.'/Config/permission.php', 'permission'
-	    );
-	    $this->mergeConfigFrom(
-	        __DIR__.'/Config/module-setting.php', 'module-setting'
-	    );
+	    $this->mergeConfigLists([
+	    	'model' => __DIR__.'/Config/model.php',
+	    	'cms' => __DIR__.'/Config/cms.php',
+	    	'permission' => __DIR__.'/Config/permission.php',
+	    	'module-setting' => __DIR__.'/Config/module-setting.php',
+	    ]);
 
-	    $this->registerAlias();
-	}
-
-
-	protected function registerAlias(){
-		$this->app->bind('blank-facade', function ($app) {
-            return new Services\BlankInstance($app);
-        });
-
-        $aliasData = [
-	        'BlankInstance' => \Module\Blank\Facades\BlankFacade::class,
-        ];
-
-        foreach($aliasData as $al => $src){
-        	AliasLoader::getInstance()->alias($al, $src);
-        }
+	    $this->registerFacadeAlias('BlankInstance', \Module\Blank\Facades\BlankFacade::class);
 	}
 
 }

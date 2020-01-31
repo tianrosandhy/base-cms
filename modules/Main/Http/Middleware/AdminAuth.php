@@ -18,37 +18,23 @@ class AdminAuth
      */
     public function handle($request, Closure $next)
     {
-        $user = Auth::user();
+        $user = admin_guard()->user();
         if($request->segment(1) == "login" || $request->segment(2) == "login")
             return $next($request);
 
         if($user){
             $role = $user->roles;
             if(!empty($role)){
-                $roles_bawahan = [];
-                foreach($role->children as $child){
-                    $roles_bawahan[] = $child->id;
-                    if($child->children){
-                        foreach($child->children as $subchild){
-                            $roles_bawahan[] = $subchild->id;
-                            if($subchild->children){
-                                foreach($subchild->children as $lastchild){
-                                    $roles_bawahan[] = $lastchild;
-                                }
-                            }
-                        }
-                    }
-                }
+                $roles_bawahan = $this->getBawahanRole($role);
 
                 if($role->is_sa){
                     //semuanya accessible
                     $accessible_role = app(config('model.role'))->pluck('id')->toArray();
                 }
                 else{
-                    $accessible_role = array_merge([$role->id], $roles_bawahan);
+                    $accessible_role = $roles_bawahan;
                 }
 
-                //add request attribute
                 $request->attributes->add([
                     'user' => $user,
                     'role' => $role,
@@ -61,8 +47,24 @@ class AdminAuth
 
                 return $next($request);
             }
+            else{
+                //artinya user dlm kondisi logged in, tapi role tidak ditemukan.
+                //action : auto logout
+                admin_guard()->logout();
+            }
         }
 
         return Redirect()->intended($request->segment(1)."/login");
+    }
+
+    //iterate children id
+    protected function getBawahanRole($role, $data=[]){
+        $data[] = $role->id;
+        if($role->children->count() > 0){
+            foreach($role->children as $child){
+                $data = $this->getBawahanRole($child, $data);
+            }
+        }
+        return $data;
     }
 }

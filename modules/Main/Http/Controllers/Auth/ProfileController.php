@@ -35,7 +35,7 @@ class ProfileController extends AdminBaseController
 		}
 
 
-		$user = Auth::user();
+		$user = admin_guard()->user();
 		//delete old image
 		ImageService::removeImage($user->image);
 

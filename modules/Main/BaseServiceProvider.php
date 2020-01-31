@@ -4,10 +4,21 @@ namespace Module\Main;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
-
+use Illuminate\Foundation\AliasLoader;
 
 class BaseServiceProvider extends ServiceProvider
 {
+
+    protected function registerFacadeAlias($alias_name, $target){
+        AliasLoader::getInstance()->alias($alias_name, $target);
+    }
+
+    protected function mergeConfigLists($arr=[]){
+        foreach($arr as $cfg_name => $path){
+            $this->mergeConfigFrom($path, $cfg_name);
+        }
+    }
+
 
 	protected function mergeConfigFrom($path, $key)
     {

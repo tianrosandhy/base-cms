@@ -1,0 +1,52 @@
+<?php
+namespace Module\Blank\Http\Skeleton;
+
+use Module\Main\DataTable\DataTable;
+use DataStructure;
+use DataSource;
+
+class BlankSkeleton extends DataTable
+{
+	//this is your route alias
+	public $route = 'blank';
+
+	public function __construct(){
+		$this->request = request();
+
+		//this is your used model alias
+		$this->setModel('blank');
+
+		//you can define the structure data here
+		$this->structure[] = DataStructure::checker();
+		$this->structure[] = DataStructure::field('title')
+			->name('Title');
+		$this->structure[] = DataStructure::field('description')
+			->name('Description');
+		$this->structure[] = DataStructure::switcher('is_active', 'Is Active', 12);
+		
+	}
+
+	
+	public function rowFormat($row, $as_excel=false){
+		return [
+            'id' => $this->checkerFormat($row),
+			'title' => $row->title,
+			'description' => $row->description,
+			'is_active' => $row->is_active ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Draft</span>',
+			'action' => self::editButton($row) . self::deleteButton($row)
+		];
+	}
+
+	protected function editButton($row){
+		if(has_access('admin.'.$this->route.'.update')){
+			return '<a href="#" class="btn btn-info">Edit</a>';
+		}
+	}
+
+	protected function deleteButton($row){
+		if(has_access('admin.'.$this->route.'.delete')){
+			return '<a href="#" class="btn btn-danger">Delete</a>';
+		}
+	}
+
+}

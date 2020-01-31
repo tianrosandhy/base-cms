@@ -129,7 +129,7 @@ class PostInstance extends BaseInstance
 	}
 
 	protected function getUserId(){
-		return isset(\Auth::user()->id) ? \Auth::user()->id : null;
+		return isset(admin_guard()->user()->id) ? admin_guard()->user()->id : null;
 	}
 
 }

@@ -1,13 +1,13 @@
 <?php
 namespace Module\Page\Facades;
+
 use Illuminate\Support\Facades\Facade;
-/**
- * @see \Illuminate\Foundation\Application
- */
+use Module\Page\Services\PageInstance;
+
 class PageFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'page-facade';
+        return PageInstance::class;
     }
 }

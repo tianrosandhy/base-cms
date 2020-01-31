@@ -1,13 +1,13 @@
 <?php
 namespace Module\Media\Facades;
+
 use Illuminate\Support\Facades\Facade;
-/**
- * @see \Illuminate\Foundation\Application
- */
+use Module\Media\Services\MediaInstance;
+
 class MediaFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'media-facade';
+        return MediaInstance::class;
     }
 }

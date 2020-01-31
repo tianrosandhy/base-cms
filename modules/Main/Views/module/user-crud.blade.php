@@ -78,7 +78,7 @@ if(!isset($multi_language)){
 				$priv_output = isset($priv->data_source->output) ? $priv->data_source->output : (isset($priv->data_source) ? $priv->data_source : []);
 				?>
 				@if(!empty($priv_output) && !$is_sa)
-				@if(empty($data->id) || $data->id <> Auth::user()->id)
+				@if(empty($data->id) || $data->id <> admin_guard()->user()->id)
 				<div class="form-group custom-form-group">
 					<label>Priviledge</label>
 					<select name="role_id" class="form-control">
@@ -92,7 +92,7 @@ if(!isset($multi_language)){
 				@endif
 
 				@if(!$is_sa)
-				@if($data->id <> Auth::user()->id)
+				@if($data->id <> admin_guard()->user()->id)
 				<div class="form-group custom-form-group">
 					<label>User Status</label>
 					<select name="is_active" class="form-control">

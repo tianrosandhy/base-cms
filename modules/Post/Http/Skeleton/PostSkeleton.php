@@ -87,6 +87,12 @@ class PostSkeleton extends DataTable
 			->searchable(false)
 			->hideForm();
 
+		$this->structure[] = DataStructure::field('created_at')
+			->name('Created At')
+			->formColumn(12)
+			->inputType('datetime');
+				
+
 		$this->structure[] = DataStructure::switcher('is_active', 'Is Active', 12);
 
 		// dd($this->structure);
@@ -130,6 +136,7 @@ class PostSkeleton extends DataTable
 			'image' => $row->imageThumbnail('image', 'thumb', 75),
 			'related' => $related,
 			'like' => $row->likes->count() . ($row->likes->count() == 0 ? ' <span class="fa fa-heart-o text-danger"></span>' : ' <span class="fa fa-heart text-danger"></span>'),
+			'created_at' => date('d M Y H:i:s', strtotime($row->created_at)),
 			'is_active' => has_access('admin.'.$this->route.'.switch') ? $this->switcher($row, 'is_active', 'admin.'.$this->route.'.switch') : ( $row->is_active ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Draft</span>'),
 			'action' => self::detailButton($row) . self::editButton($row) . self::deleteButton($row)
 		];

@@ -1,13 +1,13 @@
 <?php
 namespace Module\Blank\Facades;
+
 use Illuminate\Support\Facades\Facade;
-/**
- * @see \Illuminate\Foundation\Application
- */
+use Module\Blank\Services\BlankInstance;
+
 class BlankFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'blank-facade';
+        return BlankInstance::class;
     }
 }
