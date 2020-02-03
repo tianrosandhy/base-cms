@@ -18,7 +18,6 @@
         "laravel/socialite": "^4.2",
         "laravel/tinker": "^1.0",
         "maatwebsite/excel": "^3.1",
-        "unisharp/laravel-filemanager": "^1.9",
         "spatie/laravel-analytics": "3.8.*",
         "van-ons/laraberg": "^1.0",
         "wiratama/appearances": "dev-master"
