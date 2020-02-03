@@ -20,12 +20,11 @@ return [
     'thumbs' => [
         'extralarge' => 2000,
         'large' => 1200,
-        'medium' => 600,
-        'small' => 400,
-        'extrasmall' => 200,
+        'medium' => 800,
+        'small' => 500,
         'thumb' => 100
     ],
-    'crop' => 300,
+    'crop' => 400,
     'quality' => 80,
 
 ];
