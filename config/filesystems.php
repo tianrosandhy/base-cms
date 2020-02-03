@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'no_symlink'),
+    'default' => 'public', //change to "no_symlink" if you prefer to put the storage in public/storage folder without symlink
 
     /*
     |--------------------------------------------------------------------------
