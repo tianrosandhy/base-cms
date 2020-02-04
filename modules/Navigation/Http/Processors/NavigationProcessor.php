@@ -35,9 +35,7 @@ class NavigationProcessor
 		$this->validateRequest();
 
 		$this->stored['url'] = $this->getUrlByType();
-		if($this->post['slug']){
-			$this->handleSlug();
-		}
+		$this->handleSlug();
 		$this->handleAdditionalFields();
 		if(isset($this->stored['id'])){
 			//update

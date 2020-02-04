@@ -1,7 +1,7 @@
 <li class="dd-item dd3-item" data-id="{{ $list['id'] }}">
 	<div class="dd-handle dd3-handle"></div>
 	<div class="dd3-content">
-		<a class="btn-update-menu btn-as-link" href="#">{{ $label }}</a>
+		<a class="btn-update-menu btn-as-link" data-navigation-item-id="{{ $list['id'] }}" href="#">{{ $label }}</a>
 		<div class="navigation-buttons">
 			@if(has_access('admin.navigation_item.edit'))
 	    	<a href="#" class="btn btn-sm btn-info btn-update-menu" data-navigation-item-id="{{ $list['id'] }}" title="Edit">
