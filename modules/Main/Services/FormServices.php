@@ -124,6 +124,10 @@ class FormServices
                 //ambil nilai dari data source
                 $out .= '<option value=""></option>';
                 $source = isset($input->data_source->output) ? $input->data_source->output : $input->data_source;
+                if(isset($input->array_source)){
+                    $source = call_user_func($input->array_source, $data);
+                }
+
                 foreach($source as $idd => $vall){
                     $out .= '<option value="'.$idd.'" '. ($oldVal == $idd ? 'selected' : '') .'>'.$vall.'</option>';
                 }
