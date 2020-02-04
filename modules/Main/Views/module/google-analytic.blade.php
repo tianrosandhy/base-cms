@@ -1,6 +1,6 @@
 @if(isset($analytic->report))
 	<script src="{{ admin_asset('vendor/chart.js/Chart.min.js') }}"></script>
-	<form action="" class="dashboard-form my-4">
+	<form with-loader action="" class="dashboard-form my-4">
 		<div class="card card-body">
 			<div class="row">
 				<div class="col-sm-8">

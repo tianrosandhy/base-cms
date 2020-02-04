@@ -2,7 +2,7 @@ var removedDiv;
 //hide loader
 $(window).on('load', function(){
 	setTimeout(function(){
-		$("#page-loader").fadeOut();
+		hideLoader();
 	}, 400);
 });
 
@@ -86,9 +86,28 @@ $(function(){
 		});
 	});
 
+
+	//form show loading after submit
+	$(document).on('submit', "form[with-loader]", function(){
+		showLoader();
+	});
+
+
 	initPlugin();
 
 });
+
+//loader show/hide helper
+function showLoader(){
+	$("#page-loader").fadeIn(300);
+}
+function hideLoader(){
+	$("#page-loader").fadeOut(300);
+}
+
+//loader show/hide alias name only
+var showLoading = showLoader;
+var hideLoading = hideLoader;
 
 
 function initPlugin(){
@@ -172,6 +191,7 @@ function swal(type, messages){
 		out += '<div class="alert alert-'+type+' text-center">'+msg+'</div>';
 	});
 	$("#alertModal .alert-modal-content").html(out);
+	hideLoading();
 	$("#alertModal").modal();
 }
 

@@ -10,6 +10,7 @@ class PostCategoryController extends AdminBaseController
 {
 	use Exportable;
 	public $hint = 'post_category';
+	public $as_ajax = true;
 
 	public function repo(){
 		return $this->hint;

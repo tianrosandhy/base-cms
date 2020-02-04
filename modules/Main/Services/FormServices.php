@@ -259,6 +259,13 @@ class FormServices
                 $input->input_attribute['maxlength'] = 300;
             }
         }
+        if(in_array($input->input_type, ['checkbox', 'radio'])){
+            //buang id supaya ga error js duplicate id
+            if(isset($input->input_attribute['id'])){
+                $input->input_attribute['data-id'] = $input->input_attribute['id'];
+                unset($input->input_attribute['id']);
+            }
+        }
 
         $attr = self::combineAttribute($input->input_attribute);
         return $attr;

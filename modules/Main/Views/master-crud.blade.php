@@ -38,7 +38,7 @@
 	'reload' => false
 ])
 
-<form action="" method="post" class="crud-post">
+<form action="" method="post" class="crud-post" with-loader>
 	{{ csrf_field() }}
 	<div class="card card-block card-body">
 		@if(isset($prepend_field))
@@ -125,35 +125,8 @@ $(function(){
 		});
 	}
 
-	$(document).on('submit', '.crud-post', function(){
-		$("#page-loader").fadeIn();
-	});
-
-	draft_interval = setInterval(function(){
-		saveAsDraft();
-	}, 20000);
 });
 
-function saveAsDraft(){
-	data = $(".crud-post").serialize();
-	data += '&force_draft=true';
-	$.ajax({
-		url : $(".crud-post").attr('action'),
-		type : 'POST',
-		dataType : 'json',
-		data : data,
-		success : function(resp){
-			if(resp.force_draft && resp.id){
-				$(".crud-post").attr('action', resp.saveurl);
-				toggleSuccess();
-			}
-		},
-		error : function(resp){
-			//kalo error, gausa jalanin lagi
-			clearInterval(draft_interval);
-		}
-	});
-}
 
 function setFormGroupBg(instance){
 	boxval = instance.val();

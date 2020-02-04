@@ -89,6 +89,7 @@ $(function(){
 		e.preventDefault();
 		//load from ajax
 		href = $(this).attr('href');
+		showLoading();
 		data = $.get(href, function(data){
 			$("#form-modal .modal-body").html(data);
 			$("#form-modal .modal-body form").attr('action', href);
@@ -102,6 +103,8 @@ $(function(){
 			if(typeof refreshDropzone == 'function'){
 				refreshDropzone();
 			}
+		}).always(function(){
+			hideLoading();
 		});
 	});
 
@@ -111,21 +114,21 @@ $(function(){
 		if(!method){
 			method = 'GET';
 		}
-
+		showLoading();
 		$.ajax({
 			url : $(this).attr('action'),
 			type : method,
 			dataType : 'json',
 			data : $(this).serialize(),
 			success : function(resp){
+				hideLoading();
 				if(resp.type == 'success'){
-					$("#page-loader").hide();
 					$("#form-modal").modal('hide');
 					toggleSuccess();
 				}
 			},
 			error : function(resp){
-				handleAjaxError(resp);
+				error_handling(resp);
 			}
 		});
 	});
