@@ -21,5 +21,8 @@
     if($("#sidebar").length > 0){
       new SimpleBar(document.getElementById('sidebar'));
     }
+    $("#sidebar").on('click', function(){
+      new SimpleBar(document.getElementById('sidebar'));
+    });
   });
 })(jQuery);
