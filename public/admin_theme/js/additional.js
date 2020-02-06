@@ -251,17 +251,16 @@ function loadTinyMce(){
 }
 
 function error_handling(resp){
+	if(resp.responseJSON){ //kalo berbentuk xhr object, translate ke json dulu
+		resp = resp.responseJSON;
+	}
+
 	if(resp.errors){
 		$.each(resp.errors, function(k, v){
 			swal('error', [v[0]]);
 		});
 	}
-
-	if(resp.responseJSON){ //kalo berbentuk xhr object, translate ke json dulu
-		resp = resp.responseJSON;
-	}
-
-	if(resp.type && resp.message){
+	else if(resp.type && resp.message){
 		swal('error', [resp.message]);
 	}
 	else{
