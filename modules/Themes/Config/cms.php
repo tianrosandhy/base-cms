@@ -5,8 +5,8 @@ return [
 		'menu' => [
 			'Themes' => [
 				'route' => 'admin.themes.index',
-				'icon' => 'fa fa-check-circle',
-				'sort' => 0
+				'icon' => 'fa fa-paint-brush',
+				'sort' => 19
 			],
 		],
 	]

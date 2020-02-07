@@ -4,7 +4,7 @@ return [
 	'admin' => [
 		'menu' => [
 			'Article' => [
-				'icon' => 'fa fa-check-circle',
+				'icon' => 'fa fa-newspaper-o',
 				'sort' => 0,
 				'submenu' => [
 					'Categories' => [
