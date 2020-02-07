@@ -76,6 +76,31 @@ class DefaultSetting extends Command
                 'group' => 'site',
             ],
             [
+                'param' => 'logo',
+                'name' => 'Site Logo',
+                'description' => 'Site logo in header section',
+                'default_value' => null,
+                'type' => 'image',
+                'group' => 'site',
+            ],
+            [
+                'param' => 'email',
+                'name' => 'Site Email',
+                'description' => 'Email listed in site',
+                'default_value' => null,
+                'type' => 'text',
+                'group' => 'site',
+            ],
+            [
+                'param' => 'phone',
+                'name' => 'Site Phone Number',
+                'description' => 'Phone listed in site',
+                'default_value' => null,
+                'type' => 'text',
+                'group' => 'site',
+            ],
+            
+            [
                 'param' => 'ga_tracking',
                 'name' => 'Google Analytic Tracking ID',
                 'description' => 'GA Tracking ID',
@@ -160,8 +185,8 @@ class DefaultSetting extends Command
             [
                 'param' => 'whatsapp',
                 'name' => 'Whatsapp Number',
-                'description' => 'Your whatsapp phone number',
-                'default_value' => '6289622224614',
+                'description' => 'Your whatsapp url',
+                'default_value' => 'https://web.whatsapp.com/send?phone=6289622224614',
                 'type' => 'text',
                 'group' => 'social'
             ],

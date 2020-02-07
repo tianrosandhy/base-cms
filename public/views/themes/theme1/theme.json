@@ -1,6 +1,6 @@
 {
     "name": "theme1",
-    "description": "Lorem ipsum dolor sit amet",
+    "description": "Default theme based on Canvas",
     "type": "frontend",
     "version": "dev"
 }

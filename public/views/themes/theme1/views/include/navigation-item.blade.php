@@ -4,10 +4,9 @@ $is_active = url($data['url']) == url()->current();
 $alias = slugify($label);
 $level++;
 ?>
-@if($level == 1)
-<li class="nav-item {{ $is_active ? 'active' : '' }} {{ $has_submenu ? 'dropdown' : '' }}">
+<li class="{{ $is_active ? 'active' : '' }} {{ $has_submenu ? 'dropdown' : '' }}">
 	<a 
-		class="nav-link {{ $has_submenu ? 'dropdown-toggle' : '' }}" 
+		class="{{ $has_submenu ? 'dropdown-toggle' : '' }}" 
 		href="{{ $has_submenu ? '#' : $data['url'] }}"
 		@if($has_submenu)
 		id="{{ $alias }}-navigation" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -22,7 +21,7 @@ $level++;
 		{{ $label }}
 	</a>
 	@if($has_submenu)
-	<div class="dropdown-menu" aria-labelledby="{{ $alias }}-navigation">
+		<ul>
 		@foreach($data['submenu'] as $sublabel => $subdata)
 			@include('include.navigation-item', [
 				'label' => $sublabel,
@@ -30,20 +29,6 @@ $level++;
 				'level' => $level
 			])
 		@endforeach
-	</div>
+		</ul>
 	@endif
 </li>
-@else
-<a 
-	class="dropdown-item" 
-	href="{{ url($data['url']) }}"
-	@if($data['new_tab'])
-	target="_blank"
-	@endif
->
-	@if($data['icon'])
-	<i class="fa-fw {{ $data['icon'] }}"></i>
-	@endif
-	{{ $label }}
-</a>
-@endif

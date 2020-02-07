@@ -2,6 +2,41 @@
 $posts = SiteInstance::post()->paginate(10);
 ?>
 @extends ('layouts.master')
+
+@section ('slider')
+<section id="slider" class="slider-element slider-parallax">
+	<div id="oc-slider" class="owl-carousel carousel-widget" data-margin="0" data-items="1" data-pagi="true" data-loop="true" data-speed="450" data-autoplay="5000">
+		<a href="#">
+			<img src="{{ asset('styling/images/slider/full/1.jpg') }}" alt="Slider">
+			<div class="owl-caption">
+				<div>
+					<h2 class="caption-title">Lorem ipsum dolor sit amet.</h2>
+					<p class="caption-description lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias minus nostrum modi repudiandae dolorum repellat, temporibus, incidunt et fugit illo!</p>
+				</div>
+			</div>
+		</a>
+		<a href="#">
+			<img src="{{ asset('styling/images/slider/full/2.jpg') }}" alt="Slider">
+			<div class="owl-caption">
+				<div>
+					<h2 class="caption-title">Lorem ipsum dolor sit amet.</h2>
+					<p class="caption-description lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias minus nostrum modi repudiandae dolorum repellat, temporibus, incidunt et fugit illo!</p>
+				</div>
+			</div>
+		</a>
+		<a href="#">
+			<img src="{{ asset('styling/images/slider/full/3.jpg') }}" alt="Slider">
+			<div class="owl-caption">
+				<div>
+					<h2 class="caption-title">Lorem ipsum dolor sit amet.</h2>
+					<p class="caption-description lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias minus nostrum modi repudiandae dolorum repellat, temporibus, incidunt et fugit illo!</p>
+				</div>
+			</div>
+		</a>
+	</div>
+</section>
+@endsection
+
 @section ('content')
 <div class="container">
 	<h2 class="mt-3 mb-3 display-4">This is just <b>Theme 1</b> Scaffolding Example</h2>
