@@ -352,7 +352,11 @@ function thumbnail($url, $get='', $fallback=true){
 
 
 function slugify($input, $delimiter='-'){
-	return strtolower(str_replace(' ', $delimiter, $input));
+	$string = strtolower(str_replace(' ', $delimiter, $input));
+	if(strpos($string, '&') !== false){
+		$string = str_replace('&', 'and', $string);
+	}
+	return $string;
 }
 
 function prettify($slug, $delimiter='-'){

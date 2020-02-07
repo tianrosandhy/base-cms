@@ -22,7 +22,6 @@ $posts = SiteInstance::post()->paginate(4);
 				</div>
 				<ul class="entry-meta clearfix">
 					<li><i class="icon-calendar3"></i> {{ date('d M Y H:i:s', strtotime($data['created_at'])) }}</li>
-					<li><a href="{{ route('front.post.detail', ['slug' => $data['slug']]) }}"><i class="icon-comments"></i> 53</a></li>
 				</ul>
 				<div class="entry-content">
 					<p>{{ $data['excerpt'] ? $data['excerpt'] : descriptionMaker($data['description'], 15) }}</p>
