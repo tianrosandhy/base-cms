@@ -583,3 +583,7 @@ function filesize_formatted($path)
 function random_color() {
     return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
 }
+
+function broken_image(){
+	return asset('admin_theme/img/broken-image.jpg');
+}

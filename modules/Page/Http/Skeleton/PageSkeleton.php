@@ -59,7 +59,7 @@ class PageSkeleton extends DataTable
             'id' => $this->checkerFormat($row),
 			'title' => $row->title,
 			'slug' => $row->slug,
-			'description' => $row->description,
+			'description' => descriptionMaker($row->description, 15),
 			'image' => $row->imageThumbnail('image', 'thumb', 70),
 			'is_active' => $this->switcher($row, 'is_active', 'admin.'.$this->route.'.switch'),
 			'action' => self::detailButton($row) . self::editButton($row) . self::deleteButton($row)

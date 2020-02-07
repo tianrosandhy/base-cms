@@ -22,7 +22,9 @@ class PostInstance extends BaseInstance
 			$out['related'] = [];
 			$out['likes'] = [];
 
-			$out['image'] = $this->data->getThumbnailUrl('image', 'large');
+			$out['image'] = $this->data->getThumbnailUrl('image', 'origin');
+			$out['image_list'] = thumbnail($this->data->image);
+			$out['seo'] = isset($this->data->seo) ? json_decode($this->data->seo, true) : [];
 
 			$tags = explode(',', $this->data->tags);
 			$out['tags'] = $tags;
