@@ -100,6 +100,7 @@
 	</div>
 
 	@if($data->max_level > 0)
+	@if(!isset($navigation->id))
 	<div class="form-group custom-form-group">
 		<label>Set Menu Parent</label>
 		<?php
@@ -117,6 +118,7 @@
 			@endforeach							
 		</select>
 	</div>
+	@endif
 	@endif
 
 	<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save Menu Data</button>

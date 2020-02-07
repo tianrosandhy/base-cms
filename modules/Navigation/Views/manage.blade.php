@@ -12,7 +12,7 @@
 
 <div class="card card-body mt-3 nav-holder">
 	@if(has_access('admin.navigation_item.store'))
-	<a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#navigationModal"><i class="fa fa-plus"></i> Add New Menu</a>
+	<a href="#" class="btn btn-primary mb-3 btn-add-navigation" data-toggle="modal" data-target="#navigationModal"><i class="fa fa-plus"></i> Add New Menu</a>
 	@endif
 
 	<div class="navigation-list-holder">
@@ -25,6 +25,9 @@
 @push ('modal')
 	@include ('navigation::partials.modal-crud')
 @endpush
+<template id="default-form-content">
+    @include ('navigation::partials.navigation-item-form')
+</template>
 
 @push ('script')
 <script src="{{ admin_asset('vendor/jquery-nestable/jquery.nestable.min.js') }}"></script>
@@ -55,6 +58,14 @@ $(function(){
 			}
 		});
 	});
+
+  $(document).on('click', '.btn-add-navigation', function(){
+      $("#navigationModal .default-modal-content").html(
+          $("#default-form-content").html()
+      );
+      initAfterLoadModal();
+  });
+
 
 	$(document).on('click', '.reorder-btn', function(){
 		reorder_data = window.JSON.stringify($(".nav-nestable").nestable('serialize'));

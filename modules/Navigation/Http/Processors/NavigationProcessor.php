@@ -100,7 +100,9 @@ class NavigationProcessor
 		$this->stored['group_id'] = $this->post['group_id'];
 		$this->stored['icon'] = $this->post['icon'];
 		$this->stored['new_tab'] = $this->post['new_tab'];
-		$this->stored['parent'] = $this->post['parent'];
+    if(isset($this->post['parent'])){
+        $this->stored['parent'] = $this->post['parent'];
+    }
 
 		if(isset($this->post['navigation_item_id'])){
 			$this->stored['id'] = $this->post['navigation_item_id'];

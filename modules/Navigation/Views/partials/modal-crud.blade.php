@@ -6,7 +6,6 @@
 				<h5 class="text-left p-b-5 default-modal-title">Manage Navigation Data</h5>
 			</div>
 			<div class="modal-body default-modal-content">
-				@include ('navigation::partials.navigation-item-form')
 			</div>
 		</div>
 	</div>

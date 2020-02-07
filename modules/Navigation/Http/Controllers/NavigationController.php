@@ -93,6 +93,9 @@ class NavigationController extends AdminBaseController
 		if(empty($data)){
 			abort(404);
 		}
+		if(!$this->request->title){
+			return back()->with('error', 'Please fill the menu title')->withInput();
+		}
 
 		$processor = new NavigationProcessor($this->request);
 		$processor->save();
