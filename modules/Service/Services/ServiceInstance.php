@@ -11,8 +11,12 @@ class ServiceInstance extends BaseInstance
 		parent::__construct('service');
 	}
 
-	public function categories(){
-		return app(config('model.service_category'))->where('is_active', 1)->get();
+	public function categories($homepage_only=false){
+		$data = app(config('model.service_category'))->where('is_active', 1);
+		if($homepage_only){
+			$data = $data->where('show_on_homepage', 1);
+		}
+		return $data->get();
 	}
 
 }

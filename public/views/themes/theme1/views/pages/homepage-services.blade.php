@@ -6,7 +6,7 @@ $service_categories = SiteInstance::service()->categories();
 <div class="container">
 	<section id="homepage-service" class="pb-5">
 		<div class="heading-block topmargin-sm center">
-			<h3>Check Our Projects</h3>
+			<h3>Our Projects</h3>
 			<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias dolore tempora, deserunt, vitae tempore fuga.</p>
 		</div>
 

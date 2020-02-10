@@ -27,7 +27,10 @@ class Service extends Migration
         Schema::create('service_categories', function(Blueprint $table){
             $table->increments('id');
             $table->string('title');
+            $table->text('excerpt')->nullable();
             $table->text('description')->nullable();
+            $table->text('image')->nullable();
+            $table->tinyinteger('show_on_homepage')->nullable();
             $table->tinyinteger('is_active')->nullable();
             $table->timestamps();
         });

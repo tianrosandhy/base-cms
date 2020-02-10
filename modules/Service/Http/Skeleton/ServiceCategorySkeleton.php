@@ -22,13 +22,26 @@ class ServiceCategorySkeleton extends DataTable
 			->formColumn(12)
 			->createValidation('required', true); //true = updatenya persis sama
 
+		$this->structure[] = DataStructure::field('excerpt')
+			->name('Excerpt')
+			->formColumn(12)
+			->inputType('textarea');
+
 		$this->structure[] = DataStructure::field('description')
 			->name('Description')
 			->formColumn(12)
 			->hideTable()
 			->inputType('richtext');
 
-		$this->structure[] = DataStructure::switcher('is_active', 'Is Active', 12);
+		$this->structure[] = DataStructure::field('image')
+			->name('Image')
+			->formColumn(12)
+			->inputType('image')
+			->searchable(false)
+			->orderable(false);
+
+		$this->structure[] = DataStructure::switcher('show_on_homepage', 'Show on Homepage', 6);
+		$this->structure[] = DataStructure::switcher('is_active', 'Is Active', 6);
 		
 	}
 
@@ -44,6 +57,9 @@ class ServiceCategorySkeleton extends DataTable
 		return [
             'id' => $this->checkerFormat($row),
 			'title' => $row->title,
+			'excerpt' => $row->excerpt,
+			'image' => $row->imageThumbnail('image', 'thumb', 50),
+			'show_on_homepage' => has_access('admin.'.$this->route.'.switch') ? $this->switcher($row, 'show_on_homepage', 'admin.'.$this->route.'.switch') : ( $row->show_on_homepage ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Draft</span>'),
 			'is_active' => has_access('admin.'.$this->route.'.switch') ? $this->switcher($row, 'is_active', 'admin.'.$this->route.'.switch') : ( $row->is_active ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Draft</span>'),
 			'action' => self::editButton($row) . self::deleteButton($row)
 		];
@@ -78,3 +94,4 @@ class ServiceCategorySkeleton extends DataTable
 
 
 }
+?>
