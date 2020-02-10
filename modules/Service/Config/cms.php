@@ -8,7 +8,7 @@ return [
 				'icon' => 'fa fa-smile-o',
 				'sort' => 3,
 				'submenu' => [
-					'Data' => [
+					'Portfolio' => [
 						'route' => 'admin.service.index'
 					],
 					'Category' => [

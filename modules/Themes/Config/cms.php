@@ -3,10 +3,14 @@
 return [
 	'admin' => [
 		'menu' => [
-			'Themes' => [
-				'route' => 'admin.themes.index',
-				'icon' => 'fa fa-paint-brush',
-				'sort' => 19
+			'Settings' => [
+				'submenu' => [
+					'Themes' => [
+						'route' => 'admin.themes.index',
+						'icon' => 'fa fa-paint-brush',
+						'sort' => 19
+					]
+				]
 			],
 		],
 	]

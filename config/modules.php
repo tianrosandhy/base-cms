@@ -7,6 +7,8 @@ return [
 		\Module\Page\PageServiceProvider::class,
 		\Module\Banner\BannerServiceProvider::class,
 		\Module\Service\ServiceServiceProvider::class,
+		\Module\Product\ProductServiceProvider::class,
+		\Module\Contact\ContactServiceProvider::class,
 		\Module\Media\MediaServiceProvider::class,
 		\Module\Site\SiteServiceProvider::class,
 		\Module\Themes\ThemesServiceProvider::class,

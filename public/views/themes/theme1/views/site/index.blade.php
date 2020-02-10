@@ -5,10 +5,11 @@
 @endsection
 
 @section ('content')
-@include ('pages.homepage-top-text')
-<div class="container">
-	@include ('pages.homepage-services')
+	@include ('pages.homepage-top-text')
 
+	@include ('pages.homepage-services')
+	@include ('pages.homepage-product')
 	@include ('pages.homepage-blog')
-</div>
+	@include ('pages.contact-us')
+
 @stop

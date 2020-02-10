@@ -4,13 +4,13 @@ return [
 		'upload_path' => 'service',
 		'export_excel' => false,
 		'lang_data' => [
-			'index.title' => 'Service Data',
-			'create.title' => 'Add New Service',
-			'edit.title' => 'Edit Service Data',
+			'index.title' => 'Portfolio Data',
+			'create.title' => 'Add New Portfolio',
+			'edit.title' => 'Edit Portfolio Data',
 
-			'store.success' => 'Service data has been saved',
-			'update.success' => 'Service data has been updated',
-			'delete.success' => 'Service data has been deleted',
+			'store.success' => 'Portfolio data has been saved',
+			'update.success' => 'Portfolio data has been updated',
+			'delete.success' => 'Portfolio data has been deleted',
 		],
 		'view' => [
 			'index' => 'main::master-table',

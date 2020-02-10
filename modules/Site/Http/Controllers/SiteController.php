@@ -3,11 +3,12 @@ namespace Module\Site\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use SiteInstance;
+use Illuminate\Http\Request;
 
 class SiteController extends Controller
 {
-	public function __construct(){
-		
+	public function __construct(Request $req){
+		$this->request = $req;
 	}
 
 	public function index(){
@@ -47,4 +48,15 @@ class SiteController extends Controller
 			'mode'
 		));
 	}
+
+
+	public function sendContact(){
+		if(SiteInstance::contact()->store()){
+			return back()->with('success', 'Thank you, your message has been sent');
+		}
+		else{
+			return back()->with('error', 'Invalid request');
+		}
+	}
+
 }
