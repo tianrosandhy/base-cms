@@ -7,6 +7,9 @@ $banners = SiteInstance::banner()->all('id', 'ASC', true);
 		@foreach($banners as $ban)
 		<div>
 			<img src="{{ $ban->getThumbnailUrl('image', 'extralarge') }}" alt="Slider">
+			@if(setting('site.theme') == 'dark')
+				<div class="dark-overlay"></div>
+			@endif
 			<div class="owl-caption">
 				<div>
 					<h2 class="caption-title">{{ $ban->title }}</h2>
