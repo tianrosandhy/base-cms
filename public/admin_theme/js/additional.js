@@ -112,7 +112,16 @@ var hideLoading = hideLoader;
 
 function initPlugin(){
 	//init select2
-	$(".select2").select2();
+	$(".select2").each(function(){
+		if($(this).attr('maxlength')){
+			$(this).select2({
+				maximumSelectionLength : $(this).attr('maxlength')
+			});
+		}
+		else{
+			$(this).select2();
+		}
+	});
 
 	//datepicker
 	$("[data-datepicker]").each(function(){

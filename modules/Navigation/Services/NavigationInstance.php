@@ -49,10 +49,14 @@ class NavigationInstance extends BaseInstance
 	protected function makeItemInstance($row, $max_level=0, $current_level=0){
 		$resp = null;
 		if($current_level <= $max_level){
+			$url = $row->url;
+			if($row->type <> 'url' && !empty($row->slug)){
+				$url .= $row->slug;
+			}
 			$resp = [
 				'id' => $row->id,
 				'type' => $row->type,
-				'url' => $row->url,
+				'url' => $url,
 				'new_tab' => $row->new_tab,
 				'icon' => $row->icon,
 			];
