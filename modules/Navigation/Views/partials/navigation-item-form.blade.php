@@ -45,6 +45,7 @@
 				?>
 				<div class="select2-dynamic-container" style="flex:1 1 auto;">
 					<select name="slug[{{ $name }}]" class="form-control select2">
+						<option value=""></option>
 						@foreach($source_data as $row)
 						<option value="{{ $row->{$param['source_slug']} }}" {{ $row->{$param['source_slug']} == $sel_slug ? 'selected' : '' }}>{{ $row->{$param['source_label']} }}</option>
 						@endforeach
