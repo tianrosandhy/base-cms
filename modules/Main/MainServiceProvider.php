@@ -17,15 +17,6 @@ class MainServiceProvider extends ServiceProvider
 		$this->loadMigrationsFrom(realpath(__DIR__."/Migrations"));
 		$this->registerValidator();
 		$this->publishAssets();
-		if ($this->app->runningInConsole()) {
-	        $this->commands([
-	            Console\DefaultSetting::class,
-	            Console\UpdateStructure::class,
-	            Console\ModuleScaffold::class,
-	            Console\NewAdmin::class,
-	            Console\SetRole::class,
-	        ]);
-	    }
 	}
 
 	protected function publishAssets(){
@@ -107,6 +98,14 @@ class MainServiceProvider extends ServiceProvider
 		$this->loadModules();
 		$this->mergeMainConfig();
 		$this->registerAlias();
+
+		$this->commands([
+			Console\DefaultSetting::class,
+			Console\UpdateStructure::class,
+			Console\ModuleScaffold::class,
+			Console\NewAdmin::class,
+			Console\SetRole::class,
+		]);
 	}
 
 
