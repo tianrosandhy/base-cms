@@ -34,6 +34,11 @@ else{
 		$data = null;
 	}
 }
+
+//in case default is empty, back to default value from old()
+if(empty($default)){
+    $default = old(str_replace('[]', '', $row->field), null);
+}
 ?>
 
 {!! FormService::input($row, $default, $data) !!}

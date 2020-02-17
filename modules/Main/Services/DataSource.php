@@ -24,7 +24,7 @@ class DataSource
 	}
 
 	public function options($shown='', $filter=[], $pk='id'){
-		$data = $this->model->filter($filter);
+		$data = $this->model->filter($filter, $pk);
 		$out = [];
 		foreach($data as $row){
 			if(isset($row->{$pk}) && isset($row->{$shown})){
