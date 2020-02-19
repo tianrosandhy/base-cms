@@ -114,6 +114,7 @@ class ModuleScaffold extends Command
             self::changeContent($module_dir .'/Exceptions/'.$name.'Exception.php');
             self::changeContent($module_dir .'/Facades/'.$name.'Facade.php');
             self::changeContent($module_dir .'/Services/'.$name.'Instance.php');
+            self::changeContent($module_dir .'/SettingExtender/ModuleExtender.php');
 
             $this->info('New module has been created for you. Now you just need to register the service provider (in config/modules.php or in config/app.php) , manage migration, manage the model and skeleton.');
         }

@@ -116,7 +116,7 @@ class InstallController extends Controller{
 		#buat admin baru
         self::createUser($this->request->name, $this->request->email, $this->request->password);
         (new SetRole)->actionRunner();
-        (new DefaultSetting)->actionRunner($this->request->title, $this->request->description);
+        \Setting::all();
 
 		Artisan::call('vendor:publish', [
 			'--tag' => 'tianrosandhy-cms'

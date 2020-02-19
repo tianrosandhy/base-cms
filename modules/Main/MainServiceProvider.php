@@ -100,7 +100,6 @@ class MainServiceProvider extends ServiceProvider
 		$this->registerAlias();
 
 		$this->commands([
-			Console\DefaultSetting::class,
 			Console\UpdateStructure::class,
 			Console\ModuleScaffold::class,
 			Console\NewAdmin::class,
@@ -197,6 +196,7 @@ class MainServiceProvider extends ServiceProvider
 	        'DataStructure' => \Module\Main\Facades\DataStructureFacades::class,
 	        'DataSource' => \Module\Main\Facades\DataSourceFacades::class,
 	        'FormService' => \Module\Main\Facades\FormFacades::class,
+	        'Setting' => \Module\Main\Facades\SettingFacades::class,
         ];
 
         foreach($aliasData as $al => $src){

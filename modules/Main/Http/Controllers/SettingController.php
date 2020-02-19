@@ -8,6 +8,7 @@ use ImageService;
 use Module\Main\Http\Repository\CrudRepository;
 use Storage;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
+use Setting;
 
 class SettingController extends AdminBaseController
 {
@@ -19,9 +20,11 @@ class SettingController extends AdminBaseController
 	}
 
 	public function index(){
-		$settings = SettingStructure::get()->groupBy('group');
+		$settings = Setting::all();
+		$title = "Setting";
 		return view('main::module.setting', compact(
-			'settings'
+			'settings',
+			'title'
 		));
 	}
 
@@ -82,11 +85,27 @@ class SettingController extends AdminBaseController
 
 	public function update($id=0){
 		$instance = $this->repo->all();
-		foreach($instance as $row){
-			if(array_key_exists($row->id, $this->request->value)){
-				$value = $this->request->value[$row->id];
-				$this->repo->update($row->id, [
-					'default_value' => $value
+		foreach($this->request->value as $keys => $value){
+			$pch = explode('.', $keys);
+			if(count($pch) <> 2){
+				continue; //invalid request
+			}
+			$grab = $instance->where('group', $pch[0])->where('param', $pch[1])->first();
+			if(!empty($grab)){
+				//update value
+				$grab->default_value = $value;
+				$grab->save();
+			}
+			else{
+				//create new setting instance
+				$name = ucwords(implode(' ', explode('_', $pch[1])));
+
+				$this->repo->insert([
+					'group' => $pch[0],
+					'param' => $pch[1],
+					'default_value' => $value,
+					'name' => $name,
+					'type' => 'custom'
 				]);
 			}
 		}
