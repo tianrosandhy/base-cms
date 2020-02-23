@@ -7,6 +7,8 @@ use Storage;
 
 class MediaInstance
 {
+	use Traits\Uploader;
+
 	public 
 		$base_dir, 
 		$path, 

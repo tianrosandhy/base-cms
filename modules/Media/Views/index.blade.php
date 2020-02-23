@@ -1,18 +1,67 @@
 @extends ('main::master')
 
 @include ('main::assets.fancybox')
+@include ('media::inc.dropzone-asset')
 
 @section ('content')
 <h2 class="mb-3">{{ $title }}</h2>
 
-<div class="media-holder"></div>
+<?php
+$hash = sha1(rand(1, 10000) . uniqid() . time());
+?>
+<input type="text" name="image" value="" class="form-control" id="{{ $hash }}">
+<div class="padd">
+	<button class="btn btn-primary" id="media-set-image" data-target="#{{ $hash }}">Set Image</button>
+</div>
+
+<div class="modal fade fill-in" id="mediaModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<button type="button" class="modal-custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="text-left p-b-5 default-modal-title">Choose Image</h5>
+			</div>
+			<div class="modal-body default-modal-content">
+
+				<ul class="nav nav-tabs" id="media-tab" role="tablist">
+				  <li class="nav-item">
+				    <a class="nav-link active" id="select-uploaded-tab" data-toggle="tab" href="#select-uploaded" role="tab" aria-controls="select-uploaded" aria-selected="true"><i class="fa fa-table fa-fw"></i> Select Uploaded</a>
+				  </li>
+				  <li class="nav-item">
+				    <a class="nav-link" id="manual-tab" data-toggle="tab" href="#manual" role="tab" aria-controls="manual" aria-selected="false"><i class="fa fa-upload fa-fw"></i> Upload Manually</a>
+				  </li>
+				</ul>
+				<div class="tab-content" id="myTabContent">
+				  <div class="tab-pane fade show active" id="select-uploaded" role="tabpanel" aria-labelledby="select-uploaded-tab">
+				  	<div class="card card-body">
+							<div class="media-holder"></div>
+				  	</div>
+				  </div>
+				  <div class="tab-pane fade" id="manual" role="tabpanel" aria-labelledby="manual-tab">
+				  	<div class="card card-body">
+					  	@include ('media::inc.dropzone-multiple')
+				  	</div>
+				  </div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
 @stop
 
 @push ('script')
 <script>
 var CURRENT_SHORTLINK = null;
 $(function(){
-	openPage();
+	$("#media-set-image").on('click', function(){
+		openPage();
+		$("#mediaModal").attr('data-target', $(this).attr('data-target'));
+		$("#mediaModal").modal('show');
+	});
+
+
 	$(document).on('click', '.open-directory', function(e){
 		e.preventDefault();
 		shortlink = $(this).attr('shortlink');

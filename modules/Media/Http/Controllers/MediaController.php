@@ -5,6 +5,7 @@ use Module\Main\Http\Repository\CrudRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use MediaInstance;
+use Module\Media\Exceptions\MediaException;
 
 class MediaController extends Controller
 {
@@ -23,6 +24,24 @@ class MediaController extends Controller
 			'data'
 		));
 	}
+
+	public function upload(){
+		try {
+			$uploader = MediaInstance::upload($this->request->file);
+		} catch (MediaException $e) {
+			return response()->json([
+				'type' => 'error',
+				'message' => $e->getMessage()
+			], 403);
+		}
+
+		return response()->json([
+			'type' => 'success',
+			'message' => $uploader->id
+		]);
+	}
+
+
 
 	public function load(){
 		$shortlink = $this->request->shortlink;
