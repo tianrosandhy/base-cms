@@ -9,14 +9,24 @@
 <?php
 $hash = sha1(rand(1, 10000) . uniqid() . time());
 ?>
-<input type="text" name="image" value="" class="form-control" id="{{ $hash }}">
-<div class="padd">
-	<button class="btn btn-primary" id="media-set-image" data-target="#{{ $hash }}">Set Image</button>
+<div class="image-input-holder card" data-hash="#{{ $hash }}">
+	<input type="hidden" name="image" value="" class="form-control" id="{{ $hash }}">
+	<div class="card-body text-center">
+		<img src="{{ admin_asset('img/broken-image.jpg') }}" alt="Image Example" style="width:100%;">
+		<div class="closer">&times;</div>
+	</div>
+	<div class="card-footer">
+		<button class="btn btn-block btn-primary" id="media-set-image" data-target="#{{ $hash }}">Set Image</button>
+	</div>
 </div>
+
+
+
+
 
 <div class="modal fade fill-in" id="mediaModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<button type="button" class="modal-custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-xl">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="text-left p-b-5 default-modal-title">Choose Image</h5>
@@ -35,6 +45,7 @@ $hash = sha1(rand(1, 10000) . uniqid() . time());
 				  <div class="tab-pane fade show active" id="select-uploaded" role="tabpanel" aria-labelledby="select-uploaded-tab">
 				  	<div class="card card-body">
 							<div class="media-holder"></div>
+							@include ('media::partials.media-detail')
 				  	</div>
 				  </div>
 				  <div class="tab-pane fade" id="manual" role="tabpanel" aria-labelledby="manual-tab">
@@ -53,7 +64,7 @@ $hash = sha1(rand(1, 10000) . uniqid() . time());
 
 @push ('script')
 <script>
-var CURRENT_SHORTLINK = null;
+var DEFAULT_THUMBNAIL = '{{ admin_asset('img/broken-image.jpg') }}';
 $(function(){
 	$("#media-set-image").on('click', function(){
 		openPage();
@@ -62,71 +73,44 @@ $(function(){
 	});
 
 
-	$(document).on('click', '.open-directory', function(e){
-		e.preventDefault();
-		shortlink = $(this).attr('shortlink');
-		CURRENT_SHORTLINK = shortlink;
-		openPage(shortlink);
+	$(document).on('click', ".media-container .image-thumb-selection", function(){
+		$(".media-detail .image-thumbnail").attr('src', $(this).attr('data-thumb'));
+		$(".media-detail .filename").html($(this).attr('data-filename'));
+		$(".media-detail .url a").html($(this).attr('data-origin'));
+		$(".media-detail .url a").attr('href', $(this).attr('data-origin'));
+		$("#media-selected-id").val($(this).attr('data-id'));
+		$(".media-detail").show();
 	});
 
-	$(document).on('change', '.file-checker', function(){
-		manageToggleAllButton();
+	$(document).on('click', ".media-detail .closer", function(){
+		$(".media-detail").fadeOut(250);
 	});
 
-	$(document).on('click', '.btn-select-all-file', function(e){
+	$(document).on('click', '#set-this-image', function(e){
 		e.preventDefault();
-		$(".file-checker").each(function(){
-			$(this).prop('checked', true);
-		});
-	});
-	
-	$(document).on('click', '.btn-unselect-all-file', function(e){
-		e.preventDefault();
-		$(".file-checker").each(function(){
-			$(this).prop('checked', false);
-		});
-		manageToggleAllButton();
-	});
-	
-	$(document).on('click', '.btn-remove-selected', function(e){
-		e.preventDefault();		
-		output = '<p>The file checked will be deleted. Are you sure?</p><button class="btn btn-primary" data-dismiss="modal">Cancel</button> <button class="btn btn-danger" onclick="runRemoveBatchFile()">Yes, Delete</button>';
-		swal('Run Batch Delete?', [output]);
 
+		let resp = new Object;
+		resp['id'] = $("#media-selected-id").val();
+		resp['thumb'] = $('.media-detail .thumbnail_size').val();
+
+		target = $('#mediaModal').attr('data-target');
+		$('.image-input-holder[data-hash="'+target+'"] img').attr('src', $(".media-detail .image-thumbnail").attr('src'));
+		$(target).val(window.JSON.stringify(resp));
+		$(".media-detail").fadeOut();
+		$("#mediaModal").modal('hide');
 	});
+
+	$(document).on('click', '.image-input-holder .closer', function(){
+		ih = $(this).closest('.image-input-holder');
+		$('input' + ih.attr('data-hash')).val('');
+		ih.find('img').attr('src', window.DEFAULT_THUMBNAIL);
+	});
+
 });
 
-function runRemoveBatchFile(){
-	ids = [];
-	$(".file-checker").each(function(){
-		if($(this).is(':checked')){
-			ids.push($(this).val());
-		}
-	});
-
-	$.ajax({
-		url : window.BASE_URL + '/media/delete',
-		type : 'POST',
-		dataType : 'json',
-		data : {
-			_token : window.CSRF_TOKEN,
-			data : ids
-		},
-		success : function(resp){
-			toggleSuccess();
-			openPage(window.CURRENT_SHORTLINK);
-		},
-		error : function(resp){
-			$("#page-loader").hide();
-			swal('error', ['Sorry, we cannot remove the files']);
-		}
-	});
-
-	console.log(ids);
-}
-
-function openPage(shortlink){
-	target_url = shortlink ? window.BASE_URL + '/media/load?shortlink=' + shortlink : window.BASE_URL + '/media/load';
+function openPage(page){
+	page = page || 1;
+	target_url = window.BASE_URL + '/media/load?page=' + page;
 
 	$("#page-loader").show();
 	$.ajax({
@@ -136,30 +120,16 @@ function openPage(shortlink){
 		success : function(resp){
 			$(".media-holder").html(resp);
 			$("#page-loader").hide();
-			$('[data-toggle="tooltip"]').tooltip();
+
+			thumb_width = $(".media-holder img").width();
+			$(".media-holder img").height(thumb_width);
+
 		},
 		error : function(resp){
 			swal('error', ['Failed to load the media']);
 			$("#page-loader").hide();
 		}
 	});
-}
-
-
-function manageToggleAllButton(){
-	cond = false;
-	$("input.file-checker").each(function(){
-		if($(this).prop('checked')){
-			cond = true;
-		}
-	});
-
-	if(cond){
-		$(".media-control").slideDown();
-	}
-	else{
-		$(".media-control").slideUp();
-	}
 }
 
 </script>

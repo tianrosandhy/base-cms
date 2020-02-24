@@ -44,13 +44,9 @@ class MediaController extends Controller
 
 
 	public function load(){
-		$shortlink = $this->request->shortlink;
-		$data = MediaInstance::content($shortlink);
-		$links = MediaInstance::linkStructure($shortlink);
+		$data = MediaInstance::content($this->request->page, $this->request->filter);
 		return view('media::file-manager', compact(
-			'data',
-			'shortlink',
-			'links'
+			'data'
 		));
 	}
 

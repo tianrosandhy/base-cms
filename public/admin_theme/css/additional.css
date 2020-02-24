@@ -874,7 +874,6 @@ label.mandatory::after{
 .media-container{
 	position:relative;
 	background:#fff;
-	padding:1.5em;
 }
 
 .media-container .item{
@@ -888,6 +887,7 @@ label.mandatory::after{
 	-o-transition:.25s ease;
 	-webkit-transition:.25s ease;
 	-ms-transition:.25s ease;
+	border-radius:4px;
 }
 
 .media-container .item:hover{
@@ -942,15 +942,44 @@ label.mandatory::after{
 	background:rgba(200, 0, 0, .75);
 }
 
+.media-detail{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background:rgba(255,255,255,.9);
+	padding:2em;
+}
+
+.media-detail .closer, .image-input-holder .closer{
+	position:absolute;
+	top:0;
+	right:0;
+	padding:.6em 1em;
+	font-size:20px;
+	background:#d00;
+	color:#fff;
+	cursor:pointer;
+}
+.media-detail .closer:hover, .image-input-holder .closer:hover{
+	background:#b00;
+}
 
 
+.media-holder .item img{
+	object-fit:cover;
+}
+
+.media-holder .item a{
+	text-decoration:none;
+}
 
 
-
-
-
-
-
+.image-input-holder{
+	display:inline-block;
+	max-width:200px;
+}
 
 
 

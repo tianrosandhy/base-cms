@@ -3,6 +3,7 @@ namespace Module\Media\Services;
 
 use Module\Main\Http\Repository\CrudRepository;
 use Module\Media\Exceptions\MediaException;
+use Module\Media\Models\Media;
 use Storage;
 
 class MediaInstance
@@ -19,39 +20,26 @@ class MediaInstance
 		$this->base_dir = public_path('storage');
 	}
 
-	protected function setCurrentPath($path){
-		$this->path = $path;
-		return $this;
-	}
 
-	public function content($path=''){
-		$this->setCurrentPath($path);
-		$this->getListByPath();
-		$this->generateContentStructure();
-		return $this->structured;
-	}
-
-
-	public function linkStructure($shortlink=''){
-		$out[] = [
-			'name' => '..',
-			'target' => ''
-		];
-
-		if(strlen($shortlink) > 0){
-			$pch = explode(DIRECTORY_SEPARATOR, $shortlink);
-			$target = '';
-			foreach($pch as $path){
-				$target .= $path;
-				$out[] = [
-					'name' => $path,
-					'target' => $target
-				];
-				$target .= DIRECTORY_SEPARATOR;
+	public function content($page=1, $filter=[], $per_page=20){
+		//available filters : filename, extension, date
+		$media = new Media;
+		if(isset($filter['filename'])){
+			if(strlen($filter['filename']) > 0){
+				$media = $media->where('filename', 'like', '%'.$filter['filename'].'%');
 			}
 		}
-		return $out;
+		if(isset($filter['extension'])){
+			$media = $media->where('extension', 'jpeg');
+		}
+		if(isset($filter['date'])){
+			$df = date('Y/m/', strtotime($filter['date']));
+			$media = $media->where('path', 'like', '%'.$df.'%');
+		}
+
+		return $media->paginate($per_page, ['*'], 'page', $page);
 	}
+
 
 	public function remove($shortcode){
 		$ret = false;
@@ -65,29 +53,6 @@ class MediaInstance
 	}
 
 
-
-
-
-	protected function getListByPath($path=null){
-		if(empty($path)){
-			$path = $this->path;
-		}
-
-		$target_scan = $this->base_dir . (strlen($path) > 0 ? DIRECTORY_SEPARATOR . $path : '');
-
-		$lists = [];
-		if(file_exists($target_scan)){
-			$lists = scandir($target_scan);
-			//hapus . dan ..
-			if(isset($lists[0]) && isset($lists[1])){
-				unset($lists[0]);
-				unset($lists[1]);
-			}
-			$lists = array_values($lists);
-		}
-		$this->lists = $lists;
-		return $lists;
-	}
 
 	protected function generateContentStructure(){
 		$allowed_extension = config('module-setting.media.allowed_extension');
