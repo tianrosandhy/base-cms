@@ -8,6 +8,10 @@ function redate($date_format, $date_data){
 	return $date->format($date_format);
 }
 
+function datethis($date_object, $format='d M Y'){
+  return redate($format, strtotime($date_object));
+}
+
 function nonce_generate($age=86400){
 	$time = time() + $age;
 	return encrypt($time);

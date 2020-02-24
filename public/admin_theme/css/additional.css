@@ -952,17 +952,19 @@ label.mandatory::after{
 	padding:2em;
 }
 
-.media-detail .closer, .image-input-holder .closer{
+.media-detail .image-closer, .image-input-holder .image-closer{
 	position:absolute;
 	top:0;
 	right:0;
-	padding:.6em 1em;
+	padding:.2em .5em;
 	font-size:20px;
 	background:#d00;
 	color:#fff;
 	cursor:pointer;
+	border-radius:0 0 0 5px;
+	-moz-border-radius:0 0 0 5px;
 }
-.media-detail .closer:hover, .image-input-holder .closer:hover{
+.media-detail .image-closer:hover, .image-input-holder .image-closer:hover{
 	background:#b00;
 }
 
@@ -976,13 +978,22 @@ label.mandatory::after{
 }
 
 
+.input-multiple-container{
+	display:flex;
+	display:-moz-flex;
+	justify-content:flex-start;
+	flex-flow:wrap;
+}
+
 .image-input-holder{
 	display:inline-block;
-	max-width:200px;
+	margin:.5em;
 }
 
 .image-input-holder img{
+	width:100px;
 	height:100px;
+	max-width:100%;
 	object-fit:contain;
 }
 

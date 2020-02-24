@@ -59,7 +59,7 @@ $(function(){
     $(".media-detail").show();
   });
 
-  $(document).on('click', ".media-detail .closer", function(){
+  $(document).on('click', ".media-detail .image-closer", function(){
     $(".media-detail").fadeOut(250);
   });
 
@@ -77,7 +77,7 @@ $(function(){
     $("#mediaModal").modal('hide');
   });
 
-  $(document).on('click', '.image-input-holder .closer', function(){
+  $(document).on('click', '.image-input-holder .image-closer', function(){
     ih = $(this).closest('.image-input-holder');
     $('input' + ih.attr('data-hash')).val('');
     ih.find('img').attr('src', window.DEFAULT_THUMBNAIL);
@@ -98,7 +98,7 @@ $(function(){
 
   });
 
-  $(document).on('click', '.input-multiple-holder .closer', function(e){
+  $(document).on('click', '.input-multiple-holder .image-closer', function(e){
     $(this).closest('.image-input-holder').remove();
     if($(".input-multiple-holder .image-input-holder").length == 0){
       $(".btn-add-images").trigger('click');

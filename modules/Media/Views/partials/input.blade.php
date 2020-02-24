@@ -10,8 +10,8 @@ if(isset($value_decode['id']) && isset($value_decode['thumb'])){
 <div class="image-input-holder card" data-hash="#{{ $hash }}">
   <input type="hidden" name="{{ $name }}" value="{{ $value }}" class="form-control" id="{{ $hash }}">
   <div class="card-body text-center">
-    <img src="{{ $data }}" alt="Uploaded Image" style="width:100%;">
-    <div class="closer">&times;</div>
+    <img src="{{ $data }}" alt="Uploaded Image">
+    <div class="image-closer">&times;</div>
   </div>
   <div class="card-footer">
     <button type="button" class="btn btn-block btn-primary media-set-image" data-target="#{{ $hash }}">Set Image</button>

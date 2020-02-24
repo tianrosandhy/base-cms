@@ -70,7 +70,7 @@ class MediaInstance
 			$media = $media->where('path', 'like', '%'.$df.'%');
 		}
 
-		return $media->paginate($per_page, ['*'], 'page', $page);
+		return $media->orderBy('id', 'DESC')->paginate($per_page, ['*'], 'page', $page);
 	}
 
 
