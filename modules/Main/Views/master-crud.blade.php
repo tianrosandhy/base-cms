@@ -6,6 +6,9 @@
 	@if($used_plugin['cropper'])
 		@include ('main::assets.cropper')
 	@endif
+	@if($used_plugin['media'])
+		@include ('media::use-media')
+	@endif
 	
 	{{-- Gutenberg itu makan resource yg besar. Daripada sembarangan diload, bikin berat mending dibikin optional --}}
 	@if($used_plugin['gutenberg'])

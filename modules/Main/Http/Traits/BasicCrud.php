@@ -93,14 +93,18 @@ trait BasicCrud
 		$used_plugin = [
 			'gutenberg' => false,
 			'dropzone' => false,
-			'cropper' => false
+			'cropper' => false,
+			'media' => false
 		];
 
 		if($collect->where('input_type', 'gutenberg')->count() > 0){
 			$used_plugin['gutenberg'] = true;
 		}
-		if($collect->whereIn('input_type', ['image', 'image_multiple', 'file', 'file_multiple'])->count() > 0){
+		if($collect->whereIn('input_type', ['file', 'file_multiple'])->count() > 0){
 			$used_plugin['dropzone'] = true;
+		}
+		if($collect->whereIn('input_type', ['image', 'image_multiple'])->count() > 0){
+			$used_plugin['media'] = true;
 		}
 		if($collect->where('input_type', 'cropper')->count() > 0){
 			$used_plugin['cropper'] = true;
@@ -234,8 +238,6 @@ trait BasicCrud
 	}
 
 	public function update($id=0){
-		//force_draft ga berlaku di update data, supaya datanya ga langsung berubah
-
 		$this->setMode('update');
 		$this->skeleton()->formValidation($this->multi_language, 'update', $id);
 		$show = $this->repo->show($id);
@@ -248,15 +250,6 @@ trait BasicCrud
 		//gausa force draft kalo udah aktif
 		if($this->request->force_draft){
 			exit();
-		}
-
-
-		//ga perlu dijalankan dalam draft mode
-		if(!$this->request->force_draft){
-			//create revision before run the update
-			if($this instanceof WithRevision){
-				$this->generateRevision($show);
-			}
 		}
 
 
@@ -413,11 +406,20 @@ trait BasicCrud
 		foreach($active_fields as $fields){
 			if(isset($this->request->{$fields})){
 				if($this->multi_language){
-					$inputData[$fields] = get_lang($this->request->{$fields});
+					$stored = get_lang($this->request->{$fields});
 				}
 				else{
-					$inputData[$fields] = $this->request->{$fields};
+					$stored = $this->request->{$fields};
 				}
+
+				//save array data as json object
+				if(is_array($stored)){
+					$stored = array_filter($stored, function($item){
+						return !empty($item);
+					});
+					$stored = json_encode($stored);
+				}
+				$inputData[$fields] = $stored;
 			}
 		}
 

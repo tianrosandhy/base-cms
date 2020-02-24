@@ -172,26 +172,19 @@ class FormServices
             }
             if($input->input_type == 'image'){
                 $cfg = [
-                    'value' => $oldVal,
-                    'name' => $input->input_attribute['name'],
                     'horizontal' => true
                 ];
-
                 if($input->imagedir_path){
                     $cfg['path'] = $input->imagedir_path;
-                }                
-                $out = view('main::inc.dropzone', $cfg);
+                }
+                $out = '<div>'.\MediaInstance::input($input->field, $oldVal, $cfg).'</div>';
             }
             if($input->input_type == 'image_multiple'){
-                $cfg = [
-                    'value' => $oldVal,
-                    'name' => $input->input_attribute['name']
-                ];
-
+                $cfg = [];
                 if($input->imagedir_path){
                     $cfg['path'] = $input->imagedir_path;
-                }                
-                $out = view('main::inc.dropzone-multiple', $cfg);
+                }
+                $out = '<div>'.\MediaInstance::inputMultiple($input->field, $oldVal, $cfg).'</div>';
             }
             if(in_array($input->input_type, ['checkbox', 'radio'])){
                 //buang attribute class form-control

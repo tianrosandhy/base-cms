@@ -20,6 +20,39 @@ class MediaInstance
 		$this->base_dir = public_path('storage');
 	}
 
+	public function input($name='image', $value=null, $attr=[]){
+		return view('media::partials.input', compact(
+			'name',
+			'value',
+			'attr'
+		))->render();
+	}
+
+	public function inputMultiple($name='image[]', $value=[], $attr=[]){
+		return view('media::partials.input-multiple', compact(
+			'name',
+			'value',
+			'attr'
+		))->render();
+	}
+
+	public function getImageById($id, $thumbname='origin', $force_thumbnail=true){
+		$data = Media::find($id);
+		if(!empty($data)){
+			$grab = $thumbname;
+			if($force_thumbnail){
+				$grab = 'thumb';
+			}
+			return $data->getRawThumbnailUrl('path', $grab);
+		}
+
+		return $this->imageNotFoundUrl();
+	}
+
+	public function imageNotFoundUrl(){
+		return admin_asset('img/broken-image.jpg');
+	}
+
 
 	public function content($page=1, $filter=[], $per_page=20){
 		//available filters : filename, extension, date
@@ -54,42 +87,6 @@ class MediaInstance
 
 
 
-	protected function generateContentStructure(){
-		$allowed_extension = config('module-setting.media.allowed_extension');
-		$out = [];
-		foreach($this->lists as $file){
-			$pch = explode('.', $file);
-			if(count($pch) > 1){
-				//file
-				$extension = $pch[count($pch)-1];
-				if(in_array(strtolower($extension), $allowed_extension)){
-					$shortlink = $this->generateShortlink($file);
-
-					$out[] = [
-						'type' => 'file',
-						'name' => $file,
-						'shortlink' => $shortlink,
-						'extension' => $extension,
-						'filesize' => $this->getFileSize($shortlink)
-					];
-				}
-			}
-			else{
-				//direktori
-				$list = $this->getListByPath($file);
-				$out[] = [
-					'type' => 'directory',
-					'name' => $file,
-					'count' => count($list),
-					'shortlink' => $this->generateShortlink($file)
-				];
-			}
-		}
-
-		$this->structured = $out;
-		return $out;
-	}
-
 	protected function getFileSize($shortlink=''){
 		if(!Storage::exists($shortlink)){
 			return false;
@@ -117,12 +114,4 @@ class MediaInstance
 		return $filesize_string;
 	}
 
-	protected function generateShortlink($filename=''){
-		if(strlen($this->path) > 0){
-			return $this->path . DIRECTORY_SEPARATOR . $filename;
-		}
-		else{
-			return $filename;
-		}
-	}
 }

@@ -981,7 +981,10 @@ label.mandatory::after{
 	max-width:200px;
 }
 
-
+.image-input-holder img{
+	height:100px;
+	object-fit:contain;
+}
 
 
 

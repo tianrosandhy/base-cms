@@ -5,9 +5,27 @@ use Storage;
 
 trait Resizeable
 {
+
+	//SINGLE IMAGE
+	public function getThumbnail($field, $thumb=''){
+		$image_data = $this->{$field};
+		if(strlen($image_data) == 0){
+			return false;
+		}
+
+		if(strlen($thumb) == 0){
+			$thumb = 'origin';
+		}
+
+		$image_ = $this->getDecodedImage($image_data);
+		return thumbnail($image_, $thumb);
+	}
+
+
 	//MULTIPLE IMAGE
 	public function getThumbnails($field, $thumb=''){
 		$images_data = $this->{$field};
+
 		if(strlen($images_data) == 0){
 			return false;
 		}
@@ -16,21 +34,58 @@ trait Resizeable
 			$thumb = 'origin';
 		}
 
-		//exploder = |
-		$pecah = explode("|", $images_data);
+		$parse = json_decode($images_data, true);
 		$out = [];
-		foreach($pecah as $gambar){
-			$out[] = thumbnail($gambar, $thumb);
+		foreach($parse as $gambar){
+			$image_ = $this->getDecodedImage($gambar);
+			$out[] = thumbnail($image_, $thumb);
 		}
 
 		return $out;
 	}
 
-	public function getThumbnailsSetUrl($field, $thumb='', $fallback=false){
-		$list = explode('|', $this->{$field});
+	protected function getDecodedImage($json){
+		$decoded = json_decode($json, true);
+		$image_data = null;
+		if(isset($decoded['id']) && isset($decoded['thumb'])){
+			$image_data_object = app(config('model.media'))->find($decoded['id']);
+			if(!empty($image_data_object)){
+				$image_data = $image_data_object->path;
+			}
+		}
 
+		return $image_data;
+	}
+
+
+
+
+	public function getThumbnailsSetUrl($field, $thumb='', $fallback=false){
+		$list = json_decode( $this->{$field}, true);
+		$grab = [];
+		if(!$list){
+			return '';
+		}
+
+		foreach($list as $limg){
+			$parse = json_decode( $limg, true );
+			if(isset($parse['id'])){
+				$grab[] = $parse['id'];
+			}
+		}
+
+		if(empty($grab)){
+			return '';
+		}
+
+		$data = app(config('model.media'))->whereIn('id', $grab)->get();
+		if(empty($data)){
+			return '';
+		}
+
+		$paths = $data->pluck('path')->toArray();
 		$out = [];
-		foreach($list as $url){
+		foreach($paths as $url){
 			$set = allImageSet($url);
 			if(isset($set[$thumb.'-webp'])){
 				$temp['webp'] = storage_url($set[$thumb.'-webp']);
@@ -43,7 +98,6 @@ trait Resizeable
 			}
 			$out[] = $temp;
 		}
-
 		return $out;
 	}
 
@@ -71,20 +125,6 @@ trait Resizeable
 	}
 
 
-
-	//SINGLE IMAGE
-	public function getThumbnail($field, $thumb=''){
-		$image_data = $this->{$field};
-		if(strlen($image_data) == 0){
-			return false;
-		}
-
-		if(strlen($thumb) == 0){
-			$thumb = 'origin';
-		}
-
-		return thumbnail($image_data, $thumb);
-	}
 
 	public function getThumbnailUrl($field, $thumb='', $fallback=true){
 		$thumb = $this->getThumbnail($field, $thumb);
@@ -183,4 +223,19 @@ trait Resizeable
 		}
 		return $out;
 	}
+
+
+	public function getRawThumbnail($field_name, $thumb='origin'){
+		$lists = thumbnail($this->{$field_name});
+		if(isset($lists[$thumb])){
+			return $lists[$thumb];
+		}
+		return $lists['origin'];
+	}
+
+	public function getRawThumbnailUrl($field_name, $thumb='origin'){
+		$raw = $this->getRawThumbnail($field_name, $thumb);
+		return storage_url($raw);
+	}
+
 }
