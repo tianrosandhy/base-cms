@@ -4,14 +4,18 @@ namespace Module\Site\Http\Controllers;
 use App\Http\Controllers\Controller;
 use SiteInstance;
 use Illuminate\Http\Request;
+use Module\Main\Transformer\Seo;
 
 class SiteController extends Controller
 {
+	use Seo;
+
 	public function __construct(Request $req){
 		$this->request = $req;
 	}
 
 	public function index(){
+		$seo = $this->generateSeoTags();
 		return view('site.index');
 	}
 

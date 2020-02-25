@@ -59,9 +59,9 @@ trait Seo
 		else{
 			//default SEO variables
 			$seo = [
-				'keyword' => setting('site.keywords'),
-				'description' => setting('site.description'),
-				'image' => setting('site.image'),
+				'keyword' => setting('seo.keywords'),
+				'description' => setting('seo.description'),
+				'image' => setting('seo.image'),
 			];
 		}
 

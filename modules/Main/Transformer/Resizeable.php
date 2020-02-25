@@ -14,7 +14,11 @@ trait Resizeable
 			return false;
 		}
 
-		if(strlen($thumb) == 0){
+		$decode = $this->decodeSingleImage($image_data);
+		if(strlen($thumb) == 0 && isset($decode['thumb'])){
+			$thumb = $decode['thumb'];
+		}
+		else if(strlen($thumb) == 0){
 			$thumb = 'origin';
 		}
 
@@ -43,6 +47,10 @@ trait Resizeable
 		}
 
 		return $out;
+	}
+
+	protected function decodeSingleImage($json){
+		return json_decode($json, true);
 	}
 
 	protected function getDecodedImage($json){

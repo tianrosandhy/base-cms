@@ -1,7 +1,6 @@
 @extends ('main::master')
 
-@include ('main::assets.dropzone')
-@include ('main::assets.fancybox')
+@include ('media::use-media')
 
 @push ('style')
 <style>
@@ -73,15 +72,9 @@
 					@elseif($row['type'] == 'textarea')
 					<textarea {!! $attr !!}  name="value[{{ $input_name }}]" class="form-control">{!! $value_filled !!}</textarea>
 					@elseif($row['type'] == 'image')
-						<?php
-						$dzparam = [
-							'name' => 'value['.$input_name.']',
-							'value' => $value_filled,
-							'horizontal' => true
-						];
-						$dzparam = $dzparam + $attribute;
-						?>
-						@include ('main::inc.dropzone', $dzparam)
+					<div>
+						{!! MediaInstance::input('value['.$input_name.']', $value_filled) !!}
+					</div>
 					@elseif($row['type'] == 'select')
 					<select {!! $attr !!} name="value[{{ $input_name }}]" class="form-control select2">
 						<option value=""></option>
@@ -190,10 +183,7 @@
 								<textarea name="value[textarea]" class="form-control" value="{{ old('value.textarea') }}"></textarea>
 							</div>
 							<div data-type="image" style="display:none">
-								@include ('main::inc.dropzone', [
-									'name' => 'value[image]',
-									'value' => old('value.image')
-								])
+								{!! MediaInstance::input('value[image]', old('value.image')) !!}
 							</div>
 
 						</div>

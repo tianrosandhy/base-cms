@@ -152,13 +152,19 @@ function setting($hint, $default=''){
 		return $default;
 	}
 
-	$cek = DB::table('settings_structure')->where('group', $group)->where('param', $param)->first();
+  $cek = app(config('model.setting_structure'))->where('group', $group)->where('param', $param)->first();
 	if(isset($cek->default_value)){
 		if(strlen($cek->default_value) == 0){
 			return $default;
 		}
 		else{
-			return $cek->default_value;
+      //check setting type. if type=image, then output the image path
+      if($cek->type == 'image'){
+        return $cek->getThumbnail('default_value');
+      }
+      else{
+        return $cek->default_value;
+      }
 		}
 	}
 	return $default;
