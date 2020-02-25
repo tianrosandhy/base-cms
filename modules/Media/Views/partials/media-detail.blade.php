@@ -21,7 +21,7 @@ $shown = isset($data['shown']) ? (bool)$data['shown'] : false;
           <a href="{{ isset($data['url']) ? $data['url'] : url('/') }}" target="_blank">{{ isset($data['url']) ? $data['url'] : url('/') }}</a>
         </span>
       </div>
-      <div class="form-group custom-form-group" style="max-width:300px;">
+      <div class="form-group custom-form-group" style="max-width:300px;" hide-on-preview>
         <label>Select Thumbnail Size</label>
         <select class="form-control thumbnail_size">
           <option value="origin">Origin</option>
@@ -31,7 +31,7 @@ $shown = isset($data['shown']) ? (bool)$data['shown'] : false;
         </select>
       </div>
       <input type="hidden" id="media-selected-id" value="">
-      <button id="set-this-image" class="btn btn-primary">Use This Image</button>
+      <button id="set-this-image" class="btn btn-primary" hide-on-preview>Use This Image</button>
     </div>
   </div>
 </div>

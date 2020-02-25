@@ -211,6 +211,14 @@ function convertToSlug(Text)
         ;
 }
 
+function initMonthpicker(){
+  $('[data-monthpicker]').datetimepicker({
+    viewMode : 'years',
+    format : 'MMM YYYY',
+    useCurrent : false,
+    showClear : true
+  });
+}
 
 function error_handling(resp){
 	if(resp.responseJSON){ //kalo berbentuk xhr object, translate ke json dulu

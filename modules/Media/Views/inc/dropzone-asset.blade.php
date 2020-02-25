@@ -149,7 +149,7 @@ function enableAllButtons(strict){
 
 function afterFinishUpload(){
 	$('#media-tab #select-uploaded-tab').tab('show');
-	openPage();
+	openPage(1, true);
 }
 
 function goToUpload(){

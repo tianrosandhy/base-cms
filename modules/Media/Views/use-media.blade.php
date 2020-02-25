@@ -1,41 +1,18 @@
 @include ('media::inc.dropzone-asset')
 
 @push ('modal')
+@if(!isset($without_modal))
 <div class="modal fade fill-in" id="mediaModal" tabindex="-1" role="dialog" aria-hidden="true">
   <button type="button" class="modal-custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-body default-modal-content">
-        <ul class="nav nav-tabs" id="media-tab" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" id="select-uploaded-tab" data-toggle="tab" href="#select-uploaded" role="tab" aria-controls="select-uploaded" aria-selected="true"><i class="fa fa-table fa-fw"></i> Select Uploaded</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="manual-tab" data-toggle="tab" href="#manual" role="tab" aria-controls="manual" aria-selected="false"><i class="fa fa-upload fa-fw"></i> Upload Manually</a>
-          </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade show active" id="select-uploaded" role="tabpanel" aria-labelledby="select-uploaded-tab">
-            <div class="card card-body">
-              <div class="form-filter-group">
-                @include ('media::partials.form-filter')
-              </div>
-
-              <div class="media-holder"></div>
-              @include ('media::partials.media-detail')
-            </div>
-          </div>
-          <div class="tab-pane fade" id="manual" role="tabpanel" aria-labelledby="manual-tab">
-            <div class="card card-body">
-              @include ('media::inc.dropzone-multiple')
-            </div>
-          </div>
-        </div>
-
+        @include ('media::partials.base-media')
       </div>
     </div>
   </div>
 </div>
+@endif
 @endpush
 
 @push ('script')
@@ -46,7 +23,7 @@ var ACTIVE_EDITOR = false;
 $(function(){
   $(document).on('click', ".media-set-image", function(){
     openPage();
-    initDatepicker();
+    initMonthpicker();
     $("#mediaModal").attr('data-target', $(this).attr('data-target'));
     $("#mediaModal").modal({
       backdrop : 'static',
@@ -63,6 +40,11 @@ $(function(){
     $(".media-detail .url a").attr('href', $(this).attr('data-origin'));
     $("#media-selected-id").val($(this).attr('data-id'));
     $(".media-detail .btn-remove-media").attr('data-id', $(this).attr('data-id'));
+
+    if(window.PREVIEW_ONLY){
+      $("[hide-on-preview]").hide();
+    }
+
     $(".media-detail").show();
   });
 
@@ -155,7 +137,7 @@ $(function(){
           data : $(this).attr('data-id')
         },
         success : function(resp){
-          $("#mediaModal .media-detail").hide();
+          $(".media-detail").hide();
           openPage();
         },
         error : function(resp){
@@ -175,14 +157,6 @@ function openTinyMceMedia(target){
   openPage();
 }
 
-function initDatepicker(){
-  $('[data-monthpicker]').datetimepicker({
-    viewMode : 'years',
-    format : 'MMM YYYY',
-    useCurrent : false,
-    showClear : true
-  });
-}
 
 function openPage(page, clear_filter){
   clear_filter = clear_filter || false;

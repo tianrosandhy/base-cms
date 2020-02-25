@@ -17,7 +17,7 @@ class MediaController extends Controller
 
 	public function index(){
 		$title = 'Media Library';
-		$data = MediaInstance::content();
+		$data = MediaInstance::content($this->request->page, $this->request->filter);
 
 		return view('media::index', compact(
 			'title',
