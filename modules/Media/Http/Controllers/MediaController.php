@@ -45,8 +45,10 @@ class MediaController extends Controller
 
 	public function load(){
 		$data = MediaInstance::content($this->request->page, $this->request->filter);
+		$request = $this->request->all();
 		return view('media::file-manager', compact(
-			'data'
+			'data',
+			'request'
 		));
 	}
 

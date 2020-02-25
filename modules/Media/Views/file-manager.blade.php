@@ -1,16 +1,9 @@
 <div class="media-container">
-	@foreach($data as $item)
-		<div class="item text-center">
-			<div style="position:relative;">
-				<a href="#" class="image-thumb-selection" data-id="{{ $item->id }}" title="{{ datethis($item->created_at, 'd M Y H:i:s') }}" data-origin="{{ storage_url($item->path) }}" data-thumb="{{ $item->getRawThumbnailUrl('path', 'thumb') }}" data-filename="{{ $item->filename }}">
-					<img src="{{ $item->getRawThumbnailUrl('path', 'thumb') }}" alt="{{ $item->filename }}" style="width:100%;">
-					<div class="file-title">{{ $item->filename }}</div>
-				</a>
-			</div>
-		</div>
-	@endforeach
+  <div class="media-preview" style="overflow-y:scroll; max-height:300px;">
+    @each('media::partials.preview-thumbnail', $data, 'item')
 
-	@if(empty($data))
-	<p class="text-mute text-center">No media data. Start <a href="#" data-toggle="tabs" data-target="#manual">upload now</a>.</p>
-	@endif
+    @if($data->count() == 0)
+    <p style="cursor:pointer;" class="text-mute text-center" onclick="goToUpload()">No media data. Start upload now.</p>
+    @endif
+  </div>
 </div>

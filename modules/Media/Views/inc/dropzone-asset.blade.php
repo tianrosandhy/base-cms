@@ -152,5 +152,9 @@ function afterFinishUpload(){
 	openPage();
 }
 
+function goToUpload(){
+	$("#media-tab #manual-tab").tab('show');
+}
+
 </script>
 @endpush

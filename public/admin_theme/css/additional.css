@@ -380,6 +380,21 @@ table tbody tr td{
 }
 
 
+.form-group.compact{
+	margin-bottom:0;
+}
+
+.form-group.compact input, .form-group.compact select{
+	height:20px;
+	padding:0 1em;
+	font-size:.85rem;
+}
+
+.form-group.compact label{
+	font-size:.7rem;
+	margin-bottom:0;
+}
+
 
 #checker_all_datatable{
 	position:relative;
@@ -997,6 +1012,22 @@ label.mandatory::after{
 	object-fit:contain;
 }
 
+.media-filter{
+	padding:.5em 1.25em;
+	background:#f5f5f5;
+	margin-bottom:.5em;
+	border-radius:5px;
+	position:relative;
+}
+
+.media-filter .btn-reset-filter{
+	position:absolute;
+	top:0;
+	right:0;
+	font-size:.7rem;
+	padding:.2em .5em;
+	cursor:pointer;
+}
 
 
 

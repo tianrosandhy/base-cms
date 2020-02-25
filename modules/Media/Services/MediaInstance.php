@@ -54,23 +54,43 @@ class MediaInstance
 	}
 
 
-	public function content($page=1, $filter=[], $per_page=20){
+	public function content($page=1, $filter=[], $per_page=50){
 		//available filters : filename, extension, date
 		$media = new Media;
+		$no_filter = true;
 		if(isset($filter['filename'])){
 			if(strlen($filter['filename']) > 0){
 				$media = $media->where('filename', 'like', '%'.$filter['filename'].'%');
+				$no_filter = false;
 			}
 		}
 		if(isset($filter['extension'])){
-			$media = $media->where('extension', 'jpeg');
+			if(strlen($filter['extension']) > 0){
+				$no_filter = false;
+				if($filter['extension'] == 'another'){
+					$media = $media->whereNotIn('mimetypes', ['image/jpeg', 'image/png', 'image/webp']);
+				}
+				else{
+					$media = $media->where('mimetypes', $filter['extension']);
+				}
+			}
 		}
-		if(isset($filter['date'])){
-			$df = date('Y/m/', strtotime($filter['date']));
-			$media = $media->where('path', 'like', '%'.$df.'%');
+		if(isset($filter['period'])){
+			if(strtotime($filter['period']) > 0){
+				$no_filter = false;
+				$df = date('Y/m/', strtotime($filter['period']));
+				$media = $media->where('path', 'like', '%'.$df.'%');
+			}
 		}
 
-		return $media->orderBy('id', 'DESC')->paginate($per_page, ['*'], 'page', $page);
+		if($no_filter){
+			//hanya ambil n data terakhir
+			return $media->orderBy('id', 'DESC')->paginate($per_page, ['*'], 'page', $page);
+		}
+		else{
+			//gausa paginate
+			return $media->orderBy('id', 'DESC')->get();
+		}
 	}
 
 

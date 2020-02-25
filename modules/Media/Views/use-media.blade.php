@@ -5,11 +5,7 @@
   <button type="button" class="modal-custom-close" data-dismiss="modal" aria-hidden="true">&times;</button>
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="text-left p-b-5 default-modal-title">Choose Image</h5>
-      </div>
       <div class="modal-body default-modal-content">
-
         <ul class="nav nav-tabs" id="media-tab" role="tablist">
           <li class="nav-item">
             <a class="nav-link active" id="select-uploaded-tab" data-toggle="tab" href="#select-uploaded" role="tab" aria-controls="select-uploaded" aria-selected="true"><i class="fa fa-table fa-fw"></i> Select Uploaded</a>
@@ -21,6 +17,10 @@
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="select-uploaded" role="tabpanel" aria-labelledby="select-uploaded-tab">
             <div class="card card-body">
+              <div class="form-filter-group">
+                @include ('media::partials.form-filter')
+              </div>
+
               <div class="media-holder"></div>
               @include ('media::partials.media-detail')
             </div>
@@ -44,8 +44,12 @@ var DEFAULT_THUMBNAIL = '{{ admin_asset('img/broken-image.jpg') }}';
 $(function(){
   $(document).on('click', ".media-set-image", function(){
     openPage();
+    initDatepicker();
     $("#mediaModal").attr('data-target', $(this).attr('data-target'));
-    $("#mediaModal").modal('show');
+    $("#mediaModal").modal({
+      backdrop : 'static',
+      keyboard : false
+    });
   });
 
 
@@ -105,16 +109,48 @@ $(function(){
     }
   });
 
+  $(document).on('change dp.change', 'form.media-filter input, form.media-filter select', function(){
+    openPage(1);
+  });
+
+  $(document).on('click', '.btn-reset-filter', function(){
+    openPage(1, true);
+  });
 });
 
-function openPage(page){
+function initDatepicker(){
+  $('[data-monthpicker]').datetimepicker({
+    viewMode : 'years',
+    format : 'MMM YYYY',
+    useCurrent : false,
+    showClear : true
+  });
+}
+
+function openPage(page, clear_filter){
+  clear_filter = clear_filter || false;
   page = page || 1;
-  target_url = window.BASE_URL + '/media/load?page=' + page;
+  target_url = window.BASE_URL + '/media/load';
+
+  objdata = new Object;
+  objdata['page'] = page;
+  if(!clear_filter){
+    if($("form.media-filter").length > 0){
+      objdata['filter'] = new Object;
+      objdata['filter']['filename'] = $("form.media-filter [name='filename']").val();
+      objdata['filter']['period'] = $("form.media-filter [name='period']").val();
+      objdata['filter']['extension'] = $("form.media-filter [name='extension']").val();
+    }
+  }
+  else{
+    $("form.media-filter")[0].reset();
+  }
 
   $("#page-loader").show();
   $.ajax({
     url : target_url,
-    type : 'GET',
+    type : 'POST',
+    data : objdata,
     dataType : 'html',
     success : function(resp){
       $(".media-holder").html(resp);
@@ -122,7 +158,6 @@ function openPage(page){
 
       thumb_width = $(".media-holder img").width();
       $(".media-holder img").height(thumb_width);
-
     },
     error : function(resp){
       swal('error', ['Failed to load the media']);

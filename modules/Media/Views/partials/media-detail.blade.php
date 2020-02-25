@@ -2,7 +2,7 @@
 $shown = isset($data['shown']) ? (bool)$data['shown'] : false;
 ?>
 <div class="media-detail" {!! $shown ? '' : 'style="display:none;"' !!}>
-  <div class="closer">&times;</div>
+  <div class="image-closer">&times;</div>
   <div class="row">
     <div class="col-2 text-right">
       <img class="image-thumbnail" src="{{ isset($data['thumbnail']) ? $data['thumbnail'] : admin_asset('img/broken-image.jpg') }}" style="max-width:100%; width:80px;">
