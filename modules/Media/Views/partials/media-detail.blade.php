@@ -25,8 +25,8 @@ $shown = isset($data['shown']) ? (bool)$data['shown'] : false;
         <label>Select Thumbnail Size</label>
         <select class="form-control thumbnail_size">
           <option value="origin">Origin</option>
-          @foreach(config('image.thumbs') as $name => $width)
-          <option value="{{ $name }}">{{ ucwords($name) }} (Max Width : {{ $width }}px)</option>
+          @foreach(config('image.thumbs') as $name => $cfg)
+          <option value="{{ $name }}">{{ ucwords($name) }} (Max Size : {{ $cfg['width'] }} x {{ $cfg['height'] }} px)</option>
           @endforeach
         </select>
       </div>

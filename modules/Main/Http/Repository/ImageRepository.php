@@ -47,7 +47,6 @@ class ImageRepository
 	}
 
 	public function handleUpload($file, $path='', $filetype='jpg'){
-		$thumbs = config('image.thumbs');
 		$image = Image::make($file)->orientate();
 
 		$filename = sha1(uniqid().time().rand(1,999999)); //kalo mw nyimpen by hash
@@ -106,10 +105,6 @@ class ImageRepository
 				$out[$name.'-webp'] = $filepath . '-'.$name.'.webp';
 			}
 		}
-		$out['cropped'] = $filepath . '-cropped.'.$extension;
-		if(config('image.enable_webp')){
-			$out['cropped-webp'] = $filepath . '-cropped.webp';
-		}
 
 		return $out;
 	}
@@ -163,14 +158,6 @@ class ImageRepository
 		            (string) $image
 		        );
 	        }
-		}
-
-		//generate cropped thumbnail
-		$image = Image::make($file)->orientate()->fit(config('image.crop'))->encode($extension, config('image.quality'));
-		Storage::put($finalpath.'-cropped.'.$extension, (string)$image);
-		if(config('image.enable_webp')){
-			$image = Image::make($file)->fit(config('image.crop'))->encode('webp', config('image.quality'));
-			Storage::put($finalpath.'-cropped.webp', (string)$image);
 		}
     }
 

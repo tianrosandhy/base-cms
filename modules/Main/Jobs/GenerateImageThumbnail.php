@@ -73,16 +73,6 @@ class GenerateImageThumbnail implements ShouldQueue
 	        }
 		}
 
-		//generate cropped thumbnail
-		$image = Image::make($this->access_path($this->image_path))->orientate()->fit(config('image.crop'))->encode($this->extension, config('image.quality'));
-		$this->saveFile($this->filename.'-cropped.'.$this->extension, (string)$image);
-        //echo 'Saved target : "'.$this->access_path($this->filename.'-cropped.'.$this->extension).'" ';
-
-		if(config('image.enable_webp')){
-			$image = Image::make($this->access_path($this->image_path))->orientate()->fit(config('image.crop'))->encode('webp', config('image.quality'));
-			$this->saveFile($this->filename.'-cropped.webp', (string)$image);
-	        //echo 'Saved target : "'.$this->access_path($this->filename.'-cropped.webp').'" ';
-		}
     }
 
 

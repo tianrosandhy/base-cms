@@ -18,13 +18,38 @@ return [
     'driver' => 'gd',
     'enable_webp' => true,
     'thumbs' => [
-        'extralarge' => 2000,
-        'large' => 1200,
-        'medium' => 800,
-        'small' => 500,
-        'thumb' => 100
+        'extralarge' => [
+            'type' => 'keep-ratio',
+            'width' => 1500,
+            'height' => 1500
+        ],
+        'large' => [
+            'type' => 'keep-ratio',
+            'width' => 1200,
+            'height' => 1200
+        ],
+        'medium' => [
+            'type' => 'keep-ratio',
+            'width' => 700,
+            'height' => 700
+        ],
+        'small' => [
+            'type' => 'keep-ratio',
+            'width' => 400,
+            'height' => 400
+        ],
+        'cropped' => [
+            'type' => 'fit',
+            'width' => 400,
+            'height' => 400
+        ],
+        'thumb' => [
+            'type' => 'fit',
+            'width' => 100,
+            'height' => 100
+        ],
     ],
-    'crop' => 400,
+    'origin_maximum_width' => 2000, //set to null to disable
     'quality' => 80,
 
 ];

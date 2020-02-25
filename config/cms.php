@@ -2,8 +2,8 @@
 return [
 	'max_filesize' => [
 		//sekalipun sudah dilimit (dalam MB), tapi kalau dari servernya cuma support dibawah X MB, yg dipakai adalah nilai terkecil
-		'image' => 2,
-		'file' => 5
+		'image' => 5,
+		'file' => 10
 	],
 
 	'lang' => [

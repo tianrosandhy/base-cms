@@ -53,8 +53,8 @@ trait Uploader
     $main_image = $this->saveToStorage($file, $path_directory);
     $thumbs = config('image.thumbs');
     //thumbnail generation
-    foreach($thumbs as $thumbname => $width){
-      $this->generateThumbnailByWidth($main_image, $path_directory, $thumbname, $width);
+    foreach($thumbs as $thumbname => $widthdata){
+      $this->generateThumbnail($main_image, $path_directory, $thumbname, $widthdata);
     }
 
     //save to database
@@ -73,6 +73,17 @@ trait Uploader
 
   protected function saveToStorage($file, $directory=''){
     $image = Image::make($file)->orientate();
+
+    //cek apakah gambar origin memiliki lebar yg melebihi yg diizinkan di config.
+    if(config('image.origin_maximum_width')){
+      if($image->width() > config('image.origin_maximum_width')){
+        //mencegah uploadan dengan ukuran dan kualitas terlalu tinggi
+        $image->resize(config('image.origin_maximum_width'), null, function(Constraint $constraint){
+          $constraint->aspectRatio();
+        });
+      }
+    }
+
     $image_return = $image;
     $image = $image->encode($this->current_extension, config('image.quality'));
 
@@ -80,18 +91,39 @@ trait Uploader
     return $image_return;
   }
 
-  protected function generateThumbnailByWidth($image, $directory='', $thumbname='', $width=100){
+  protected function generateThumbnail($image, $directory='', $thumbname='', $thumbconfig=[]){
     $current_width = $image->width();
+    $current_height = $image->height();
     $thumb_filename = $this->current_basename.'-'.$thumbname.'.'.$this->current_extension;
 
     //you dont need to force resize image if the size is too small.
-    if($current_width > $width){
-      $image = $image->resize(
-        $width, null,
-        function (Constraint $constraint) {
-          $constraint->aspectRatio();
-        }
-      );
+    $resize_condition = false;
+    if($thumbconfig['type'] == 'fit'){
+      $resize_condition = true;
+    }
+    else{
+      if($current_width > $thumbconfig['width']){
+        $resize_condition = true;
+      }
+      if($current_height > $thumbconfig['height']){
+        $resize_condition = true;
+      }
+    }
+
+    if($resize_condition){
+      if($thumbconfig['type'] == 'fit'){
+        //crop center
+        $image = $image->fit($thumbconfig['width'], $thumbconfig['height']);
+      }
+      else{
+        //resize with keep aspect ratio
+        $image = $image->resize(
+          $thumbconfig['width'], $thumbconfig['height'],
+          function (Constraint $constraint) {
+            $constraint->aspectRatio();
+          }
+        );
+      }
     }
     $image = $image->encode($this->current_extension, config('image.quality'));
     Storage::put($this->createPath($directory, $thumb_filename), (string)$image);

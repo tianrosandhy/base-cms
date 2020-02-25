@@ -228,7 +228,7 @@ function is_maintenance(){
 
 function allImageSet($url){
 	$files = [];
-	$list = ['origin', 'cropped'];
+	$list = ['origin'];
 	$list = array_merge($list, array_keys(config('image.thumbs')));
 	foreach($list as $ls){
 		$ts = thumbnailSet($url, $ls, false);
@@ -250,7 +250,6 @@ function getOriginThumbnail($thumb_url, $mode='thumb'){
 }
 
 function thumbnailSet($url, $get='', $fallback=true){
-	$thumbs = config('image.thumbs');
 	$extension = getExtension($url);
 	$filename = str_replace('.'.$extension, '', $url);
 
@@ -329,24 +328,6 @@ function thumbnail($url, $get='', $fallback=true){
 		}
 	}
 
-
-	$cropurl = $filename . '-cropped.'.$extension;
-	if(ImageService::urlExists($cropurl)){
-		$out['cropped'] = $cropurl;
-	}
-	else{
-		if(ImageService::pathExists($cropurl)){
-			$out['cropped'] = $cropurl;
-		}
-		else{
-			if($fallback){
-				$out['cropped'] = $out['origin'];
-			}
-			else{
-				$out['cropped'] = false;
-			}
-		}
-	}
 
 	if(isset($out[$get])){
 		return $out[$get];

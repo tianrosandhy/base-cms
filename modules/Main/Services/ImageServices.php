@@ -33,7 +33,6 @@ class ImageServices extends ImageRepository
     public function getThumbnailInstance($path, $strict=false){
         if(Storage::exists($path)){
             $thumbs = config('image.thumbs');
-            $thumbs['cropped'] = 300; //statik aja gapapa
 
             $finalpath = $path;
             foreach($thumbs as $tname => $size){
