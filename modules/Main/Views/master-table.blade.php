@@ -4,6 +4,7 @@
 @if($as_ajax)
 	@include ('main::assets.dropzone')
 	@include ('main::assets.cropper')
+	@include ('media::use-media')
 @endif
 
 @section ('content')

@@ -6,7 +6,7 @@ $banners = SiteInstance::banner()->all('id', 'ASC', true);
 	<div id="oc-slider" class="owl-carousel carousel-widget" data-margin="0" data-items="1" data-pagi="true" data-loop="true" data-speed="450" data-autoplay="5000">
 		@foreach($banners as $ban)
 		<div>
-			<img src="{{ $ban->getThumbnailUrl('image', 'extralarge') }}" alt="Slider">
+			{!! $ban->srcSet('image') !!}
 			@if(setting('site.theme') == 'dark')
 				<div class="dark-overlay"></div>
 			@endif

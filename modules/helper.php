@@ -53,7 +53,8 @@ function admin_url($url=''){
 }
 
 function storage_url($path=''){
-	return url(config('cms.storage_path', 'storage')) . (strlen($path) > 0 ? '/' . $path : '');
+  return Storage::url($path);
+//	return url(config('cms.storage_path', 'storage')) . (strlen($path) > 0 ? '/' . $path : '');
 }
 
 function admin_prefix($path=''){
@@ -581,4 +582,24 @@ function random_color() {
 
 function broken_image(){
 	return asset('admin_theme/img/broken-image.jpg');
+}
+
+function array_to_html_prop($arr=[], $ignore_key=[]){
+  if(empty($arr)){
+    return '';
+  }
+  $out = '';
+  foreach($arr as $key => $value){
+    if(is_array($value) || is_object($value)){
+      $value = json_encode($value);
+    }
+
+    if(in_array(strtolower($key), $ignore_key)){
+      continue;
+    }
+
+    $out.= $key.'="'.$value.'" ';
+  }
+
+  return $out;
 }

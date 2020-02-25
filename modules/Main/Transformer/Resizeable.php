@@ -159,32 +159,6 @@ trait Resizeable
 		return $out;
 	}
 
-	public function imageSetThumbnail($field_name, $thumb, $height=80, $fancybox_class='gallery'){
-		if(!config('image.enable_webp')){
-			return $this->imageThumbnail($field_name, $thumb, $height, $fancybox_class);
-		}
-
-		$list = $this->getThumbnailSetUrl($field_name, $thumb, false);
-		$origin = $this->getThumbnailSetUrl($field_name, 'origin', false);
-		if(count($list) == 2){
-			return '
-			<a href="'.(isset($origin['webp']) ? $origin['webp'] : $list['webp']).'" data-fancybox="'.$fancybox_class.'">
-				<picture>
-					<source srcset="'.$list['webp'].'" type="image/webp">
-					<source srcset="'.$list['normal'].'">
-					<img src="'.$list['normal'].'" style="height:'.$height.'px; max-width:100%;">
-				</picture>
-			</a>';
-		}
-		else if(count($list) == 1){
-			$used = array_values($list)[0];
-			return '
-			<a href="'.(isset($origin['webp']) ? $origin['webp'] : $used).'" data-fancybox="'.$fancybox_class.'">
-				<img src="'.$used.'" style="height:'.$height.'px; max-width:100%;">
-			</a>';
-		}
-	}
-
 
 	public function imageThumbnail($field_name, $thumb='', $height=80, $fancybox_class='gallery'){
 		$thumbnail = $this->getThumbnailUrl($field_name, $thumb);
@@ -250,6 +224,55 @@ trait Resizeable
 		else{
 			return MediaInstance::imageNotFoundUrl();
 		}
+	}
+
+	public function srcSet($field_name, $grab='origin', $img_attr=[], $picture_attr=[]){
+		$lists = $this->listAllThumbnail($field_name);
+
+		if(isset($lists[$grab.'-webp']) && isset($lists[$grab]) && config('image.enable_webp')){
+			$out = '<picture '.array_to_html_prop($picture_attr).'>';
+			$out .= '<source srcset="'.storage_url($lists[$grab.'-webp']).'" type="image/webp">';
+			$out .= '<source srcset="'.storage_url($lists[$grab]).'">';
+			$out .= '<img src="'.storage_url($lists[$grab]).'" '.array_to_html_prop($img_attr, ['src']).'>';
+			$out .= '</picture>';
+		}
+		else if(isset($lists[$grab])){
+			$out = '<img src="'.storage_url($lists[$grab]).'" '.array_to_html_prop($img_attr, ['src']).'>';
+		}
+		else{
+			$out = '<img src="'.MediaInstance::imageNotFoundUrl().'" '.array_to_html_prop($img_attr, ['src']).'>';
+		}
+		return $out;
+	}
+
+
+	public function listAllThumbnail($field_name){
+		$instance = MediaInstance::grabInstance($this->{$field_name});
+		$out = [];
+		if(empty($instance)){
+			return $out;
+		}
+
+		$basedir = str_replace($instance->filename, '', $instance->path);
+
+		$out['origin'] = $instance->path;
+		if(config('image.enable_webp')){
+			$out['origin-webp'] = $basedir . $instance->basename.'.webp';
+		}
+
+		$thumbs = config('image.thumbs');
+		foreach($thumbs as $tname => $tdata){
+			$out[$tname] = $basedir . $instance->basename.'-'.$tname.'.'.$instance->extension;
+			if(config('image.enable_webp')){
+				$out[$tname.'-webp'] = $basedir . $instance->basename.'-'.$tname.'.webp';
+			}
+		}
+
+		$out = array_filter($out, function($item){
+			return Storage::exists($item);
+		});
+
+		return $out;
 	}
 
 }

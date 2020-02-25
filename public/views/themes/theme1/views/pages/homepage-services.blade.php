@@ -30,7 +30,10 @@ $service_categories = SiteInstance::service()->categories();
 			<article class="portfolio-item pf-media pf-{{ $rowcat }}">
 				<div class="portfolio-image">
 					<a href="{{ $row->getThumbnailUrl('image', 'large') }}" data-lightbox="image">
-						<img src="{{ $row->getThumbnailUrl('image', 'medium') }}" alt="{{ $row->title }}">
+						{!! $row->srcSet('image', 'medium', [
+							'alt' => $row->title,
+							'data-auto' => 'true'
+						]) !!}
 					</a>
 					<a href="{{ $row->getThumbnailUrl('image', 'large') }}" class="portfolio-overlay d-block" data-lightbox="image">
 					</a>

@@ -85,9 +85,14 @@ trait Uploader
     }
 
     $image_return = $image;
-    $image = $image->encode($this->current_extension, config('image.quality'));
 
+    $image = $image_return->encode($this->current_extension, config('image.quality'));
     Storage::put($this->createPath($directory, $this->current_basename.'.'.$this->current_extension), (string)$image);
+    if(config('image.enable_webp')){
+      $image = $image_return->encode('webp', config('image.quality'));
+      Storage::put($this->createPath($directory, $this->current_basename.'.webp'), (string)$image);
+    }
+
     return $image_return;
   }
 
@@ -125,8 +130,14 @@ trait Uploader
         );
       }
     }
-    $image = $image->encode($this->current_extension, config('image.quality'));
-    Storage::put($this->createPath($directory, $thumb_filename), (string)$image);
+
+    $image_store = $image->encode($this->current_extension, config('image.quality'));
+    Storage::put($this->createPath($directory, $thumb_filename), (string)$image_store);
+    if(config('image.enable_webp')){
+      $image_store = $image->encode('webp', config('image.quality'));
+      Storage::put($this->createPath($directory, $this->current_basename.'-'.$thumbname.'.webp'), (string)$image_store);
+    }
+
   }
 
 

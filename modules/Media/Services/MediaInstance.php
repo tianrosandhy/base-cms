@@ -49,6 +49,15 @@ class MediaInstance
 		return $this->imageNotFoundUrl();
 	}
 
+	public function grabInstance($single_json_data){
+		$decode = json_decode($single_json_data, true);
+		if(isset($decode['id'])){
+			return Media::find($decode['id']);
+		}
+		return null;
+	}
+
+
 	public function imageNotFoundUrl(){
 		return admin_asset('img/broken-image.jpg');
 	}

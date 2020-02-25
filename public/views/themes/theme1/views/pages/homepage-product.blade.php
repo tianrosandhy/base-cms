@@ -13,7 +13,10 @@ $products = SiteInstance::product()->paginate(10);
 			@foreach($products as $row)
 			<div class="oc-item">
 				<a href="#">
-					<img src="{{ $row->getThumbnailUrl('image','medium') }}" alt="{{ $row->title }}" title="{{ $row->title }}">
+					{!! $row->srcSet('image', 'cropped', [
+						'alt' => $row->title,
+						'title' => $row->title
+					]) !!}
 				</a>
 			</div>
 			@endforeach
