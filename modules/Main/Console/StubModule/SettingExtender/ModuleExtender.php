@@ -8,7 +8,7 @@ use Module\Main\Exceptions\SettingExtensionException;
 
 class ModuleExtender extends BaseSetting
 {
-	public function __construct(){
+	public function handle(){
 		//format example
 		# $item[] = new Item('group.name', 'Label Name', new DataType('text'), 'default_value');
 		# $item[] = new Item('group.another_name', 'Another Label Name', new DataType('select', function(){

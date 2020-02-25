@@ -22,7 +22,10 @@ class Setting
 	}
 
 	protected function loadModuleSetting(){
-		$modules = ['Module\Main\MainServiceProvider'] + config('modules.load'); //register current main module service provider too ._.
+		$modules =  config('modules.load'); 
+		//register current main module service provider too ._.
+		array_unshift($modules, 'Module\Main\MainServiceProvider');
+
 		$modules = array_map(function($item){
 			$pch = explode('\\', $item);
 			unset($pch[count($pch)-1]);
@@ -33,7 +36,6 @@ class Setting
 				return app($class_target);
 			}
 		}, $modules);
-
 		return array_filter($modules, function($item){
 			return $item != null;
 		});
