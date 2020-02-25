@@ -6,8 +6,11 @@
 	@if($used_plugin['cropper'])
 		@include ('main::assets.cropper')
 	@endif
-	@if($used_plugin['media'])
+	@if($used_plugin['media'] || isset($seo))
 		@include ('media::use-media')
+	@endif
+	@if($used_plugin['richtext'])
+		@include ('main::assets.tinymce')
 	@endif
 	
 	{{-- Gutenberg itu makan resource yg besar. Daripada sembarangan diload, bikin berat mending dibikin optional --}}

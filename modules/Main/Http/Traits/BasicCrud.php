@@ -94,7 +94,8 @@ trait BasicCrud
 			'gutenberg' => false,
 			'dropzone' => false,
 			'cropper' => false,
-			'media' => false
+			'media' => false,
+			'richtext' => false,
 		];
 
 		if($collect->where('input_type', 'gutenberg')->count() > 0){
@@ -103,11 +104,14 @@ trait BasicCrud
 		if($collect->whereIn('input_type', ['file', 'file_multiple'])->count() > 0){
 			$used_plugin['dropzone'] = true;
 		}
-		if($collect->whereIn('input_type', ['image', 'image_multiple'])->count() > 0){
+		if($collect->whereIn('input_type', ['image', 'image_multiple', 'richtext'])->count() > 0){
 			$used_plugin['media'] = true;
 		}
 		if($collect->where('input_type', 'cropper')->count() > 0){
 			$used_plugin['cropper'] = true;
+		}
+		if($collect->where('input_type', 'richtext')->count() > 0){
+			$used_plugin['richtext'] = true;
 		}
 		return $used_plugin;
 	}

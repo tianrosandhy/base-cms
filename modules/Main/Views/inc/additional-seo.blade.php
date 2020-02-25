@@ -20,11 +20,8 @@ if(isset($data->seo)){
 		<div class="col-md-4">
 			<div class="form-group custom-form-group searchable">
 				<label class="text-uppercase">SEO Image</label>
-				<div>
-					@include ('main::inc.dropzone', [
-						'name' => 'seo_image',
-						'value' => (isset($seo[def_lang()]['image']) ? $seo[def_lang()]['image'] : '')
-					])
+				<div align="center">
+					{!! MediaInstance::input('seo_image', (isset($seo[def_lang()]['image']) ? $seo[def_lang()]['image'] : '')) !!}
 				</div>
 			</div>
 		</div>	
