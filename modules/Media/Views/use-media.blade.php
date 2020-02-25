@@ -60,6 +60,7 @@ $(function(){
     $(".media-detail .url a").html($(this).attr('data-origin'));
     $(".media-detail .url a").attr('href', $(this).attr('data-origin'));
     $("#media-selected-id").val($(this).attr('data-id'));
+    $(".media-detail .btn-remove-media").attr('data-id', $(this).attr('data-id'));
     $(".media-detail").show();
   });
 
@@ -116,6 +117,29 @@ $(function(){
   $(document).on('click', '.btn-reset-filter', function(){
     openPage(1, true);
   });
+
+  $(document).on('click', '.btn-remove-media', function(e){
+    e.preventDefault();
+    var conf = confirm('Are you sure you want to delete this image? This action cannot be undo');
+    if(conf){
+      showLoading();
+      $.ajax({
+        url : window.BASE_URL + '/media/delete',
+        type : 'POST',
+        dataType : 'json',
+        data : {
+          data : $(this).attr('data-id')
+        },
+        success : function(resp){
+          $("#mediaModal .media-detail").hide();
+          openPage();
+        },
+        error : function(resp){
+          hideLoading();
+        }
+      });
+    }
+  });
 });
 
 function initDatepicker(){
@@ -146,7 +170,7 @@ function openPage(page, clear_filter){
     $("form.media-filter")[0].reset();
   }
 
-  $("#page-loader").show();
+  showLoading();
   $.ajax({
     url : target_url,
     type : 'POST',
@@ -154,14 +178,14 @@ function openPage(page, clear_filter){
     dataType : 'html',
     success : function(resp){
       $(".media-holder").html(resp);
-      $("#page-loader").hide();
+      hideLoading();
 
       thumb_width = $(".media-holder img").width();
       $(".media-holder img").height(thumb_width);
     },
     error : function(resp){
       swal('error', ['Failed to load the media']);
-      $("#page-loader").hide();
+      hideLoading();
     }
   });
 }

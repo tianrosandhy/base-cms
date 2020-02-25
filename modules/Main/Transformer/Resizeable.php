@@ -2,6 +2,7 @@
 namespace Module\Main\Transformer;
 
 use Storage;
+use MediaInstance;
 
 trait Resizeable
 {
@@ -105,7 +106,7 @@ trait Resizeable
 		$data = $this->getThumbnails($field, $thumb);
 		$out = [];
 		if(!$data){
-			$out[$thumb] = admin_asset('img/broken-image.jpg');
+			$out[$thumb] = MediaInstance::imageNotFoundUrl();
 			return $out;
 		}
 		foreach($data as $key => $row){
@@ -114,7 +115,7 @@ trait Resizeable
 			}
 			else{
 				if($fallback){
-					$out[$key] = admin_asset('img/broken-image.jpg');
+					$out[$key] = MediaInstance::imageNotFoundUrl();
 				}
 				else{
 					$out[$key] = false;
@@ -134,7 +135,7 @@ trait Resizeable
 		}
 		else{
 			if($fallback){
-				return admin_asset('img/broken-image.jpg');
+				return MediaInstance::imageNotFoundUrl();
 			}
 		}
 		return false;
@@ -235,7 +236,12 @@ trait Resizeable
 
 	public function getRawThumbnailUrl($field_name, $thumb='origin'){
 		$raw = $this->getRawThumbnail($field_name, $thumb);
-		return storage_url($raw);
+		if($raw){
+			return storage_url($raw);
+		}
+		else{
+			return MediaInstance::imageNotFoundUrl();
+		}
 	}
 
 }

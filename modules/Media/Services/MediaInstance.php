@@ -94,15 +94,21 @@ class MediaInstance
 	}
 
 
-	public function remove($shortcode){
-		$ret = false;
-		if(Storage::exists($shortcode)){
-			$deleted_name = $shortcode.'.deleted';
-			Storage::move($shortcode, $deleted_name);
-			$ret = true;
+	public function remove($id){
+		$data = Media::find($id);
+		if($data){
+			//remove process
+			$delete_list = [$data->path];
+			foreach(config('image.thumbs') as $thumbname => $width){
+				$basedir = str_replace($data->filename, '', $data->path);
+				$delete_list[] = $basedir . $data->basename.'-'.$thumbname.'.'.$data->extension;
+			}
+			Storage::delete($delete_list);
 		}
 
-		return $ret;
+		//hapus file databasenya juga
+		$data->delete();
+		return true;
 	}
 
 

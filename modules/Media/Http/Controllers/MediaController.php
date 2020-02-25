@@ -59,6 +59,9 @@ class MediaController extends Controller
 				MediaInstance::remove($file);
 			}
 		}
+		else{
+			MediaInstance::remove($this->request->data);
+		}
 
 		return [
 			'type' => 'success',
