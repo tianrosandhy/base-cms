@@ -41,6 +41,26 @@ class MediaController extends Controller
 		]);
 	}
 
+	public function uploadTinyMce(){
+		try {
+			$uploader = MediaInstance::upload($this->request->file);
+		} catch (MediaException $e) {
+			return [$e->getMessage()];
+		}
+		return [
+			'location' => $uploader->getRawThumbnailUrl('path')
+		];
+	}
+
+
+	public function getImageUrl(){
+		$this->request->validate([
+			'id' => 'required',
+			'thumb' => 'required'
+		]);
+
+		return '<img src="'.MediaInstance::getImageById($this->request->id, $this->request->thumb, false).'" class="media-image">';
+	}
 
 
 	public function load(){

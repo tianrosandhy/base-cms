@@ -41,6 +41,8 @@
 @push ('script')
 <script>
 var DEFAULT_THUMBNAIL = '{{ admin_asset('img/broken-image.jpg') }}';
+var ACTIVE_EDITOR = false;
+
 $(function(){
   $(document).on('click', ".media-set-image", function(){
     openPage();
@@ -71,15 +73,37 @@ $(function(){
   $(document).on('click', '#set-this-image', function(e){
     e.preventDefault();
 
-    let resp = new Object;
-    resp['id'] = $("#media-selected-id").val();
-    resp['thumb'] = $('.media-detail .thumbnail_size').val();
+    let imgval = new Object;
+    imgval['id'] = $("#media-selected-id").val();
+    imgval['thumb'] = $('.media-detail .thumbnail_size').val();
 
-    target = $('#mediaModal').attr('data-target');
-    $('.image-input-holder[data-hash="'+target+'"] img').attr('src', $(".media-detail .image-thumbnail").attr('src'));
-    $(target).val(window.JSON.stringify(resp));
-    $(".media-detail").fadeOut();
-    $("#mediaModal").modal('hide');
+    if(window.ACTIVE_EDITOR){
+      //for tinymce input : get thumb final URL from ajax
+      $.ajax({
+        url : window.BASE_URL + '/media/get-image-url',
+        type : 'GET',
+        dataType : 'html',
+        data : imgval,
+        success : function(resp){
+          window.ACTIVE_EDITOR.insertContent(resp);
+          window.ACTIVE_EDITOR = null;
+          $(".media-detail").fadeOut();
+          $("#mediaModal").modal('hide');
+        },
+        error : function(resp){
+          error_handling(resp);
+        }
+      });
+    }
+    else{
+      //for normal input
+      target = $('#mediaModal').attr('data-target');
+      $('.image-input-holder[data-hash="'+target+'"] img').attr('src', $(".media-detail .image-thumbnail").attr('src'));
+      $(target).val(window.JSON.stringify(imgval));
+      $(".media-detail").fadeOut();
+      $("#mediaModal").modal('hide');
+    }
+
   });
 
   $(document).on('click', '.image-input-holder .image-closer', function(){
@@ -141,6 +165,15 @@ $(function(){
     }
   });
 });
+
+function openTinyMceMedia(target){
+  window.ACTIVE_EDITOR = target;
+  $("#mediaModal").modal({
+    backdrop : 'static',
+    keyboard : false
+  });
+  openPage();
+}
 
 function initDatepicker(){
   $('[data-monthpicker]').datetimepicker({
