@@ -6,9 +6,13 @@ use Module\Main\Transformer\Resizeable;
 
 class Banner extends Model
 {
-	use Resizeable;
+  use Resizeable;
 
-    protected $fillable = [
-    ];
+  protected $fillable = [
+  ];
+
+  public function reform(){
+    return \Module\Banner\Transformer\BannerReform::class;
+  }
 
 }

@@ -4,16 +4,15 @@ namespace Module\Api\Http\Controllers;
 use Module\Main\Http\Repository\CrudRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Module\Api\Http\Traits\BaseResponse;
+use ApiInstance;
+use Module\Api\Exceptions\ApiException;
 
 class ApiBaseController extends Controller
 {
-  public $request;
+  use BaseResponse;
 
-  public 
-    $type = 'success',
-    $http_code = 200,
-    $data = null,
-    $message = null;
+  public $request;
 
   public function __construct(Request $request){
     $this->request = $request;
@@ -25,34 +24,27 @@ class ApiBaseController extends Controller
   }
 
 
+  public function listObject($object){
+    try{
+      $data = ApiInstance::list($object, $this->request->all());
+    }catch(ApiException $e){
+      $this->setType('error', 404);
+      $this->setMessage($e->getMessage());
+      $data = null;
+    }
 
-
-  public function setType($type='success', $code=200){
-    $this->type = $type;
-    $this->setHttpCode($code);
+    return $this->getResponse($data);
   }
 
-  public function setHttpCode($http_code=200){
-    $this->http_code = $http_code;
-  }
+  public function objectDetail($object, $id){
+    try{
+      $data = ApiInstance::single($object, $id, $this->request->all());
+    }catch(ApiException $e){
+      $this->setType('error', 404);
+      $this->setMessage($e->getMessage());
+      $data = null;
+    }
 
-  public function setMessage($msg){
-    $this->message = $msg;
+    return $this->getResponse($data);
   }
-
-  public function setData($data){
-    $this->data = $data;
-  }
-
-  public function getResponse(){
-    return response()->json([
-      'type' => $this->type,
-      'alert' => [
-        'code' => $this->http_code,
-        'message' => $this->message,
-      ],
-      'data' => $this->data
-    ], $this->http_code);
-  }
-
 }

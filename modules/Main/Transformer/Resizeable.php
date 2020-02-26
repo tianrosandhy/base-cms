@@ -49,22 +49,7 @@ trait Resizeable
 		return $out;
 	}
 
-	protected function decodeSingleImage($json){
-		return json_decode($json, true);
-	}
 
-	protected function getDecodedImage($json){
-		$decoded = json_decode($json, true);
-		$image_data = null;
-		if(isset($decoded['id']) && isset($decoded['thumb'])){
-			$image_data_object = app(config('model.media'))->find($decoded['id']);
-			if(!empty($image_data_object)){
-				$image_data = $image_data_object->path;
-			}
-		}
-
-		return $image_data;
-	}
 
 
 
@@ -97,10 +82,10 @@ trait Resizeable
 		foreach($paths as $url){
 			$set = allImageSet($url);
 			if(isset($set[$thumb.'-webp'])){
-				$temp['webp'] = storage_url($set[$thumb.'-webp']);
+				$temp['webp'] = Storage::url($set[$thumb.'-webp']);
 			}
 			if(isset($set[$thumb])){
-				$temp['origin'] = storage_url($set[$thumb]);
+				$temp['origin'] = Storage::url($set[$thumb]);
 			}
 			else{
 				$temp['origin'] = false;
@@ -119,7 +104,7 @@ trait Resizeable
 		}
 		foreach($data as $key => $row){
 			if(Storage::exists($row)){
-				$out[$key] = storage_url($row);
+				$out[$key] = Storage::url($row);
 			}
 			else{
 				if($fallback){
@@ -138,7 +123,7 @@ trait Resizeable
 	public function getThumbnailUrl($field, $thumb='', $fallback=true){
 		$thumb = $this->getThumbnail($field, $thumb);
 		if(Storage::exists($thumb)){
-			$url = storage_url($thumb);
+			$url = Storage::url($thumb);
 			return str_replace("\\", '/', $url);
 		}
 		else{
@@ -154,7 +139,7 @@ trait Resizeable
 		$out = [];
 		//ada webp dan normal
 		foreach($grab as $lbl => $img){
-			$out[$lbl] = storage_url($img);
+			$out[$lbl] = Storage::url($img);
 		}
 		return $out;
 	}
@@ -219,7 +204,7 @@ trait Resizeable
 	public function getRawThumbnailUrl($field_name, $thumb='origin'){
 		$raw = $this->getRawThumbnail($field_name, $thumb);
 		if($raw){
-			return storage_url($raw);
+			return Storage::url($raw);
 		}
 		else{
 			return MediaInstance::imageNotFoundUrl();
@@ -231,13 +216,13 @@ trait Resizeable
 
 		if(isset($lists[$grab.'-webp']) && isset($lists[$grab]) && config('image.enable_webp')){
 			$out = '<picture '.array_to_html_prop($picture_attr).'>';
-			$out .= '<source srcset="'.storage_url($lists[$grab.'-webp']).'" type="image/webp">';
-			$out .= '<source srcset="'.storage_url($lists[$grab]).'">';
-			$out .= '<img src="'.storage_url($lists[$grab]).'" '.array_to_html_prop($img_attr, ['src']).'>';
+			$out .= '<source srcset="'.Storage::url($lists[$grab.'-webp']).'" type="image/webp">';
+			$out .= '<source srcset="'.Storage::url($lists[$grab]).'">';
+			$out .= '<img src="'.Storage::url($lists[$grab]).'" '.array_to_html_prop($img_attr, ['src']).'>';
 			$out .= '</picture>';
 		}
 		else if(isset($lists[$grab])){
-			$out = '<img src="'.storage_url($lists[$grab]).'" '.array_to_html_prop($img_attr, ['src']).'>';
+			$out = '<img src="'.Storage::url($lists[$grab]).'" '.array_to_html_prop($img_attr, ['src']).'>';
 		}
 		else{
 			$out = '<img src="'.MediaInstance::imageNotFoundUrl().'" '.array_to_html_prop($img_attr, ['src']).'>';
@@ -274,5 +259,43 @@ trait Resizeable
 
 		return $out;
 	}
+	public function listAllThumbnailUrl($field_name){
+		$out = $this->listAllThumbnail($field_name);
+		foreach($out as $key => $path){
+			$out[$key] = Storage::url($path);
+		}
+		return $out;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+	protected function decodeSingleImage($json){
+		return json_decode($json, true);
+	}
+
+	protected function getDecodedImage($json){
+		$decoded = json_decode($json, true);
+		$image_data = null;
+		if(isset($decoded['id']) && isset($decoded['thumb'])){
+			$image_data_object = app(config('model.media'))->find($decoded['id']);
+			if(!empty($image_data_object)){
+				$image_data = $image_data_object->path;
+			}
+		}
+
+		return $image_data;
+	}
+
+
 
 }
