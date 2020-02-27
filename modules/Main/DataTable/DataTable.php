@@ -91,8 +91,6 @@ class DataTable extends Processor
 				$i++;
 			}
 		}
-
-		$out .= "{'targets' : ".$i.", 'orderable' : false}";
 		return $out;
 	}
 
@@ -105,7 +103,6 @@ class DataTable extends Processor
 				$out .= "{data : '".$fld."'}, ";
 			}
 		}
-		$out .= "{data : 'action'}";
 		return $out;
 	}
 

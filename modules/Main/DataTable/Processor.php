@@ -52,14 +52,16 @@ class Processor
             	}
 
             	foreach($rf as $key => $value){
+            		if($key == 'action'){
+            			//skipped
+            			continue;
+            			$tmp[$key] = '';
+            		}
         			$tmp[$key] = $value;
             		if($i == $btn_pos){ //action button selalu dimunculkan di kolom kedua
             			if(isset($rf['action'])){
 	            			$tmp[$key] .= '<div class="action-buttons" style="min-width:250px;">'.$rf['action'].'</div>';
             			}
-            		}
-            		if($key == 'action'){
-            			$tmp[$key] = '';
             		}
             		$i++;
             	}

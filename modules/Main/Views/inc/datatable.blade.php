@@ -73,10 +73,12 @@
 		@endforeach
 		</div>
 	</div>
-
+	
+	@if($lp > 0)
 	<div style="position:relative; z-index:2;">
 		<a href="#" class="btn btn-secondary btn-sm table-search-btn active"><i class="fa fa-sm fa-search fa-fw"></i> <span>Show</span> Search Box</a>
 	</div>
+	@endif
 
 	<div style="overflow-x:scroll; padding:1em 0;">
 		<table class="table data-table">
@@ -87,7 +89,6 @@
 							<th data-field="{{ $row->field }}" data-orderable="{{ $row->orderable }}"  id="datatable-{{ $row->field }}">{!! $row->name !!}</th>
 						@endif
 					@endforeach
-					<th></th>
 				</tr>
 			</thead>
 			<tbody>
