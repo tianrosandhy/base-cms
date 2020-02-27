@@ -26,7 +26,7 @@ class ModuleExtender extends BaseSetting
 				}
 			}
 			return [];
-		}));
+		}), 'theme1');
 
 		$this->registers($item);
 	}
