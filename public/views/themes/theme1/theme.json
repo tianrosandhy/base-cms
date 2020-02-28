@@ -1,6 +1,7 @@
 {
     "name": "theme1",
-    "description": "Default theme based on Canvas",
+    "description": "Canvas Paralax Theme",
     "type": "frontend",
-    "version": "dev"
+    "version": "dev",
+    "themeoption" : "test"
 }

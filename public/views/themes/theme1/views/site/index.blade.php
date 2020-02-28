@@ -6,10 +6,8 @@
 
 @section ('content')
 	@include ('pages.homepage-top-text')
-
-	@include ('pages.homepage-services')
-	@include ('pages.homepage-product')
-	@include ('pages.homepage-blog')
+    <div class="clear"></div>
+    @include ('pages.homepage-parallax')
+    <div class="clear"></div>
 	@include ('pages.contact-us')
-
 @stop

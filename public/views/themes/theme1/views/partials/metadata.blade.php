@@ -2,6 +2,7 @@
 <meta name="author" content="{{ setting('site.author', 'TianRosandhy') }}" />
 <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700|Raleway:300,400,700|Crete+Round:400i" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="{{ asset('styling/css/bootstrap.css') }}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('admin_theme/vendor/font-awesome/css/font-awesome.min.css') }}" type="text/css" />
 <link rel="stylesheet" href="{{ asset('styling/style.css') }}" type="text/css" />
 <link rel="stylesheet" href="{{ asset('styling/css/dark.css') }}" type="text/css" />
 <link rel="stylesheet" href="{{ asset('styling/css/font-icons.css') }}" type="text/css" />

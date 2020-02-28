@@ -1,0 +1,1 @@
+{!! MediaInstance::input('theme['.$name.'][]', ($value ? $value : (isset($param->default) ? $param->default : null))) !!}

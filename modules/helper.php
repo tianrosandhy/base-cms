@@ -603,3 +603,21 @@ function array_to_html_prop($arr=[], $ignore_key=[]){
 
   return $out;
 }
+
+
+function themeoption($key, $fallback=''){
+    $response = ThemesInstance::grab($key);
+
+    if(is_string($response)){
+        $try_decode = json_decode($response, true);
+        if(isset($try_decode['id']) && isset($try_decode['thumb'])){
+            $response = MediaInstance::readJson($response, false);
+        }
+    }
+
+    if($response){
+        return $response;
+    }
+    return $fallback;
+}
+

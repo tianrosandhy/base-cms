@@ -15,14 +15,10 @@ class Themes extends Migration
     {
         Schema::create('themes_option', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->integer('type')->default(1); // default text => [1=>'text',2=>'textarea',3=>'image',4=>'select',5=>'checkbox']
-            $table->text('default')->nullable();
-            $table->text('value')->nullable();
-            $table->text('options')->nullable();
-            $table->integer('is_required')->default(0);
             $table->string('theme');
+            $table->string('key')->nullable();
+            $table->string('type')->nullable();
+            $table->text('value')->nullable();
             $table->timestamps();
         });
     }

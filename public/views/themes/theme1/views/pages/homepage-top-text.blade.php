@@ -1,38 +1,22 @@
-<div class="section header-stick">
-	<div class="container clearfix">
-		<div class="heading-block bottommargin-sm">
-			<h3>Automation system should make your life easier, not more complex</h3>
-		</div>
+<?php
+$top_text = themeoption('homepage.summary');
+?>
+@if(isset($top_text['title']))
+<div class="row nopadding align-items-stretch">
+    <?php
+    $n = count($top_text['title']);
+    ?>
+    @for($i=0; $i<$n; $i++)
+    <div class="col-lg-{{ 12 / $n }} dark col-padding ohidden" style="background-color: {{ $top_text['background'][$i] }};">
+        <div>
+            <h3 class="uppercase" style="font-weight: 600;">{{ $top_text['title'][$i] }}</h3>
+            <p style="line-height: 1.8;">{{ $top_text['description'][$i] }}</p>
+            @if(isset($top_text['icon'][$i]))
+            <i class="{{ $top_text['icon'][$i] }} bgicon"></i>
+            @endif
+        </div>
+    </div>
+    @endfor
 
-		<?php
-		$service_category = SiteInstance::service()->categories(true);
-		?>
-		@if($service_category->count() > 0)
-		<div class="row justify-content-center">
-			<?php
-			$col_width = 12 / $service_category->count();
-			if($col_width < 3){
-				$col_width = 24 / $service_category->count();
-			}
-			$col_width = floor($col_width);
-			?>
-			@foreach($service_category as $row)
-			<div class="col-sm-{{ $col_width }}">
-				<div class="feature-box fbox-plain">
-					<div class="fbox-icon bounceIn animated" data-animate="bounceIn">
-						<img src="{{ $row->getThumbnailUrl('image', 'small') }}" alt="{{ $row->title }}">
-					</div>
-					<h3>{{ $row->title }}</h3>
-					<p>{{ $row->excerpt }}</p>
-				</div>
-			</div>
-			@endforeach
-		</div>
-		@endif
-
-		<div>
-			<a href="#" class="button button-3d button-dark button-large center" style="margin-top: 30px;">Check our Products</a>
-		</div>
-
-	</div>
 </div>
+@endif

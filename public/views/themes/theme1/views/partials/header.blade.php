@@ -1,4 +1,4 @@
-<header id="header" class="{{ setting('site.theme') == 'dark' ? 'transparent-header dark' : 'full-header' }}">
+<header id="header" class="{{ themeoption('styling.header.transparent_first') ? 'transparent-header' : '' }}">
 	<div id="header-wrap">
 		<div class="container clearfix">
 			<div id="primary-menu-trigger"><i class="icon-reorder"></i></div>

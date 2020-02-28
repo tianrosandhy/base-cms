@@ -1,0 +1,21 @@
+<div class="array-container" data-max="{{ isset($param->maximum_array) ? intval($param->maximum_array) : 100 }}">
+    <div class="array-wrapper">
+        <?php
+        $stored_group = ThemesInstance::grab($group.'.'.$card_name.'.'.$field_name);
+        //get group_count
+        $n = 1;
+        if(!empty($stored_group)){
+            $grp = array_values($stored_group);
+            $n = count($grp[0]);
+        }
+        ?>
+        @for($i=0; $i<$n; $i++)
+            @include ('themes::partials.array-item', [
+                'stored_group' => $stored_group,
+            ])  
+        @endfor
+    </div>
+    <div class="padd">
+        <a href="#" class="btn btn-secondary btn-add-row"><i class="fa fa-plus"></i> Add Row</a>        
+    </div>
+</div>

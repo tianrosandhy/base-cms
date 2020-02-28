@@ -121,7 +121,6 @@ class ThemeManager implements \Countable
         $theme->themeoption = $this->getThemeDataJsonAttribute($directory, 'themeoption');
         $theme->type = ucfirst($themeJson->getJsonAttribute('type'));
         $theme->active = $this->getStatus($theme); // false;
-        
         return $theme;
     }
 
@@ -145,12 +144,12 @@ class ThemeManager implements \Countable
         return count($this->all());
     }
 
-    private function getThemeJsonFile($theme)
+    public function getThemeJsonFile($theme)
     {
         return json_decode($this->getFinder()->get("$theme/theme.json"));
     }
 
-    private function getThemeDataJsonAttribute($theme, $attribute)
+    public function getThemeDataJsonAttribute($theme, $attribute)
     {
         $themeJsonPath = $theme.'/themedata.json';
         if (File::exists($themeJsonPath)) {
@@ -163,12 +162,12 @@ class ThemeManager implements \Countable
         return false;
     }
 
-    private function isFrontendTheme($themeJson)
+    public function isFrontendTheme($themeJson)
     {
         return isset($themeJson->type) && $themeJson->type !== 'frontend' ? false : true;
     }
 
-    private function getStatus(Theme $theme)
+    public function getStatus(Theme $theme)
     {
         if ($theme->type !== 'Backend') {
             $active_theme = SettingStructure::where('param', 'frontend_theme')->first();
