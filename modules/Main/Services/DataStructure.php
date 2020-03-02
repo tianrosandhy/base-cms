@@ -3,6 +3,7 @@ namespace Module\Main\Services;
 
 use Illuminate\Contracts\Foundation\Application;
 use DataSource;
+use LanguageInstance;
 
 class DataStructure
 {
@@ -207,7 +208,7 @@ class DataStructure
 	}
 
 	public function slugTarget($target=''){
-		$this->slug_target = $target.'-'.config('cms.lang.default');
+		$this->slug_target = $target.'-'.LanguageInstance::default()['code'];
 		return $this;
 	}
 
@@ -225,10 +226,11 @@ class DataStructure
 			$add = '[]';
 		}
 
+		$default_lang = LanguageInstance::default()['code'];
 		$must = [
 			'class' => ['form-control'],
-			'name' => $fld.'['.config('cms.lang.default').']'.$add,
-			'id' => 'input-'.$fld.'-'.config('cms.lang.default')
+			'name' => $fld.'['.$default_lang.']'.$add,
+			'id' => 'input-'.$fld.'-'.$default_lang
 		];
 
 		$this->input_attribute = array_merge($must, $attr);

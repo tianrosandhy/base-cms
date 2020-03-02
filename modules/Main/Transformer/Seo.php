@@ -1,6 +1,8 @@
 <?php
 namespace Module\Main\Transformer;
 
+use LanguageInstance;
+
 trait Seo
 {
 	public function seoFields($data=null){
@@ -22,7 +24,7 @@ trait Seo
 
 		//manage SEO json data
 		$seo = [];
-		foreach(available_lang(true) as $dl){
+		foreach(available_lang(true) as $dl => $dparam){
 			$seo[$dl]['title'] = isset($this->request->seo_title[$dl]) ? $this->request->seo_title[$dl] : '';
 			$seo[$dl]['keyword'] = isset($this->request->seo_keyword[$dl]) ? $this->request->seo_keyword[$dl] : '';
 			$seo[$dl]['description'] = isset($this->request->seo_description[$dl]) ? $this->request->seo_description[$dl] : '';
@@ -36,8 +38,8 @@ trait Seo
 		}
 
 		//store translatable SEO language data if translateable is enabled
-		if(config('cms.lang.active') && method_exists($instance, 'outputTranslate')){
-			foreach(available_lang() as $lang){
+		if(LanguageInstance::isActive() && method_exists($instance, 'outputTranslate')){
+			foreach(available_lang() as $lang => $langdata){
 				if(isset($seo[$lang])){
 					$this->insertLanguage($lang, $table, 'seo', $instance->id, json_encode($seo[$lang]));
 				}
@@ -48,7 +50,7 @@ trait Seo
 
 	public function generateSeoTags($config=[], $instance=null){
 		if(!empty($instance)){
-			if(method_exists($instance, 'outputTranslate') && config('cms.lang.active')){
+			if(method_exists($instance, 'outputTranslate') && LanguageInstance::isActive()){
 				$seo = $instance->outputTranslate('seo');
 			}
 			else{

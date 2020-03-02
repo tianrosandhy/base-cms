@@ -5,8 +5,9 @@ use Module\Main\Http\Repository\CrudRepository;
 use Module\Main\Services\BaseInstance;
 use Module\Themes\Exceptions\ThemesException;
 use Module\Themes\Manager\ThemeManager;
-use MediaInstance;
 use Illuminate\Support\Str;
+use MediaInstance;
+use LanguageInstance;
 
 class ThemesInstance extends BaseInstance
 {
@@ -52,6 +53,34 @@ class ThemesInstance extends BaseInstance
     public function allPublicThemes(){
         return $this->theme_manager->allPublicThemes();
     }
+
+
+    public function grabRaw($keyname=null){
+        $compiled = $this->compiled_config;
+        if(strlen($keyname) == 0){
+            //langsung return all compiled in case gaada parameter
+            return $compiled;
+        }
+        $split = explode('.', $keyname);
+        foreach($split as $keystring){
+            if(isset($compiled[$keystring])){
+                $compiled = $compiled[$keystring];
+            }
+            else{
+                return false;
+            }
+        }
+
+        //return utk single data
+        if(is_array($compiled)){
+            if(count($compiled) == 1){
+                return array_values($compiled)[0];
+            }
+        }
+
+        return $compiled;
+    }
+
 
     public function grab($keyname=null, $lang=null){
         if(empty($lang)){
@@ -106,8 +135,8 @@ class ThemesInstance extends BaseInstance
         //get stored values
         $stored = $this->stored;
         $out = [];
-        if(config('cms.lang.active')){
-            foreach(available_lang(true) as $lang){
+        if(LanguageInstance::isActive()){
+            foreach(available_lang(true) as $lang => $langdata){
                 foreach($stored[$lang] as $key => $value){
                     $split = explode('.', $key);
                     //MAAF MASI MANUAL BANGET.. GA DAPET LOGIC LOOPNYA :(
@@ -170,8 +199,8 @@ class ThemesInstance extends BaseInstance
 
         $stored = [];
         foreach($datas as $row){
-            if(config('cms.lang.active')){
-                foreach(available_lang(true) as $lang){
+            if(LanguageInstance::isActive()){
+                foreach(available_lang(true) as $lang => $langdata){
                     $stored[$lang][$row->key] = $row->outputTranslate('value', $lang);
                 }
             }

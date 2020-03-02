@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Validator;
 use CMS;
 use FormService;
+use LanguageInstance;
 
 class DataTable extends Processor
 {
@@ -124,7 +125,7 @@ class DataTable extends Processor
 				$rules = str_replace('[id]', $id, $row->{$get});
 				$field = str_replace('[]', '', $row->field);
 				if($multi_language){
-					$validateData[$field.'.'.config('cms.lang.default')] = $rules;
+					$validateData[$field.'.'.LanguageInstance::default()['code']] = $rules;
 				}
 				else{
 					$validateData[$field] = $rules;

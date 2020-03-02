@@ -429,10 +429,10 @@ function tagToHtml($tags, $label_class='label-default'){
 
 function set_lang($lang='en'){
 	$default = def_lang();
-	$list = config('cms.lang.available');
-	if(!in_array($lang, $list)){
-		$lang = $default;
-	}
+  $list = LanguageInstance::available();
+  if(!array_key_exists($lang, $list)){
+    $lang = $default;
+  }
 	session()->put('lang', $lang);
 }
 
@@ -452,19 +452,12 @@ function current_lang(){
 }
 
 function available_lang($all=false){
-	$default = def_lang();
-	$list = config('cms.lang.available');
-	if($all){
-		return $list;
-	}
-	else{
-		$sisa = array_diff($list, [$default]);
-		return $sisa;
-	}
+  return LanguageInstance::available($all);
 }
 
 function def_lang(){
-	return config('cms.lang.default');
+  $default = LanguageInstance::default();
+  return $default['code'];
 }
 
 function get_lang($request, $lang=''){

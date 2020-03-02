@@ -1,5 +1,5 @@
 <?php
-if(config('cms.lang.active')){
+if(LanguageInstance::isActive()){
   $value = isset($value[def_lang()]) ? $value[def_lang()] : (isset($param->default) ? $param->default : null);
 }
 else{

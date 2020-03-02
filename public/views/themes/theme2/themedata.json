@@ -1,0 +1,73 @@
+{
+    "themeoption" : {
+        "homepage" : {
+            "banner" : {
+                "image" : {
+                    "label" : "Banner Image",
+                    "type" : "image"
+                },
+                "title" : {
+                    "label" : "Hero Banner Title",
+                    "type" : "text",
+                    "default" : "Your Hero Title Here",
+                    "attr" : {
+                        "maxlength" : 75
+                    }
+                },
+                "description" : {
+                    "label" : "Hero Banner Description",
+                    "type" : "textarea",
+                    "default" : "Your main description start from here. Just tell anything about your site here as compact as you can",
+                    "attr" : {
+                        "maxlength" : 200
+                    }
+                }
+            },
+            "summary" : {
+                "lists" : {
+                    "label" : "Summary Lists",
+                    "type" : "array",
+                    "maximum_array" : 3,
+                    "loop" : {
+                        "title" : {
+                            "label" : "Summary Label",
+                            "type" : "text",
+                            "default" : "Your Summary Here",
+                            "attr" : {
+                                "maxlength" : 75
+                            }
+                        },
+                        "description" : {
+                            "label" : "Description",
+                            "type" : "textarea",
+                            "default" : "Your summary section start from here. Just tell anything about this section description.",
+                            "attr" : {
+                                "maxlength" : 150
+                            }
+                        },
+                        "background" : {
+                            "label" : "Background Color",
+                            "type" : "color",
+                            "default" : "#1abc9c"
+                        },
+                        "icon" : {
+                            "label" : "Icon",
+                            "type" : "select_icon",
+                            "default" : "icon-bulb"
+                        }
+                    }
+                }
+
+            }
+        },
+        "styling" : {
+            "header" : {
+                "transparent_first" : {
+                    "label" : "Header is Transparent on Top",
+                    "type" : "yes_no"
+                }
+            }
+        }
+
+    }
+}

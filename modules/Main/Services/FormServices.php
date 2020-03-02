@@ -3,6 +3,7 @@ namespace Module\Main\Services;
 
 use DataStructure;
 use Storage;
+use LanguageInstance;
 
 class FormServices
 {
@@ -20,9 +21,11 @@ class FormServices
     }
 
     public function inputMultilang($input, $default_value='', $data=null){
+        $default_lang = LanguageInstance::default()['code'];
+
         $attr = self::manageAttributes($input);
         $oldVals = old($input->field, $default_value);
-        $oldVal = isset($oldVals[config('cms.lang.default')]) ? $oldVals[config('cms.lang.default')] : '';
+        $oldVal = isset($oldVals[$default_lang]) ? $oldVals[$default_lang] : '';
 
         $out = '';
 
@@ -32,10 +35,10 @@ class FormServices
         }
         else{
             //loop input per tipe data bahasa
-            foreach(config('cms.lang.available') as $lang){
+            foreach(LanguageInstance::available(true) as $lang => $langdata){
                 $ov = isset($oldVals[$lang]) ? $oldVals[$lang] : '';
 
-                $out .= '<div class="input-language" data-lang="'.$lang.'" '. ($lang != config('cms.lang.default') ? 'style="display:none"' : '') .'>';
+                $out .= '<div class="input-language" data-lang="'.$lang.'" '. ($lang != $default_lang ? 'style="display:none"' : '') .'>';
                 $out .= self::getOutput($input, $attr, $ov, $lang, false, $data);
                 $out .= '</div>';
             }
@@ -68,8 +71,8 @@ class FormServices
             return $output;
         }
         else{
-            $ret = '<div class="input-language" data-lang="'.config('cms.lang.default').'">'.$output.'</div>';
-            foreach(available_lang() as $lang){
+            $ret = '<div class="input-language" data-lang="'.LanguageInstance::default()['code'].'">'.$output.'</div>';
+            foreach(available_lang() as $lang => $langdata){
 
                 $ret .= '<div class="input-language" data-lang="'.$lang.'" style="display:none;">'.$out.'</div>';
             }
@@ -80,7 +83,7 @@ class FormServices
 
     protected function getOutput($input, $attr, $oldVal, $lang='', $as_single=false, $data=null){
         if(strlen($lang) == 0){
-            $lang = config('cms.lang.default');
+            $lang = def_lang();
         }
 
         if(in_array($input->input_type, ['text', 'email', 'number', 'color'])){
@@ -225,13 +228,14 @@ class FormServices
             }
         }
 
+
         if(!$as_single){
-            $out = str_replace('['.config('cms.lang.default').']', '['.$lang.']', $out);
-            $out = str_replace('-'.config('cms.lang.default').'"', '-'.$lang.'"', $out);
+            $out = str_replace('['.def_lang().']', '['.$lang.']', $out);
+            $out = str_replace('-'.def_lang().'"', '-'.$lang.'"', $out);
         }
         else{
-            $out = str_replace('['.config('cms.lang.default').']', '', $out);
-            $out = str_replace('-'.config('cms.lang.default').'"', '"', $out);
+            $out = str_replace('['.def_lang().']', '', $out);
+            $out = str_replace('-'.def_lang().'"', '"', $out);
         }
 
         return $out;        

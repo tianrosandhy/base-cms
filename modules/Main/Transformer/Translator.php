@@ -2,6 +2,7 @@
 namespace Module\Main\Transformer;
 
 use Module\Main\Models\Translator as TModel;
+use LanguageInstance;
 
 //trait transformer for model that need translation in some fields.
 trait Translator
@@ -13,9 +14,8 @@ trait Translator
 	}
 
 	public function outputTranslate($field, $lang='', $strict=false){
-		$langs = config('cms.lang');
 		//kalau config multi language ga aktif, langsung kembalikan nilai asli
-		if(!$langs['active']){
+		if(!LanguageInstance::isActive()){
 			return $this->{$field};
 		}
 
@@ -23,8 +23,8 @@ trait Translator
 			$lang = current_lang();
 		}
 
-		$defaultLang = $langs['default'];
-		$availableLang = array_diff($langs['available'], [$defaultLang]);
+		$defaultLang = def_lang();
+
 		if($lang == $defaultLang){
 			return $this->{$field};
 		}

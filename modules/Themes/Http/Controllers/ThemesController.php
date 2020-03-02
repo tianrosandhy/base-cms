@@ -92,7 +92,7 @@ class ThemesController extends AdminBaseController
 
 				//store language 
 				if($as_language){
-					foreach(available_lang() as $lang){
+					foreach(available_lang() as $lang => $langdata){
 						$content = $values[$lang][$index];
 						if(isset($instance->id)){
 							self::insertLanguage($lang, 'themes_option', 'value', $instance->id, $content);

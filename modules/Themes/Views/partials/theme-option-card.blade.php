@@ -12,7 +12,7 @@
                         @include ('themes::partials.inputtype.'.$input->type, [
                             'name' => $group.'.'.$card_name.'.'.$field_name,
                             'param' => $input,
-                            'value' => ThemesInstance::grab($group.'.'.$card_name.'.'.$field_name)
+                            'value' => ThemesInstance::grabRaw($group.'.'.$card_name.'.'.$field_name)
                         ])
                     @else
                         <div class="alert alert-warning">Input view <strong>{{ $input->type }}</strong> doesn't exists</div>

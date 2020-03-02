@@ -63,13 +63,13 @@
 		@endif
 	@endforeach
 
-	@if(!config('cms.lang.active'))
+	@if(!LanguageInstance::isActive())
 	<div class="form-group custom-form-group">
 		<label>Menu Label</label>
 		<input type="text" class="form-control" name="title" maxlength="50" value="{{ isset($navigation->title) ? $navigation->title : '' }}">
 	</div>
 	@else
-		@foreach(config('cms.lang.available') as $lang)
+		@foreach(LanguageInstance::available(true) as $lang => $langdata)
 		<div class="form-group custom-form-group">
 			<label>Menu Label ({{ strtoupper($lang) }})</label>
 			<input type="text" class="form-control" name="title[{{ $lang }}]" maxlength="50" value="{{ isset($navigation->title) ? $navigation->outputTranslate('title', $lang, true) : '' }}">

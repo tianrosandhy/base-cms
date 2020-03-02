@@ -110,7 +110,7 @@ class AdminBaseController extends Controller
 		}
 
 		$n = 0;
-		foreach(available_lang() as $lang){
+		foreach(available_lang() as $lang => $langdata){
 			foreach($post as $field => $item){
 				if(isset($item[$lang])){
 					$content = $item[$lang];

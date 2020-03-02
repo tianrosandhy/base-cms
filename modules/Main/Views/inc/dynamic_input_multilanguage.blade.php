@@ -22,7 +22,7 @@ elseif($row->value_data){
 else{
 	if(isset($data)){
 		if(method_exists($data, 'outputTranslate')){
-			foreach(available_lang(true) as $lang){
+			foreach(available_lang(true) as $lang => $langdata){
 				$default[$lang] = $data->outputTranslate($row->field, $lang, true);
 			}
 		}

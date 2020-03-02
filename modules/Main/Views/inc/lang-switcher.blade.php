@@ -19,8 +19,10 @@
 <div class="padd pull-right">
 	<div class="language-switcher">
 		<span class="text-uppercase">Manage Language</span>
-		@foreach(config('cms.lang.available') as $lang)
-		<a href="#" data-lang="{{ $lang }}" class="btn btn-info {{ isset($reload) ? ($reload ? 'btn-lang-switcher reload' : 'btn-lang-static') : 'btn-lang-static' }} {!! $lang == def_lang() ? 'active' : '' !!}">{{ strtoupper($lang) }}</a>
+		@foreach(LanguageInstance::available(true) as $lang => $langdata)
+		<a title="{{ $langdata['title'] }}" href="#" data-lang="{{ $lang }}" class="btn btn-sm btn-info {{ isset($reload) ? ($reload ? 'btn-lang-switcher reload' : 'btn-lang-static') : 'btn-lang-static' }} {!! $lang == def_lang() ? 'active' : '' !!}">
+			<img src="{{ $langdata['image'] }}" style="height:30px;">
+		</a>
 		@endforeach
 	</div>
 	<div style="clear:both"></div>

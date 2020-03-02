@@ -517,7 +517,7 @@ table tbody tr td{
 		margin-left:257px;
 	}
 	.sidebar .nav{
-		margin-bottom:100px;
+		padding-bottom:100px;
 	}
 	.sidebar-icon-only .main-panel{
 		margin-left:70px;
@@ -967,7 +967,7 @@ label.mandatory::after{
 	padding:2em;
 }
 
-.media-detail .image-closer, .image-input-holder .image-closer{
+.media-detail .image-closer, .image-input-holder .image-closer, .custom-closer{
 	position:absolute;
 	top:0;
 	right:0;
@@ -979,7 +979,7 @@ label.mandatory::after{
 	border-radius:0 0 0 5px;
 	-moz-border-radius:0 0 0 5px;
 }
-.media-detail .image-closer:hover, .image-input-holder .image-closer:hover{
+.media-detail .image-closer:hover, .image-input-holder .image-closer:hover, .custom-closer:hover{
 	background:#b00;
 }
 

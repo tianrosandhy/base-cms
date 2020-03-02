@@ -1,5 +1,5 @@
-@if(config('cms.lang.active'))
-  @foreach(available_lang(true) as $lang)
+@if(LanguageInstance::isActive())
+  @foreach(available_lang(true) as $lang => $langdata)
     <div class="input-language" data-lang="{{ $lang }}">
     <input 
         type="text" 

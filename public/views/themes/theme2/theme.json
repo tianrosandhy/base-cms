@@ -1,0 +1,7 @@
+{
+    "name": "theme2",
+    "description": "Canvas Paralax Theme",
+    "type": "frontend",
+    "version": "dev",
+    "themeoption" : "test"
+}

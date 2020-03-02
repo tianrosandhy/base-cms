@@ -5,8 +5,9 @@ use Module\Main\Http\Repository\CrudRepository;
 use Module\Main\Http\Controllers\AdminBaseController;
 use Module\Navigation\Http\Skeleton\NavigationSkeleton;
 use Module\Main\Transformer\Exportable;
-use NavigationInstance;
 use Module\Navigation\Http\Processors\NavigationProcessor;
+use NavigationInstance;
+use LanguageInstance;
 
 class NavigationController extends AdminBaseController
 {
@@ -101,8 +102,8 @@ class NavigationController extends AdminBaseController
 		$processor = $processor->save();
 
 		//in case ada title bahasa lain, save juga
-		if(config('cms.lang.active')){
-			foreach(available_lang() as $lang){
+		if(LanguageInstance::isActive()){
+			foreach(available_lang() as $lang => $lang_data){
 				if(isset($this->request->title[$lang])){
 					self::insertLanguage($lang, (new CrudRepository('navigation_item'))->model->getTable(), 'title', $processor->id, $this->request->title[$lang]);
 				}

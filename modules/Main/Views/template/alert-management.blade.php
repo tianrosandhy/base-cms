@@ -3,7 +3,7 @@
 <div class="alert-box" style="padding:.5em; margin-bottom:2em; position:fixed; top:4rem; right:.5em; z-index:9999; text-align:right;">
 	@foreach($errors->all() as $err)
 		<?php
-		$error = str_replace('.'.config('cms.lang.default'), '', $err);
+		$error = str_replace('.'.def_lang(), '', $err);
 		?>
 		<div class="alert alert-danger">{!! $error !!}</div>
 	@endforeach

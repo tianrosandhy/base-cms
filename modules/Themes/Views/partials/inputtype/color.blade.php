@@ -1,4 +1,4 @@
-@if(config('cms.lang.active'))
+@if(LanguageInstance::isActive())
 <input 
     type="color" 
     class="form-control" 

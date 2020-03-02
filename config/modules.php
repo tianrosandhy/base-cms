@@ -3,6 +3,7 @@
 return [
 	'load' => [
 		\Module\Api\ApiServiceProvider::class,
+		\Module\Language\LanguageServiceProvider::class,
 		\Module\Navigation\NavigationServiceProvider::class,
 		\Module\Post\PostServiceProvider::class,
 		\Module\Page\PageServiceProvider::class,
