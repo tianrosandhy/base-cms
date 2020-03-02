@@ -5,6 +5,11 @@
 @section ('content')
 <h2>{{ $title }}</h2>
 
+@include ('main::inc.lang-switcher', [
+    'model' => app(config('model.themes')),
+    'reload' => false
+])
+
 <div class="padd">
     Active Theme : <strong>{{ $active_theme->getName() }}</strong> <a href="{{ route('admin.themes.index') }}" class="badge badge-info"><i class="fa fa-refresh"></i> Change</a>
 </div>
@@ -24,6 +29,8 @@
 <script>
     $(function(){
         initThemePlugin();
+
+        $(".language-switcher .btn-lang-static.active").click();
 
         $(document).on('click', ".btn-add-row", function(e){
             e.preventDefault();

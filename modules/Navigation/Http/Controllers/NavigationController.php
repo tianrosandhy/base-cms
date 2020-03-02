@@ -98,7 +98,17 @@ class NavigationController extends AdminBaseController
 		}
 
 		$processor = new NavigationProcessor($this->request);
-		$processor->save();
+		$processor = $processor->save();
+
+		//in case ada title bahasa lain, save juga
+		if(config('cms.lang.active')){
+			foreach(available_lang() as $lang){
+				if(isset($this->request->title[$lang])){
+					self::insertLanguage($lang, (new CrudRepository('navigation_item'))->model->getTable(), 'title', $processor->id, $this->request->title[$lang]);
+				}
+			}
+		}
+
 		return redirect()->back()->with('success', 'Navigation item data has been saved');
 	}
 

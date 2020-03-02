@@ -9,5 +9,4 @@ return [
 	'setting_structure' => 'Module\Main\Models\SettingStructure',
 	'translator' => 'Module\Main\Models\Translator',
 	'mail_process' => 'Module\Main\Models\MailProcess',
-	'revision' => 'Module\Main\Models\Revision',
 ];

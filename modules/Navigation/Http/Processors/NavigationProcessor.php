@@ -50,7 +50,9 @@ class NavigationProcessor
 		foreach($this->stored as $field => $value){
 			$instance->{$field} = $value;
 		}
+		
 		$instance->save();
+		return $instance;
 	}
 
 	protected function validateRequest(){
@@ -75,7 +77,12 @@ class NavigationProcessor
 
 	protected function handleSlug(){
 		$slug_for_saved = isset($this->post['slug'][$this->post['type']]) ? $this->post['slug'][$this->post['type']] : null;
-		$this->stored['title'] = $this->post['title'];
+		if(is_array($this->post['title'])){
+			$this->stored['title'] = get_lang($this->post['title']);
+		}
+		else{
+			$this->stored['title'] = $this->post['title'];
+		}
 		if($slug_for_saved && isset($this->config['model_source'])){
 			//slug harus divalidasi biar ga sembarangan diisi
 			$grab = app(config('model.'.$this->config['model_source']));
@@ -98,7 +105,6 @@ class NavigationProcessor
 
 	protected function handleAdditionalFields(){
 		$this->stored['group_id'] = $this->post['group_id'];
-		$this->stored['icon'] = $this->post['icon'];
 		$this->stored['new_tab'] = $this->post['new_tab'];
     if(isset($this->post['parent'])){
         $this->stored['parent'] = $this->post['parent'];

@@ -63,11 +63,19 @@
 		@endif
 	@endforeach
 
-
+	@if(!config('cms.lang.active'))
 	<div class="form-group custom-form-group">
 		<label>Menu Label</label>
 		<input type="text" class="form-control" name="title" maxlength="50" value="{{ isset($navigation->title) ? $navigation->title : '' }}">
 	</div>
+	@else
+		@foreach(config('cms.lang.available') as $lang)
+		<div class="form-group custom-form-group">
+			<label>Menu Label ({{ strtoupper($lang) }})</label>
+			<input type="text" class="form-control" name="title[{{ $lang }}]" maxlength="50" value="{{ isset($navigation->title) ? $navigation->outputTranslate('title', $lang, true) : '' }}">
+		</div>
+		@endforeach
+	@endif
 
 	<div class="row">
 		<div class="col-sm-6">
@@ -83,44 +91,31 @@
 			</div>
 		</div>
 		<div class="col-sm-6">
+			@if($data->max_level > 0)
+			@if(!isset($navigation->id))
 			<div class="form-group custom-form-group">
-				<label>Menu Icon</label>
+				<label>Set Menu Parent</label>
 				<?php
-				$file = file_get_contents('admin_theme\vendor\font-awesome\lists.txt');
-				$icon_lists = explode("\n", $file);
-				$sel = isset($navigation->icon) ? $navigation->icon : null;
+				$struct = NavigationInstance::setData($data->id)->generateStructure($data->max_level-1);
 				?>
-				<select name="icon" class="form-control select-icon">
-					<option value="">No Icon</option>
-					@foreach($icon_lists as $icon)
-					<option value="fa fa-{{ trim($icon) }}" {{ $sel == 'fa fa-'.$icon ? 'selected' : '' }} data-icon="{{ 'fa-'.trim($icon) }}">{{ trim($icon) }}</option>
-					@endforeach
+				<select name="parent" class="form-control">
+					<option value="">No Parent</option>
+					@foreach($struct as $label => $param)
+						@include ('navigation::partials.select-menu-item', [
+							'label' => $label,
+							'param' => $param,
+							'level' => 0,
+							'selected' => isset($navigation->parent) ? $navigation->parent : null
+						])
+					@endforeach							
 				</select>
 			</div>
+			@endif
+			@endif
+
 		</div>
 	</div>
 
-	@if($data->max_level > 0)
-	@if(!isset($navigation->id))
-	<div class="form-group custom-form-group">
-		<label>Set Menu Parent</label>
-		<?php
-		$struct = NavigationInstance::setData($data->id)->generateStructure($data->max_level-1);
-		?>
-		<select name="parent" class="form-control">
-			<option value="">No Parent</option>
-			@foreach($struct as $label => $param)
-				@include ('navigation::partials.select-menu-item', [
-					'label' => $label,
-					'param' => $param,
-					'level' => 0,
-					'selected' => isset($navigation->parent) ? $navigation->parent : null
-				])
-			@endforeach							
-		</select>
-	</div>
-	@endif
-	@endif
 
 	<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save Menu Data</button>
 

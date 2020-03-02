@@ -12,7 +12,8 @@ class PageController extends AdminBaseController
 	use Exportable, Seo;
 	public 
 		$hint = 'page',
-		$as_ajax = false;
+		$as_ajax = false,
+		$multi_language = true;
 
 
 	public function repo(){

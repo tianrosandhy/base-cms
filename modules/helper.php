@@ -605,8 +605,8 @@ function array_to_html_prop($arr=[], $ignore_key=[]){
 }
 
 
-function themeoption($key, $fallback=''){
-    $response = ThemesInstance::grab($key);
+function themeoption($key, $fallback='', $lang=null){
+    $response = ThemesInstance::grab($key, $lang);
 
     if(is_string($response)){
         $try_decode = json_decode($response, true);

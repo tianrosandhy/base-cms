@@ -57,6 +57,19 @@ class MediaInstance
 		return null;
 	}
 
+	public function readJson($single_json_data, $fallback=true){
+		$decode = json_decode($single_json_data, true);
+		if(isset($decode['id'])){
+			$media = Media::find($decode['id']);
+			return $media->getRawThumbnailUrl('path', $decode['thumb']);
+		}
+
+		if($fallback){
+			return Media::imageNotFoundUrl();
+		}
+		return false;
+	}
+
 
 	public function imageNotFoundUrl(){
 		return admin_asset('img/broken-image.jpg');

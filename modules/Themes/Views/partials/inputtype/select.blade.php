@@ -9,7 +9,12 @@
     @endif
 >
     <?php
-    $selected = $value ? $value : (isset($param->default) ? $param->default : null);
+    if(config('cms.lang.active')){
+        $selected = isset($value[def_lang()]) ? $value[def_lang()] : (isset($param->default) ? $param->default : null);
+    }
+    else{
+        $selected = $value ? $value : (isset($param->default) ? $param->default : null);
+    }
     ?>
     <option value=""></option>
     @foreach($param->source as $key => $value)

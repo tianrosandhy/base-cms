@@ -31,16 +31,18 @@
 $(function(){
 	$("body").on('click', '.btn-lang-static', function(e){
 		e.preventDefault();
+		lang = $(this).attr('data-lang');
 		if($(this).hasClass('active')){
+			$("form .input-language").slideUp(250);
+			$("form .input-language[data-lang='"+lang+"']").slideDown(250);
 			return;
 		}
 		$(".btn-lang-static").removeClass('active');
 		$(this).addClass('active');
-		lang = $(this).attr('data-lang');
 
 
-		$("form .input-language").slideUp();
-		$("form .input-language[data-lang='"+lang+"']").slideDown();
+		$("form .input-language").slideUp(250);
+		$("form .input-language[data-lang='"+lang+"']").slideDown(250);
 	});
 });
 </script>

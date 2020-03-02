@@ -9,7 +9,12 @@
     @endif
 >
     <?php
-    $selected = $value ? $value : (isset($param->default) ? $param->default : null);
+    if(config('cms.lang.active')){
+        $selected = isset($value[def_lang()]) ? $value[def_lang()] : (isset($param->default) ? $param->default : null);
+    }
+    else{
+        $selected = $value ? $value : (isset($param->default) ? $param->default : null);
+    }
 
     $file = file_get_contents('admin_theme\vendor\font-awesome\lists.txt');
     $icon_lists = explode("\n", $file);

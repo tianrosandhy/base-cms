@@ -52,14 +52,29 @@ class ThemesController extends AdminBaseController
 			return back()->with('error', 'Invalid request. Please try again');
 		}
 
+
+
 		foreach($this->request->theme as $key => $values){
-			foreach($values as $index => $data){
+			//ada 2 kemungkinan : values berupa index value, atau values berupa array language 
+			$as_language = false;
+			if(isset($values[def_lang()])){
+				$as_language = true;
+			}
+
+			$loop_values = $values;
+			if($as_language){
+				$loop_values = $values[def_lang()];
+			}
+
+			foreach($loop_values as $index => $data){
+				$instance = null;
 				$keyname = $key.'.'.$index;
 				if($stored_theme->where('key', $keyname)->count() > 0){
 					$instance = $stored_theme->where('key', $keyname)->first();
 					if(empty($data) && strlen($data) == 0){
 						//hapus instance ini sekalian
 						$instance->delete();
+						$instance = null;
 					}
 				}
 				else{
@@ -74,7 +89,20 @@ class ThemesController extends AdminBaseController
 
 				$instance->value = $data;
 				$instance->save();
+
+				//store language 
+				if($as_language){
+					foreach(available_lang() as $lang){
+						$content = $values[$lang][$index];
+						if(isset($instance->id)){
+							self::insertLanguage($lang, 'themes_option', 'value', $instance->id, $content);
+						}
+					}
+				}
+
 			}
+
+
 		}
 
 

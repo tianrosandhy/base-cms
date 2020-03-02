@@ -53,7 +53,12 @@ class ThemesInstance extends BaseInstance
         return $this->theme_manager->allPublicThemes();
     }
 
-    public function grab($keyname=null){
+    public function grab($keyname=null, $lang=null){
+        if(empty($lang)){
+            $lang = def_lang();
+        }
+        $lang = strtolower($lang);
+
         $compiled = $this->compiled_config;
         if(strlen($keyname) == 0){
             //langsung return all compiled in case gaada parameter
@@ -72,6 +77,18 @@ class ThemesInstance extends BaseInstance
         //return utk single data
         if(is_array($compiled)){
             if(count($compiled) == 1){
+                //manage bahasa
+                $compiled = array_values($compiled);
+                if(isset($compiled[0][def_lang()])){
+                    //as language mode
+                    if(isset($compiled[0][$lang])){
+                        return $compiled[0][$lang];
+                    }
+                    else{
+                        return $compiled[0][def_lang()];
+                    }
+                }
+
                 return array_values($compiled)[0];
             }
         }
@@ -89,27 +106,57 @@ class ThemesInstance extends BaseInstance
         //get stored values
         $stored = $this->stored;
         $out = [];
-        foreach($stored as $key => $value){
-            $split = explode('.', $key);
-            //MAAF MASI MANUAL BANGET.. GA DAPET LOGIC LOOPNYA :(
-            if(count($split) == 6){
-                $out[$split[0]][$split[1]][$split[2]][$split[3]][$split[4]][$split[5]] = $value;
+        if(config('cms.lang.active')){
+            foreach(available_lang(true) as $lang){
+                foreach($stored[$lang] as $key => $value){
+                    $split = explode('.', $key);
+                    //MAAF MASI MANUAL BANGET.. GA DAPET LOGIC LOOPNYA :(
+                    if(count($split) == 6){
+                        $out[$split[0]][$split[1]][$split[2]][$split[3]][$split[4]][$split[5]][$lang] = $value;
+                    }
+                    elseif(count($split) == 5){
+                        $out[$split[0]][$split[1]][$split[2]][$split[3]][$split[4]][$lang] = $value;
+                    }
+                    elseif(count($split) == 4){
+                        $out[$split[0]][$split[1]][$split[2]][$split[3]][$lang] = $value;
+                    }
+                    if(count($split) == 3){
+                        $out[$split[0]][$split[1]][$split[2]][$lang] = $value;
+                    }
+                    if(count($split) == 2){
+                        $out[$split[0]][$split[1]][$lang] = $value;
+                    }
+                    if(count($split) == 5){
+                        $out[$split[0]][$split[1]][$split[2]][$split[3]][$split[4]][$lang] = $value;
+                    }
+                }
             }
-            elseif(count($split) == 5){
-                $out[$split[0]][$split[1]][$split[2]][$split[3]][$split[4]] = $value;
+
+        }
+        else{
+            foreach($stored as $key => $value){
+                $split = explode('.', $key);
+                //MAAF MASI MANUAL BANGET.. GA DAPET LOGIC LOOPNYA :(
+                if(count($split) == 6){
+                    $out[$split[0]][$split[1]][$split[2]][$split[3]][$split[4]][$split[5]] = $value;
+                }
+                elseif(count($split) == 5){
+                    $out[$split[0]][$split[1]][$split[2]][$split[3]][$split[4]] = $value;
+                }
+                elseif(count($split) == 4){
+                    $out[$split[0]][$split[1]][$split[2]][$split[3]] = $value;
+                }
+                if(count($split) == 3){
+                    $out[$split[0]][$split[1]][$split[2]] = $value;
+                }
+                if(count($split) == 2){
+                    $out[$split[0]][$split[1]] = $value;
+                }
+                if(count($split) == 5){
+                    $out[$split[0]][$split[1]][$split[2]][$split[3]][$split[4]] = $value;
+                }
             }
-            elseif(count($split) == 4){
-                $out[$split[0]][$split[1]][$split[2]][$split[3]] = $value;
-            }
-            if(count($split) == 3){
-                $out[$split[0]][$split[1]][$split[2]] = $value;
-            }
-            if(count($split) == 2){
-                $out[$split[0]][$split[1]] = $value;
-            }
-            if(count($split) == 5){
-                $out[$split[0]][$split[1]][$split[2]][$split[3]][$split[4]] = $value;
-            }
+
         }
 
         $this->compiled_config = $out;
@@ -123,7 +170,14 @@ class ThemesInstance extends BaseInstance
 
         $stored = [];
         foreach($datas as $row){
-            $stored[$row->key] = $row->value;
+            if(config('cms.lang.active')){
+                foreach(available_lang(true) as $lang){
+                    $stored[$lang][$row->key] = $row->outputTranslate('value', $lang);
+                }
+            }
+            else{
+                $stored[$row->key] = $row->value;
+            }
         }
         $this->stored = $stored;
         return $this->stored;

@@ -12,6 +12,7 @@ class PostController extends AdminBaseController
 {
 	use Exportable, Seo;
 	public $hint = 'post';
+	public $multi_language = true;
 
 	public function repo(){
 		return $this->hint;
