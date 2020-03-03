@@ -5,8 +5,11 @@
         //get group_count
         $n = 1;
         if(!empty($stored_group)){
-            $grp = array_values($stored_group);
-            $n = count($grp[0]);
+            foreach($stored_group as $prm => $array_data){
+                if(count($array_data) > $n){
+                    $n = count($array_data);
+                }
+            }
         }
         ?>
         @for($i=0; $i<$n; $i++)

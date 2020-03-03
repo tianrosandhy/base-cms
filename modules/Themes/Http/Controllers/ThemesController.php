@@ -87,8 +87,10 @@ class ThemesController extends AdminBaseController
 					$instance->key = $keyname;
 				}
 
-				$instance->value = $data;
-				$instance->save();
+				if($instance){
+					$instance->value = $data;
+					$instance->save();
+				}
 
 				//store language 
 				if($as_language){

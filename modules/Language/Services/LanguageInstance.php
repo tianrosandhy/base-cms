@@ -17,6 +17,12 @@ class LanguageInstance extends BaseInstance
       $data = $data->where('is_default_language', 0);
     }
     $data = $data->orderBy('is_default_language', 'DESC')->orderBy('title', 'ASC')->get();
+
+    if($data->count() == 0){
+      $this->insert('en', 'English', true);
+      return $this->available($all);
+    }
+
     $out = [];
     foreach($data as $row){
       $out[$row->code] = $this->reformInstance($row);
@@ -27,11 +33,19 @@ class LanguageInstance extends BaseInstance
 
   public function default(){
     $data = app(config('model.language'))->where('is_default_language', 1)->first();
+    if(empty($data)){
+      $this->insert('en', 'English', true);
+      return $this->default();
+    }
     return $this->reformInstance($data);
   }
 
   public function isActive(){
     $data = $this->model->count();
+    if($data == 0){
+      $this->insert('en', 'English', true);
+      return false;
+    }
     if($data > 1){
       return true;
     }
@@ -48,6 +62,7 @@ class LanguageInstance extends BaseInstance
     return $this->reformLanguage();
   }
 
+  //amannya, hanya boleh dipanggil in case data bahasa kosong
   public function insert($code='en', $title='English', $default_language=false){
     $data = $this->model;
     $data->code = $code;

@@ -7,7 +7,6 @@ return [
 		\Module\Navigation\NavigationServiceProvider::class,
 		\Module\Post\PostServiceProvider::class,
 		\Module\Page\PageServiceProvider::class,
-		\Module\Banner\BannerServiceProvider::class,
 		\Module\Service\ServiceServiceProvider::class,
 		\Module\Product\ProductServiceProvider::class,
 		\Module\Contact\ContactServiceProvider::class,

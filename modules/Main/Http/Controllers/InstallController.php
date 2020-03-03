@@ -116,7 +116,9 @@ class InstallController extends Controller{
 		#buat admin baru
         self::createUser($this->request->name, $this->request->email, $this->request->password);
         (new SetRole)->actionRunner();
-        \Setting::all();
+        \Setting::all(); #create default setting
+        \LanguageInstance::isActive(); #install default language
+        \ThemesInstance::createDefaultValues(); #install default theme option
 
 		Artisan::call('vendor:publish', [
 			'--tag' => 'tianrosandhy-cms'
