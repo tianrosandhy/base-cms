@@ -50,4 +50,11 @@ class BaseServiceProvider extends ServiceProvider
         return $array;
     }
 
+    protected function loadHelpers($dir)
+    {
+        foreach (glob($dir.'/Helper/*.php') as $filename) {
+            require_once $filename;
+        }
+    }
+
 }

@@ -52,6 +52,7 @@ class SiteServiceProvider extends BaseServiceProvider
 
 
 	public function register(){
+    $this->loadHelpers(__DIR__);
 		$this->mapping($this->app->router);
 		$this->loadViewsFrom(realpath(__DIR__."/Views"), 'site');
 

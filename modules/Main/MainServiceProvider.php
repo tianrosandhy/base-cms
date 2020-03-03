@@ -92,7 +92,7 @@ class MainServiceProvider extends ServiceProvider
 
 
 	public function register(){
-
+		$this->loadHelpers(__DIR__);
 		$this->mapping($this->app->router);
 		$this->loadViewsFrom(realpath(__DIR__."/Views"), 'main');
 		$this->loadModules();
@@ -204,6 +204,11 @@ class MainServiceProvider extends ServiceProvider
         }
 	}
 
-
+	protected function loadHelpers($dir)
+  {
+    foreach (glob($dir.'/Helper/*.php') as $filename) {
+      require_once $filename;
+    }
+  }
 
 }
