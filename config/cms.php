@@ -6,15 +6,6 @@ return [
 		'file' => 10
 	],
 
-	'lang' => [
-		'active' => true, //if you dont need the translate module, just set to false
-		'available' => [
-			'en',
-			'id',
-		],
-		'default' => 'en',
-	],
-
 	'social_login' => true,
 	'social_driver' => [
 		'facebook',
@@ -84,8 +75,6 @@ return [
 			],
 
 		],
-
-
 
 	],
 

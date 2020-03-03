@@ -52,6 +52,17 @@ class LanguageInstance extends BaseInstance
     return false;
   }
 
+  public function active(){
+    $lang = session('lang');
+    if(empty($lang)){
+      $lang = def_lang();
+    }
+    $all = $this->available(true);
+    if(isset($all[$lang])){
+      return $all[$lang];
+    }
+  }
+
 
   public function all($order_by='id', $order_dir='ASC', $ignore_is_active=false, $is_active_field='is_active'){
     $grab = $this->model->all();
