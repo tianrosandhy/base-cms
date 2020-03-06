@@ -1,7 +1,5 @@
 @extends ('main::master')
 
-@include ('media::use-media')
-
 @section ('content')
 <h2>{{ $title }}</h2>
 
@@ -26,6 +24,8 @@
 @stop
 
 @push ('script')
+{!! MediaInstance::assets() !!}
+
 <script>
     $(function(){
         initThemePlugin();

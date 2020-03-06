@@ -1,7 +1,5 @@
 @extends ('main::master')
 
-@include ('media::use-media')
-
 @push ('style')
 <style>
 	pre.language{
@@ -227,6 +225,8 @@
 
 
 @push ('script')
+{!! MediaInstance::assets() !!}
+
 <script>
 $(function(){
 	$(document).on('change', '.switcher', function(){

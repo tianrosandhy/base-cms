@@ -4,7 +4,6 @@
 @if($as_ajax)
 	@include ('main::assets.dropzone')
 	@include ('main::assets.cropper')
-	@include ('media::use-media')
 @endif
 
 @section ('content')
@@ -84,6 +83,7 @@
 	});
 </script>
 @if($as_ajax)
+{!! MediaInstance::assets() !!}
 <script>
 $(function(){
 	$(document).on('click', "[as-ajax], [body-ajax] .edit-btn", function(e){

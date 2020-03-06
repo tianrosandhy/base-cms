@@ -112,9 +112,7 @@ if(!isset($multi_language)){
 			<div class="col-sm-4">
 				<div class="form-group custom-form-group">
 					<label>User Profile Picture</label>
-					@include ('main::inc.dropzone', [
-						'value' => old('image', (isset($data->image) ? $data->image : null))
-					])
+					{!! MediaInstance::input('image', old('image', (isset($data->image) ? $data->image : null))) !!}
 				</div>
 			</div>
 		</div>
@@ -129,6 +127,8 @@ if(!isset($multi_language)){
 @stop
 
 @push ('script')
+{!! MediaInstance::assets() !!}
+
 <script>
 $(function(){
 	$('.radio-box').each(function(){

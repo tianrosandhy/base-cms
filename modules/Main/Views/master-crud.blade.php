@@ -6,9 +6,6 @@
 	@if($used_plugin['cropper'])
 		@include ('main::assets.cropper')
 	@endif
-	@if($used_plugin['media'] || isset($seo))
-		@include ('media::use-media')
-	@endif
 	@if($used_plugin['richtext'])
 		@include ('main::assets.tinymce')
 	@endif
@@ -167,6 +164,10 @@
 @stop
 
 @push ('script')
+@if($used_plugin['media'] || isset($seo))
+	{!! MediaInstance::assets() !!}
+@endif
+
 <script>
 var draft_interval;
 $(function(){

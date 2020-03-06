@@ -20,6 +20,10 @@ class MediaInstance
 		$this->base_dir = public_path('storage');
 	}
 
+	public function assets(){
+		return view('media::include-media')->render();
+	}
+
 	public function input($name='image', $value=null, $attr=[]){
 		return view('media::partials.input', compact(
 			'name',
