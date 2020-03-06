@@ -4,6 +4,7 @@ namespace Module\Main\Services;
 use Illuminate\Contracts\Foundation\Application;
 use DataSource;
 use LanguageInstance;
+use Input;
 
 class DataStructure
 {
@@ -47,6 +48,67 @@ class DataStructure
 		$this->imagedir_path = false;
 		$this->cropper_ratio = [300, 300];
 		$this->translate = true;
+	}
+
+	public function createInput($data=null, $multi_language=false){
+		$config = [
+			'type' => $this->input_type,
+			'name' => $this->field,
+			'attr' => $this->input_attribute,
+			'data' => $data,
+			'value' => $this->generateStoredValue($data, $multi_language)
+		];
+
+		if($this->input_type == 'slug'){
+			$config['slug_target'] = $this->slug_target;
+		}
+		if(in_array($this->input_type, ['select', 'select_multiple', 'radio', 'checkbox'])){
+			$config['source'] = $this->data_source;
+		}
+		if($this->view_source){
+			$config['view_source'] = $this->view_source;
+		}
+
+		if($multi_language){
+			return Input::multiLanguage()->type($this->input_type, $this->field, $config);
+		}
+		else{
+			return Input::type($this->input_type, $this->field, $config);
+		}
+	}
+
+	protected function generateStoredValue($data, $multi_language=false){
+		if($multi_language){
+			foreach(LanguageInstance::available(true) as $lang){
+				$value[$lang['code']] = isset($data->{$this->field}) ? $data->outputTranslate($this->field, $lang['code'], true) : null;
+			}
+		}
+		else{
+			$value = isset($data->{$this->field}) ? $data->{$this->field} : null;
+		}
+
+		if($this->value_source){
+			$grab_ = \DB::table($this->value_source[0])->find($this->value_source[1]);
+			if($multi_language){
+				$value[def_lang()] = $grab_->{$this->value_source[2]};
+			}
+			else{
+				$value = $grab_->{$this->value_source[2]};
+			}
+		}
+		elseif($this->array_source){
+			$value = call_user_func($this->array_source, $data);
+		}
+		elseif($this->value_data){
+			if($multi_language){
+				$value[def_lang()] = call_user_func($this->value_data, $data);
+			}
+			else{
+				$value = call_user_func($this->value_data, $data);
+			}
+		}
+
+		return $value;
 	}
 
 

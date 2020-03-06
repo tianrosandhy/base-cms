@@ -66,62 +66,7 @@
 				<div class="col-md-{{ $row->form_column }} col-sm-12">
 					<div class="form-group custom-form-group {!! $row->input_type == 'radio' ? 'radio-box' : '' !!}">
 						<label for="{{ $row->input_attribute['id'] }}" class="text-uppercase">{{ $row->name }}</label>
-						<?php
-						if(!isset($multi_language)){
-							$multi_language = false; //default fallback
-						}
-
-						$pass_param = [
-							'type' => $row->input_type,
-							'name' => $row->field,
-							'attr' => $row->input_attribute,
-							'data' => $data,
-						];
-
-						if($multi_language){
-							foreach(LanguageInstance::available(true) as $lang){
-								$value[$lang['code']] = isset($data->{$row->field}) ? $data->outputTranslate($row->field, $lang['code'], true) : null;
-							}
-						}
-						else{
-							$value = isset($data->{$row->field}) ? $data->{$row->field} : null;
-						}
-
-						if($row->value_source){
-							$grab_ = \DB::table($row->value_source[0])->find($row->value_source[1]);
-							if($multi_language){
-								$value[def_lang()] = $grab_->{$row->value_source[2]};
-							}
-							else{
-								$value = $grab_->{$row->value_source[2]};
-							}
-						}
-						elseif($row->array_source){
-							$value = call_user_func($row->array_source, $data);
-						}
-						elseif($row->value_data){
-							if($multi_language){
-								$value[def_lang()] = call_user_func($row->value_data, $data);
-							}
-							else{
-								$value = call_user_func($row->value_data, $data);
-							}
-						}
-
-						$pass_param['value'] = $value;
-
-						if($row->input_type == 'slug'){
-							$pass_param['slug_target'] = $row->slug_target;
-						}
-						if(in_array($row->input_type, ['select', 'select_multiple', 'radio', 'checkbox'])){
-							$pass_param['source'] = $row->data_source;
-						}
-						?>
-						@if($multi_language)
-						{!! Input::multiLanguage()->type($row->input_type, $row->field, $pass_param) !!}
-						@else
-						{!! Input::type($row->input_type, $row->field, $pass_param) !!}
-						@endif
+						{!! $row->createInput($data, $multi_language) !!}
 					</div>
 				</div>
 				<?php
@@ -156,7 +101,6 @@
 @endif
 
 <script>
-var draft_interval;
 $(function(){
 	$('.radio-box').each(function(){
 		setFormGroupBg($(this).find('input:checked'));

@@ -11,6 +11,16 @@ if($multi_language){
   $name = $name.'['.def_lang().']';
 }
 
+if(is_array($source)){
+  $data_source = $source;
+}
+else{
+  $data_source = isset($source->output) ? $source->output : $source;
+  if(is_callable($data_source)){
+    $data_source = call_user_func($data_source, $data);
+  }
+}
+
 //mencegah value multiple language. this input doesnt expect array value
 if(is_array($value)){
   if(array_key_exists(def_lang(), $value)){
@@ -19,7 +29,7 @@ if(is_array($value)){
 }
 ?>
 <div class="box">
-  @foreach($source as $vl => $lbl)
+  @foreach($data_source as $vl => $lbl)
   <label class="radio-inline">
     <input type="{{ isset($type) ? $type : 'radio' }}" value="{{ $vl }}" name="{!! $name !!}" id="input-{{ $cleaned_name }}-{{ slugify($lbl) }}" {{ $value == $vl ? 'checked' : '' }}>
     <span>{{ $lbl }}</span>

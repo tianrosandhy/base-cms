@@ -1,5 +1,5 @@
 <?php
-$base_class = ['form_control'];
+$base_class = ['form-control'];
 if(isset($attr['class'])){
   $class = $attr['class'];
 }
