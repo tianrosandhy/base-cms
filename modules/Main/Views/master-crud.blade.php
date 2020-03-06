@@ -78,7 +78,6 @@
 							'data' => $data,
 						];
 
-
 						if($multi_language){
 							foreach(LanguageInstance::available(true) as $lang){
 								$value[$lang['code']] = isset($data->{$row->field}) ? $data->outputTranslate($row->field, $lang['code'], true) : null;
@@ -110,30 +109,18 @@
 						}
 
 						$pass_param['value'] = $value;
-						?>
-						@if(in_array($row->input_type, ['text', 'number', 'password', 'email', 'color', 'richtext', 'textarea', 'gutenberg', 'image', 'image_multiple', 'tel', 'tags']))
-							@includeFirst (['main::input.'.$row->input_type, 'main::input.text'] , $pass_param)
-						@elseif($row->input_type == 'slug')
-							<?php
+
+						if($row->input_type == 'slug'){
 							$pass_param['slug_target'] = $row->slug_target;
-							?>
-							@include ('main::input.slug', $pass_param)
-						@elseif(in_array($row->input_type, ['date', 'time', 'datetime']))
-							@includeFirst(['main::input.'.$row->input_type, 'main::input.datetime'], $pass_param)
-						@elseif(in_array($row->input_type, ['file', 'file_multiple']))
-							@includeFirst(['main::input'.$row->input_type, 'main::input.file'], $pass_param)
-						@elseif(in_array($row->input_type, ['radio', 'checkbox']))
-							<?php
+						}
+						if(in_array($row->input_type, ['select', 'select_multiple', 'radio', 'checkbox'])){
 							$pass_param['source'] = $row->data_source;
-							?>
-							@includeFirst (['main::input.'.$row->input_type, 'main::input.radio'], $pass_param)
-						@elseif(in_array($row->input_type, ['select', 'select_multiple']))
-							<?php
-							$pass_param['source'] = $row->data_source;
-							?>
-							@includeFirst(['main::input.'.$row->input_type, 'main::input.select'], $pass_param)
+						}
+						?>
+						@if($multi_language)
+						{!! Input::multiLanguage()->type($row->input_type, $row->field, $pass_param) !!}
 						@else
-						<div class="alert alert-danger">Input type <strong>{{ $row->input_type }}</strong> is still not created</div>
+						{!! Input::type($row->input_type, $row->field, $pass_param) !!}
 						@endif
 					</div>
 				</div>
