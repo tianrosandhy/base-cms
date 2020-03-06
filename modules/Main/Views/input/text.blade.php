@@ -16,8 +16,12 @@ if($type == 'tags'){
   $type = 'text';
   $attr['data-role'] = 'tagsinput';
 }
+
+if(!isset($multi_language)){
+  $multi_language = false;
+}
 ?>
-@if(isset($multi_language))
+@if($multi_language)
   @foreach(LanguageInstance::available(true) as $lang)
     <?php
     if(strpos($name, '[]') !== false){

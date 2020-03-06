@@ -12,8 +12,12 @@ if(!isset($attr['maxlength'])){
 }
 
 $cleaned_name = str_replace('[]', '', $name);
+
+if(!isset($multi_language)){
+  $multi_language = false;
+}
 ?>
-@if(isset($multi_language))
+@if($multi_language)
   @foreach(LanguageInstance::available(true) as $lang)
     <?php
     if(strpos($name, '[]') !== false){

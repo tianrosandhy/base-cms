@@ -24,8 +24,12 @@ else{
 if($type == 'select_multiple' && strpos($name, '[]') === false){
   $name = $name.'[]';
 }
+
+if(!isset($multi_language)){
+  $multi_language = false;
+}
 ?>
-@if(isset($multi_language))
+@if($multi_language)
   @foreach(LanguageInstance::available(true) as $lang)
     <?php
     if(strpos($name, '[]') !== false){
@@ -37,6 +41,7 @@ if($type == 'select_multiple' && strpos($name, '[]') === false){
     ?>
     <div class="input-language" data-lang="{{ $lang['code'] }}" style="{!! def_lang() == $lang['code'] ? '' : 'display:none;' !!}">
       <select {{ $type == 'select_multiple' ? 'multiple' : '' }} name="{!! $name !!}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!}>
+        <option value=""></option>
         @foreach($data_source as $key => $vl)
         <option {{ $vl == $value ? 'selected' : null }} value="{{ $key }}">{{ $vl }}</option>
         @endforeach
@@ -45,6 +50,7 @@ if($type == 'select_multiple' && strpos($name, '[]') === false){
   @endforeach
 @else
   <select {{ $type == 'select_multiple' ? 'multiple' : '' }} name="{!! $name !!}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!}>
+    <option value=""></option>
     @foreach($data_source as $key => $vl)
     <option {{ $vl == $value ? 'selected' : null }} value="{{ $key }}">{{ $vl }}</option>
     @endforeach
