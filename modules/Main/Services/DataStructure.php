@@ -251,8 +251,8 @@ class DataStructure
 		return $this;
 	}
 
-	public function valueSource($table='', $filter='', $grab=''){
-		$this->value_source = [$table, $filter, $grab];
+	public function valueSource($table='', $id='', $grab=''){
+		$this->value_source = [$table, $id, $grab];
 		return $this;
 	}
 

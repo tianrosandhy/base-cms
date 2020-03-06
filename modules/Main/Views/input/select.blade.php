@@ -28,31 +28,26 @@ if($type == 'select_multiple' && strpos($name, '[]') === false){
 if(!isset($multi_language)){
   $multi_language = false;
 }
+if($multi_language){
+  if(strpos($name, '[]') !== false){
+    $name = str_replace('[]', '['.def_lang().'][]', $name);
+  }
+  else{
+    $name = $name.'['.def_lang().']';
+  }
+}
+
+//mencegah value multiple language. this input doesnt expect array value
+if(is_array($value)){
+  if(array_key_exists(def_lang(), $value)){
+    $value = $value[def_lang()];
+  }
+}
 ?>
-@if($multi_language)
-  @foreach(LanguageInstance::available(true) as $lang)
-    <?php
-    if(strpos($name, '[]') !== false){
-      $name = str_replace('[]', '['.$lang['code'].'][]', $name);
-    }
-    else{
-      $name = $name.'['.$lang['code'].']';
-    }
-    ?>
-    <div class="input-language" data-lang="{{ $lang['code'] }}" style="{!! def_lang() == $lang['code'] ? '' : 'display:none;' !!}">
-      <select {{ $type == 'select_multiple' ? 'multiple' : '' }} name="{!! $name !!}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!}>
-        <option value=""></option>
-        @foreach($data_source as $key => $vl)
-        <option {{ $vl == $value ? 'selected' : null }} value="{{ $key }}">{{ $vl }}</option>
-        @endforeach
-      </select>
-    </div>
+
+<select {{ $type == 'select_multiple' ? 'multiple' : '' }} name="{!! $name !!}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!}>
+  <option value=""></option>
+  @foreach($data_source as $key => $vl)
+  <option {{ $key == $value ? 'selected' : null }} value="{{ $key }}">{{ $vl }}</option>
   @endforeach
-@else
-  <select {{ $type == 'select_multiple' ? 'multiple' : '' }} name="{!! $name !!}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!}>
-    <option value=""></option>
-    @foreach($data_source as $key => $vl)
-    <option {{ $vl == $value ? 'selected' : null }} value="{{ $key }}">{{ $vl }}</option>
-    @endforeach
-  </select>
-@endif
+</select>

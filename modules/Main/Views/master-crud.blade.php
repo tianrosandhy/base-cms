@@ -76,8 +76,41 @@
 							'type' => $row->input_type,
 							'name' => $row->field,
 							'attr' => $row->input_attribute,
-							'data' => $data
+							'data' => $data,
 						];
+
+
+						if($multi_language){
+							foreach(LanguageInstance::available(true) as $lang){
+								$value[$lang['code']] = isset($data->{$row->field}) ? $data->outputTranslate($row->field, $lang['code'], true) : null;
+							}
+						}
+						else{
+							$value = isset($data->{$row->field}) ? $data->{$row->field} : null;
+						}
+
+						if($row->value_source){
+							$grab_ = \DB::table($row->value_source[0])->find($row->value_source[1]);
+							if($multi_language){
+								$value[def_lang()] = $grab_->{$row->value_source[2]};
+							}
+							else{
+								$value = $grab_->{$row->value_source[2]};
+							}
+						}
+						elseif($row->array_source){
+							$value = call_user_func($row->array_source, $data);
+						}
+						elseif($row->value_data){
+							if($multi_language){
+								$value[def_lang()] = call_user_func($row->value_data, $data);
+							}
+							else{
+								$value = call_user_func($row->value_data, $data);
+							}
+						}
+
+						$pass_param['value'] = $value;
 						?>
 						@if(in_array($row->input_type, ['text', 'number', 'password', 'email', 'color', 'richtext', 'textarea', 'gutenberg', 'image', 'image_multiple', 'tel', 'tags']))
 							@includeFirst (['main::input.'.$row->input_type, 'main::input.text'] , $pass_param)

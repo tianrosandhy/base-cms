@@ -9,6 +9,13 @@ if(!isset($value)){
   $value = null;
 }
 
+//mencegah value multiple language. this input doesnt expect array value
+if(is_array($value)){
+  if(array_key_exists(def_lang(), $value)){
+    $value = $value[def_lang()];
+  }
+}
+
 $config = [
   'value' => (isset($value) ? $value : null),
   'name' => $name,

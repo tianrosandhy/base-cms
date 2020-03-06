@@ -11,7 +11,12 @@ if($multi_language){
   $name = $name.'['.def_lang().']';
 }
 
-$value = isset($value) ? $value : 0;
+//mencegah value multiple language. this input doesnt expect array value
+if(is_array($value)){
+  if(array_key_exists(def_lang(), $value)){
+    $value = $value[def_lang()];
+  }
+}
 ?>
 <div class="box">
   @foreach($source as $vl => $lbl)

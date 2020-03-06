@@ -16,6 +16,13 @@ $config = [];
 if(isset($path)){
   $config['path'] = $path;
 }
+
+//mencegah value multiple language. this input doesnt expect array value
+if(is_array($value)){
+	if(array_key_exists(def_lang(), $value)){
+		$value = $value[def_lang()];
+	}
+}
 ?>
 <div>
 {!! MediaInstance::inputMultiple($name, $value, $config) !!}

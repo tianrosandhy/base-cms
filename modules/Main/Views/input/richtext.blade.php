@@ -17,14 +17,14 @@ if(!isset($multi_language)){
   @foreach(LanguageInstance::available(true) as $lang)
     <?php
     if(strpos($name, '[]') !== false){
-      $name = str_replace('[]', '['.$lang['code'].'][]', $name);
+      $input_name = str_replace('[]', '['.$lang['code'].'][]', $name);
     }
     else{
-      $name = $name.'['.$lang['code'].']';
+      $input_name = $name.'['.$lang['code'].']';
     }
     ?>
     <div class="input-language" data-lang="{{ $lang['code'] }}" style="{!! def_lang() == $lang['code'] ? '' : 'display:none;' !!}">
-      <textarea data-tinymce name="{!! $name !!}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!}>{!! isset($value) ? $value : null !!}</textarea>
+      <textarea data-tinymce name="{!! $input_name !!}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!}>{!! isset($value[$lang['code']]) ? $value[$lang['code']] : null !!}</textarea>
     </div>
   @endforeach
 @else
