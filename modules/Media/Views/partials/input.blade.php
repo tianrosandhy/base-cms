@@ -7,7 +7,7 @@ if(isset($value_decode['id']) && isset($value_decode['thumb'])){
   $data = MediaInstance::getImageById($value_decode['id'], $value_decode['thumb']);
 }
 ?>
-<div class="image-input-holder card" data-hash="#{{ $hash }}">
+<div class="image-input-holder d-block card" data-hash="#{{ $hash }}">
   <input type="hidden" name="{{ $name }}" value="{{ $value }}" class="form-control" id="{{ $hash }}">
   <div class="card-body text-center">
     <img src="{{ $data }}" alt="Uploaded Image">
