@@ -30,7 +30,8 @@ class DataStructure
 		$imagedir_path,
 		$cropper_ratio,
 		$translate,
-		$view_source;
+		$view_source,
+		$tab_group;
 
 	public function __construct(Application $app){
 		//manage default value
@@ -48,6 +49,7 @@ class DataStructure
 		$this->imagedir_path = false;
 		$this->cropper_ratio = [300, 300];
 		$this->translate = true;
+		$this->tab_group = 'General';
 	}
 
 	public function createInput($data=null, $multi_language=false){
@@ -348,7 +350,10 @@ class DataStructure
     	return $this;
     }
 
-
+    public function tabGroup($tab_name){
+    	$this->tab_group = $tab_name;
+    	return $this;
+    }
 
 
 

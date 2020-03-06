@@ -31,7 +31,7 @@ class PostSkeleton extends DataTable
 
 		$this->structure[] = DataStructure::field('category[]')
 			->name('Category')
-			->formColumn(6)
+			->formColumn(12)
 			->inputType('select_multiple')
 			->dataSource(DataSource::model('post_category')->options('name', [
 				['is_active', '=', 1]
@@ -45,8 +45,9 @@ class PostSkeleton extends DataTable
 
 		$this->structure[] = DataStructure::field('tags')
 			->name('Tags')
-			->formColumn(6)
-			->inputType('tags');
+			->formColumn(12)
+			->inputType('tags')
+			->tabGroup('Attribute');
 
 		$this->structure[] = DataStructure::field('excerpt')
 			->name('Excerpt')
@@ -66,7 +67,8 @@ class PostSkeleton extends DataTable
 			->inputType('image')
 			->searchable(false)
 			->orderable(false)
-			->setImageDirPath(config('module-setting.post.upload_path'));
+			->setImageDirPath(config('module-setting.post.upload_path'))
+			->tabGroup('Attribute');
 
 		$this->structure[] = DataStructure::field('related[]')
 			->name('Related To')
@@ -80,7 +82,8 @@ class PostSkeleton extends DataTable
 					return $data->related->pluck('id');
 				}
 				return [];
-			});
+			})
+			->tabGroup('Attribute');
 		
 		$this->structure[] = DataStructure::field('like')
 			->name('Like')
@@ -90,8 +93,8 @@ class PostSkeleton extends DataTable
 		$this->structure[] = DataStructure::field('created_at')
 			->name('Created At')
 			->formColumn(12)
-			->inputType('datetime');
-				
+			->inputType('datetime')
+			->tabGroup('Attribute');
 
 		$this->structure[] = DataStructure::switcher('is_active', 'Is Active', 12);
 
