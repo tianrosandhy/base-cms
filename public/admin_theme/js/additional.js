@@ -135,7 +135,7 @@ function initPlugin(){
 	$("[data-datetimepicker]").each(function(){
 		$(this).datetimepicker({
 			viewMode : 'years',
-			format : 'YYYY-MM-DD HH:mm:ss'
+			format : 'YYYY-MM-DD HH:mm:ss',
 		});
 	});
 	

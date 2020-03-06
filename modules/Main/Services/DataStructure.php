@@ -208,7 +208,7 @@ class DataStructure
 	}
 
 	public function slugTarget($target=''){
-		$this->slug_target = $target.'-'.LanguageInstance::default()['code'];
+		$this->slug_target = $target;
 		return $this;
 	}
 
@@ -226,11 +226,10 @@ class DataStructure
 			$add = '[]';
 		}
 
-		$default_lang = LanguageInstance::default()['code'];
 		$must = [
 			'class' => ['form-control'],
-			'name' => $fld.'['.$default_lang.']'.$add,
-			'id' => 'input-'.$fld.'-'.$default_lang
+			'name' => $fld.$add,
+			'id' => 'input-'.$fld
 		];
 
 		$this->input_attribute = array_merge($must, $attr);

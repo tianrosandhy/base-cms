@@ -71,11 +71,37 @@
 						if(!isset($multi_language)){
 							$multi_language = false; //default fallback
 						}
+
+						$pass_param = [
+							'type' => $row->input_type,
+							'name' => $row->field,
+							'attr' => $row->input_attribute,
+							'data' => $data
+						];
 						?>
-						@if($multi_language)
-							@include ('main::inc.dynamic_input_multilanguage')
+						@if(in_array($row->input_type, ['text', 'number', 'password', 'email', 'color', 'richtext', 'textarea', 'gutenberg', 'image', 'image_multiple', 'tel', 'tags']))
+							@includeFirst (['main::input.'.$row->input_type, 'main::input.text'] , $pass_param)
+						@elseif($row->input_type == 'slug')
+							<?php
+							$pass_param['slug_target'] = $row->slug_target;
+							?>
+							@include ('main::input.slug', $pass_param)
+						@elseif(in_array($row->input_type, ['date', 'time', 'datetime']))
+							@includeFirst(['main::input.'.$row->input_type, 'main::input.datetime'], $pass_param)
+						@elseif(in_array($row->input_type, ['file', 'file_multiple']))
+							@includeFirst(['main::input'.$row->input_type, 'main::input.file'], $pass_param)
+						@elseif(in_array($row->input_type, ['radio', 'checkbox']))
+							<?php
+							$pass_param['source'] = $row->data_source;
+							?>
+							@includeFirst (['main::input.'.$row->input_type, 'main::input.radio'], $pass_param)
+						@elseif(in_array($row->input_type, ['select', 'select_multiple']))
+							<?php
+							$pass_param['source'] = $row->data_source;
+							?>
+							@includeFirst(['main::input.'.$row->input_type, 'main::input.select'], $pass_param)
 						@else
-							@include ('main::inc.dynamic_input_singlelanguage')
+						<div class="alert alert-danger">Input type <strong>{{ $row->input_type }}</strong> is still not created</div>
 						@endif
 					</div>
 				</div>

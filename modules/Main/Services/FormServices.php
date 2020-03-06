@@ -87,6 +87,7 @@ class FormServices
         }
 
         if(in_array($input->input_type, ['text', 'email', 'number', 'color'])){
+            dd($input, $attr, $oldVal);
             $out = '<input type="'.$input->input_type.'" '.$attr.' value="'.$oldVal.'">';
         }
         else{

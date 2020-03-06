@@ -90,7 +90,7 @@ class PostSkeleton extends DataTable
 		$this->structure[] = DataStructure::field('created_at')
 			->name('Created At')
 			->formColumn(12)
-			->inputType('datetime');
+			->inputType('file');
 				
 
 		$this->structure[] = DataStructure::switcher('is_active', 'Is Active', 12);

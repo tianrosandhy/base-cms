@@ -167,7 +167,9 @@ class MainServiceProvider extends ServiceProvider
 	    $listModule = config('modules.load');
 	    if($listModule){
 		    foreach($listModule as $mod){
-			    $this->app->register($mod);
+		    	if(class_exists($mod)){
+				    $this->app->register($mod);
+		    	}
 		    }
 	    }
 	}

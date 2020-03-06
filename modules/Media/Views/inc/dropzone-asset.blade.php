@@ -10,11 +10,9 @@ Dropzone.autoDiscover = false;
 $(function(){
 	if( 
 		$(".mydropzone").length || 
-		$(".mydropzone-multiple").length || 
-		$(".filedropzone").length ||
-		$(".filedropzone-multiple").length 
+		$(".mydropzone-multiple").length
 	){
-		refreshDropzone();
+		initImageDropzone();
 	}
 
 	$(document).on('change', '.listen_uploaded_image', function(){
@@ -39,7 +37,7 @@ $(function(){
 
 });
 
-function refreshDropzone(){
+function initImageDropzone(){
 	$(".mydropzone").each(function(){
 		var ajaxurl = $(this).data("target");
 		var dropzonehash = $(this).attr('data-hash');

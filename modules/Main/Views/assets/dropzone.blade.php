@@ -9,32 +9,11 @@
 Dropzone.autoDiscover = false;
 $(function(){
 	if( 
-		$(".mydropzone").length || 
-		$(".mydropzone-multiple").length || 
 		$(".filedropzone").length ||
 		$(".filedropzone-multiple").length 
 	){
 		refreshDropzone();
 	}
-
-	$(document).on('change', '.listen_uploaded_image', function(){
-		hash = $(this).attr('data-hash');
-		val = $(this).val();
-		$(".uploaded-holder[data-hash='"+hash+"']").html('<div class="uploaded"><a href="'+ STORAGE_URL + '/' + val+'" data-fancybox="gallery"><img src="'+ STORAGE_URL + '/' + val+'" style="height:100px;"></a><span class="remove-asset" data-hash="'+hash+'">&times;</span></div>');
-	});
-
-	$(document).on('change', '.listen_uploaded_image_multiple', function(){
-		hash = $(this).attr('data-hash');
-		val = $(this).val();
-		imgs = val.split('|');
-
-		htmlPaste = '';
-		$.each(imgs, function(k, v){
-			htmlPaste += '<div class="uploaded"><img src="'+ STORAGE_URL + '/' + v+'"><span class="remove-asset-multiple" data-hash="'+hash+'" data-value="'+v+'">&times;</span></div>';
-		});
-
-		$(".uploaded-holder[data-hash='"+hash+"']").html(htmlPaste);
-	});
 
 	$(document).on('change', '.listen_uploaded_file', function(){
 		hash = $(this).attr('data-hash');
@@ -59,82 +38,6 @@ $(function(){
 		$(".uploaded-holder[data-hash='"+hash+"']").html(htmlPaste);
 	});
 
-
-
-
-
-	$(document).on('click', '.remove-asset-multiple', function(){
-		hash = $(this).attr('data-hash');
-		value = $(this).attr('data-value');
-
-		instance = $(this).closest('.uploaded');
-
-		//get new value after delete
-		oldval = $(".listen_uploaded_image_multiple[data-hash='"+hash+"']").val();
-		pch = oldval.split('|');
-		newval = '';
-		if(pch.length > 1){
-			$.each(pch, function(k, v){
-				if(v != value){
-					newval += value + '|';
-				}
-			});
-			newval = newval.substring(0, newval.length - 1);
-		}
-
-		if(value.length > 0){
-			$.ajax({
-				url : window.BASE_URL + '/api/remove-images',
-				type : 'POST',
-				dataType : 'json',
-				data : {
-					_token : window.CSRF_TOKEN,
-					filename : value
-				},
-				success : function(resp){
-					instance.fadeOut();
-					$(".listen_uploaded_image_multiple[data-hash='"+hash+"']").val(newval);
-					setTimeout(function(){
-						instance.html('');
-						instance.show();
-					}, 350);
-				},
-				error : function(resp){
-					error_handling(resp);
-				}
-			});
-		}
-		else{
-			instance.fadeOut();
-		}
-
-	});
-
-	$(document).on('click', '.remove-asset', function(){
-		instance = $(this).closest('.uploaded-holder');
-		hash = $(this).attr('data-hash');
-		filename = $(".listen_uploaded_image[data-hash='"+hash+"']").val();
-		$.ajax({
-			url : window.BASE_URL + '/api/remove-images',
-			type : 'POST',
-			dataType : 'json',
-			data : {
-				_token : window.CSRF_TOKEN,
-				filename : filename
-			},
-			success : function(resp){
-				$(".listen_uploaded_image[data-hash='"+hash+"']").val('');
-				instance.fadeOut(300);
-				setTimeout(function(){
-					instance.html('');
-					instance.show();
-				}, 350);
-			},
-			error : function(resp){
-				error_handling(resp);
-			}
-		});
-	});
 
 	$(document).on('click', '.remove-asset-file', function(){
 		instance = $(this).closest('.uploaded-holder');
@@ -207,102 +110,6 @@ $(function(){
 });
 
 function refreshDropzone(){
-	$(".mydropzone").each(function(){
-		var ajaxurl = $(this).data("target");
-		var dropzonehash = $(this).attr('data-hash');
-		var maxsize = $(this).attr('upload-limit');
-		if(maxsize.length == 0){
-			maxsize = 2;
-		}
-
-		if($(this).find('.dz-default').length == 0){
-			$(this).dropzone({
-				url : ajaxurl,
-				acceptedFiles : 'image/*',
-				maxFilesize : maxsize,
-				sending : function(file, xhr, formData){
-					formData.append("_token", window.CSRF_TOKEN);
-					disableAllButtons();
-				},
-				init : function(){
-					this.on("success", function(file, data){
-						data = file.xhr.responseText;
-						$(".dropzone_uploaded[data-hash='"+dropzonehash+"']").val(data).change();
-						this.removeFile(file);
-						enableAllButtons();
-					});
-					this.on("addedfile", function() {
-				      if (this.files[1]!=null){
-				        this.removeFile(this.files[0]);
-				      }
-				    });
-
-				    this.on("queuecomplete", function(){
-						this.removeAllFiles();
-						enableAllButtons();
-					});
-				    this.on("error", function(file, err, xhr){
-						this.removeAllFiles();
-						error_handling(err);
-						enableAllButtons();
-				    });
-				}
-			});		
-		}
-		
-	});	
-
-
-	$(".mydropzone-multiple").each(function(){
-		var ajaxurl = $(this).data("target");
-		var dropzonehash = $(this).attr('data-hash');
-		var maxsize = $(this).attr('upload-limit');
-		if(maxsize.length == 0){
-			maxsize = 5;
-		}
-
-		if($(this).find('.dz-default').length == 0){
-			$(this).dropzone({
-				url : ajaxurl,
-				acceptedFiles : 'image/*',
-				maxFilesize : maxsize,
-				sending : function(file, xhr, formData){
-					formData.append("_token", window.CSRF_TOKEN);
-					disableAllButtons();
-				},
-				init : function(){
-					this.on("success", function(file, data){
-						data = file.xhr.responseText;
-						this.removeFile(file);
-						oldval = $(".dropzone_uploaded[data-hash='"+dropzonehash+"']").val();
-						if(oldval.length > 0){
-							newval = oldval + '|' + data;
-						}
-						else{
-							newval = data;
-						}
-
-						$(".dropzone_uploaded[data-hash='"+dropzonehash+"']").val(newval).change();
-						enableAllButtons();
-					});
-
-				    this.on("queuecomplete", function(){
-						this.removeAllFiles();
-						enableAllButtons();
-					});
-				    this.on("error", function(file, err, xhr){
-						enableAllButtons();
-						this.removeAllFiles();
-						error_handling(err);
-				    });
-				}
-			});		
-		}
-		
-	});	
-
-
-
 	$(".filedropzone").each(function(){
 		var ajaxurl = $(this).data("target");
 		var dropzonehash = $(this).attr('data-hash');

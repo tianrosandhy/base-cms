@@ -48,7 +48,10 @@ function array_to_html_prop($arr=[], $ignore_key=[]){
   }
   $out = '';
   foreach($arr as $key => $value){
-    if(is_array($value) || is_object($value)){
+    if(is_array($value)){
+      $value = implode(' ',$value);
+    }
+    elseif(is_object($value)){
       $value = json_encode($value);
     }
 
