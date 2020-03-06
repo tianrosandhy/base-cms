@@ -43,11 +43,15 @@ if(is_array($value)){
     $value = $value[def_lang()];
   }
 }
+
+if($value instanceof \Illuminate\Support\Collection){
+  $value = $value->toArray();
+}
 ?>
 
 <select {{ $type == 'select_multiple' ? 'multiple' : '' }} name="{!! $name !!}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!}>
   <option value=""></option>
   @foreach($data_source as $key => $vl)
-  <option {{ $key == $value ? 'selected' : null }} value="{{ $key }}">{{ $vl }}</option>
+  <option {{ is_array($value) ? (in_array($key, $value) ? 'selected' : '') : ($key == $value ? 'selected' : null) }} value="{{ $key }}">{{ $vl }}</option>
   @endforeach
 </select>

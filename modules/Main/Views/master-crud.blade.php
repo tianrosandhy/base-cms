@@ -39,10 +39,12 @@
 </div>
 @endif
 
+@if($multi_language)
 @include ('main::inc.lang-switcher', [
 	'model' => $forms->model,
 	'reload' => false
 ])
+@endif
 
 <form action="" method="post" class="crud-post" with-loader>
 	{{ csrf_field() }}
