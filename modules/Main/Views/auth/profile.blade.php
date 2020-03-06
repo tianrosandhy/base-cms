@@ -44,9 +44,12 @@
 				</div>
 			</div>
 			<div class="col-sm-4">
-				@include ('main::inc.dropzone', [
-					'value' => admin_data('image')
-				])
+				<div class="form-group custom-form-group">
+					<label>Profile Image</label>
+					<div>
+						{!! MediaInstance::input('image', admin_data('image')) !!}
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -56,6 +59,8 @@
 @stop
 
 @push ('script')
+{!! MediaInstance::assets() !!}
+
 <script>
 $(function(){
 	$(".btn-change-pass").on('click', function(){
