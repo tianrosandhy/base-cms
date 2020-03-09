@@ -101,7 +101,7 @@ class Input
 		return $this->loadView('slug', $name, $config);
 	}
 	public function date($name, $config=[]){
-		$config['type'] = $date;
+		$config['type'] = 'date';
 		return $this->loadView('datetime', $name, $config);
 	}
 	public function time($name, $config=[]){
