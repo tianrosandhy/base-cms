@@ -199,7 +199,8 @@ class MainServiceProvider extends ServiceProvider
 	        'DataSource' => \Module\Main\Facades\DataSourceFacades::class,
 	        'FormService' => \Module\Main\Facades\FormFacades::class,
 	        'Setting' => \Module\Main\Facades\SettingFacades::class,
-	        'Input' => \Module\Main\Facades\InputFacades::class
+	        'Input' => \Module\Main\Facades\InputFacades::class,
+	        'SlugInstance' => \Module\Main\Facades\SlugInstanceFacades::class,
         ];
 
         foreach($aliasData as $al => $src){

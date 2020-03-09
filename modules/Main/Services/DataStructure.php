@@ -80,15 +80,6 @@ class DataStructure
 	}
 
 	protected function generateStoredValue($data, $multi_language=false){
-		if($multi_language){
-			foreach(LanguageInstance::available(true) as $lang){
-				$value[$lang['code']] = isset($data->{$this->field}) ? $data->outputTranslate($this->field, $lang['code'], true) : null;
-			}
-		}
-		else{
-			$value = isset($data->{$this->field}) ? $data->{$this->field} : null;
-		}
-
 		if($this->value_source){
 			$grab_ = \DB::table($this->value_source[0])->find($this->value_source[1]);
 			if($multi_language){
@@ -103,10 +94,22 @@ class DataStructure
 		}
 		elseif($this->value_data){
 			if($multi_language){
-				$value[def_lang()] = call_user_func($this->value_data, $data);
+				foreach(LanguageInstance::available(true) as $lang){
+					$value[$lang['code']] = call_user_func($this->value_data, $data, $lang['code']);
+				}
 			}
 			else{
 				$value = call_user_func($this->value_data, $data);
+			}
+		}
+		else{
+			if($multi_language){
+				foreach(LanguageInstance::available(true) as $lang){
+					$value[$lang['code']] = isset($data->{$this->field}) ? $data->outputTranslate($this->field, $lang['code'], true) : null;
+				}
+			}
+			else{
+				$value = isset($data->{$this->field}) ? $data->{$this->field} : null;
 			}
 		}
 
@@ -155,6 +158,30 @@ class DataStructure
 		$this->setTranslate(false);
 		return $this;
 	}
+
+
+	public function slug($field='slug', $name='Slug', $target='title', $col=12){
+		$this->field($field);
+		$this->formColumn($col);
+		$this->name($name);
+		$this->inputType('slug');
+		$this->slugTarget($target);
+
+		if(!LanguageInstance::active()){
+			$this->setTranslate(false);
+		}
+
+		$this->valueData(function($data, $lang=null){
+			if(empty($lang)){
+				$lang = def_lang();
+			}
+			if(isset($data->id)){
+				return \SlugInstance::get($data, $data->id, $lang);
+			}
+		});
+		return $this;
+	}
+
 
 	public function dateRange($field, $name, $callback=null){
 		if(strpos($field, '[]') === false){

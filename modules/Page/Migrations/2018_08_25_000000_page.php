@@ -16,7 +16,6 @@ class Page extends Migration
         Schema::create('pages', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title')->nullable();
-            $table->string('slug')->nullable();
             $table->text('description')->nullable();
             $table->text('image')->nullable();
             $table->text('seo')->nullable();

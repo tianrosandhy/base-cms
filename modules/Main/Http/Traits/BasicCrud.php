@@ -191,16 +191,41 @@ trait BasicCrud
 			}
 		}
 
-		//kalau ada request force_draft, sekalipun pilih status aktif, maka status otomatis aktif
-		if($this->request->force_draft){
-			if(isset($inputData[$is_active_field])){
-				$inputData[$is_active_field] = 0; //force to draft
-			}
-		}
-
 		$instance = $this->repo->insert($inputData);
+		$this->storeSlug($instance);
+
 		return $instance;
 	}
+
+
+	protected function storeSlug($instance){
+		//check for input type slug
+		$slug_structures = collect($this->skeleton()->structure)->where('input_type', 'slug');
+		if($slug_structures->count() > 0){
+			// ada field slug, lakukan penyimpanan ke slug master
+			foreach($slug_structures as $slug_instance){
+				$input_name = $slug_instance->field;
+				$slug_stored = $this->request->$input_name;
+				if(!empty($slug_stored)){
+					//slug store logic : 
+					$table_name = $this->repo->model->getTable();
+					$pk = $instance->id;
+					if(isset($slug_stored[def_lang()])){
+						foreach($slug_stored as $lang => $storedata){
+							if(!empty($storedata)){
+								$stored_slug = \SlugInstance::create($table_name, $pk, $storedata, $lang);
+							}
+						}
+					}
+					else{
+						$stored_slug = \SlugInstance::create($table_name, $pk, $slug_stored);
+					}
+				}
+			}
+		}		
+	}
+
+
 
 	public function edit($id){
 		$title = self::usedLang('edit.title');
@@ -259,12 +284,15 @@ trait BasicCrud
 
 		//multiple values / relational type input is not processed here
 		$instance = $this->updateQuery($id);
+		$this->storeSlug($instance);
+
 		//store SEO data
 		if(method_exists($this, 'storeSeo')){
 			$this->storeSeo($instance);
 		}
 		//multiple values / relational type can be freely managed here
 		$this->afterCrud($instance);
+
 
 		if($this->multi_language){
 			$this->storeLanguage($instance);

@@ -22,12 +22,7 @@ class PostSkeleton extends DataTable
 			->formColumn(12)
 			->createValidation('required', true); //true = updatenya persis sama
 
-		$this->structure[] = DataStructure::field('slug')
-			->name('Slug')
-			->formColumn(12)
-			->inputType('slug')
-			->slugTarget('title')
-			->createValidation('required|unique:posts,slug,[id]', true);
+		$this->structure[] = DataStructure::slug('post_slug', 'Post Slug', 'title', 12);
 
 		$this->structure[] = DataStructure::field('category[]')
 			->name('Category')
@@ -131,9 +126,9 @@ class PostSkeleton extends DataTable
 		}
 
 		return [
-            'id' => $this->checkerFormat($row),
+			'id' => $this->checkerFormat($row),
 			'title' => '<a class="text-black" style="display:block;" href="'.route('admin.post.detail', ['id' => $row->id]).'">'.$row->title.'</a>',
-			'slug' => '<a class="text-black" style="display:block;" href="'.route('admin.post.detail', ['id' => $row->id]).'">'.$row->slug.'</a>',
+			'post_slug' => '<a class="text-black" style="display:block;" href="'.route('admin.post.detail', ['id' => $row->id]).'">'.\SlugInstance::get($this->model, $row->id, def_lang()).'</a>',
 			'category' => $category,
 			'tags' => $row->tags,
 			'image' => $row->imageThumbnail('image', 'thumb', 75),

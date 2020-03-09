@@ -85,6 +85,9 @@ class PostController extends AdminBaseController
 		$relateds = get_lang($relateds);
 		$relmodel = app(config('model.post_related'));
 		$check = $relmodel->where('post_id', $instance->id)->get();
+		if(empty($relateds)){
+			$relateds = [];
+		}
 		foreach($relateds as $rel){
 			if($check->where('post_related_id', $instance->id)->count() == 0){
 				$relmodel->insert([

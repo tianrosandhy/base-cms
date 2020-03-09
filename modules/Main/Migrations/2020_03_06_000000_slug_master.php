@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Revision extends Migration
+class SlugMaster extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +14,12 @@ class Revision extends Migration
     public function up()
     {
         //struktur migrate dari database lama nggak dipakai.
-        Schema::create('revisions', function (Blueprint $table) {
+        Schema::create('slug_masters', function (Blueprint $table) {
             $table->increments('id');
             $table->string('table')->nullable();
-            $table->integer('primary_key')->nullable();
-            $table->string('revision_no')->nullable();
-            $table->text('revision_data')->nullable();
+            $table->string('primary_key')->nullable(); //jaga2 kalo ada yg PK non integer
+            $table->string('slug')->nullable();
+            $table->string('language')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class Revision extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('revisions');
+        Schema::dropIfExists('slug_masters');
     }
 }

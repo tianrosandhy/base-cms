@@ -42,7 +42,7 @@ function get_lang($request, $lang=''){
     $lang = def_lang();
   }
 
-  $default = isset($request[$lang]) ? $request[$lang] : (isset($request[def_lang()]) ? $request[def_lang()] : $request);
+  $default = isset($request[$lang]) ? $request[$lang] : (isset($request[def_lang()]) ? $request[def_lang()] : null);
   return $default;
 }
 

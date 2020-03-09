@@ -22,12 +22,7 @@ class PageSkeleton extends DataTable
 			->formColumn(12)
 			->createValidation('required', true); //true = updatenya persis sama
 
-		$this->structure[] = DataStructure::field('slug')
-			->name('Slug')
-			->formColumn(12)
-			->inputType('slug')
-			->slugTarget('title')
-			->createValidation('required|unique:pages,slug,[id]', true);
+		$this->structure[] = DataStructure::slug('page_slug', 'Page Slug');
 
 		$this->structure[] = DataStructure::field('description')
 			->name('Description')
@@ -56,9 +51,9 @@ class PageSkeleton extends DataTable
 	//MANAGE OUTPUT DATATABLE FORMAT PER BARIS
 	public function rowFormat($row, $as_excel=false){
 		return [
-            'id' => $this->checkerFormat($row),
+			'id' => $this->checkerFormat($row),
 			'title' => $row->title,
-			'slug' => $row->slug,
+			'page_slug' => \SlugInstance::get($this->model, $row->id, def_lang()),
 			'description' => descriptionMaker($row->description, 15),
 			'image' => $row->imageThumbnail('image', 'thumb', 70),
 			'is_active' => $this->switcher($row, 'is_active', 'admin.'.$this->route.'.switch'),
