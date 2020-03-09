@@ -37,4 +37,4 @@ if(is_array($value)){
   }
 }
 ?>
-<input type="text" data-mask="{{ $mask }}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!} id="input-{{ $cleaned_name }}" value="{{ isset($value) ? $value : null }}">
+<input name="{!! $name !!}" type="text" data-mask="{{ $mask }}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!} id="input-{{ $cleaned_name }}" value="{{ isset($value) ? $value : null }}">
