@@ -78,7 +78,7 @@ class LanguageInstance extends BaseInstance
     $data = $this->model;
     $data->code = $code;
     $data->title = $title;
-    $data->is_default_language = $default_language;
+    $data->is_default_language = $default_language ? 1 : 0;
     $data->save();
 
     if($default_language){

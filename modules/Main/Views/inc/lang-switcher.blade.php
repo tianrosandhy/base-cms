@@ -1,3 +1,4 @@
+@if(LanguageInstance::isActive())
 @push ('style')
 <style>
 	.language-switcher{
@@ -49,4 +50,5 @@ $(function(){
 });
 </script>
 @endpush
+@endif
 @endif
