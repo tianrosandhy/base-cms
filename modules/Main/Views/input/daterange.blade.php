@@ -21,6 +21,10 @@ if(isset($value[def_lang()])){
 }
 
 $hash = md5(rand(1, 10000) . uniqid() . time());
+
+if(strpos($name, '[]') === false){
+    $name = $name.'[]';
+}
 ?>
 <div class="row">
 	<div class="col-sm-6">
