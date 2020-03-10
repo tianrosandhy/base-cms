@@ -50,7 +50,9 @@ if($value instanceof \Illuminate\Support\Collection){
 ?>
 
 <select {{ $type == 'select_multiple' ? 'multiple' : '' }} name="{!! $name !!}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!}>
+  @if($type == 'select')
   <option value=""></option>
+  @endif
   @foreach($data_source as $key => $vl)
   <option {{ is_array($value) ? (in_array($key, $value) ? 'selected' : '') : ($key == $value ? 'selected' : null) }} value="{{ $key }}">{{ $vl }}</option>
   @endforeach

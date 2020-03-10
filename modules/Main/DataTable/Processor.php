@@ -60,7 +60,9 @@ class Processor
         			$tmp[$key] = $value;
             		if($i == $btn_pos){ //action button selalu dimunculkan di kolom kedua
             			if(isset($rf['action'])){
-	            			$tmp[$key] .= '<div class="action-buttons" style="min-width:250px;">'.$rf['action'].'</div>';
+                    if(strlen(trim($rf['action'])) > 0){
+                        $tmp[$key] .= '<div class="action-buttons" style="min-width:250px;">'.$rf['action'].'</div>';
+                    }
             			}
             		}
             		$i++;
