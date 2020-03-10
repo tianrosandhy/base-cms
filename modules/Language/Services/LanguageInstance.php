@@ -18,7 +18,7 @@ class LanguageInstance extends BaseInstance
     }
     $data = $data->orderBy('is_default_language', 'DESC')->orderBy('title', 'ASC')->get();
 
-    if($data->count() == 0){
+    if($data->count() == 0 && $all){
       $this->insert('en', 'English', true);
       return $this->available($all);
     }
