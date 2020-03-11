@@ -5,7 +5,7 @@ $shown = isset($data['shown']) ? (bool)$data['shown'] : false;
   <div class="image-closer" style="font-size:14px;">Back to Gallery</div>
   <div class="row">
     <div class="col-2 text-right">
-      <img class="image-thumbnail" src="{{ isset($data['thumbnail']) ? $data['thumbnail'] : admin_asset('img/broken-image.jpg') }}" style="max-width:100%; width:80px;">
+      <img class="image-thumbnail" src="{{ isset($data['thumbnail']) ? $data['thumbnail'] : admin_asset('img/broken-image.jpg') }}" style="max-width:100%;">
       <div class="padd">
         <a class="badge badge-danger d-block btn-remove-media" data-id="{{ isset($data['id']) ? $data['id'] : null }}" style="font-size:11px; cursor:pointer; color:#fff;" title="Delete this Image">
           <i class="fa fa-trash"></i> Delete

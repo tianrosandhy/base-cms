@@ -19,7 +19,7 @@ function loadTinyMce(){
     menu: {
       file: {title: 'File', items: 'newdocument'},
       edit: {title: 'Edit', items: 'undo redo | cut copy paste pastetext selectall searchreplace'},
-      insert: {title: 'Insert', items: 'storeimage link media image table | template hr pagebreak nonbreaking insertdatetime'},
+      insert: {title: 'Insert', items: 'storeimage codesample link media image table | template hr pagebreak nonbreaking insertdatetime'},
       view: {title: 'View', items: 'code visualaid fullscreen'},
       format: {title: 'Format', items: 'bold italic underline strikethrough superscript subscript | formats | removeformat'},
       table: {title: 'Table', items: 'inserttable tableprops deletetable | cell row column'},

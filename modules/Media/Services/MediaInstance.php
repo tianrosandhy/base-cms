@@ -109,14 +109,7 @@ class MediaInstance
 			}
 		}
 
-		if($no_filter){
-			//hanya ambil n data terakhir
-			return $media->orderBy('id', 'DESC')->paginate($per_page, ['*'], 'page', $page);
-		}
-		else{
-			//gausa paginate
-			return $media->orderBy('id', 'DESC')->get();
-		}
+		return $media->orderBy('id', 'DESC')->paginate($per_page, ['*'], 'page', $page);
 	}
 
 

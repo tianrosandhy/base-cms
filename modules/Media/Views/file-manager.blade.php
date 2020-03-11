@@ -5,5 +5,7 @@
     @if($data->count() == 0)
     <p style="cursor:pointer;" class="text-mute text-center" onclick="goToUpload()">No media data. Start upload now.</p>
     @endif
+
+    {{ $data->links('media::partials.pagination') }}
   </div>
 </div>
