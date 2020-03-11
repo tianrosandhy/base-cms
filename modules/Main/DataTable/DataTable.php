@@ -120,6 +120,7 @@ class DataTable extends Processor
 		}
 
 		$validateData = [];
+		$validateTranslation = [];
 		foreach($this->structure as $row){
 			if(strlen($row->{$get}) > 0){
 				$rules = str_replace('[id]', $id, $row->{$get});
@@ -131,12 +132,15 @@ class DataTable extends Processor
 					$validateData[$field] = $rules;
 				}
 			}
+			if(!empty($row->validation_translation)){
+				$validateTranslation = array_merge($validateTranslation, $row->validation_translation);
+			}
 		}
 
 		if(count($validateData) == 0)
 			return false; //auto lewat kalo ga ada validasi
 
-		return Validator::make($this->request->all(), $validateData)->validate();
+		return Validator::make($this->request->all(), $validateData, $validateTranslation)->validate();
 	}
 
 

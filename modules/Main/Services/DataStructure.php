@@ -23,6 +23,7 @@ class DataStructure
 		$input_array,
 		$create_validation,
 		$update_validation,
+		$validation_translation,
 		$slug_target,
 		$value_source,
 		$array_source,
@@ -50,6 +51,7 @@ class DataStructure
 		$this->cropper_ratio = [300, 300];
 		$this->translate = true;
 		$this->tab_group = 'General';
+		$this->validation_translation = [];
 	}
 
 	public function createInput($data=null, $multi_language=false){
@@ -339,6 +341,11 @@ class DataStructure
 		if(strlen($rule) == 0)
 			$rule = $this->create_validation; //ambil dari create validation aja sbg nilai default
 		$this->update_validation = $rule;
+		return $this;
+	}
+
+	public function validationTranslation($arr=[]){
+		$this->validation_translation = array_merge($this->validation_translation, $arr);
 		return $this;
 	}
 
