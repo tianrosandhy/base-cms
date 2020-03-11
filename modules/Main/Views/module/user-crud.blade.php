@@ -7,7 +7,7 @@ if(!isset($multi_language)){
 ?>
 @section ('content')
 
-<h3>{{ $title }}</h3>
+<h3 class="display-4 mb-3">{{ $title }}</h3>
 <div class="padd">
 	<a href="{{ url()->route($back) }}" class="btn btn-sm btn-default btn-secondary">&laquo; Back</a>
 </div>

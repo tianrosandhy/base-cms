@@ -2,7 +2,7 @@
 
 @section ('content')
 
-<h3>{!! $title !!}</h3>
+<h3 class="display-4 mb-3">{!! $title !!}</h3>
 
 
 {!! $prepend_index !!}

@@ -1,7 +1,7 @@
 @extends ('main::master')
 
 @section ('content')
-<h3>Role Permission Management</h3>
+<h3 class="display-4 mb-3">Role Permission Management</h3>
 
 <div class="padd">
 	@if(has_access('admin.permission.store'))

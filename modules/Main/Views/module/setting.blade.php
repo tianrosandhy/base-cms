@@ -12,7 +12,7 @@
 
 @section ('content')
 <div class="padd">
-	<h3>Settings</h3>
+	<h3 class="display-4 mb-3">Settings</h3>
 </div>
 
 @if(session('artisan'))

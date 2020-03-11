@@ -5,7 +5,7 @@
 ])
 
 @section ('content')
-<h2 class="mb-3">{{ $title }}</h2>
+<h2 class="display-4 mb-3">{{ $title }}</h2>
 
 <div class="card card-body">
   @include ('media::partials.base-media')
