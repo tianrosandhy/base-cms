@@ -11,6 +11,11 @@ class SiteInstance
 		if(isset($arguments[0])){
 			$instance_location = $arguments[0];
 		}
-		return app($instance_location);
+		if(class_exists($instance_location)){
+			return app($instance_location);
+		}
+		else{
+			return new BlankInstance;
+		}
 	}	
 }

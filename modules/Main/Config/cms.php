@@ -13,6 +13,10 @@ return [
 		'google'
 	],
 
+	'front' => [
+		'logo' => 'img/fe_logo.png'
+	],
+
 	'admin' => [
 		'auth_guard_name' => 'admin',
 		'prefix' => 'p4n3lb04rd',
@@ -76,11 +80,6 @@ return [
 
 		],
 
-	],
-
-	'front' => [
-		'assets' => 'front_assets',
-		'minified' => true
 	],
 
 ];

@@ -69,9 +69,13 @@ class SiteServiceProvider extends BaseServiceProvider
 		$this->app->bind('site-facade', function ($app) {
             return new Services\SiteInstance($app);
         });
+        $this->app->bind('blank-facade', function ($app) {
+            return new Services\BlankInstance($app);
+        });
 
         $aliasData = [
 	        'SiteInstance' => \Module\Site\Facades\SiteFacade::class,
+	        'BlankInstance' => \Module\Site\Facades\BlankFacade::class,
         ];
 
         foreach($aliasData as $al => $src){

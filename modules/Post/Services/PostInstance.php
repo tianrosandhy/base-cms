@@ -15,6 +15,14 @@ class PostInstance extends BaseInstance
 
 
 
+	public function homePreview($limit=4){
+		try{
+			return $this->model->where('featured', 1)->orderBy('id', 'DESC')->take($limit)->get();
+		}catch(\Exception $e){
+			return $this->model->orderBy('id', 'DESC')->take($limit)->get();
+		}
+	}
+
 	public function structure(){
 		if($this->data){
 			$out = $this->data->toArray();

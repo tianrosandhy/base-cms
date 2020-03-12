@@ -3,10 +3,10 @@
 window.CSRF_TOKEN = '{{ csrf_token() }}';
 window.BASE_URL = '{{ url('/') }}';
 </script>
-<script src="{{ asset('styling/js/jquery.js') }}"></script>
-<script src="{{ asset('styling/js/plugins.js') }}"></script>
-<script src="{{ asset('styling/js/functions.js') }}"></script>
-<script src="{{ asset('styling/js/additional.js') }}"></script>
+<script src="{{ theme_asset('js/jquery.js') }}"></script>
+<script src="{{ theme_asset('js/plugins.js') }}"></script>
+<script src="{{ theme_asset('js/functions.js') }}"></script>
+<script src="{{ theme_asset('js/additional.js') }}"></script>
 @if(env('RECAPTCHA_SITE_KEY') && env('RECAPTCHA_SECRET_KEY'))
 	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endif

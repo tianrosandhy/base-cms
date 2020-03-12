@@ -1,7 +1,6 @@
 {
     "name": "theme2",
-    "description": "Canvas Paralax Theme",
+    "description": "Mobirise Base Site Template",
     "type": "frontend",
-    "version": "dev",
-    "themeoption" : "test"
+    "version": "dev"
 }

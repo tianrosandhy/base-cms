@@ -1,41 +1,40 @@
-<?php
-$posts = SiteInstance::post()->paginate(4);
-?>
-@if($posts->count() > 0)
-<div class="container">
-	<section id="homepage-blog" class="pb-5 pt-5">
-		<div class="heading-block topmargin-sm center">
-			<h3>Our Latest Blog</h3>
-		</div>		
-		<div class="row">
-			@foreach($posts as $row)
-			<?php
-			$data = SiteInstance::post()->setData($row)->structure();
-			?>
-			<div class="col-lg-3 col-md-6 bottommargin">
-				<div class="ipost clearfix">
-					<div class="entry-image">
-						<a href="{{ route('front.post.detail', ['slug' => $data['slug']]) }}"><img class="image_fade" src="{{ isset($data['image_list']['small']) ? storage_url($data['image_list']['small']) : broken_image() }}" alt="{{ $data['title'] }}"></a>
-					</div>
-					<div class="entry-title">
-						<h3><a href="{{ route('front.post.detail', ['slug' => $data['slug']]) }}">{{ $data['title'] }}</a></h3>
-					</div>
-					<ul class="entry-meta clearfix">
-						<li><i class="icon-calendar3"></i> {{ date('d M Y H:i:s', strtotime($data['created_at'])) }}</li>
-					</ul>
-					<div class="entry-content">
-						<p>{{ $data['excerpt'] ? $data['excerpt'] : descriptionMaker($data['description'], 15) }}</p>
-					</div>
-				</div>
-			</div>
-			@endforeach
-		</div>
+<section class="features18 popup-btn-cards cid-rSZnUa8DFp" id="features18-l">
+    <?php
+    $posts = SiteInstance::post()->homePreview(3);
+    ?>
+    @if($posts->count() > 0)
+    <div class="container">
+        <h2 class="mbr-section-title pb-3 align-center mbr-fonts-style display-2">
+            Our Latest Blog
+        </h2>
 
-		<div align="center">
-			<a href="#" class="button button-xlarge button-dark button-rounded tright">
-				Check Our Older Blogs <i class="icon-circle-arrow-right"></i>
-			</a>
-		</div>
-	</section>
-</div>
-@endif
+        <div class="media-container-row pt-5 ">
+            <?php
+            $col = 12 / $posts->count();
+            ?>
+            @foreach($posts as $row)
+            <div class="card p-3 col-12 col-md-6 col-lg-{{ $col }}">
+                <div class="card-wrapper">
+                    <div class="card-img">
+                        <div class="mbr-overlay"></div>
+                        <div class="mbr-section-btn text-center">
+                            <a href="#" class="btn btn-primary display-4">Read More</a>
+                        </div>
+                        <img src="{{ $row->getThumbnailUrl('image', 'small') }}" alt="{{ $row->title }}">
+                    </div>
+                    <div class="card-box">
+                        <h4 class="card-title mbr-fonts-style display-7">
+                            {{ $row->title }}
+                        </h4>
+                        <p class="mbr-text mbr-fonts-style align-left display-7">
+                            {{ $row->excerpt ? descriptionMaker($row->excerpt) : descriptionMaker($row->body, 15) }}
+                        </p>
+                        <a href="#" class="btn btn-sm btn-block btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+</section>

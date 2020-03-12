@@ -40,6 +40,18 @@ if(!function_exists('themeoption')){
 
         return null;
     }
+}
 
+if(!function_exists('theme_asset')){
+    function theme_asset($path, $asset_folder='assets'){
+        $active = ThemesInstance::getActiveTheme();
+        $theme_path = $active->getPath();
+        $base_public = public_path('');
+        $theme_final_path = str_replace($base_public, '', $theme_path);
+
+        $theme_base_path = $theme_final_path.DIRECTORY_SEPARATOR.$asset_folder.DIRECTORY_SEPARATOR;
+        $theme_base_path = str_replace('\\', '/', $theme_base_path);
+        return url($theme_base_path.$path);
+    }
 }
 

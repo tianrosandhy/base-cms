@@ -1,33 +1,21 @@
-<div class="section parallax full-screen nomargin noborder" style="background-size:cover; background-image: url('{{ asset('styling/images/slider/full/1.jpg') }}');">
-	<div class="vertical-middle">
-		<div class="container clearfix">
+<section class="mbr-section info3 cid-rSZnQ4Eg32 mbr-parallax-background" id="info3-k">
+    <div class="mbr-overlay" style="opacity: 0.8; background-color: rgb(35, 35, 35);">
+    </div>
 
-			<div class="col_three_fifth nobottommargin">
-
-				<div class="emphasis-title">
-					<h2>Seriously Parallaxical</h2>
-					<p class="lead topmargin-sm">Create beautiful unlimited full-screen parallax defined backgrounds to spell bound your visitors.</p>
-				</div>
-
-			</div>
-
-		</div>
-	</div>
-</div>
-
-<div class="section parallax full-screen nomargin noborder" style="background-size:cover; background-image: url('{{ asset('styling/images/slider/full/2.jpg') }}');">
-	<div class="vertical-middle">
-		<div class="container clearfix">
-
-			<div class="col_three_fifth nobottommargin">
-
-				<div class="emphasis-title">
-					<h2>Seriously Parallaxical</h2>
-					<p class="lead topmargin-sm">Create beautiful unlimited full-screen parallax defined backgrounds to spell bound your visitors.</p>
-				</div>
-
-			</div>
-
-		</div>
-	</div>
-</div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="media-container-column title col-12 col-md-10">
+                <h2 class="align-left mbr-bold mbr-white pb-3 mbr-fonts-style display-2">
+                    BACKGROUND IMAGE
+                </h2>
+                
+                <p class="mbr-text align-left mbr-white mbr-fonts-style display-7">
+                    Background image with solid color overlay and parallax effect. Develop fully responsive, mobile-ready websites that look amazing on any devices and browsers
+                </p>
+                <div class="mbr-section-btn align-left py-4">
+                    <a class="btn btn-primary display-4" href="https://mobirise.co">LEARN MORE</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

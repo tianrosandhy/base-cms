@@ -2,8 +2,8 @@
 ============================================= -->
 <?php
 $logo = setting('site.logo', null);
-$normal_logo = asset('styling/images/logo.png');
-$large_logo = asset('styling/images/logo@2x.png');
+$normal_logo = theme_asset('images/logo.png');
+$large_logo = theme_asset('images/logo@2x.png');
 if($logo){
 	$thumb_list = thumbnail($logo);
 	if(isset($thumb_list['small'])){

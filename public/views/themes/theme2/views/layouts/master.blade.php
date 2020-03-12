@@ -1,25 +1,15 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en-US">
+<html  >
 <head>
 	@include ('partials.metadata')
 </head>
+<body>
+@include ('partials.header')
+@yield ('slider')
 
-<body class="stretched">
+@yield ('content')
 
-	<div id="wrapper" class="clearfix">
-		@include ('partials.header')
-		@include ('partials.hero-slider')
-		<div class="clear"></div>
-		<section id="content">
-			<div class="content-wrap nopadding">
-				@yield ('content')
-			</div>
-		</section>
-		@include ('partials.footer')
-	</div>
-
-	<div id="gotoTop" class="icon-angle-up"></div>
-
-	@include ('partials.script')
+@include ('partials.footer')
+@include ('partials.script')  
 </body>
 </html>
