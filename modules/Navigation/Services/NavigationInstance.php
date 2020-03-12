@@ -35,7 +35,7 @@ class NavigationInstance extends BaseInstance
 				foreach($lists->where('parent', null)->sortBy('sort_no') as $row){
 					$resp = $this->makeItemInstance($row, $max_level, 0);
 					if($resp){
-						$out[$row->title] = $resp;
+						$out[$row->outputTranslate('title')] = $resp;
 					}
 				}
 			}
@@ -66,7 +66,7 @@ class NavigationInstance extends BaseInstance
 				foreach($row->children->sortBy('sort_no') as $child){
 					$getresp = $this->makeItemInstance($child, $max_level, $current_level);
 					if($getresp){
-						$resp['submenu'][$child->title] = $getresp;
+						$resp['submenu'][$child->outputTranslate('title')] = $getresp;
 					}
 				}
 			}
