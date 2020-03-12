@@ -18,7 +18,7 @@ class ThemesInstance extends BaseInstance
 
 	public function __construct(){
 		parent::__construct('themes');
-        $this->theme_manager = new ThemeManager(app(), config('appearances.themes.paths')[0]);
+        $this->theme_manager = new ThemeManager(app(), config('cms.themes.paths')[0]);
         $this->getActiveTheme();
         $this->getStoredOptions();
         $this->compileStored();

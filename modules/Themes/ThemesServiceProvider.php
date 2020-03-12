@@ -75,7 +75,7 @@ class ThemesServiceProvider extends BaseServiceProvider
      */
     private function registerAllThemes($active_theme = null)
     {
-		$directories = $this->app['files']->directories(config('appearances.themes.paths'));
+		$directories = $this->app['files']->directories(config('cms.themes.paths'));
         foreach ($directories as $directory) {
 			if(preg_match('/'.$active_theme.'/',$directory)) {
 				Appearances::registerPath($directory, true);

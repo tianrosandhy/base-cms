@@ -16,7 +16,13 @@ return [
 	'front' => [
 		'logo' => 'img/fe_logo.png'
 	],
-
+	'themes' => [
+		'paths' => [
+			realpath(public_path('themes')),
+		],
+		'activate' => null,
+	],
+	
 	'admin' => [
 		'auth_guard_name' => 'admin',
 		'prefix' => 'p4n3lb04rd',
