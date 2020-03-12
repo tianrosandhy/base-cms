@@ -25,27 +25,6 @@
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             @include ('partials.header-navigation')
-            @if(LanguageInstance::isActive())
-            <?php
-            $default_language = LanguageInstance::active();
-            ?>
-            <div class="navbar-buttons mbr-section-btn">
-                <div class="dropdown">
-                    <div class="dropdown">
-                        <button class="btn btn-no-shadow dropdown-toggle btn-language" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="{{ $default_language['image'] }}" alt="{{ $default_language['title'] }}" style="height:50px;">
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            @foreach(LanguageInstance::available(true) as $lang)
-                            <a class="dropdown-item" href="?lang={{ $lang['code'] }}">
-                                <img src="{{ $lang['image'] }}" alt="{{ $lang['title'] }}" style="height:50px;">
-                            </a>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endif
         </div>
     </nav>
 </section>

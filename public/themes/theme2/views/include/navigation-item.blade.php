@@ -11,7 +11,7 @@ $level++;
 		class="nav-link link text-white display-4 {{ $has_submenu ? 'dropdown-toggle' : ($level > 1 ? 'dropdown-item' : '') }}" 
 		href="{{ $has_submenu ? '#' : $data['url'] }}"
 		@if($has_submenu)
-		id="{{ $alias }}-navigation" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+		id="{{ $alias }}-navigation" role="button" data-toggle="dropdown-submenu" aria-haspopup="true" aria-expanded="false"
 		@endif
 		@if($data['new_tab'])
 		target="_blank"
