@@ -14,6 +14,6 @@ if(isset($value_decode['id']) && isset($value_decode['thumb'])){
     <div class="image-closer">&times;</div>
   </div>
   <div class="card-footer">
-    <button type="button" class="btn btn-block btn-primary media-set-image" data-target="#{{ $hash }}">Set Image</button>
+    <button type="button" class="btn btn-block btn-info media-set-image" data-target="#{{ $hash }}">Choose Image</button>
   </div>
 </div>

@@ -15,15 +15,19 @@
 							$rfield = str_replace('[]', '', $row->field);
 							?>
 							@if($row->data_source == 'text')
-	                            @if(in_array($row->input_type, ['date', 'datetime']))
+								@if(in_array($row->input_type, ['date', 'datetime']))
 								<div class="row" data-daterangepicker>
 									<div class="col">
-										<input type="text" name="datatable_filter[{{ $rfield }}][]" id="datatable-search-{{ $rfield }}-1" placeholder="Start" date-start class="form-control">
-										<div class="closer">&times;</div>
+										<div style="position:relative;">
+											<input type="text" name="datatable_filter[{{ $rfield }}][]" id="datatable-search-{{ $rfield }}-1" placeholder="Start" date-start class="form-control">
+											<div class="closer">&times;</div>
+										</div>
 									</div>
 									<div class="col" style="border-left:1px solid #ccc;">
-										<input type="text" name="datatable_filter[{{ $rfield }}][]" id="datatable-search-{{ $rfield }}-2" placeholder="End" date-end class="form-control">
-										<div class="closer">&times;</div>
+										<div style="position:relative;">
+											<input type="text" name="datatable_filter[{{ $rfield }}][]" id="datatable-search-{{ $rfield }}-2" placeholder="End" date-end class="form-control">
+											<div class="closer">&times;</div>
+										</div>
 									</div>
 								</div>
 								@else

@@ -3,7 +3,7 @@
 <style>
 	.language-switcher{
 		position:fixed;
-		top:100px;
+		top:70px;
 		right:0;
 		text-align:right;
 		padding:.5em;

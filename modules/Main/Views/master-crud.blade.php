@@ -79,10 +79,17 @@
 						$width = 0;
 						echo '</div><div class="row">'; //bikin baris baru
 					}
+
+					if(isset($data->id)){
+						$validation_rule = $row->update_validation;
+					}
+					else{
+						$validation_rule = $row->create_validation;
+					}
 					?>
 					<div class="col-md-{{ $row->form_column }} col-sm-12">
 						<div class="form-group custom-form-group {!! $row->input_type == 'radio' ? 'radio-box' : '' !!}">
-							<label for="{{ $row->input_attribute['id'] }}" class="text-uppercase">{{ $row->name }}</label>
+							<label for="{{ $row->input_attribute['id'] }}" class="text-uppercase {{ strpos($validation_rule, 'required') !== false ? 'required' : '' }}">{{ $row->name }}</label>
 							{!! $row->createInput($data, $multi_language) !!}
 						</div>
 					</div>
@@ -110,7 +117,7 @@
 		@endif
 
 		<div class="padd">
-			<button type="submit" class="btn btn-primary">Save</button>
+			<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
 		</div>
 			
 	</div>
