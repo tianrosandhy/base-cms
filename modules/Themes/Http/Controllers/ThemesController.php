@@ -140,6 +140,9 @@ class ThemesController extends AdminBaseController
 			$active_theme = app(config('model.setting_structure'))->where('param', 'frontend_theme')->first();
 			$active_theme->default_value = $this->request->input('theme');
 			$active_theme->save();
+
+			//create default value saat set active theme.
+			ThemesInstance::createDefaultValues();
 		}
 		else {
 			$errors = $validate->messages()->all();

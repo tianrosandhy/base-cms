@@ -190,6 +190,10 @@ class ThemesInstance extends BaseInstance
         $out = [];
         if(LanguageInstance::isActive()){
             foreach(available_lang(true) as $lang => $langdata){
+                //skipped undefined $stored[$lang] if not exists
+                if(!isset($stored[$lang])){
+                    continue;
+                }
                 foreach($stored[$lang] as $key => $value){
                     $split = explode('.', $key);
                     //MAAF MASI MANUAL BANGET.. GA DAPET LOGIC LOOPNYA :(
