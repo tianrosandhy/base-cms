@@ -1,4 +1,4 @@
-<select name="theme[{{ $name }}][]" class="form-control select2" style="width:100%; border:1px solid #ccc;"
+<select name="theme[{{ $name }}][]" class="form-control theme-select2" style="width:100%; border:1px solid #ccc;"
     @if(isset($param->attr))
         @foreach($param->attr as $attr => $attrval)
             @if(in_array($attr, ['class', 'name']))    

@@ -41,6 +41,9 @@
                 if($(".select-icon").hasClass('select2-hidden-accessible')){
                     $(".select-icon").select2('destroy');
                 }
+                if($(".theme-select2").hasClass('select2-hidden-accessible')){
+                    $(".theme-select2").select2('destroy');
+                }
 
                 //process add 
                 cloned = container.find('.array-wrapper .array-item').first().clone(true);
@@ -66,10 +69,13 @@
     });
 
     function initThemePlugin(){
-        $(".select-icon").select2({
+        $(".select-icon:not(.select2)").select2({
             templateSelection : formatIcons,
             templateResult : formatIcons,
         });
+
+
+        $(".theme-select2:not(.select-icon)").select2();
 
         arrayMonitor();
     }

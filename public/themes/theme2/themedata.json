@@ -27,7 +27,7 @@
                 "lists" : {
                     "label" : "Summary Lists",
                     "type" : "array",
-                    "maximum_array" : 3,
+                    "maximum_array" : 4,
                     "loop" : {
                         "title" : {
                             "label" : "Summary Label",
@@ -45,11 +45,6 @@
                                 "maxlength" : 150
                             }
                         },
-                        "background" : {
-                            "label" : "Background Color",
-                            "type" : "color",
-                            "default" : "#1abc9c"
-                        },
                         "icon" : {
                             "label" : "Icon",
                             "type" : "select_icon",
@@ -57,7 +52,82 @@
                         }
                     }
                 }
+            },
+            "our clients section" : {
+                "title" : {
+                    "label" : "Our Client Section Title",
+                    "type" : "text",
+                    "default" : "Our Clients",
+                    "attr" : {
+                        "maxlength" : 60
+                    }
+                },
+                "description" : {
+                    "label" : "Our Client Section Description",
+                    "type" : "textarea",
+                    "default" : "",
+                    "attr" : {
+                        "maxlength" : 255
+                    }
+                }
+            },
+            "quick contact" : {
+                "title" : {
+                    "label" : "Quick Contact Title",
+                    "type" : "text",
+                    "default" : "How about a call?",
+                    "attr" : {
+                        "maxlength" : 60
+                    }
+                },
+                "description" : {
+                    "label" : "Quick Contact Description",
+                    "type" : "textarea",
+                    "default" : "We strive to provide Our Customers with Top Notch Support to make their Experience Wonderful",
+                    "attr" : {
+                        "maxlength" : 255
+                    }
+                },
+                "image" : {
+                    "label" : "Background Image",
+                    "type" : "image"
+                },
 
+                "button" : {
+                    "label" : "Action Button",
+                    "type" : "array",
+                    "maximum_array" : 2,
+                    "loop" : {
+                        "title" : {
+                            "label" : "Button Title",
+                            "type" : "text",
+                            "default" : "Contact Us",
+                            "attr" : {
+                                "maxlength" : 75
+                            }
+                        },
+                        "url" : {
+                            "label" : "Button URL",
+                            "type" : "text",
+                            "default" : "contact-us",
+                            "attr" : {
+                                "maxlength" : 150
+                            }
+                        },
+                        "type" : {
+                            "label" : "Button Type",
+                            "type" : "select",
+                            "source" : {
+                                "primary" : "Primary",
+                                "danger" : "Danger",
+                                "success" : "Success",
+                                "info" : "Info",
+                                "secondary" : "Secondary"
+                            },
+                            "default" : "primary"
+                        }
+                    }
+                }
             }
         },
         "styling" : {

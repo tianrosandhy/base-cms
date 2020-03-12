@@ -6,14 +6,20 @@
         <div class="row justify-content-center">
             <div class="media-container-column title col-12 col-md-10">
                 <h2 class="align-left mbr-bold mbr-white pb-3 mbr-fonts-style display-2">
-                    BACKGROUND IMAGE
+                    {{ themeoption('homepage.quick_contact.title') }}
                 </h2>
                 
                 <p class="mbr-text align-left mbr-white mbr-fonts-style display-7">
-                    Background image with solid color overlay and parallax effect. Develop fully responsive, mobile-ready websites that look amazing on any devices and browsers
+                    {{ themeoption('homepage.quick_contact.description') }}
                 </p>
                 <div class="mbr-section-btn align-left py-4">
-                    <a class="btn btn-primary display-4" href="https://mobirise.co">LEARN MORE</a>
+                    <?php
+                    $btns = themeoption('homepage.quick_contact.button');
+                    $n = count($btns['title']);
+                    ?>
+                    @for($i=0; $i<$n; $i++)
+                    <a class="btn btn-{{ themeoption('type.'.$i, $btns) }} display-4 mr-2" href="{{ themeoption('url.'.$i, $btns) }}">{{ themeoption('title.'.$i, $btns) }}</a>
+                    @endfor
                 </div>
             </div>
         </div>

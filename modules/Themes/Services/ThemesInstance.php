@@ -104,6 +104,8 @@ class ThemesInstance extends BaseInstance
 
 
     public function grabRaw($keyname=null){
+        $keyname = str_replace('_', ' ', $keyname);
+
         $compiled = $this->compiled_config;
         if(strlen($keyname) == 0){
             //langsung return all compiled in case gaada parameter
@@ -131,6 +133,8 @@ class ThemesInstance extends BaseInstance
 
 
     public function grab($keyname=null, $lang=null){
+        $keyname = str_replace('_', ' ', $keyname);
+
         if(empty($lang)){
             $lang = current_lang();
         }

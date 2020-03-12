@@ -7,11 +7,9 @@
         <div class="media-container-row">
             <div class="col-12 align-center">
                 <h2 class="mbr-section-title pb-3 mbr-fonts-style display-2">
-                    Our Clients
+                    {{ themeoption('homepage.our_clients_section.title') }}
                 </h2>
-                <h3 class="mbr-section-subtitle mbr-light mbr-fonts-style display-5">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae officia hic aperiam rem, molestiae itaque.
-                </h3>
+                <h3 class="mbr-section-subtitle mbr-light mbr-fonts-style display-5">{{ themeoption('homepage.our_clients_section.description') }}</h3>
             </div>
         </div>
     </div>
