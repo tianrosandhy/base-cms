@@ -53,7 +53,7 @@ class PageSkeleton extends DataTable
 		return [
 			'id' => $this->checkerFormat($row),
 			'title' => $row->title,
-			'page_slug' => \SlugInstance::get($this->model, $row->id, def_lang()),
+			'page_slug' => $row->slug(),
 			'description' => descriptionMaker($row->description, 15),
 			'image' => $row->imageThumbnail('image', 'thumb', 70),
 			'is_active' => $this->switcher($row, 'is_active', 'admin.'.$this->route.'.switch'),

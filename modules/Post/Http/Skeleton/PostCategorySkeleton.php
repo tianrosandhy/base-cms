@@ -22,12 +22,7 @@ class PostCategorySkeleton extends DataTable
 			->formColumn(12)
 			->createValidation('required', true); //true = updatenya persis sama
 
-		$this->structure[] = DataStructure::field('slug')
-			->name('Slug')
-			->formColumn(12)
-			->inputType('slug')
-			->slugTarget('name')
-			->createValidation('required|unique:post_categories,slug,[id]', true);
+		$this->structure[] = DataStructure::slug('slug', 'Slug', 'name', 12);
 
 		$this->structure[] = DataStructure::field('description')
 			->name('Description')
@@ -55,9 +50,9 @@ class PostCategorySkeleton extends DataTable
 	//MANAGE OUTPUT DATATABLE FORMAT PER BARIS
 	public function rowFormat($row, $as_excel=false){
 		return [
-            'id' => $this->checkerFormat($row),
+			'id' => $this->checkerFormat($row),
 			'name' => $row->name,
-			'slug' => $row->slug,
+			'slug' => $row->slug(),
 			'image' => $row->imageThumbnail('image', 'thumb', 75),
 			'is_active' => has_access('admin.'.$this->route.'.switch') ? $this->switcher($row, 'is_active', 'admin.'.$this->route.'.switch') : ( $row->is_active ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Draft</span>'),
 			'action' => self::editButton($row) . self::deleteButton($row)

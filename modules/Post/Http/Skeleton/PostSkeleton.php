@@ -128,7 +128,7 @@ class PostSkeleton extends DataTable
 		return [
 			'id' => $this->checkerFormat($row),
 			'title' => '<a class="text-black" style="display:block;" href="'.route('admin.post.detail', ['id' => $row->id]).'">'.$row->title.'</a>',
-			'post_slug' => '<a class="text-black" style="display:block;" href="'.route('admin.post.detail', ['id' => $row->id]).'">'.\SlugInstance::get($this->model, $row->id, def_lang()).'</a>',
+			'post_slug' => '<a class="text-black" style="display:block;" href="'.route('admin.post.detail', ['id' => $row->id]).'">'.$row->slug().'</a>',
 			'category' => $category,
 			'tags' => $row->tags,
 			'image' => $row->imageThumbnail('image', 'thumb', 75),
