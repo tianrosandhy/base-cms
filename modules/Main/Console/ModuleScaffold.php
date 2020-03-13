@@ -3,6 +3,9 @@
 namespace Module\Main\Console;
 
 use Illuminate\Console\Command;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
+use FilesystemIterator;
 
 class ModuleScaffold extends Command
 {
@@ -25,7 +28,7 @@ class ModuleScaffold extends Command
      *
      * @return void
      */
-    public $name, $hint;
+    public $name, $hint, $module_dir;
 
     public function __construct()
     {
@@ -62,59 +65,72 @@ class ModuleScaffold extends Command
         }
         else{
             $module_dir = $base_dir .'/'.$name;
+            $this->module_dir = $module_dir;
             mkdir($module_dir, 0755);
             copy_directory(__DIR__ .'/StubModule', $module_dir);
             $this->info('Scaffolding file copied successfully');
 
-            
+            $this->renameAllStubToPhp();
+
             //manual rename file.
-            rename($module_dir .'/BlankServiceProvider.php', $module_dir .'/'.$name.'ServiceProvider.php');
+            $this->renameModule('BlankServiceProvider.php');
 
             if($this->dual){
-                unlink($module_dir .'/Models/Blank');
-                unlink($module_dir .'/Http/Skeleton/BlankSkeleton');
-                unlink($module_dir .'/Http/Controllers/BlankController');
+                $this->removeFiles([
+                    'Models/Blank.php',
+                    'Http/Skeleton/BlankSkeleton.php',
+                    'Http/Controllers/BlankController.php',
+                ]);
 
                 //rename dual name
-                rename($module_dir .'/Http/Skeleton/BlankSkeletonDual', $module_dir .'/Http/Skeleton/'.$name.'Skeleton.php');
-                rename($module_dir .'/Models/BlankDual', $module_dir .'/Models/Blank.php');
-                rename($module_dir .'/Http/Controllers/BlankControllerDual', $module_dir .'/Http/Controllers/'.$name.'Controller.php');
+                $this->renameModules([
+                    'Http/Controllers/BlankControllerDual.php',
+                    'Http/Skeleton/BlankSkeletonDual.php',
+                    'Models/BlankDual.php',
+                ]);
+
             }
             else{
-                unlink($module_dir .'/Models/BlankDual');
-                unlink($module_dir .'/Http/Skeleton/BlankSkeletonDual');
-                unlink($module_dir .'/Http/Controllers/BlankControllerDual');
+                $this->removeFiles([
+                    'Models/BlankDual.php',
+                    'Http/Skeleton/BlankSkeletonDual.php',
+                    'Http/Controllers/BlankControllerDual.php',
+                ]);
 
                 //rename dual name
-                rename($module_dir .'/Http/Skeleton/BlankSkeleton', $module_dir .'/Http/Skeleton/'.$name.'Skeleton.php');
-                rename($module_dir .'/Models/Blank', $module_dir .'/Models/Blank.php');
-                rename($module_dir .'/Http/Controllers/BlankController', $module_dir .'/Http/Controllers/'.$name.'Controller.php');
+                $this->renameModules([
+                    'Http/Controllers/BlankController.php',
+                    'Http/Skeleton/BlankSkeleton.php',
+                    'Models/Blank.php',
+                ]);
             }
 
-            rename($module_dir .'/Migrations/2018_08_25_000000_blank.php', $module_dir .'/Migrations/2018_08_25_000000_'.$hint.'.php');
-            rename($module_dir .'/Models/Blank.php', $module_dir .'/Models/'.$name.'.php');
-            rename($module_dir .'/Exceptions/BlankException.php', $module_dir .'/Exceptions/'.$name.'Exception.php');
-            rename($module_dir .'/Facades/BlankFacade.php', $module_dir .'/Facades/'.$name.'Facade.php');
-            rename($module_dir .'/Services/BlankInstance.php', $module_dir .'/Services/'.$name.'Instance.php');
+            $this->renameModules([
+                'Migrations/2018_08_25_000000_blank.php',
+                'Exceptions/BlankException.php',
+                'Facades/BlankFacade.php',
+                'Services/BlankInstance.php'
+            ]);
 
 
             //rename file content
-            self::changeContent($module_dir .'/'.$name.'ServiceProvider.php');
-            self::changeContent($module_dir .'/'.$name.'ServiceProvider.php');
-            self::changeContent($module_dir .'/Http/Controllers/'.$name.'Controller.php');
-            self::changeContent($module_dir .'/Http/Skeleton/'.$name.'Skeleton.php');
-            self::changeContent($module_dir .'/Migrations/2018_08_25_000000_'.$hint.'.php');
-            self::changeContent($module_dir .'/Routes/api.php');
-            self::changeContent($module_dir .'/Routes/web.php');
-            self::changeContent($module_dir .'/Config/cms.php');
-            self::changeContent($module_dir .'/Config/model.php');
-            self::changeContent($module_dir .'/Config/permission.php');
-            self::changeContent($module_dir .'/Config/module-setting.php');
-            self::changeContent($module_dir .'/Models/'.$name.'.php');
-            self::changeContent($module_dir .'/Exceptions/'.$name.'Exception.php');
-            self::changeContent($module_dir .'/Facades/'.$name.'Facade.php');
-            self::changeContent($module_dir .'/Services/'.$name.'Instance.php');
-            self::changeContent($module_dir .'/SettingExtender/ModuleExtender.php');
+            $this->changeContents([
+                $name.'ServiceProvider.php',
+                'Http/Controllers/'.$name.'Controller.php',
+                'Http/Skeleton/'.$name.'Skeleton.php',
+                'Migrations/2018_08_25_000000_'.$hint.'.php',
+                'Routes/api.php',
+                'Routes/web.php',
+                'Config/cms.php',
+                'Config/model.php',
+                'Config/permission.php',
+                'Config/module-setting.php',
+                'Models/'.$name.'.php',
+                'Exceptions/'.$name.'Exception.php',
+                'Facades/'.$name.'Facade.php',
+                'Services/'.$name.'Instance.php',
+                'SettingExtender/ModuleExtender.php'
+            ]);
 
             $this->info('New module has been created for you. Now you just need to register the service provider (in config/modules.php or in config/app.php) , manage migration, manage the model and skeleton.');
         }
@@ -122,13 +138,78 @@ class ModuleScaffold extends Command
     }
 
 
+    protected function renameAllStubToPhp(){
+        $path = $this->module_dir;
+        $di = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::LEAVES_ONLY
+        );
+
+        //rename .stub -> .php
+        foreach($di as $fname => $fio) {
+            $file_full_path = $fio->getPath() . DIRECTORY_SEPARATOR . $fio->getFilename();
+            if(strpos($file_full_path, '.stub') !== false){
+                rename($file_full_path, str_replace('.stub', '.php', $file_full_path));
+            }
+        }
+    }
+
+
+    protected function removeFiles($list_of_deleted_path=[]){
+        foreach($list_of_deleted_path as $path){
+            $first_char = substr($path, 0, 1);
+            if(!in_array($first_char, ['/', '\\', DIRECTORY_SEPARATOR])){
+                $path = DIRECTORY_SEPARATOR . $path;
+            }
+            try{
+                unlink($this->module_dir . $path);
+            }catch(\Exception $e){
+                //do nothing but show error
+                $this->error($this->module_dir . $path .' is cannot be deleted because the path was not found');
+            }
+
+
+        }
+    }
+
+    protected function renameModules($list_of_path=[]){
+        foreach($list_of_path as $path){
+            $this->renameModule($path);
+        }
+    }
+
+    protected function renameModule($module_path){
+        $first_char = substr($module_path, 0, 1);
+        if(!in_array($first_char, ['/', '\\', DIRECTORY_SEPARATOR])){
+            $module_path = DIRECTORY_SEPARATOR . $module_path;
+        }
+
+        $rename_path = str_replace('blank', $this->hint, $module_path);
+        $rename_path = str_replace('Blank', $this->name, $rename_path);
+        $rename_path = str_replace('.stub', '.php', $rename_path);
+
+        rename($this->module_dir.$module_path, $this->module_dir.$rename_path);
+    }
+
+
+
+    protected function changeContents($list_of_path){
+        foreach($list_of_path as $path){
+            $this->changeContent($path);
+        }
+    }
 
     protected function changeContent($path){
-        $content = file_get_contents($path);
+        $first_char = substr($path, 0, 1);
+        if(!in_array($first_char, ['/', '\\', DIRECTORY_SEPARATOR])){
+            $path = DIRECTORY_SEPARATOR . $path;
+        }
+
+        $content = file_get_contents($this->module_dir . $path);
         $content = str_replace('Blank', $this->name, $content);
         $content = str_replace('blank', $this->hint, $content);
 
-        file_put_contents($path, $content);
+        file_put_contents($this->module_dir . $path, $content);
     }
 
 }

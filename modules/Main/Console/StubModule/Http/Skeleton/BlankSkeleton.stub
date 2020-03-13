@@ -41,7 +41,7 @@ class BlankSkeleton extends DataTable
 	//MANAGE OUTPUT DATATABLE FORMAT PER BARIS
 	public function rowFormat($row, $as_excel=false){
 		return [
-            'id' => $this->checkerFormat($row),
+			'id' => $this->checkerFormat($row),
 			'title' => $row->title,
 			'description' => $row->description,
 			'is_active' => has_access('admin.'.$this->route.'.switch') ? $this->switcher($row, 'is_active', 'admin.'.$this->route.'.switch') : ( $row->is_active ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Draft</span>'),

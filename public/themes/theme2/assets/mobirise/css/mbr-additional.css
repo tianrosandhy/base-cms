@@ -712,10 +712,14 @@ section.lazy-placeholder:after {
 }
 .cid-qTkzRZLJNu .navbar {
   padding: .5rem 0;
-  background: #333333;
+  background: transparent;
   transition: none;
   min-height: 77px;
 }
+.cid-qTkzRZLJNu .navbar.opened {
+  background: #333;
+}
+
 .cid-qTkzRZLJNu .navbar-dropdown.bg-color.transparent.opened {
   background: #333333;
 }
@@ -845,6 +849,7 @@ section.lazy-placeholder:after {
 }
 .cid-qTkzRZLJNu .navbar.navbar-short {
   min-height: 60px;
+  background:#333;
   transition: all .2s;
 }
 .cid-qTkzRZLJNu .navbar.navbar-short .navbar-toggler-right {
