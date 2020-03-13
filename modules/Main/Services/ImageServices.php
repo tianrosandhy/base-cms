@@ -1,10 +1,9 @@
 <?php
 namespace Module\Main\Services;
 use Illuminate\Contracts\Foundation\Application;
-use Module\Main\Http\Repository\ImageRepository;
 use Storage;
 
-class ImageServices extends ImageRepository
+class ImageServices
 {
 
     public function __construct(Application $app)
@@ -59,5 +58,34 @@ class ImageServices extends ImageRepository
         return false;
     }
 
+
+    public function publicToPath($public_url=''){
+        if(strpos($public_url, 'http://') !== false || strpos($public_url, 'https://') !== false){
+            $explode = explode('/storage/', $public_url);
+            if(count($explode) == 2){
+                $filename = $explode[1];
+            }
+            else{
+                $explode = explode('/', $public_url);
+                $filename = $explode[(count($explode)-1)];
+            }
+
+            return $filename;
+        }
+        else{
+            //if no "http" or "https" detected, then it must be a path already
+            return $public_url;
+        }
+    }
+
+
+    public function testFile($file){
+        try{
+            Image::make($file);
+            return true;
+        }catch(\Exception $e){
+            return false;
+        }
+    }
     
 }

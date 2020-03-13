@@ -5,10 +5,11 @@ use App\Http\Controllers\Controller;
 use Module\Main\Http\Controllers\AdminBaseController;
 use Validator;
 use Storage;
-use Module\Main\Http\Repository\ImageRepository;
 
 class FileStore extends AdminBaseController
 {
+
+	public $store_target = 'files';
 
 	public function index(){
 		$validate = self::validateInput();
@@ -20,7 +21,7 @@ class FileStore extends AdminBaseController
 		$nameonly = str_replace('.'.$extension, '', $filename);
 
 		//check if file already exists
-		$check_exists = Storage::exists('files/'.$nameonly.'.'.$extension);
+		$check_exists = Storage::exists($this->store_target.'/'.$nameonly.'.'.$extension);
 		if($check_exists){
 			$stored_name = $nameonly.'-'.substr(sha1(rand(1, 10000)), 0, 10).'.'.$extension;
 		}
@@ -28,10 +29,11 @@ class FileStore extends AdminBaseController
 			$stored_name = $nameonly.'.'.$extension;
 		}
 
-		$path = $this->request->file->storeAs('files', $stored_name);
+		$path = $this->request->file->storeAs($this->store_target, $stored_name);
 
 		$data = [
-			'path' => storage_url(str_replace('\\', '/', $path)),
+			'url' => Storage::url(str_replace('\\', '/', $path)),
+			'path' => str_replace('\\', '/', $path),
 			'filename' => $stored_name,
 		];
 
@@ -50,7 +52,7 @@ class FileStore extends AdminBaseController
 
 
 
-	public function removeImages(){
+	public function removeFile(){
 		$validate = Validator::make($this->request->all(), [
 			'data' => 'required'
 		])->validate();
@@ -58,21 +60,20 @@ class FileStore extends AdminBaseController
 		//format data : 
 		/*
 		[
-			path -> http://cms-maxsol.test/storage/August2018/c2b7d9c4345ad160a0db9ff0313c2481bbb53662.jpg
-			filename -> lalala.pdf
+			url -> http://lalala.test/storage/files/sadasdas.file
+			path -> files/sdasas.file
+			filename -> sdsads.file
 		]
 		*/
 
 		$data = json_decode($this->request->data, true);
 		if(isset($data['path'])){
-			//remove image dan file punya action yg ga jauh berbeda
-			$repo = new ImageRepository();
-			$repo->removeImage($data['path']);
+			Storage::delete($data['path']);
 		}
 
 		return [
 			'type' => 'success', 
-			'message' => 'File '.$data['filename'].' has been deleted'
+			'message' => 'File '.(isset($data['filename']) ? $data['filename'] : null).' has been deleted'
 		];
 	}
 

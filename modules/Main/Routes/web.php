@@ -21,6 +21,7 @@ Route::post('my-profile',  'Auth\ProfileController@store');
 Route::post('lang/{type}', 'MainController@switchLang');
 
 
+Route::post('setting/table/user', 'UserManagementController@table')->name('admin.user.datatable');
 Route::get('setting', 'SettingController@index')->name('admin.setting.index');
 Route::post('setting', 'SettingController@store')->name('admin.setting.store');
 Route::post('setting/update', 'SettingController@update')->name('admin.setting.update');

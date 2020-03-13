@@ -60,28 +60,6 @@ class MainServiceProvider extends ServiceProvider
 	    	return true;
 		});
 
-
-		//honeypot spam checker
-		Validator::extend('honeypot', function($attr, $value, $param, $validator){
-			//if honeypot input is filled, then it will be considered as 
-			if(strlen($value) > 0){
-				return false;
-			}
-			return true;
-		});
-
-		//if user fill the input in too short amount of time, then its a spam
-		Validator::extend('honeytime', function($attr, $value, $param, $validator){
-			$decrypted = decrypt($value);
-			if($decrypted){
-				if(($decrypted+intval($param)) < time()){
-					return false;
-				}
-				return true;
-			}
-			return false;
-		});
-
 	}
 
 	
@@ -197,7 +175,6 @@ class MainServiceProvider extends ServiceProvider
 	        'CMS' => \Module\Main\Facades\CmsFacades::class,
 	        'DataStructure' => \Module\Main\Facades\DataStructureFacades::class,
 	        'DataSource' => \Module\Main\Facades\DataSourceFacades::class,
-	        'FormService' => \Module\Main\Facades\FormFacades::class,
 	        'Setting' => \Module\Main\Facades\SettingFacades::class,
 	        'Input' => \Module\Main\Facades\InputFacades::class,
 	        'SlugInstance' => \Module\Main\Facades\SlugInstanceFacades::class,

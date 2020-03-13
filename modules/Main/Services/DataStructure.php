@@ -29,7 +29,6 @@ class DataStructure
 		$array_source,
 		$value_data,
 		$imagedir_path,
-		$cropper_ratio,
 		$translate,
 		$view_source,
 		$tab_group;
@@ -48,7 +47,6 @@ class DataStructure
 		$this->value_source = false;
 		$this->array_source = null;
 		$this->imagedir_path = false;
-		$this->cropper_ratio = [300, 300];
 		$this->translate = true;
 		$this->tab_group = 'General';
 		$this->validation_translation = [];
@@ -281,7 +279,6 @@ class DataStructure
 			'file_multiple',
 			'date',
 			'time',
-			'cropper',
 			'datetime',
 			'daterange',
 			'view',
@@ -362,11 +359,6 @@ class DataStructure
     public function setImageDirPath($path=''){
         $this->imagedir_path = $path;
         return $this;
-    }
-
-    public function cropperRatio($x=300, $y=300){
-    	$this->cropper_ratio = [$x, $y];
-    	return $this;
     }
 
     public function setTranslate($bool=false){

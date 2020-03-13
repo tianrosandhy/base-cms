@@ -54,7 +54,7 @@ class DataTable extends Processor
 	}
 
 	public function actionButton($title='', $url, $attr=[]){
-		$attr = FormService::combineAttribute($attr);
+		$attr = array_to_html_prop($attr);
 		return '<a href="'.$url.'" '.$attr.'>'.$title.'</a> ';
 	}
 
