@@ -77,4 +77,48 @@ class SlugInstance
 		}
 
 	}
+
+	public function instance($slug='', $model=null){
+		$must_table = null;
+		if(empty($model)){
+			$model = [];
+		}
+		else{
+			if(is_string($model)){
+				$model = [$model];
+			}
+		}
+
+		$must_table = [];
+		foreach($model as $mdl){
+			$tbname = app(config('model.'.$mdl))->getTable();
+			$must_table[$tbname] = $mdl;
+		}
+
+
+		$grab = SlugMaster::where('slug', $slug)->first();
+		if(!empty($grab)){
+			if(!empty($must_table) && !array_key_exists($grab->table, $must_table)){
+				return false;
+			}
+
+			if(empty($model)){
+				$object = \DB::table($grab->table)->find($grab->primary_key);
+				$object->table = $grab->table;
+				return $object;
+			}
+			else{
+				$used_model = isset($must_table[$grab->table]) ? $must_table[$grab->table] : null;
+				if(!empty($used_model)){
+					$instance = app(config('model.'.$used_model))->find($grab->primary_key);
+					if(!empty($instance)){
+						$instance->table = $grab->table;
+						return $instance;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 }

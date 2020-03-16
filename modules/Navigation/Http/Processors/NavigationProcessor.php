@@ -67,8 +67,12 @@ class NavigationProcessor
 
 	protected function getUrlByType(){
 		$url = $this->config['url'];
-		if(strlen($this->post['url']) > 0){
+		if(strlen($this->post['url']) > 0 && $this->post['type'] == 'url'){
 			$url = $this->post['url'];
+		}
+
+		if(isset($this->config['route_prefix']) && isset($this->post['slug']['site'])){
+			$url = $this->post['slug']['site'];
 		}
 		return $url;
 	}
@@ -84,18 +88,12 @@ class NavigationProcessor
 			$this->stored['title'] = $this->post['title'];
 		}
 		if($slug_for_saved && isset($this->config['model_source'])){
-			//slug harus divalidasi biar ga sembarangan diisi
-			$grab = app(config('model.'.$this->config['model_source']));
-			if(isset($this->config['source_is_active_field'])){
-				$grab = $grab->where($this->config['source_is_active_field'], 1);
-			}
-
-			$grab = $grab->where($this->config['source_slug'], $slug_for_saved)->first();
-			if(!empty($grab)){
+			$instance = \SlugInstance::instance($slug_for_saved, [$this->config['model_source']]);
+			if(isset($instance->{$this->config['source_label']})){
 				$this->stored['slug'] = $slug_for_saved;
-				if(!$this->post['title']){
-					$this->stored['title'] = $grab->{$this->config['source_label']};
-				}
+			}
+			if(!$this->post['title']){
+				$this->stored['title'] = $instance->{$this->config['source_label']};
 			}
 		}
 		else{

@@ -24,36 +24,39 @@ return [
 				'url' => '#',
 				'fillable' => false,
 			],
+			'site' => [
+				'label' => 'Website URL',
+				'url' => '',
+				'fillable' => true,
+				'route_prefix' => 'front'
+			],
 			'url' => [
-				'label' => 'Free URL',
+				'label' => 'Custom URL',
 				'url' => '',
 				'fillable' => true,
 			],
 			'post category' => [
 				'label' => 'Post Category',
-				'url' => 'category/',
+				'url' => 'blog/category/',
 				'fillable' => true,
 				'model_source' => 'post_category',
 				'source_is_active_field' => 'is_active',
-				'source_slug' => 'slug',
 				'source_label' => 'name',
 			],
 			'post detail' => [
 				'label' => 'Post Detail',
-				'url' => 'blog/detail/',
+				'url' => '/',
 				'fillable' => true,
 				'model_source' => 'post',
 				'source_is_active_field' => 'is_active',
-				'source_slug' => 'slug',
 				'source_label' => 'title',
 			],
 			'pages' => [
 				'label' => 'Static Page',
-				'url' => 'page/',
+				'url' => '/',
 				'fillable' => true,
 				'model_source' => 'page',
 				'source_is_active_field' => 'is_active',
-				'source_slug' => 'slug',
 				'source_label' => 'title',
 			]
 		]

@@ -56,7 +56,7 @@ class NavigationInstance extends BaseInstance
 			$resp = [
 				'id' => $row->id,
 				'type' => $row->type,
-				'url' => $url,
+				'url' => url($url),
 				'new_tab' => $row->new_tab,
 				'icon' => $row->icon,
 			];

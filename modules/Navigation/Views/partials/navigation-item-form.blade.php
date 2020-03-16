@@ -47,7 +47,7 @@
 					<select name="slug[{{ $name }}]" class="form-control select2">
 						<option value=""></option>
 						@foreach($source_data as $row)
-						<option value="{{ $row->{$param['source_slug']} }}" {{ $row->{$param['source_slug']} == $sel_slug ? 'selected' : '' }}>{{ $row->{$param['source_label']} }}</option>
+						<option current_value="{{ $sel_slug }}" value="{{ $row->slug() }}" {{ $row->slug() == $sel_slug ? 'selected' : '' }}>{{ $row->{$param['source_label']} }}</option>
 						@endforeach
 					</select>
 				</div>
@@ -55,6 +55,39 @@
 				<input type="text" name="url" value="{{ $sel_url }}" class="form-control" {!! $param['fillable'] ? '' : 'readonly="readonly"' !!}>
 				@endif
 				@endif
+			</div>
+			@elseif(isset($param['route_prefix']))
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">{{ urL('/') }}</span>
+				</div>
+				<div class="select2-dynamic-container" style="flex:1 1 auto;">
+					<?php
+					$prefix = 'front';
+					$all_routes = collect(\Route::getRoutes()->getRoutesByName());
+					$used_routes = [];
+					foreach($all_routes as $keyr => $valr){
+						if(strpos($keyr, $prefix) === 0){
+							$methods = $valr->methods();
+							if(!in_array('GET', $methods)){
+								continue;
+							}
+							if(strpos($valr->uri(), '{') !== false){
+								continue;
+							}
+
+							$used_routes[] = $valr;
+						}
+					}
+					?>
+					<select name="slug[{{ $name }}]" class="form-control select2">
+						<option value=""></option>
+						@foreach($used_routes as $routes)
+						<option value="{{ $routes->uri() }}" {{ $routes->uri() == $sel_url ? 'selected' : '' }}>{{ $routes->uri() }}</option>
+						@endforeach
+					</select>
+				</div>
+
 			</div>
 			@else
 			<input type="text" name="url" value="{{ $sel_url }}" class="form-control" placeholder="https://anything">
