@@ -40,7 +40,7 @@ class PostInstance extends BaseInstance
 				$out['category'][$cat->id] = [
 					'id' => $cat->id,
 					'name' => $cat->name,
-					'slug' => $cat->slug,
+					'slug' => $cat->slug(),
 				];
 			}
 			
