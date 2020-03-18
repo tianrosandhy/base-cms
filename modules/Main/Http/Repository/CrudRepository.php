@@ -42,10 +42,14 @@ class CrudRepository{
 			->first();
 	}
 
-	public function filter($param=[], $orderBy='id', $skip=0, $take=0, $flow='DESC'){
+	public function filter($param=[], $orderBy=null, $skip=0, $take=0, $flow='DESC'){
 		$data = $this->model;
 		if(count($param) > 0){
 			$data = $this->paramManagement($data, $param);
+		}
+
+		if(empty($orderBy)){
+			$orderBy = $this->model->getKeyName();
 		}
 		$data = $data->orderBy($orderBy, $flow);
 		if($take > 0){
@@ -248,7 +252,8 @@ class CrudRepository{
 		if(!is_array($id)){
 			$id = [$id];
 		}
-		return $this->model->whereIn('id', $id)->delete();
+		$pk = $this->model->getKeyName();
+		return $this->model->whereIn($pk, $id)->delete();
 	}
 
 	public function deleteWhere($field='id', $val=0){
