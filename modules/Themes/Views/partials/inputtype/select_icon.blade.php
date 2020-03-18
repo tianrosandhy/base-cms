@@ -16,7 +16,7 @@
         $selected = $value ? $value : (isset($param->default) ? $param->default : null);
     }
 
-    $file = file_get_contents('admin_theme\vendor\font-awesome\lists.txt');
+    $file = file_get_contents(public_path('admin_theme/vendor/font-awesome/lists.txt'));
     $icon_lists = explode("\n", $file);
     ?>
     <option value="">No Icon</option>
