@@ -4,7 +4,6 @@ namespace Module\Main\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use Module\Main\Models\SettingStructure;
-use ImageService;
 use Module\Main\Http\Repository\CrudRepository;
 use Storage;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
@@ -121,10 +120,6 @@ class SettingController extends AdminBaseController
 
 		\CMS::log($cek, 'ADMIN DELETE SETTING');
 
-		//if type == image, hapus di storage juga
-		if($cek->type == 'image'){
-			ImageService::removeImage($cek->default_value);
-		}
 		$cek->delete();
 
 		return [

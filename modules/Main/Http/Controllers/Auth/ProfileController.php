@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Module\Main\Http\Controllers\AdminBaseController;
 use Validator;
 use Auth;
-use ImageService;
 
 class ProfileController extends AdminBaseController
 {
@@ -36,8 +35,6 @@ class ProfileController extends AdminBaseController
 
 
 		$user = admin_guard()->user();
-		//delete old image
-		ImageService::removeImage($user->image);
 
 		foreach($post as $field => $value){
 			$user->{$field} = $value;

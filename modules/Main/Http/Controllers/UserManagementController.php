@@ -4,7 +4,6 @@ namespace Module\Main\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use Module\Main\Http\Repository\CrudRepository;
-use ImageService;
 use Mail;
 use Module\Main\Mail\MainMail;
 use Module\Main\Http\Skeleton\UserSkeleton;
