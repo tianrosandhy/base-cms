@@ -23,15 +23,6 @@ class LanguageController extends AdminBaseController
 		return new LanguageSkeleton;
 	}
 
-	public function afterValidation($mode='create', $instance=null){
-		//default language gaboleh didisable
-		if(strlen($this->request->is_default_language) > 0 && !$this->request->is_default_language && $mode <> 'create'){
-			throw ValidationException::withMessages([
-				'error' => 'Please dont turn off the default language'
-			]);
-		}
-	}
-
 	public function afterCrud($instance){
 		$instance->title = isset(config('module-setting.language.lists')[$instance->code]) ? config('module-setting.language.lists')[$instance->code] : '-';
 		$instance->save();
@@ -41,6 +32,14 @@ class LanguageController extends AdminBaseController
 			app(config('model.language'))->where('is_default_language', 1)->where('id', '<>', $instance->id)->update([
 				'is_default_language' => 0
 			]);
+		}
+		else{
+			$check_no_default_language = app(config('model.language'))->where('is_default_language', 1)->count();
+			if($check_no_default_language == 0){
+				//kembalikan data ini sbg default language
+				$instance->is_default_language = 1;
+				$instance->save();
+			}
 		}
 	}
 

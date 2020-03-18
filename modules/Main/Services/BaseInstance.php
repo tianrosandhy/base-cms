@@ -56,7 +56,10 @@ class BaseInstance
 		return (new CrudRepository($this->initial))->filter($filter);
 	}
 
-	public function get($id, $pk='id'){
+	public function get($id, $pk=null){
+		if(empty($pk)){
+			$pk = $this->model->getKeyName();
+		}
 		return (new CrudRepository($this->initial))->show($id, $pk);
 	}
 
