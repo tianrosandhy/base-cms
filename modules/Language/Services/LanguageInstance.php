@@ -106,7 +106,7 @@ class LanguageInstance extends BaseInstance
       'id' => $instance->id,
       'code' => $instance->code,
       'title' => $instance->title,
-      'image' => $instance->image ? $instance->getThumbnailUrl('image', 'small') : asset('admin_theme/img/flag/'.$instance->code.'.png'),
+      'image' => $instance->image ? $instance->getThumbnailUrl('image', 'small') : asset('admin_theme/img/flag/'.strtoupper($instance->code).'.png'),
       'is_default_language' => (bool)$instance->is_default_language
     ];
   }

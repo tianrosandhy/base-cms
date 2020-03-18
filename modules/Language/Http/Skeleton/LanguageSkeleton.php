@@ -58,7 +58,7 @@ class LanguageSkeleton extends DataTable
 			'id' => $this->checkerFormat($row),
 			'code' => strtoupper($row->code),
 			'title' => $row->title,
-			'image' => $row->image ? $row->imageThumbnail('image', 'thumb', 50) : '<img src="'.asset('admin_theme/img/flag/'.$row->code.'.png').'" style="height:50px;" title="Default Icon">',
+			'image' => $row->image ? $row->imageThumbnail('image', 'thumb', 50) : '<img src="'.asset('admin_theme/img/flag/'.strtoupper($row->code).'.png').'" style="height:50px;" title="Default Icon">',
 			'is_default_language' => $row->is_default_language ? '<span class="badge badge-success">YES</span>' : '<span class="badge badge-danger">No</span>',
 			'action' => self::editButton($row) . self::deleteButton($row)
 		];
