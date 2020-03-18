@@ -65,7 +65,6 @@ class NewAdmin extends Command
             //create user
             self::createUser($email, $username, $password);
             Artisan::call('make:role');
-            Artisan::call('default:setting'); //init setting baru setiap kali bikin admin. in case settingnya udah ada ya gapapa
             $this->info('Your admin account has been made. You can login with this credential now.');
         }
     }

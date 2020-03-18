@@ -1,5 +1,5 @@
 <?php
-namespace Module\Blank\Exceptions;
+namespace Module\Page\Exceptions;
 
 use Module\Main\Exceptions\InstanceException;
 
