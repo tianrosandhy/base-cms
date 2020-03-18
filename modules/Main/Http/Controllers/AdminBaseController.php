@@ -4,7 +4,6 @@ namespace Module\Main\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Module\Main\Http\Repository\CrudRepository;
-use ImageService;
 use Module\Main\Http\Traits\BasicCrud;
 use Module\Main\Http\Middleware\AdminAuth;
 use Auth;
@@ -172,9 +171,7 @@ class AdminBaseController extends Controller
 	}
 
 	public function removeImage($instance, $field='image'){
-		if(isset($instance->{$field})){
-			ImageService::removeImage($instance->{$field});
-		}
+		//deprecated
 	}
 
 	public function currentUser(){

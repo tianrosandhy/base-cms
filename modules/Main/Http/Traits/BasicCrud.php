@@ -359,10 +359,7 @@ trait BasicCrud
 			$deleted_ids = [];
 			foreach($datas as $row){
 				$pk = $row->getKeyName();
-				foreach($this->image_field() as $fld){
-					$this->removeImage($row, $fld);
-					$this->afterDelete($row->{$pk});
-				}
+				$this->afterDelete($row->{$pk});
 				\CMS::log($row, 'ADMIN DELETE DATA');
 				$deleted_ids[] = $row->{$pk};
 				if($this->multi_language){
@@ -382,11 +379,7 @@ trait BasicCrud
 			$data = $this->repo->show($id);
 			\CMS::log($data, 'ADMIN DELETE DATA');
 
-			//remove image based on image fields 
-			foreach($this->image_field() as $fld){
-				$this->removeImage($data, $fld);
-				$this->afterDelete($id);
-			}
+			$this->afterDelete($id);
 			$this->repo->delete($id);
 
 			if($this->multi_language){
