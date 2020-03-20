@@ -6,10 +6,9 @@
 				<div class="col-sm-8">
 					<div class="form-group custom-form-group">
 						<label>Date Filter</label>
-						@include ('main::inc.daterange-helper', [
-							'attr' => 'class="form-control" name="period[]"',
-							'oldVal' => old('period', request()->period)
-						])
+						{!! Input::dateRange('period', [
+							'value' => old('period', request()->period)
+						]) !!}
 					</div>
 				</div>
 				<div class="col-sm-4">

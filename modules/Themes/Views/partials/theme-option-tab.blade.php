@@ -8,9 +8,9 @@
         @endforeach
     </ul>
 </div>
-<div class="tab-content">
+<div class="tab-content card">
     @foreach($theme_option as $group => $basedata)
-    <div class="tab-pane slide-left card card-block card-body {{ $loop->iteration == 1 ? 'show active' : '' }}" id="slide-{{ $group }}">
+    <div class="tab-pane slide-left {{ $loop->iteration == 1 ? 'show active' : '' }}" id="slide-{{ $group }}">
         @foreach($basedata as $card_name => $card_data)
             @include ('themes::partials.theme-option-card')
         @endforeach

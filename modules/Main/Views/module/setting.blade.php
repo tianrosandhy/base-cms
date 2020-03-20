@@ -39,9 +39,9 @@
 	</div>
 
 
-	<div class="tab-content">
+	<div class="tab-content card">
 		@foreach($settings as $group => $data)
-		<div class="tab-pane slide-left card card-block card-body {{ $loop->iteration == 1 ? 'show active' : '' }}" id="slide-{{ $group }}">
+		<div class="tab-pane slide-left {{ $loop->iteration == 1 ? 'show active' : '' }}" id="slide-{{ $group }}">
 			@if($group != 'hide')
 				@foreach($data as $row)
 				@if($row['type'] == 'select' && !isset($row['source']))
