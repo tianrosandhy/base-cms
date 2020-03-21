@@ -116,6 +116,7 @@ class Input
 		return $this->loadView('daterange', $name, $config);
 	}
 	public function file($name, $config=[]){
+		$config['type'] = 'file';
 		return $this->loadView('file', $name, $config);
 	}
 	public function fileMultiple($name, $config=[]){
