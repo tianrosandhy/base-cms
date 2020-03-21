@@ -323,12 +323,6 @@ trait BasicCrud
 				unset($inputData[$fld]);
 			}
 		}
-
-		if($this->request->force_draft && isset($inputData[$is_active_field])){
-			//memastikan data draft tidak jadi active dulu sampai benar2 disave
-			unset($inputData[$is_active_field]);
-		}
-
 		$instance = $this->repo->update($id, $inputData);
 		return $instance;
 	}
@@ -432,6 +426,10 @@ trait BasicCrud
 			if(isset($this->request->{$fields})){
 				if($this->multi_language){
 					$stored = get_lang($this->request->{$fields});
+					//if input with index [language] not found, then try the input without index [language]
+					if(empty($stored) && !is_array($this->request->{$fields})){
+						$stored = $this->request->{$fields};
+					}
 				}
 				else{
 					$stored = $this->request->{$fields};
