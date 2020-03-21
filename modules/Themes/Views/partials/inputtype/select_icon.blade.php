@@ -21,6 +21,7 @@
     ?>
     <option value="">No Icon</option>
     @foreach($icon_lists as $icon)
+        <?php $icon = trim($icon); ?>
         <option value="fa fa-{{ $icon }}" {{ $selected == 'fa fa-'.$icon ? 'selected' : '' }} data-icon="fa-{{ $icon }}">{{ $icon }}</option>
     @endforeach
 </select>

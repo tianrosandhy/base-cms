@@ -62,7 +62,7 @@
         },
         "styling" : {
             "header" : {
-                "transparent_first" : {
+                "transparent first" : {
                     "label" : "Header is Transparent on Top",
                     "type" : "yes_no"
                 }
