@@ -59,6 +59,11 @@ input.form-control{
 	height:auto;
 }
 
+input[type=color].form-control{
+	padding:0;
+	height:30px;
+}
+
 .select2-selection{
 	display:block;
 }
