@@ -3,6 +3,10 @@
 * Override Pages default styles or create your own styles here
 
 */
+.card .card-body{
+	padding:1rem 1.375rem;
+}
+
 textarea{
 	min-height:100px!important;
 }
@@ -421,6 +425,22 @@ label.required::after{
 
 .datepicker{
 	padding:.5rem .75rem;
+	min-width:400px;
+}
+
+@media (max-width:543px){
+	.datepicker{
+		min-width:150px;
+	}
+
+	.bootstrap-datetimepicker-widget .datepicker-decades .decade{
+		overflow:hidden;
+	}
+
+	.bootstrap-datetimepicker-widget table th{
+		padding:0!important;
+		font-size:10px;
+	}
 }
 
 
