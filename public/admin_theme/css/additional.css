@@ -1023,6 +1023,7 @@ label.mandatory::after{
 	cursor:pointer;
 	border-radius:0 0 0 5px;
 	-moz-border-radius:0 0 0 5px;
+	z-index: 2;
 }
 .media-detail .image-closer:hover, .image-input-holder .image-closer:hover, .custom-closer:hover{
 	background:#b00;

@@ -5,13 +5,13 @@
 		<?php
 		$error = str_replace('.'.def_lang(), '', $err);
 		?>
-		<div class="alert alert-danger">{!! $error !!}</div>
+		<div style="background:#fff;" class="alert alert-danger">{!! $error !!}</div>
 	@endforeach
 	@if(session('success'))
-		<div class="alert alert-success">{!! session('success') !!}</div>
+		<div style="background:#fff;" class="alert alert-success">{!! session('success') !!}</div>
 	@endif
 	@if(session('error'))
-		<div class="alert alert-danger">{!! session('error') !!}</div>
+		<div style="background:#fff;" class="alert alert-danger">{!! session('error') !!}</div>
 	@endif
 	<a href="#" class="btn btn-secondary btn-sm dismiss-alert"><i class="fa fa-times"></i> Dismiss Message</a>
 </div>

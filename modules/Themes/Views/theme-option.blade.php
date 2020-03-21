@@ -50,6 +50,15 @@
                 container.find('.array-wrapper').append(cloned);
                 last_item = container.find('.array-wrapper .array-item').last();
                 last_item.find('input, textarea, select').val(null).trigger('change');
+
+                //themeoption clone image
+                grab_hash = last_item.find('[data-hash]').last().attr('data-hash');
+                hash_label = grab_hash.replace('#', '');
+                new_hash = makeId(30);
+                last_item.find('input' + grab_hash).attr('id', new_hash);
+                last_item.find('[data-target]').attr('data-target', '#' + new_hash);
+                last_item.find('[data-hash]').attr('data-hash', '#'+new_hash);
+                last_item.find('.image-closer').click();
                 initThemePlugin();
             }
             arrayMonitor();
