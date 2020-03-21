@@ -67,10 +67,6 @@ input.form-control{
 	top:.1em;
 }
 
-.select2-container--default .select2-selection--single .select2-selection__rendered{
-    border:1px solid #eee;
-}
-
 
 
 /*Uploaded Holder*/
@@ -673,8 +669,12 @@ ul.nav{
 	width:100%!important;
 }
 
-.custom-form-group .select2-container--default .select2-selection--single, .custom-form-group .select2-container--default .select2-selection--multiple, .custom-form-group .select2-container{
+.custom-form-group .select2-container--default .select2-selection--single, .custom-form-group .select2-container--default .select2-selection--multiple{
 	background:#fff;
+	padding:.5rem .75rem;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+	overflow:visible;
 }
 
 .custom-form-group .feedback{
