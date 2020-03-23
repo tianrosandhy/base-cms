@@ -117,7 +117,13 @@ class ThemesInstance extends BaseInstance
                 $compiled = $compiled[$keystring];
             }
             else{
-                return false;
+                $keystring = str_replace(' ', '_', $keystring);
+                if(isset($compiled[$keystring])){
+                    $compiled = $compiled[$keystring];
+                }
+                else{
+                    return false;
+                }
             }
         }
 
@@ -151,7 +157,13 @@ class ThemesInstance extends BaseInstance
                 $compiled = $compiled[$keystring];
             }
             else{
-                return false;
+                $keystring = str_replace(' ', '_', $keystring);
+                if(isset($compiled[$keystring])){
+                    $compiled = $compiled[$keystring];
+                }
+                else{
+                    return false;
+                }
             }
         }
 
