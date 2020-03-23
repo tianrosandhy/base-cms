@@ -27,10 +27,6 @@ class LanguageSkeleton extends DataTable
 			])
 			->dataSource(config('module-setting.language.lists'));
 
-		$this->structure[] = DataStructure::field('title')
-			->name('Language Name')
-			->hideForm();
-
 		$this->structure[] = DataStructure::field('image')
 			->name('Image Logo')
 			->formColumn(12)
@@ -56,8 +52,7 @@ class LanguageSkeleton extends DataTable
 	public function rowFormat($row, $as_excel=false){
 		return [
 			'id' => $this->checkerFormat($row),
-			'code' => strtoupper($row->code),
-			'title' => $row->title,
+			'code' => $row->title . ' ('.strtoupper($row->code).')',
 			'image' => $row->image ? $row->imageThumbnail('image', 'thumb', 50) : '<img src="'.asset('admin_theme/img/flag/'.strtoupper($row->code).'.png').'" style="height:50px;" title="Default Icon">',
 			'is_default_language' => $row->is_default_language ? '<span class="badge badge-success">YES</span>' : '<span class="badge badge-danger">No</span>',
 			'action' => self::editButton($row) . self::deleteButton($row)

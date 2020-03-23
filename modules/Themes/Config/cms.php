@@ -3,20 +3,19 @@
 return [
 	'admin' => [
 		'menu' => [
-			'Theme Option' => [
-				'route' => 'admin.theme-option.index',
+			'Themes' => [
+				'url' => '#',
 				'icon' => 'fa fa-paint-brush',
-				'sort' => 200
-			],
-			'Settings' => [
+				'sort' => 200,
 				'submenu' => [
-					'Themes' => [
-						'route' => 'admin.themes.index',
-						'icon' => 'fa fa-paint-brush',
-						'sort' => 19
+					'Theme Option' => [
+						'route' => 'admin.theme-option.index',
 					],
+					'Theme Selection' => [
+						'route' => 'admin.themes.index',
+					]
 				]
-			],
+			]
 		],
 	]
 ];
