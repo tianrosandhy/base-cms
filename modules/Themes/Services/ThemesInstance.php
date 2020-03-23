@@ -42,8 +42,12 @@ class ThemesInstance extends BaseInstance
         }
     }
 
+    public function hasDefaultValues(){
+        return !empty($this->stored);
+    }
+
     public function createDefaultValues(){
-        if(!empty($this->stored)){
+        if($this->hasDefaultValues()){
             //ndak perlu create default value kalau ternyata sudah ada data tema yg tersimpan
             return true;
         }

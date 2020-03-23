@@ -41,6 +41,7 @@ class SiteServiceProvider extends BaseServiceProvider
 				'middleware' => [
 					'web',
 					\Module\Site\Http\Middleware\LanguageManagement::class,
+					\Module\Site\Http\Middleware\ThemeManagement::class,
 				]
 			], function($router){
 				require realpath(__DIR__."/Routes/api.php");
