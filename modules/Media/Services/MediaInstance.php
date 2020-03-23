@@ -69,7 +69,7 @@ class MediaInstance
 		}
 
 		if($fallback){
-			return Media::imageNotFoundUrl();
+			return MediaInstance::imageNotFoundUrl();
 		}
 		return false;
 	}

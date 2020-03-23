@@ -53,12 +53,14 @@
 
                 //themeoption clone image
                 grab_hash = last_item.find('[data-hash]').last().attr('data-hash');
-                hash_label = grab_hash.replace('#', '');
-                new_hash = makeId(30);
-                last_item.find('input' + grab_hash).attr('id', new_hash);
-                last_item.find('[data-target]').attr('data-target', '#' + new_hash);
-                last_item.find('[data-hash]').attr('data-hash', '#'+new_hash);
-                last_item.find('.image-closer').click();
+                if(grab_hash){
+                    hash_label = grab_hash.replace('#', '');
+                    new_hash = makeId(30);
+                    last_item.find('input' + grab_hash).attr('id', new_hash);
+                    last_item.find('[data-target]').attr('data-target', '#' + new_hash);
+                    last_item.find('[data-hash]').attr('data-hash', '#'+new_hash);
+                    last_item.find('.image-closer').click();
+                }
                 initThemePlugin();
             }
             arrayMonitor();

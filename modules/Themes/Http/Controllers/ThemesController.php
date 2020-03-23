@@ -44,13 +44,15 @@ class ThemesController extends AdminBaseController
 		if(!isset($active_theme->themeoption)){
 			return back()->with('error', 'This theme has no theme options');
 		}
-
-		$theme_name = $active_theme->getName();
-		$stored_theme = app(config('model.themes'))->where('theme', $theme_name)->get();
-
 		if(!is_array($this->request->theme)){
 			return back()->with('error', 'Invalid request. Please try again');
 		}
+
+		//hapus stored theme beserta bahasanya
+		$theme_name = $active_theme->getName();
+		app(config('model.themes'))->where('theme', $theme_name)->delete();
+		app(config('model.translator'))->where('table', 'themes_option')->delete();
+
 
 
 
@@ -67,30 +69,13 @@ class ThemesController extends AdminBaseController
 			}
 
 			foreach($loop_values as $index => $data){
-				$instance = null;
 				$keyname = $key.'.'.$index;
-				if($stored_theme->where('key', $keyname)->count() > 0){
-					$instance = $stored_theme->where('key', $keyname)->first();
-					if(empty($data) && strlen($data) == 0){
-						//hapus instance ini sekalian
-						$instance->delete();
-						$instance = null;
-					}
-				}
-				else{
-					if(empty($data) && strlen($data) == 0){
-						//skip gausa diinsert
-						continue;
-					}
-					$instance = app(config('model.themes'));
-					$instance->theme = $theme_name;
-					$instance->key = $keyname;
-				}
 
-				if($instance){
-					$instance->value = $data;
-					$instance->save();
-				}
+				$instance = app(config('model.themes'));
+				$instance->theme = $theme_name;
+				$instance->key = $keyname;
+				$instance->value = $data;
+				$instance->save();
 
 				//store language 
 				if($as_language){

@@ -1,5 +1,21 @@
 <?php
 if(!function_exists('themeoption')){
+    function themelength($to_response, $required=null){
+        if(is_array($to_response)){
+            if(isset($to_response[def_lang()])){
+                return 1;
+            }
+
+            if(isset($required)){
+                return isset($to_response[$required]) ? count($to_response[$required]) : null;
+            }
+            else{
+                return isset(array_values($to_response)[0]) ? count(array_values($to_response)[0]) : null;
+            }
+        }
+        return null;
+    }
+
     function themeoption($key, $theme_context=null){
         if(empty($theme_context)){
             $response = ThemesInstance::grab($key, current_lang());
