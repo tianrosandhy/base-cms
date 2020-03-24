@@ -20,17 +20,5 @@ class ModuleExtender extends BaseSetting
       $nav->save();
     }
 
-    //set navigation default value.
-    $default_value = Navigation::first()->id;
-
-    //register basic CMS default setting
-    $item[] = new Item('site.navigation', 'Default Navigation Group', new DataType('select', function(){
-      $out = [];
-      foreach(Navigation::get(['id', 'group_name']) as $row){
-        $out[$row->id] = $row->group_name;
-      }
-      return $out;
-    }), $default_value);
-    $this->registers($item);
   }
 }
