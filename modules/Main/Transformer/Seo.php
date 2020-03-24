@@ -48,34 +48,26 @@ trait Seo
 
 	}
 
-	public function generateSeoTags($config=[], $instance=null){
-		if(!empty($instance)){
-			if(method_exists($instance, 'outputTranslate') && LanguageInstance::isActive()){
-				$seo = $instance->outputTranslate('seo');
+	public function generateRawSeoTags($config=[]){
+		//must include
+		$required = ['title', 'keyword', 'description', 'image'];
+		foreach($required as $key){
+			if(!isset($config[$key])){
+				$config[$key] = setting('seo.'.$key);
 			}
-			else{
-				$seo = $instance->seo;
-			}
-			$seo = json_decode($seo, true);
+		}
+		return view('main::inc.seo', compact(
+			'config'
+		))->render();
+	}
+
+	public function generateSeoTags($instance, $config=[]){
+		if(method_exists($instance, 'buildSeoTags')){
+			return $instance->buildSeoTags($config);
 		}
 		else{
-			//default SEO variables
-			$seo = [
-				'keyword' => setting('seo.keywords'),
-				'description' => setting('seo.description'),
-				'image' => setting('seo.image'),
-			];
+			return $this->generateRawSeoTags($config);
 		}
-
-		$config = array_merge(config('seo.default'), $config);
-		if($seo){
-			foreach($seo as $prm => $fld){
-				if(!empty($fld)){
-					$config[$prm] = $fld;
-				}
-			}
-		}
-		return view('main::inc.seo', compact('config'))->render();
 	}
 
 }

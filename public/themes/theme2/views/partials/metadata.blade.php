@@ -3,6 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="author" content="{{ setting('site.author', 'TianRosandhy') }}" />
 <title>{{ isset($title) ? $title .' | '. setting('site.title') : setting('site.title') }}</title>
+{!! isset($seo) ? $seo : null !!}
 <link rel="stylesheet" href="{{ theme_asset('web/assets/mobirise-icons/mobirise-icons.css') }}">
 <link rel="stylesheet" href="{{ theme_asset('bootstrap/css/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ theme_asset('bootstrap/css/bootstrap-grid.min.css') }}">

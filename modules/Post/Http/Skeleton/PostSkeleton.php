@@ -31,6 +31,7 @@ class PostSkeleton extends DataTable
 			->dataSource(DataSource::model('post_category')->options('name', [
 				['is_active', '=', 1]
 			]))
+			->tabGroup('Attribute')
 			->arraySource(function($data){
 				if(isset($data->category)){
 					return $data->category->pluck('id');
@@ -89,7 +90,7 @@ class PostSkeleton extends DataTable
 			->name('Created At')
 			->formColumn(12)
 			->inputType('datetime')
-			->tabGroup('Attribute');
+			->hideForm();
 
 		$this->structure[] = DataStructure::switcher('is_active', 'Is Active', 12);
 

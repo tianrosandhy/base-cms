@@ -1,5 +1,5 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<meta name="author" content="{{ setting('site.author', 'TianRosandhy') }}" />
+{!! isset($seo) ? $seo : null !!}
 <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700|Raleway:300,400,700|Crete+Round:400i" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="{{ theme_asset('css/bootstrap.css') }}" type="text/css" />
 <link rel="stylesheet" href="{{ asset('admin_theme/vendor/font-awesome/css/font-awesome.min.css') }}" type="text/css" />

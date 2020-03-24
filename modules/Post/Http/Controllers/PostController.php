@@ -109,12 +109,14 @@ class PostController extends AdminBaseController
 		$categories = get_lang($categories);
 		$catmodel = app(config('model.post_to_category'));
 		$check = $catmodel->where('post_id', $instance->id)->get();
-		foreach($categories as $cat){
-			if($check->where('post_category_id', $cat)->count() == 0){
-				$catmodel->insert([
-					'post_id' => $instance->id,
-					'post_category_id' => $cat
-				]);
+		if(!empty($categories)){
+			foreach($categories as $cat){
+				if($check->where('post_category_id', $cat)->count() == 0){
+					$catmodel->insert([
+						'post_id' => $instance->id,
+						'post_category_id' => $cat
+					]);
+				}
 			}
 		}
 

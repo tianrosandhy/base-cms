@@ -15,8 +15,10 @@ class SiteController extends Controller
 	}
 
 	public function index(){
-		$seo = $this->generateSeoTags();
-		return view('site.index');
+		$seo = $this->generateRawSeoTags();
+		return view('site.index', compact(
+			'seo'
+		));
 	}
 
 	public function page($slug=''){

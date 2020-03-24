@@ -5,15 +5,23 @@ use Illuminate\Database\Eloquent\Model;
 use Module\Main\Transformer\Resizeable;
 use Module\Main\Transformer\Translator;
 use Module\Main\Transformer\Sluggable;
+use Module\Main\Transformer\Seoable;
 
 class Post extends Model
 {
 	use Resizeable;
     use Translator;
     use Sluggable;
+    use Seoable;
 
     protected $fillable = [
     ];
+
+    //override description SEO source
+    public function seoDescription(){
+        return ($this->excerpt ? descriptionMaker($this->excerpt) : descriptionMaker($this->description));
+    }
+
 
     public function category(){
     	return $this->belongsToMany('Module\Post\Models\PostCategory', 'post_to_categories', 'post_id', 'post_category_id');

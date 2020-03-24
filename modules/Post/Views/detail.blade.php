@@ -40,6 +40,13 @@
 			{!! $structure['description'] !!}
 		</div>
 		@endif
+
+		@if(method_exists($data, 'buildSeoTags'))
+		<div class="card card-body mt-4">
+			<h5>Generated SEO Tags</h5>
+			<pre class="language-html"><code class="language-html">{{ $data->buildSeoTags() }}</code></pre>
+		</div>
+		@endif
 	</div>
 	<div class="col-sm-5">
 		<div class="card card-body">
