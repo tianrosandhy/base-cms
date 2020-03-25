@@ -3,6 +3,7 @@ namespace Module\Site\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use SiteInstance;
+use SlugInstance;
 use Illuminate\Http\Request;
 use Module\Main\Transformer\Seo;
 
@@ -25,21 +26,46 @@ class SiteController extends Controller
 
 	public function blog($category=null){
 		$title = 'Blog';
-		$data = $this->apiPost();
+		$request = $this->request->all();
+		if(!empty($category)){
+			$cat_instance = SlugInstance::instance($category, ['post_category']);
+			if(empty($cat_instance)){
+				abort(404);
+			}
+			$request['category'] = $cat_instance->id;
+		}
+		$data = $this->apiPost($request);
 		return view('site.filter', compact(
 			'title',
-			'data'
+			'data',
+			'request'
 		));
 	}
 
-	public function apiPost(){
-		$request = $this->request->all();
+	public function apiPost($request=null){
+		if(empty($request)){
+			$request = $this->request->all();
+		}
 		$data = SiteInstance::post()->response($request);
 		return view('pages.post-response', compact('data', 'request'))->render();
 	}
 
 	public function slugDetail($slug){
+		$data = SlugInstance::instance($slug, ['post', 'page']);
+		if(empty($data)){
+			abort(404);
+		}
 
+		$mode = 'post';
+		if($data->table == 'pages'){
+			$mode = 'page';
+		}
+		$title = $data->outputTranslate('title');
+		return view('site.single', compact(
+			'title',
+			'data',
+			'mode'
+		));
 	}
 
 	public function contact(){

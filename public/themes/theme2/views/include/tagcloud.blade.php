@@ -4,7 +4,7 @@ $listtags = explode(',', $tags);
 ?>
 <div class="tagcloud clearfix bottommargin">
 	@foreach($listtags as $tg)
-	<a href="#">{{ trim($tg) }}</a>
+	<a href="#" class="badge badge-primary">{{ trim($tg) }}</a>
 	@endforeach
 </div>
 @endif

@@ -18,7 +18,7 @@
                     <div class="card-img">
                         <div class="mbr-overlay"></div>
                         <div class="mbr-section-btn text-center">
-                            <a href="#" class="btn btn-primary display-4">Read More</a>
+                            <a href="{{ route('front.detail', ['slug' => $row->slug()]) }}" class="btn btn-primary display-4">Read More</a>
                         </div>
                         <img src="{{ $row->getThumbnailUrl('image', 'small') }}" alt="{{ $row->title }}">
                     </div>
@@ -29,7 +29,7 @@
                         <p class="mbr-text mbr-fonts-style align-left display-7">
                             {{ $row->excerpt ? descriptionMaker($row->excerpt) : descriptionMaker($row->body, 15) }}
                         </p>
-                        <a href="#" class="btn btn-sm btn-block btn-primary">Read More</a>
+                        <a href="{{ route('front.detail', ['slug' => $row->slug()]) }}" class="btn btn-sm btn-block btn-primary">Read More</a>
                     </div>
                 </div>
             </div>

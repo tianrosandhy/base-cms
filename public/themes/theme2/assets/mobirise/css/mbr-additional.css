@@ -13,6 +13,14 @@
   line-height:4.5rem;
 }
 
+img{
+  max-width:100%;
+}
+
+.entry-image img{
+  width:100%;
+}
+
 body {
   font-family: Rubik;
 }

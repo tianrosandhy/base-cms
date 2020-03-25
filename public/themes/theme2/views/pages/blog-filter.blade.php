@@ -4,7 +4,7 @@
 			<div class="col-md-4">
 				<div class="form-group">
 					<label>Keyword</label>
-					<input type="text" class="form-control" name="keyword" maxlength="50">
+					<input type="text" class="form-control" name="keyword" maxlength="50" value="{{ isset($request['keyword']) ? $request['keyword'] : null }}">
 				</div>
 			</div>
 			<div class="col-md-4">
@@ -12,8 +12,11 @@
 					<label>Category</label>
 					<select name="category" class="form-control">
 						<option value="">- All Category -</option>
+						<?php
+						$selc = isset($request['category']) ? $request['category'] : null;
+						?>
 						@foreach(SiteInstance::post()->categories() as $cat)
-						<option value="{{ $cat->id }}">{{ $cat->outputTranslate('name') }}</option>
+						<option {{ $selc == $cat->id ? 'selected' : '' }} value="{{ $cat->id }}">{{ $cat->outputTranslate('name') }}</option>
 						@endforeach
 					</select>
 				</div>

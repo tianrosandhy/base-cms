@@ -1,31 +1,29 @@
 @extends ('layouts.master')
 
-@section ('slider')
-	@include ('include.breadcrumb', [
-		'path' => ($mode == 'post' ? ['Blog' => 'post'] : [])
-	])
-@stop
 @section ('content')
-<div class="container clearfix">
+<div class="container clearfix non-homepage">
+	@include ('include.breadcrumb', [
+		'path' => ($mode == 'post' ? ['Blog' => 'blog'] : [])
+	])
 	<div class="single-post nobottommargin">
+
 		<div class="entry clearfix">
 			<div class="entry-title">
-				<h2>{{ $data->title }}</h2>
+				<h2 class="display-header">{{ $data->title }}</h2>
+			</div>
+			<div class="ket">
+				<i class="fa fa-calendar"></i> {{ date('d M Y H:i:s', strtotime($data->created_at)) }}
 			</div>
 
-			<ul class="entry-meta clearfix">
-				<li><i class="icon-calendar3"></i> {{ date('d M Y H:i:s', strtotime($data->created_at)) }}</li>
-			</ul><!-- .entry-meta end -->
-
 			@if($data->image)
-			<div class="entry-image bottommargin">
+			<div class="entry-image">
 				<img src="{{ $data->getThumbnailUrl('image', 'large') }}" alt="Blog Single">
 			</div>
 			@endif
 
 			<!-- Entry Content
 			============================================= -->
-			<div class="entry-content notopmargin">
+			<div class="entry-content my-3">
 				{!! $data->description !!}
 
 				@if(isset($data->tags))
