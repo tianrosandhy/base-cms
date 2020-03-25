@@ -2,7 +2,16 @@
 
 
 
+.non-homepage{
+  margin-top:80px;
+}
 
+.display-header{
+  font-size:3rem;
+  font-family: 'Rubik', sans-serif;
+  font-weight:300;
+  line-height:4.5rem;
+}
 
 body {
   font-family: Rubik;

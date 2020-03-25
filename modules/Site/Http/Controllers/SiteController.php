@@ -16,45 +16,35 @@ class SiteController extends Controller
 
 	public function index(){
 		$seo = $this->generateRawSeoTags();
+		$homepage = true;
 		return view('site.index', compact(
-			'seo'
+			'seo',
+			'homepage'
 		));
 	}
 
-	public function page($slug=''){
-		$data = SiteInstance::page()->get($slug, 'slug');
-		if(empty($data)){
-			abort(404);
-		}
-
-		$title = $data->title;
-		$mode = 'page';
-		return view('site.single', compact(
-			'data',
+	public function blog($category=null){
+		$title = 'Blog';
+		$data = $this->apiPost();
+		return view('site.filter', compact(
 			'title',
-			'mode'
+			'data'
 		));
 	}
 
-	public function blog(){
+	public function apiPost(){
+		$request = $this->request->all();
+		$data = SiteInstance::post()->response($request);
+		return view('pages.post-response', compact('data', 'request'))->render();
+	}
+
+	public function slugDetail($slug){
 
 	}
 
-	public function post($slug=''){
-		$data = SiteInstance::post()->get($slug, 'slug');
-		if(empty($data)){
-			abort(404);
-		}
+	public function contact(){
 
-		$title = $data->title;
-		$mode = 'post';
-		return view('site.single', compact(
-			'data',
-			'title',
-			'mode'
-		));
 	}
-
 
 	public function sendContact(){
 		if(SiteInstance::contact()->store()){

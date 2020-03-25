@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="{{ theme_asset('socicon/css/styles.css') }}">
 <link rel="stylesheet" href="{{ theme_asset('dropdown/css/style.css') }}">
 <link rel="stylesheet" href="{{ theme_asset('tether/tether.min.css') }}">
+<link rel="stylesheet" href="{{ theme_asset('toastr/toastr.min.css') }}">
 <link rel="stylesheet" href="{{ asset('admin_theme/vendor/font-awesome/css/font-awesome.min.css') }}">
 <link rel="stylesheet" href="{{ theme_asset('theme/css/style.css') }}">
 <link rel="preload" as="style" href="{{ theme_asset('mobirise/css/mbr-additional.css') }}">

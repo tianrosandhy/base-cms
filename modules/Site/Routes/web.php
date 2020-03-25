@@ -1,6 +1,6 @@
 <?php
 Route::get('/', 'SiteController@index')->name('front.homepage');
-Route::get('page/{slug}', 'SiteController@page')->name('front.page.detail');
-Route::get('post', 'SiteController@blog')->name('front.post');
-Route::get('post/{slug}', 'SiteController@post')->name('front.post.detail');
+Route::get('blog/{category?}', 'SiteController@blog')->name('front.blog');
+Route::get('{slug}', 'SiteController@slugDetail')->name('front.detail');
+Route::get('contact', 'SiteController@contact')->name('front.contact');
 Route::post('contact', 'SiteController@sendContact')->name('front.send-contact');

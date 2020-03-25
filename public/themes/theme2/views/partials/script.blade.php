@@ -16,6 +16,7 @@ window.BASE_URL = '{{ url('/') }}';
 <script src="{{ theme_asset('mbr-clients-slider/mbr-clients-slider.js') }}"></script>
 <script src="{{ theme_asset('mbr-popup-btns/mbr-popup-btns.js') }}"></script>
 <script src="{{ theme_asset('touchswipe/jquery.touch-swipe.min.js') }}"></script>
+<script src="{{ theme_asset('toastr/toastr.min.js') }}"></script>
 <script src="{{ theme_asset('theme/js/script.js') }}"></script>
 
 @if(env('RECAPTCHA_SITE_KEY') && env('RECAPTCHA_SECRET_KEY'))

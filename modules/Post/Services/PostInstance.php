@@ -23,6 +23,32 @@ class PostInstance extends BaseInstance
 		}
 	}
 
+	public function response($param=[]){
+		$data = $this->model->where('is_active', 1);
+		if(isset($param['keyword'])){
+			if(strlen($param['keyword']) > 0){
+				$keyword = str_replace(' ', '%', $param['keyword']);
+				$data = $data->where('title', 'like', '%'.$keyword.'%');
+			}
+		}
+		if(isset($param['category'])){
+			$data = $data->whereHas('category', function($qry) use($param){
+				$qry->where('post_categories.id', $param['category']);
+			});
+		}
+
+		$per_page = isset($param['per_page']) ? intval($param['per_page']) : 15;
+		$current_page = isset($param['page']) ? intval($param['page']) : 1;
+		return $data->orderBy('id', 'DESC')->paginate($per_page, ['*'], 'page', $current_page);
+
+	}
+
+	public function categories(){
+		return (new CrudRepository('post_category'))->filter([
+			['is_active', '=', 1]
+		]);
+	}
+
 	public function structure(){
 		if($this->data){
 			$out = $this->data->toArray();
