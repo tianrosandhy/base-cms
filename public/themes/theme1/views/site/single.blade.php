@@ -2,7 +2,7 @@
 
 @section ('slider')
 	@include ('include.breadcrumb', [
-		'path' => ($mode == 'post' ? ['Blog' => 'post'] : [])
+		'path' => ($mode == 'post' ? ['Blog' => 'blog'] : [])
 	])
 @stop
 @section ('content')

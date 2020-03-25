@@ -15,6 +15,6 @@ if($logo){
 }
 ?>
 <div id="logo">
-	<a href="#" class="standard-logo"><img src="{{ $normal_logo }}" alt="Canvas Logo"></a>
-	<a href="#" class="retina-logo"><img src="{{ $large_logo }}" alt="Canvas Logo"></a>
+	<a href="{{ url('/') }}" class="standard-logo"><img src="{{ $normal_logo }}" alt="Canvas Logo"></a>
+	<a href="{{ url('/') }}" class="retina-logo"><img src="{{ $large_logo }}" alt="Canvas Logo"></a>
 </div>

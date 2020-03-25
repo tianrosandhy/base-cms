@@ -8,7 +8,7 @@
 
 	<div id="wrapper" class="clearfix">
 		@include ('partials.header')
-		@include ('partials.hero-slider')
+		@yield ('slider')
 		<div class="clear"></div>
 		<section id="content">
 			<div class="content-wrap nopadding">
