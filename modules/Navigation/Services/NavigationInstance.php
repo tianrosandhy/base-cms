@@ -11,6 +11,63 @@ class NavigationInstance extends BaseInstance
 		parent::__construct('navigation');
 	}
 
+    public function generateDefaultNavigation(){
+        $default = $this->getDefaultNavigation();
+        if($default->lists->count() > 0){
+            return ;
+        }
+
+        //generate list navigation logic
+        $site_list = \Route::getRoutes();
+        $used = [];
+        foreach($site_list as $value){
+        	$name = $value->getName();
+        	if(strpos($name, 'front.') !== false){
+        		$used[] = $value;
+        	}
+        }
+
+		$final = [];
+		foreach($used as $route){
+			if(!in_array('GET', $route->methods())){
+				continue;
+			}
+			if(strpos($route->uri(), '{') !== false && strpos($route->uri(), '}') !== false){
+				if(strpos($route->uri(), '?}') === false){
+					continue;
+				}
+			}
+			$full_url = route($route->getName());
+			$final[] = str_replace(url('/'), '', $full_url);
+		} 
+
+		if(!empty($final)){
+			//set this final url as default site URL in navigation
+			$i = 0;
+			foreach($final as $url){
+				$name = strlen($url) > 1 ? str_replace('/', ' ', $url) : 'Home';
+				$name = str_replace('-', ' ', $name);
+				$name = ucwords($name);
+
+				app(config('model.navigation_item'))->insert([
+					'group_id' => $default->id,
+					'title' => $name,
+					'type' => 'site',
+					'url' => strlen($url) == 0 ? '/' : str_replace('/', '', $url),
+					'sort_no' => $i++,
+					'created_at' => date('Y-m-d H:i:s'),
+					'updated_at' => date('Y-m-d H:i:s')
+				]);
+			}
+		}
+
+    }
+
+    public function getDefaultNavigation(){
+        return app(config('model.navigation'))->where('group_name', 'Default')->where('is_active', 1)->first();
+    }
+
+
 	public function name($group_name){
 		$this->data = $this->model->where('group_name', $group_name)->first();
 		return $this;

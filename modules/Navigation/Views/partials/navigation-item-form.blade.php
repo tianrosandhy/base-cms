@@ -72,8 +72,10 @@
 							if(!in_array('GET', $methods)){
 								continue;
 							}
-							if(strpos($valr->uri(), '{') !== false){
-								continue;
+							if(strpos($valr->uri(), '{') !== false && strpos($valr->uri(), '}') !== false){
+								if(strpos($valr->uri(), '?}') === false){
+									continue;
+								}
 							}
 
 							$used_routes[] = $valr;
@@ -83,7 +85,11 @@
 					<select name="slug[{{ $name }}]" class="form-control select2">
 						<option value=""></option>
 						@foreach($used_routes as $routes)
-						<option value="{{ $routes->uri() }}" {{ $routes->uri() == $sel_url ? 'selected' : '' }}>{{ $routes->uri() }}</option>
+							<?php
+							$ruri = $routes->uri();
+							$ruri = preg_replace('/\/{[a-zA-Z?]+}/', '', $ruri);
+							?>
+							<option value="{{ $ruri }}" {{ $ruri == $sel_url ? 'selected' : '' }}>{{ $ruri }}</option>
 						@endforeach
 					</select>
 				</div>
