@@ -69,7 +69,10 @@ class SiteController extends Controller
 	}
 
 	public function contact(){
-
+		$title = 'Contact';
+		return view('site.contact', compact(
+			'title'
+		));
 	}
 
 	public function sendContact(){
