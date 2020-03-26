@@ -9,6 +9,8 @@ class ThemeManagement
 {
     public function handle($request, Closure $next)
     {   
+    	//in case default navigation masih kosong
+    	\NavigationInstance::generateDefaultNavigation();
     	//in case theme blm dibuild, build di middleware ini, lalu reload
     	if(!ThemesInstance::hasDefaultValues()){
     		ThemesInstance::createDefaultValues();

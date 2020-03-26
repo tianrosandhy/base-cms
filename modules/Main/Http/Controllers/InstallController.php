@@ -119,7 +119,7 @@ class InstallController extends Controller{
         \Setting::all(); #create default setting
         \LanguageInstance::isActive(); #install default language
         \ThemesInstance::createDefaultValues(); #install default theme option
-		\NavigationInstance::generateDefaultNavigation(); #create dummy default site navigation url
+        \NavigationInstance::generateDefaultNavigation(); #generate default navigation values
 
 
 		Artisan::call('vendor:publish', [

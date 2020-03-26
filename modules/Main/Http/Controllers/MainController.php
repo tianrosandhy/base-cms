@@ -8,6 +8,9 @@ class MainController extends AdminBaseController
 {
 
 	public function index(){
+		//create in dashboard if the default navigation is still blank
+		\NavigationInstance::generateDefaultNavigation();
+
 		$title = 'Dashboard';
 		$datediff = 30; //normalnya analytic dalam date range bulanan
 		$period_string = 'this month';

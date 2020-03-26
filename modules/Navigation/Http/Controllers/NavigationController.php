@@ -65,7 +65,6 @@ class NavigationController extends AdminBaseController
 		if(empty($data)){
 			abort(404);
 		}
-
 		$structure = NavigationInstance::setData($data)->generateStructure();
 
 		return view('navigation::manage', compact(

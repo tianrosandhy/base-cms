@@ -18,8 +18,6 @@ class ModuleExtender extends BaseSetting
       $nav->max_level = 1;
       $nav->is_active = 1;
       $nav->save();
-
-      \NavigationInstance::generateDefaultNavigation();
     }
 
   }
