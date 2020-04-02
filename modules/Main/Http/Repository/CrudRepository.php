@@ -20,8 +20,18 @@ class CrudRepository{
 		return $this->model;
 	}
 
-	public function with($args){
-		$this->model = $this->model->with($args);
+	public function with(){
+		$args = func_get_args();
+		if(is_array($args)){
+			if(count($args) == 1){
+				$check_value = array_values($args)[0];
+				$this->model = $this->model->with($check_value);
+			}
+			else{
+				$this->model = $this->model->with($args);
+			}
+		}
+
 		return $this;
 	}
 
@@ -61,7 +71,15 @@ class CrudRepository{
 
 	public function modelTableListing(){
 		$model = $this->model;
-        return $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable());
+		try{
+			$listing = $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable());
+		}catch(\Exception $e){
+			$model = $model->getModel();
+			$listing = $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable());
+		}
+
+
+        return $listing;
 	}
 
 

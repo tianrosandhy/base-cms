@@ -9,8 +9,9 @@ use Module\Main\Http\Repository\CrudRepository;
 
 class Processor
 {
-	public $model;
 	public 
+		$model,
+		$model_with,
 		$data_table,
 		$field_definition,
 		$draw,
@@ -129,6 +130,10 @@ class Processor
 		}
 	}
 
+	public function setModelWith(){
+		$this->model_with = func_get_args();
+	}
+
 	public function setDataTable(){
 		$i = 0;
 		foreach($this->structure as $row){
@@ -216,16 +221,20 @@ class Processor
 
 		//gausa pake crud repository
 		$ctx = $this->model;
-		$ctx = (new CrudRepository($this->model))->paramManagement($ctx, $filter);
-		$ctx = $this->additionalSearchFilter($ctx);
+		$result = (new CrudRepository($ctx));
+		if($this->model_with){
+			$result = $result->with($this->model_with);
+		}
+		$result = $result->paramManagement($ctx, $filter);
+		$result = $this->additionalSearchFilter($ctx);
 
-		if($ctx instanceof \Illuminate\Database\Eloquent\Builder){
-			$this->query_count = $ctx->get()->count();
+		if($result instanceof \Illuminate\Database\Eloquent\Builder){
+			$this->query_count = $result->get()->count();
 		}
 		else{
-			$this->query_count = $ctx->count();
+			$this->query_count = $result->count();
 		}
-		$this->raw_data = $ctx->orderBy($orderBy, $flow)->skip($this->start)->take($this->length)->get();
+		$this->raw_data = $result->orderBy($orderBy, $flow)->skip($this->start)->take($this->length)->get();
 	}
 
 	public function additionalSearchFilter($context){
