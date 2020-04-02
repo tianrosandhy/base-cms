@@ -10,7 +10,7 @@ class Setting
 		$module_setting;
 
 	public function __construct(){
-		$this->structure = SettingStructure::get()->groupBy('group')->toArray();
+		$this->structure = app('setting')->groupBy('group')->toArray();
 	}
 
 	public function all(){
@@ -51,7 +51,7 @@ class Setting
 		$final = [];
 		if(!empty($override_data)){
 			$override_data = collect($override_data);
-			$stored = $this->getStoredValue($override_data);
+			$stored = app('setting');
 			if($stored->count() > 0){
 				foreach($override_data as $row){
 					$grab = $stored->where('group', $row['group'])->where('param', $row['param'])->first();
@@ -92,23 +92,4 @@ class Setting
 		return $this->structure;
 	}
 
-	protected function getStoredValue($overriden){
-		$cond = [];
-		foreach($overriden as $row){
-			$cond[] = [\DB::raw('CONCAT(`group`,".",`param`)'), '=', $row['group'].'.'.$row['param']];
-		}
-		$grab = new SettingStructure;
-		$i=0;
-		foreach($cond as $arr){
-			if($i==0){
-				$grab = $grab->where([$arr]);
-			}
-			else{
-				$grab = $grab->orWhere([$arr]);
-			}
-			$i++;
-		}
-		return $grab->get();
-
-	}
 }

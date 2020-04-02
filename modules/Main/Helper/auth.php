@@ -38,8 +38,7 @@ function has_access($route_name=''){
   //auth bawaan laravel ga ada relasi ke roles, jadi harus dibuat sendiri
   $user = admin_guard()->user();
   $role = $user->role_id;
-  $roles = new \Module\Main\Models\Role();
-  $roles_data = $roles->find($role);
+  $roles_data = app('role')->where('id', $role)->first();
   if(empty($roles_data)){
     return false;
   }

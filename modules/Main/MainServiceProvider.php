@@ -7,6 +7,7 @@ use Validator;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Database\Schema\Builder;
 use Module\Main\Models\SettingStructure;
+use Module\Main\Models\Role;
 
 class MainServiceProvider extends ServiceProvider
 {
@@ -90,7 +91,10 @@ class MainServiceProvider extends ServiceProvider
 	public function registerContainer(){
 		$this->app->singleton('setting', function($app){
 			return SettingStructure::get();
-		});		
+		});
+		$this->app->singleton('role', function($app){
+			return Role::with('owner', 'children')->get();
+		});
 	}
 
 
@@ -193,11 +197,10 @@ class MainServiceProvider extends ServiceProvider
         }
 	}
 
-	protected function loadHelpers($dir)
-  {
-    foreach (glob($dir.'/Helper/*.php') as $filename) {
-      require_once $filename;
-    }
-  }
+	protected function loadHelpers($dir){
+		foreach (glob($dir.'/Helper/*.php') as $filename) {
+			require_once $filename;
+		}
+	}
 
 }

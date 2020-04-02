@@ -29,7 +29,7 @@ class AdminAuth
 
                 if($role->is_sa){
                     //semuanya accessible
-                    $accessible_role = app(config('model.role'))->pluck('id')->toArray();
+                    $accessible_role = app('role')->pluck('id')->toArray();
                 }
                 else{
                     $accessible_role = $roles_bawahan;

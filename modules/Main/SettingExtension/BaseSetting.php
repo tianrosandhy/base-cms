@@ -11,7 +11,7 @@ class BaseSetting
 		$stored_setting;
 
 	public function __construct(){
-		$this->stored_setting = SettingStructure::get(['group', 'param']);
+		$this->stored_setting = app('setting');
 		$this->handle();
 	}
 
