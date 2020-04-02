@@ -4,6 +4,7 @@ namespace Module\Navigation;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Module\Main\BaseServiceProvider;
+use Module\Navigation\Models\Navigation;
 
 class NavigationServiceProvider extends BaseServiceProvider
 {
@@ -30,19 +31,26 @@ class NavigationServiceProvider extends BaseServiceProvider
 
 
 	public function register(){
-    $this->loadHelpers(__DIR__);
+		$this->loadHelpers(__DIR__);
 		$this->mapping($this->app->router);
 		$this->loadViewsFrom(realpath(__DIR__."/Views"), 'navigation');
 
 		//merge config
-	    $this->mergeConfigLists([
-	    	'model' => __DIR__.'/Config/model.php',
-	    	'cms' => __DIR__.'/Config/cms.php',
-	    	'permission' => __DIR__.'/Config/permission.php',
-	    	'module-setting' => __DIR__.'/Config/module-setting.php',
-	    ]);
+		$this->mergeConfigLists([
+			'model' => __DIR__.'/Config/model.php',
+			'cms' => __DIR__.'/Config/cms.php',
+			'permission' => __DIR__.'/Config/permission.php',
+			'module-setting' => __DIR__.'/Config/module-setting.php',
+		]);
 
-	    $this->registerFacadeAlias('NavigationInstance', \Module\Navigation\Facades\NavigationFacade::class);
+		$this->registerFacadeAlias('NavigationInstance', \Module\Navigation\Facades\NavigationFacade::class);
+		$this->registerContainer();
+	}
+
+	public function registerContainer(){
+		$this->app->singleton('navigation', function($app){
+			return Navigation::get();
+		});
 	}
 
 

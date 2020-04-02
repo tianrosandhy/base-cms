@@ -12,11 +12,11 @@ class LanguageInstance extends BaseInstance
 	}
 
   public function available($all=false){
-    $data = app(config('model.language'));
+    $data = app('language');
     if(!$all){
       $data = $data->where('is_default_language', 0);
     }
-    $data = $data->orderBy('is_default_language', 'DESC')->orderBy('title', 'ASC')->get();
+    $data = $data->sortByDesc('is_default_language');
 
     if($data->count() == 0 && $all){
       $this->insert('en', 'English', true);
@@ -32,7 +32,7 @@ class LanguageInstance extends BaseInstance
   }
 
   public function default(){
-    $data = app(config('model.language'))->where('is_default_language', 1)->first();
+    $data = app('language')->where('is_default_language', 1)->first();
     if(empty($data)){
       $this->insert('en', 'English', true);
       return $this->default();
@@ -41,7 +41,7 @@ class LanguageInstance extends BaseInstance
   }
 
   public function isActive(){
-    $data = $this->model->count();
+    $data = app('language')->count();
     if($data == 0){
       $this->insert('en', 'English', true);
       return false;

@@ -23,7 +23,7 @@ function setting($hint, $default=''){
     return $default;
   }
 
-  $cek = app(config('model.setting_structure'))->where('group', $group)->where('param', $param)->first();
+  $cek = app('setting')->where('group', $group)->where('param', $param)->first();
   if(isset($cek->default_value)){
     if(strlen($cek->default_value) == 0){
       return $default;

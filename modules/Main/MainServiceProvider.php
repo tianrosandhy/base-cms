@@ -6,6 +6,7 @@ use Illuminate\Routing\Router;
 use Validator;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Database\Schema\Builder;
+use Module\Main\Models\SettingStructure;
 
 class MainServiceProvider extends ServiceProvider
 {
@@ -76,6 +77,7 @@ class MainServiceProvider extends ServiceProvider
 		$this->loadModules();
 		$this->mergeMainConfig();
 		$this->registerAlias();
+		$this->registerContainer();
 
 		$this->commands([
 			Console\UpdateStructure::class,
@@ -83,6 +85,12 @@ class MainServiceProvider extends ServiceProvider
 			Console\NewAdmin::class,
 			Console\SetRole::class,
 		]);
+	}
+
+	public function registerContainer(){
+		$this->app->singleton('setting', function($app){
+			return SettingStructure::get();
+		});		
 	}
 
 

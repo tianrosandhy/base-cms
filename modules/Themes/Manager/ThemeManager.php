@@ -170,8 +170,8 @@ class ThemeManager implements \Countable
     public function getStatus(Theme $theme)
     {
         if ($theme->type !== 'Backend') {
-            $active_theme = SettingStructure::where('param', 'frontend_theme')->first();
-            return $active_theme->default_value == $theme->getName();
+            $active_theme = setting('site.frontend_theme');
+            return $active_theme == $theme->getName();
         }
     }
 }

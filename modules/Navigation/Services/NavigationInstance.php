@@ -64,12 +64,12 @@ class NavigationInstance extends BaseInstance
     }
 
     public function getDefaultNavigation(){
-        return app(config('model.navigation'))->where('group_name', 'Default')->where('is_active', 1)->first();
+        return app('navigation')->where('group_name', 'Default')->where('is_active', 1)->first();
     }
 
 
 	public function name($group_name){
-		$this->data = $this->model->where('group_name', $group_name)->first();
+		$this->data = app('navigation')->where('group_name', $group_name)->first();
 		return $this;
 	}
 
