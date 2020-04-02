@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Module\Main\Http\Traits\RegistersUsers;
 use Illuminate\Http\Request;
+use Module\Main\Http\Middleware\RedirectIfAuthenticated;
 
 class RegisterController extends Controller
 {
