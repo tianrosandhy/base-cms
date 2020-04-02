@@ -3,6 +3,32 @@
 * Override Pages default styles or create your own styles here
 
 */
+.content-wrapper{
+	padding:0;
+}
+.header-box{
+	background:#fff;
+	padding:1em 2em;
+	margin-bottom:2em;
+}
+.header-box h1, .header-box h2, .header-box h3, .header-box h4, .header-box h4{
+	margin-top:.5em;
+	margin-bottom:0!important;
+}
+.content-box{
+	padding:1em 2em;
+}
+
+@media (max-width:767px){
+	.header-box{
+		padding:.5em 1em;
+	}
+	.content-box{
+		padding:1em;
+	}
+}
+
+
 .card .card-body{
 	padding:1rem 1.375rem;
 }
@@ -697,6 +723,7 @@ ul.nav{
 .custom-form-group .select2-container--default .select2-selection--single, .custom-form-group .select2-container--default .select2-selection--multiple{
 	background:#fff;
 	padding:.5rem .75rem;
+	min-height:30px;
 }
 .select2-container--default .select2-selection--single .select2-selection__rendered{
 	overflow:visible;

@@ -24,17 +24,18 @@
 @endif
 
 @section ('content')
-
-<h3 class="display-4 mb-3">{{ $title }}</h3>
-@if(!request()->ajax())
-<div class="padd">
-	<div class="pull-left">
-		<a href="{{ url()->route($back) }}" class="btn btn-sm btn-default btn-secondary">&laquo; Back</a>	
+<div class="header-box">
+	<h3 class="display-4 mb-3">{{ $title }}</h3>
+	@if(!request()->ajax())
+	<div class="padd">
+		<div class="pull-left">
+			<a href="{{ url()->route($back) }}" class="btn btn-sm btn-default btn-secondary">&laquo; Back</a>	
+		</div>
+		
+		<div class="clearfix"></div>
 	</div>
-	
-	<div class="clearfix"></div>
+	@endif
 </div>
-@endif
 
 @if($multi_language)
 @include ('main::inc.lang-switcher', [
@@ -43,85 +44,89 @@
 ])
 @endif
 
-<form action="" method="post" class="crud-post" with-loader>
-	{{ csrf_field() }}
-	<div class="card card-block card-body">
-		@if(isset($prepend_field))
-		{!! $prepend_field !!}
-		@endif
+<div class="content-box">
+	<form action="" method="post" class="crud-post" with-loader>
+		{{ csrf_field() }}
+		<div class="card card-block card-body">
+			@if(isset($prepend_field))
+			{!! $prepend_field !!}
+			@endif
 
-		<?php 
-		$tabs = array_unique(array_pluck($forms->structure, 'tab_group'));
-		?>
-		@if(count($tabs) > 0)
+			<?php 
+			$tabs = array_unique(array_pluck($forms->structure, 'tab_group'));
+			?>
+			@if(count($tabs) > 0)
 
-		<ul class="nav nav-tabs" id="myTab" role="tablist">
-			@foreach($tabs as $tabname)
-		  <li class="nav-item">
-		    <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="{{ slugify($tabname) }}-tab" data-toggle="tab" href="#form-tab-{{ slugify($tabname) }}" role="tab">{{ $tabname }}</a>
-		  </li>
-		  @endforeach
-		</ul>
-		<div class="tab-content card" id="myTabContent">
-			@foreach($tabs as $tabname)
-		  <div class="tab-pane card-body fade {{ $loop->first ? 'show active' : '' }}" id="form-tab-{{ slugify($tabname) }}" role="tabpanel">
-		  	<div class="row">
-	  		<?php
-	  		$width = 0;
-	  		?>
-				@foreach(collect($forms->structure)->where('tab_group', $tabname) as $row)
-					@if($row->hide_form == true)
-						@php continue; @endphp
-					@endif
-					<?php
-					$width += $row->form_column;
-					if($width > 12){ //kalo lebarnya lebih dari 12 kolom, langsung tutup
-						$width = 0;
-						echo '</div><div class="row">'; //bikin baris baru
-					}
+			<ul class="nav nav-tabs" id="myTab" role="tablist">
+				@foreach($tabs as $tabname)
+			  <li class="nav-item">
+			    <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="{{ slugify($tabname) }}-tab" data-toggle="tab" href="#form-tab-{{ slugify($tabname) }}" role="tab">{{ $tabname }}</a>
+			  </li>
+			  @endforeach
+			</ul>
+			<div class="tab-content card" id="myTabContent">
+				@foreach($tabs as $tabname)
+			  <div class="tab-pane card-body fade {{ $loop->first ? 'show active' : '' }}" id="form-tab-{{ slugify($tabname) }}" role="tabpanel">
+			  	<div class="row">
+		  		<?php
+		  		$width = 0;
+		  		?>
+					@foreach(collect($forms->structure)->where('tab_group', $tabname) as $row)
+						@if($row->hide_form == true)
+							@php continue; @endphp
+						@endif
+						<?php
+						$width += $row->form_column;
+						if($width > 12){ //kalo lebarnya lebih dari 12 kolom, langsung tutup
+							$width = 0;
+							echo '</div><div class="row">'; //bikin baris baru
+						}
 
-					if(isset($data->id)){
-						$validation_rule = $row->update_validation;
-					}
-					else{
-						$validation_rule = $row->create_validation;
-					}
-					?>
-					<div class="col-md-{{ $row->form_column }} col-sm-12">
-						<div class="form-group custom-form-group {!! $row->input_type == 'radio' ? 'radio-box' : '' !!}">
-							<label for="{{ $row->input_attribute['id'] }}" class="text-uppercase {{ strpos($validation_rule, 'required') !== false ? 'required' : '' }}">{{ $row->name }}</label>
-							{!! $row->createInput($data, $multi_language) !!}
+						if(isset($data->id)){
+							$validation_rule = $row->update_validation;
+						}
+						else{
+							$validation_rule = $row->create_validation;
+						}
+						?>
+						<div class="col-md-{{ $row->form_column }} col-sm-12">
+							<div class="form-group custom-form-group {!! $row->input_type == 'radio' ? 'radio-box' : '' !!}">
+								<label for="{{ $row->input_attribute['id'] }}" class="text-uppercase {{ strpos($validation_rule, 'required') !== false ? 'required' : '' }}">{{ $row->name }}</label>
+								{!! $row->createInput($data, $multi_language) !!}
+							</div>
 						</div>
+						<?php
+						if($width == 12){
+							$width = 0;
+							echo '</div><div class="row">'; //bikin baris baru
+						}
+						?>
+					@endforeach
 					</div>
-					<?php
-					if($width == 12){
-						$width = 0;
-						echo '</div><div class="row">'; //bikin baris baru
-					}
-					?>
-				@endforeach
-				</div>
-		  </div>
-		  @endforeach
-		</div>			
-		@endif
+			  </div>
+			  @endforeach
+			</div>			
+			@endif
 
 
 
-		@if(isset($additional_field))
-		{!! $additional_field !!}
-		@endif
+			@if(isset($additional_field))
+			{!! $additional_field !!}
+			@endif
 
-		@if(isset($seo))
-		{!! $seo !!}
-		@endif
+			@if(isset($seo))
+			{!! $seo !!}
+			@endif
 
-		<div class="padd">
-			<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+			<div class="padd">
+				<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+			</div>
+				
 		</div>
-			
-	</div>
-</form>
+	</form>	
+</div>
+
+
 
 @stop
 

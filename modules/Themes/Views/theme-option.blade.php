@@ -1,26 +1,30 @@
 @extends ('main::master')
 
 @section ('content')
-<h2 class="display-4 mb-3">{{ $title }}</h2>
+<div class="header-box">
+    <h2 class="display-4 mb-3">{{ $title }}</h2>
 
-@include ('main::inc.lang-switcher', [
-    'model' => model('themes'),
-    'reload' => false
-])
+    @include ('main::inc.lang-switcher', [
+        'model' => model('themes'),
+        'reload' => false
+    ])
 
-<div class="padd">
-    Active Theme : <strong>{{ $active_theme->getName() }}</strong> <a href="{{ route('admin.themes.index') }}" class="badge badge-info"><i class="fa fa-refresh"></i> Change</a>
+    <div class="padd">
+        Active Theme : <strong>{{ $active_theme->getName() }}</strong> <a href="{{ route('admin.themes.index') }}" class="badge badge-info"><i class="fa fa-refresh"></i> Change</a>
+    </div>    
 </div>
 
-<form action="" method="post">
-    {{ csrf_field() }}
-    @include ('themes::partials.theme-option-tab')
-    @if($theme_option)
-    <div class="padd">
-        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save Theme Option</button>
-    </div>
-    @endif
-</form>
+<div class="content-box">
+    <form action="" method="post">
+        {{ csrf_field() }}
+        @include ('themes::partials.theme-option-tab')
+        @if($theme_option)
+        <div class="padd">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save Theme Option</button>
+        </div>
+        @endif
+    </form>
+</div>
 @stop
 
 @push ('script')

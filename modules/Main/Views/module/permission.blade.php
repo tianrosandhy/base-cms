@@ -1,66 +1,71 @@
 @extends ('main::master')
 
 @section ('content')
-<h3 class="display-4 mb-3">Role Permission Management</h3>
+<div class="header-box">
+	<h3 class="display-4 mb-3">Role Permission Management</h3>
 
-<div class="padd">
-	@if(has_access('admin.permission.store'))
-	<a href="#" class="btn btn-primary add-new-role" data-toggle="modal" data-target="#permissionModal">Add New Role</a>
-	@endif
+	<div class="padd">
+		@if(has_access('admin.permission.store'))
+		<a href="#" class="btn btn-primary add-new-role" data-toggle="modal" data-target="#permissionModal">Add New Role</a>
+		@endif
+	</div>
 </div>
 
-<div class="card card-body ov">
-	<table class="table data-table">
-		<thead>
-			<tr>
-				<th>Priviledge Name</th>
-				<th>Permissions</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach($structure->role_list as $row)
-			<tr class="close-target">
-				<td>{{ str_repeat('*', $row['level']) .' '.  $row['label'] }}</td>
-				<td>
-					@if($row['is_sa'])
-					<div class="alert alert-info">
-						Superadmin can access anything
-					</div>
-					@else
-						@if(has_access('admin.permission.manage'))
-						<a href="#" class="btn btn-default btn-block btn-secondary btn-show-permission" data-target="{{ admin_url('setting/show-permission/'.$row['id']) }}"><i class="fa fa-cog"></i> Manage Permissions</a>
+<div class="content-box">
+	<div class="card card-body ov">
+		<table class="table data-table">
+			<thead>
+				<tr>
+					<th>Priviledge Name</th>
+					<th>Permissions</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach($structure->role_list as $row)
+				<tr class="close-target">
+					<td>{{ str_repeat('*', $row['level']) .' '.  $row['label'] }}</td>
+					<td>
+						@if($row['is_sa'])
+						<div class="alert alert-info">
+							Superadmin can access anything
+						</div>
+						@else
+							@if(has_access('admin.permission.manage'))
+							<a href="#" class="btn btn-default btn-block btn-secondary btn-show-permission" data-target="{{ admin_url('setting/show-permission/'.$row['id']) }}"><i class="fa fa-cog"></i> Manage Permissions</a>
+							@endif
 						@endif
-					@endif
-				</td>
-				<td>
-					@if(has_access('admin.permission.update'))
-					<a href="#" class="btn btn-primary edit-permission" data-target="{{ url()->route('admin.permission.update', ['id' => $row['id']]) }}" data-title="{{ $row['label'] }}" data-issa="{{ $row['is_sa'] }}" data-owner="{{ $row['role_owner'] }}">Edit</a>
-					@endif
-					@if(!$row['is_sa'])
-						@if(has_access('admin.permission.delete'))
-						<a href="{{ url()->route('admin.permission.delete', ['id' => $row['id']]) }}" class="btn btn-danger delete-button" >Delete</a>
+					</td>
+					<td>
+						@if(has_access('admin.permission.update'))
+						<a href="#" class="btn btn-primary edit-permission" data-target="{{ url()->route('admin.permission.update', ['id' => $row['id']]) }}" data-title="{{ $row['label'] }}" data-issa="{{ $row['is_sa'] }}" data-owner="{{ $row['role_owner'] }}">Edit</a>
 						@endif
-					@endif
-				</td>
-			</tr>
-			@endforeach
+						@if(!$row['is_sa'])
+							@if(has_access('admin.permission.delete'))
+							<a href="{{ url()->route('admin.permission.delete', ['id' => $row['id']]) }}" class="btn btn-danger delete-button" >Delete</a>
+							@endif
+						@endif
+					</td>
+				</tr>
+				@endforeach
 
-			@if(count($structure->role_list) == 0)
-			<tr>
-				<td colspan="3">
-					<div class="alert alert-warning">
-						You still not have a child priviledge. 
-						@if(has_access('admin.permission.store'))
-						<a href="#" class="btn btn-warning" data-toggle="modal" data-target="#permissionModal">Create New Role</a>
-						@endif
-					</div>
-				</td>
-			</tr>
-			@endif
-		</tbody>
-	</table>	
+				@if(count($structure->role_list) == 0)
+				<tr>
+					<td colspan="3">
+						<div class="alert alert-warning">
+							You still not have a child priviledge. 
+							@if(has_access('admin.permission.store'))
+							<a href="#" class="btn btn-warning" data-toggle="modal" data-target="#permissionModal">Create New Role</a>
+							@endif
+						</div>
+					</td>
+				</tr>
+				@endif
+			</tbody>
+		</table>	
+	</div>	
 </div>
+
 
 @stop
 

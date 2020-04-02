@@ -13,7 +13,7 @@ class ThemesSkeleton extends DataTable
   public function __construct(){
     $this->request = request();
     //default fields
-    $this->setModel('theme');
+    $this->setModel('themes');
 
     $this->structure[] = DataStructure::field('theme')
       ->name('Theme Name')

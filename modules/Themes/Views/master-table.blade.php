@@ -2,12 +2,18 @@
 
 @section ('content')
 
-<h3 class="display-4 mb-3">{!! $title !!}</h3>
+<div class="header-box">
+	<h3 class="display-4 mb-3">{!! $title !!}</h3>
+	<div class="padd">
+		<a href="{{ route('admin.theme-option.index') }}" class="btn btn-primary">Go to Theme Option</a>
+	</div>
+</div>
 
-
-{!! $prepend_index !!}
-{!! $datatable->view() !!}
-{!! $append_index !!}
+<div class="content-box">
+	{!! $prepend_index !!}
+	{!! $datatable->view() !!}
+	{!! $append_index !!}
+</div>
 
 @stop
 

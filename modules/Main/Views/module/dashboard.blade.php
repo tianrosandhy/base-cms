@@ -1,10 +1,14 @@
 @extends ('main::master')
 
 @section ('content')
-<h3 class="display-4 mb-4">Dashboard</h3>
+<div class="header-box">
+	<h3 class="display-4 mb-4">Dashboard</h3>
+</div>
 
-@if(config('cms.admin.google_analytic_dashboard'))
-	@include ('main::module.google-analytic')
-@endif
+<div class="content-box">
+	@if(config('cms.admin.google_analytic_dashboard'))
+		@include ('main::module.google-analytic')
+	@endif
+</div>
 
 @stop

@@ -3,23 +3,12 @@ namespace Module\Main\Http\Controllers;
 
 use Module\Main\Http\Repository\CrudRepository;
 use Module\Main\Http\Controllers\AdminBaseController;
-use Module\Main\Http\Skeleton\LogSkeleton;
 
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class LogController extends AdminBaseController
 {
-
-	public function repo(){
-		//mendefinisikan repo / model apa yang ingin digunakan
-		//inputan berupa inisial sesuai yang didaftarkan di config('model')
-		return 'log';
-	}
-
-	public function skeleton(){
-		return new LogSkeleton;
-	}
 
     //default index page
     public function index(){

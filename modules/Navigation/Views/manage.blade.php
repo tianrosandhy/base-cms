@@ -6,9 +6,12 @@
 @endpush
 
 @section ('content')
-<h2>{{ $title }} "{{ $data->group_name }}"</h2>
-
-<a href="{{ route('admin.navigation.index') }}" class="btn btn-sm btn-secondary">Back</a>
+<div class="header-box">
+	<h2 class="display-4">{{ $title }} "{{ $data->group_name }}"</h2>
+	<div class="padd">
+		<a href="{{ route('admin.navigation.index') }}" class="btn btn-sm btn-secondary">Back</a>
+	</div>	
+</div>
 
 <div class="card card-body mt-3 nav-holder">
 	@if(has_access('admin.navigation_item.store'))

@@ -2,7 +2,9 @@
 @include ('main::assets.dropzone')
 
 @section ('content')
-<h3>My Profile</h3>
+<div class="header-box mb-1">
+	<h3 class="display-4">My Profile</h3>
+</div>
 
 <div class="card card-body">
 	<form action="" method="post" autocomplete="off">

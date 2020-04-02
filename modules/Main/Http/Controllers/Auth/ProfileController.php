@@ -11,7 +11,8 @@ class ProfileController extends AdminBaseController
 {
 
 	public function index(){
-		return view('main::auth.profile');
+		$title = 'My Profile';
+		return view('main::auth.profile', compact('title'));
 	}
 
 	public function store(){
