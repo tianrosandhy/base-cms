@@ -1115,7 +1115,7 @@ nav.sidebar{
 }
 
 .sidebar .nav:not(.sub-menu) > .nav-item{
-	border-bottom:1px solid rgba(255,255,255,.1);
+	border-bottom:none;
 }
 
 .sidebar .nav:not(.sub-menu) > .nav-item:hover > .nav-link{
