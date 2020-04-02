@@ -49,7 +49,7 @@ class NavigationInstance extends BaseInstance
 				$name = str_replace('-', ' ', $name);
 				$name = ucwords($name);
 
-				app(config('model.navigation_item'))->insert([
+				model('navigation_item')->insert([
 					'group_id' => $default->id,
 					'title' => $name,
 					'type' => 'site',

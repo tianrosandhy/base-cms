@@ -29,12 +29,12 @@ class LanguageController extends AdminBaseController
 
 		if($instance->is_default_language){
 			//hapus default language di data lain
-			app(config('model.language'))->where('is_default_language', 1)->where('id', '<>', $instance->id)->update([
+			model('language')->where('is_default_language', 1)->where('id', '<>', $instance->id)->update([
 				'is_default_language' => 0
 			]);
 		}
 		else{
-			$check_no_default_language = app(config('model.language'))->where('is_default_language', 1)->count();
+			$check_no_default_language = model('language')->where('is_default_language', 1)->count();
 			if($check_no_default_language == 0){
 				//kembalikan data ini sbg default language
 				$instance->is_default_language = 1;

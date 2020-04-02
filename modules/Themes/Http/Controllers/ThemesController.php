@@ -50,8 +50,8 @@ class ThemesController extends AdminBaseController
 
 		//hapus stored theme beserta bahasanya
 		$theme_name = $active_theme->getName();
-		app(config('model.themes'))->where('theme', $theme_name)->delete();
-		app(config('model.translator'))->where('table', 'themes_option')->delete();
+		model('themes')->where('theme', $theme_name)->delete();
+		model('translator')->where('table', 'themes_option')->delete();
 
 
 
@@ -71,7 +71,7 @@ class ThemesController extends AdminBaseController
 			foreach($loop_values as $index => $data){
 				$keyname = $key.'.'.$index;
 
-				$instance = app(config('model.themes'));
+				$instance = model('themes');
 				$instance->theme = $theme_name;
 				$instance->key = $keyname;
 				$instance->value = $data;
@@ -122,7 +122,7 @@ class ThemesController extends AdminBaseController
 			'theme' => 'required|string',
 		]);
 		if (!$validate->fails()) {
-			$active_theme = app(config('model.setting_structure'))->where('param', 'frontend_theme')->first();
+			$active_theme = model('setting_structure')->where('param', 'frontend_theme')->first();
 			$active_theme->default_value = $this->request->input('theme');
 			$active_theme->save();
 

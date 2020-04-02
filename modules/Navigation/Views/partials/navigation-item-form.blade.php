@@ -35,7 +35,7 @@
 				@if(isset($param['model_source']))
 				@if(!empty(config('model.'.$param['model_source'])))
 				<?php
-				$source = app(config('model.'.$param['model_source']));
+				$source = model($param['model_source']);
 				if($param['source_is_active_field']){
 					$source_data = $source->where($param['source_is_active_field'], 1)->get();
 				}

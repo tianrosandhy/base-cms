@@ -4,7 +4,7 @@
 <h2 class="display-4 mb-3">{{ $title }}</h2>
 
 @include ('main::inc.lang-switcher', [
-    'model' => app(config('model.themes')),
+    'model' => model('themes'),
     'reload' => false
 ])
 

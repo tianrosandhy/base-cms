@@ -5,7 +5,6 @@ use Module\Main\Contracts\WithRevision;
 
 trait BasicCrud
 {
-	use RevisionManagement;
 
 	public function prependIndex(){
 		if($this->hint){
@@ -133,7 +132,7 @@ trait BasicCrud
 		}
 
 		//data = blank entity
-		$data = app(config('model.'.$this->model));
+		$data = model($this->model);
 		return view(config('module-setting.'.$this->hint().'.view.create', 'main::master-crud'), compact(
 			'title',
 			'forms',

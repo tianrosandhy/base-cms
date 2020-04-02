@@ -100,7 +100,7 @@ class PostInstance extends BaseInstance
 				$data['is_active'] = 0;
 			}
 
-			$com = app(config('model.post_comment'));
+			$com = model('post_comment');
 			$com->post_id = $this->data->id;
 			foreach($data as $fld => $val){
 				$com->{$fld} = $val;
@@ -124,7 +124,7 @@ class PostInstance extends BaseInstance
 		if($this->data){
 			$likes = $this->getLikeInstance($this->data->id);
 			if(empty($likes)){
-				$like = app(config('model.post_like'));
+				$like = model('post_like');
 				$like->post_id = $this->data->id;
 				$like->ip = request()->ip();
 				$like->user_id = $this->getUserId();
@@ -152,7 +152,7 @@ class PostInstance extends BaseInstance
 	}
 
 	protected function getLikeInstance($post_id){
-		$likes = app(config('model.post_like'))
+		$likes = model('post_like')
 			->where('post_id', $post_id)
 			->where('ip', request()->ip());
 

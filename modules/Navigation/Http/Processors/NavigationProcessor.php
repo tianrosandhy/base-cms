@@ -39,12 +39,12 @@ class NavigationProcessor
 		$this->handleAdditionalFields();
 		if(isset($this->stored['id'])){
 			//update
-			$instance = app(config('model.navigation_item'))->find($this->stored['id']);
+			$instance = model('navigation_item')->find($this->stored['id']);
 			unset($this->stored['id']);
 		}
 		else{
 			//insert
-			$instance = app(config('model.navigation_item'));
+			$instance = model('navigation_item');
 		}
 
 		foreach($this->stored as $field => $value){
@@ -122,7 +122,7 @@ class NavigationProcessor
 
 
 	public function reorderData($row, $iteration=1, $parent=null){
-		$instance = app(config('model.navigation_item'))->find($row['id']);
+		$instance = model('navigation_item')->find($row['id']);
 		$instance->sort_no = $iteration;
 		$instance->parent = $parent;
 		$instance->save();

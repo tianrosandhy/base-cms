@@ -30,7 +30,7 @@ class BaseInstance
 	}
 
 	public function setModel($initial=''){
-		$this->model = app(config('model.'.$initial));
+		$this->model = model($initial);
 		return $this;
 	}
 

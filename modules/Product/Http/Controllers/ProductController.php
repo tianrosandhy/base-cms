@@ -27,16 +27,16 @@ class ProductController extends AdminBaseController
 
 	public function afterCrud($instance){
 		if(is_array($this->request->category)){
-			$current_category = app(config('model.product_to_category'))->where('product_id', $instance->id)->get();
+			$current_category = model('product_to_category')->where('product_id', $instance->id)->get();
 			foreach($this->request->category as $cat){
 				if($current_category->where('category_id', $cat)->count() == 0){
-					app(config('model.product_to_category'))->insert([
+					model('product_to_category')->insert([
 						'product_id' => $instance->id,
 						'category_id' => $cat
 					]);
 				}
 			}
-			app(config('model.product_to_category'))->where('product_id', $instance->id)->whereNotIn('category_id', $this->request->category)->delete();
+			model('product_to_category')->where('product_id', $instance->id)->whereNotIn('category_id', $this->request->category)->delete();
 		}
 	}
 

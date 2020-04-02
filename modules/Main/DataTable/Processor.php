@@ -126,7 +126,7 @@ class Processor
 			$this->model = $model;
 		}
 		else{
-			$this->model = app(config('model.'.$model));
+			$this->model = model($model);
 		}
 	}
 

@@ -76,7 +76,7 @@ class NavigationController extends AdminBaseController
 	}
 
 	public function getEditForm($navid=0){
-		$navigation = app(config('model.navigation_item'))->find($navid);
+		$navigation = model('navigation_item')->find($navid);
 		if(empty($navigation)){
 			abort(404);
 		}
@@ -113,7 +113,7 @@ class NavigationController extends AdminBaseController
 	}
 
 	public function deleteItem($id){
-		$data = app(config('model.navigation_item'))->find($id);
+		$data = model('navigation_item')->find($id);
 		if(empty($data)){
 			abort(404);
 		}

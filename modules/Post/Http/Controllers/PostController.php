@@ -83,7 +83,7 @@ class PostController extends AdminBaseController
 
 	protected function handleStoreRelated($instance, $relateds=[]){
 		$relateds = get_lang($relateds);
-		$relmodel = app(config('model.post_related'));
+		$relmodel = model('post_related');
 		$check = $relmodel->where('post_id', $instance->id)->get();
 		if(empty($relateds)){
 			$relateds = [];
@@ -107,7 +107,7 @@ class PostController extends AdminBaseController
 
 	protected function handleStoreCategory($instance, $categories=[]){
 		$categories = get_lang($categories);
-		$catmodel = app(config('model.post_to_category'));
+		$catmodel = model('post_to_category');
 		$check = $catmodel->where('post_id', $instance->id)->get();
 		if(!empty($categories)){
 			foreach($categories as $cat){

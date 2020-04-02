@@ -91,7 +91,7 @@ class SlugInstance
 
 		$must_table = [];
 		foreach($model as $mdl){
-			$tbname = app(config('model.'.$mdl))->getTable();
+			$tbname = model($mdl)->getTable();
 			$must_table[$tbname] = $mdl;
 		}
 
@@ -110,7 +110,7 @@ class SlugInstance
 			else{
 				$used_model = isset($must_table[$grab->table]) ? $must_table[$grab->table] : null;
 				if(!empty($used_model)){
-					$instance = app(config('model.'.$used_model))->find($grab->primary_key);
+					$instance = model($used_model)->find($grab->primary_key);
 					if(!empty($instance)){
 						$instance->table = $grab->table;
 						return $instance;

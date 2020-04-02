@@ -12,7 +12,7 @@ class ServiceInstance extends BaseInstance
 	}
 
 	public function categories($homepage_only=false){
-		$data = app(config('model.service_category'))->where('is_active', 1);
+		$data = model('service_category')->where('is_active', 1);
 		if($homepage_only){
 			$data = $data->where('show_on_homepage', 1);
 		}
