@@ -74,6 +74,22 @@ class MediaInstance
 		return false;
 	}
 
+	public function grabJson($single_json_data, $thumb=null, $fallback=true){
+		$decode = json_decode($single_json_data, true);
+		if(isset($decode['id'])){
+			$media = Media::find($decode['id']);
+			if(!$thumb){
+				$thumb = $decode['thumb'];
+			}
+			return $media->getRawThumbnailUrl('path', $thumb);
+		}
+
+		if($fallback){
+			return MediaInstance::imageNotFoundUrl();
+		}
+		return false;
+	}
+
 	public function readJsonPath($single_json_data){
 		$decode = json_decode($single_json_data, true);
 		if(isset($decode['id'])){
