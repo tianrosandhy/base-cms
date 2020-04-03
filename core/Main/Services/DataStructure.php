@@ -144,7 +144,7 @@ class DataStructure
 		$this->field($field);
 		$this->formColumn($col);
 		$this->name($name);
-		$this->inputType('radio');
+		$this->inputType('yesno');
 		$this->dataSource($value);
 		return $this;
 	}
@@ -268,6 +268,7 @@ class DataStructure
 			'password',
 			'tags',
 			'checkbox',
+			'yesno',
 			'radio',
 			'textarea',
 			'richtext',

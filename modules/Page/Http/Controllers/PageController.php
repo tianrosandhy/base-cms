@@ -13,7 +13,7 @@ class PageController extends AdminBaseController implements Crud
 {
 	use BasicCrud;
 	use Exportable, Seo;
-	use Extension\PageExtension;
+	use Extensions\PageExtension;
 
 	public 
 		$hint = 'page',

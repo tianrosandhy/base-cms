@@ -32,6 +32,28 @@ trait BasicCrud
 	}
 
 
+	public function switch(){
+		if(strlen($this->model) == 0){
+			abort(404);
+		}
+
+		$table = new CrudRepository($this->model);
+		$this->request->validate([
+			'field' => 'required',
+			'id' => 'required|numeric',
+			'value' => 'required|numeric|min:0|max:1'
+		]);
+
+		$table->update($this->request->id, [
+			$this->request->field => $this->request->value
+		]);
+
+		return [
+			'type' => 'success',
+			'message' => 'Data has been updated'
+		];
+	}
+
 
 	public function create(){
 		$title = $this->usedLang('create.title');
@@ -63,13 +85,18 @@ trait BasicCrud
 	public function store(){
 		$this->setMode('store');
 		$this->skeleton()->formValidation($this->multi_language, 'create');
-		$this->afterValidation('create');
+		if(method_exists($this, 'afterValidation')){
+			$this->afterValidation('create');
+		}
 
 		//multiple values / relational type input is not processed here
 		$instance = $this->saveProcess();
+		$this->storeSlug($instance);
 
 		//multiple values / relational type can be freely managed here
-		$this->afterCrud($instance);
+		if(method_exists($this, 'afterCrud')){
+			$this->afterCrud($instance);
+		}
 		if(method_exists($this, 'storeSeo')){
 			$this->storeSeo($instance);
 		}
@@ -133,7 +160,9 @@ trait BasicCrud
 		if(empty($show)){
 			abort(404);
 		}
-		$this->afterValidation('update', $show);
+		if(method_exists($this, 'afterValidation')){
+			$this->afterValidation('update', $show);
+		}
 
 		//multiple values / relational type input is not processed here
 		$instance = $this->saveProcess($show);
@@ -144,7 +173,9 @@ trait BasicCrud
 			$this->storeSeo($instance);
 		}
 		//multiple values / relational type can be freely managed here
-		$this->afterCrud($instance);
+		if(method_exists($this, 'afterCrud')){
+			$this->afterCrud($instance);
+		}
 
 
 		if($this->multi_language){

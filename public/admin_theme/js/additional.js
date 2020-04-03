@@ -32,20 +32,22 @@ $(function(){
 
 	//switchery init
 	$('body').on('change', ".js-switch", function(){
-		$.ajax({
-			url : $(this).attr('data-ajax'),
-			type : 'POST',
-			dataType : 'json',
-			data : {
-				_token : window.CSRF_TOKEN,
-				id : $(this).attr('data-id'),
-				field : $(this).attr('name'),
-				value : $(this).is(':checked') ? 1 : 0
-			},
-			error : function(resp){
-				error_handling(resp);
-			}
-		});
+		if($(this).attr('data-ajax')){
+			$.ajax({
+				url : $(this).attr('data-ajax'),
+				type : 'POST',
+				dataType : 'json',
+				data : {
+					_token : window.CSRF_TOKEN,
+					id : $(this).attr('data-id'),
+					field : $(this).attr('name'),
+					value : $(this).is(':checked') ? 1 : 0
+				},
+				error : function(resp){
+					error_handling(resp);
+				}
+			});
+		}
 	});
 
 	
@@ -168,6 +170,19 @@ function initPlugin(){
 				tg = sisa.join('-');
 				$("[data-slug='"+tg+"']").val(convertToSlug(current));
 			});
+		});
+	}
+
+	if($("input[yesno]").length){
+		$("input[yesno]").each(function(){
+			el = $(this);
+			new Switchery(el.get(0));
+		});
+		$("input[yesno]").on('change', function(){
+			target = $(this).attr('data-target');
+			$(target).val(
+				$(this).prop('checked') ? 1 : 0
+			);
 		});
 	}
 }

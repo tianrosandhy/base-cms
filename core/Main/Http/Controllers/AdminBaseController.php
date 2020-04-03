@@ -60,33 +60,9 @@ class AdminBaseController extends Controller
 	}
 
 
-	public function switch(){
-		if(strlen($this->model) == 0){
-			abort(404);
-		}
 
-		$table = new CrudRepository($this->model);
-		$this->request->validate([
-			'field' => 'required',
-			'id' => 'required|numeric',
-			'value' => 'required|numeric|min:0|max:1'
-		]);
-
-		$table->update($this->request->id, [
-			$this->request->field => $this->request->value
-		]);
-
-		return [
-			'type' => 'success',
-			'message' => 'Data has been updated'
-		];
-	}
 
 	public function afterValidation($mode='create', $instance=null){
-		//
-	}
-
-	public function afterCrud($instance){
 		//
 	}
 

@@ -1,9 +1,16 @@
 <?php
 namespace Module\Post\Http\Controllers\Extensions;
 
+use Illuminate\Validation\ValidationException;
+
 // optional extendable class for index  
 trait PostCrudExtension
 {
+	public function afterValidation($mode='create', $instance=null){
+		//throw exception when failed
+
+		// throw ValidationException::withMessages(['error' => 'message']);
+	}
 
 	public function afterCrud($instance){
 		$cats = $this->request->category;

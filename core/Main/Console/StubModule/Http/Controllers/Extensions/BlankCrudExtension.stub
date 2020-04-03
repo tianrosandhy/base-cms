@@ -1,9 +1,17 @@
 <?php
 namespace Module\Blank\Http\Controllers\Extensions;
 
+use Illuminate\Validation\ValidationException;
+
 // optional extendable class for index  
 trait BlankCrudExtension
 {
+
+	public function afterValidation($mode='create', $instance=null){
+		//throw exception when failed
+
+		//throw ValidationException::withMessages(['error' => 'message']);
+	}
 
 	public function afterCrud($instance){
 		//logic after instance stored/updated

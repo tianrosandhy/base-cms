@@ -175,7 +175,6 @@ $(function(){
 	}
 
 	var save_button_trigger = $(".save-buttons").offset().top;;
-	console.log(save_button_trigger);
 	$(".save-buttons").addClass('stick');
 	$(window).on('scroll', $.debounce(100, function(){
 		scrollpos = $(window).scrollTop() + $(window).height() - 400;

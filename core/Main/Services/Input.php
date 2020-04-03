@@ -145,6 +145,9 @@ class Input
 		$this->mandatoryConfig($config, ['view_source', 'data'], 'view');
 		return $this->loadView('view', $name, $config);
 	}
+	public function yesno($name, $config=[]){
+		return $this->loadView('yesno', $name, $config);
+	}
 
 
 }
