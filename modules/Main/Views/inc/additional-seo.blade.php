@@ -13,8 +13,8 @@ if(isset($data->seo)){
 	}
 }
 ?>
-<div style="margin-top:50px;">
-	<h4>SEO Section</h4>
+<div>
+	<h4 class="display-5">SEO Section</h4>
 
 	<div class="row">
 		<div class="col-md-4">

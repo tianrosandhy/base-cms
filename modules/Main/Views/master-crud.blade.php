@@ -47,7 +47,6 @@
 <div class="content-box">
 	<form action="" method="post" class="crud-post" with-loader>
 		{{ csrf_field() }}
-		<div class="card card-block card-body">
 			@if(isset($prepend_field))
 			{!! $prepend_field !!}
 			@endif
@@ -56,17 +55,18 @@
 			$tabs = array_unique(array_pluck($forms->structure, 'tab_group'));
 			?>
 			@if(count($tabs) > 0)
-
-			<ul class="nav nav-tabs" id="myTab" role="tablist">
-				@foreach($tabs as $tabname)
-			  <li class="nav-item">
-			    <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="{{ slugify($tabname) }}-tab" data-toggle="tab" href="#form-tab-{{ slugify($tabname) }}" role="tab">{{ $tabname }}</a>
-			  </li>
-			  @endforeach
-			</ul>
+			<div class="card">
+				<ul class="nav nav-tabs" id="myTab" role="tablist">
+					@foreach($tabs as $tabname)
+						<li class="nav-item">
+							<a class="nav-link {{ $loop->first ? 'active' : '' }}" id="{{ slugify($tabname) }}-tab" data-toggle="tab" href="#form-tab-{{ slugify($tabname) }}" role="tab">{{ $tabname }}</a>
+						</li>
+					@endforeach
+				</ul>
+			</div>
 			<div class="tab-content card" id="myTabContent">
 				@foreach($tabs as $tabname)
-			  <div class="tab-pane card-body fade {{ $loop->first ? 'show active' : '' }}" id="form-tab-{{ slugify($tabname) }}" role="tabpanel">
+			  <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="form-tab-{{ slugify($tabname) }}" role="tabpanel">
 			  	<div class="row">
 		  		<?php
 		  		$width = 0;
@@ -111,18 +111,24 @@
 
 
 			@if(isset($additional_field))
-			{!! $additional_field !!}
+				@if(strlen(trim($additional_field)) > 0)
+				<div class="card card-body">
+					{!! $additional_field !!}
+				</div>
+				@endif
 			@endif
 
 			@if(isset($seo))
-			{!! $seo !!}
+			<div class="card card-body">
+				{!! $seo !!}
+			</div>
 			@endif
 
-			<div class="padd">
-				<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+			<div class="save-buttons stick">
+				<button type="submit" name="save_only" value="1" class="btn btn-lg btn-success"><i class="fa fa-save"></i> Save</button>
+				<button type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Save & Exit</button>
 			</div>
 				
-		</div>
 	</form>	
 </div>
 

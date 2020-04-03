@@ -166,16 +166,13 @@ trait BasicCrud
 
 		\CMS::log($instance, 'ADMIN STORE DATA');
 
-		if(request()->ajax()){
-			return [
-				'type' => 'success',
-				'message' => self::usedLang('store.success'),
-				'force_draft' => (bool)$this->request->force_draft,
-				'id' => $instance->id,
-				'saveurl' => url()->route('admin.'.$this->hint.'.update', ['id' => $instance->id])
-			];
+		if($this->request->save_only){
+			$redirect = redirect()->route('admin.'.$this->hint().'.edit', ['id' => $instance->id]);
 		}
-		return redirect()->route('admin.'. $this->hint() .'.index')->with('success', self::usedLang('store.success'));
+		else{
+			$redirect = redirect()->route('admin.'. $this->hint() .'.index');
+		}
+		return $redirect->with('success', self::usedLang('store.success'));
 	}
 
 	//store process dipisah biar bisa dioverwrite
@@ -274,13 +271,6 @@ trait BasicCrud
 		}
 		$this->afterValidation('update', $show);
 
-
-		//gausa force draft kalo udah aktif
-		if($this->request->force_draft){
-			exit();
-		}
-
-
 		//multiple values / relational type input is not processed here
 		$instance = $this->updateQuery($id);
 		$this->storeSlug($instance);
@@ -299,16 +289,13 @@ trait BasicCrud
 
 		\CMS::log($instance, 'ADMIN UPDATE DATA');
 
-		if(request()->ajax()){
-			return [
-				'type' => 'success',
-				'message' => self::usedLang('update.success'),
-				'force_draft' => (bool)$this->request->force_draft,
-				'id' => intval($id),
-				'saveurl' => url()->route('admin.'.$this->hint.'.update', ['id' => $id])
-			];
+		if($this->request->save_only){
+			$redirect = redirect()->back();
 		}
-		return redirect()->route('admin.'. $this->hint() .'.index')->with('success', self::usedLang('update.success'));
+		else{
+			$redirect = redirect()->route('admin.'. $this->hint() .'.index');
+		}
+		return $redirect->with('success', self::usedLang('update.success'));
 	}
 
 	//update process dipisah biar bisa dioverwrite

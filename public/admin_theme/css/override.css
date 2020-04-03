@@ -19,6 +19,11 @@
 	padding:1em 2em;
 }
 
+.display-5{
+	font-weight:300;
+	line-height:1.5;
+}
+
 @media (max-width:767px){
 	.header-box{
 		padding:.5em 1em;
@@ -1110,6 +1115,10 @@ nav.sidebar{
 	background:#3c4b64;
 }
 
+.sidebar .nav:not(.sub-menu){
+	margin-top:0;
+}
+
 .sidebar .nav .nav-item .nav-link, .sidebar .nav .nav-item .nav-link i.menu-arrow{
 	color:rgba(255,255,255,.8);
 }
@@ -1165,4 +1174,42 @@ nav.sidebar{
 
 .sidebar .nav .nav-item.active > .nav-link i, .sidebar .nav .nav-item.active > .nav-link .menu-title, .sidebar .nav .nav-item.active > .nav-link .menu-arrow{
 	color:#3c4b64;
+}
+
+
+/*save buttons*/
+.save-buttons{
+	padding:1em 0;
+	font-size:1.75rem;
+}
+
+.save-buttons, .save-buttons .btn{
+	transition:.3s ease;
+	-moz-transition:.3s ease;
+	-o-transition:.3s ease;
+	-webkit-transition:.3s ease;
+}
+
+.save-buttons.stick{
+	position:fixed;
+	bottom:0;
+	z-index:200;
+	bottom:0;
+	padding:0;
+	left:257px;
+	width:calc(100% - 257px);
+}
+.save-buttons.stick .btn{
+	width:50%;
+	border-radius:0;
+	margin:0;
+	float:left;
+	font-size:1rem;
+}
+
+@media (max-width:991px){
+	.save-buttons.stick{
+		left:0;
+		width:100%;
+	}
 }
