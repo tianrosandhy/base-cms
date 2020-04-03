@@ -2,7 +2,7 @@
 namespace Module\Product\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Module\Main\Transformer\Resizeable;
+use Core\Main\Transformer\Resizeable;
 
 class Product extends Model
 {

@@ -3,7 +3,7 @@ namespace Module\Api;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
-use Module\Main\BaseServiceProvider;
+use Core\Main\BaseServiceProvider;
 
 class ApiServiceProvider extends BaseServiceProvider
 {
@@ -18,7 +18,7 @@ class ApiServiceProvider extends BaseServiceProvider
 			'namespace' => $this->namespace, 
 			'middleware' => [
 				'web',
-				\Module\Main\Http\Middleware\PermissionManagement::class,				
+				\Core\Main\Http\Middleware\PermissionManagement::class,				
 			]
 		], function($router){
 			$router->group(['prefix' => admin_prefix()], function(){

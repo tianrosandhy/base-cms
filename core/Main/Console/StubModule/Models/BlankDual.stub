@@ -1,0 +1,16 @@
+<?php
+namespace Module\Blank\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Core\Main\Transformer\Translator;
+use Core\Main\Transformer\Resizeable;
+
+class Blank extends Model
+{
+    use Translator;
+    use Resizeable;
+
+    protected $fillable = [
+    ];
+
+}

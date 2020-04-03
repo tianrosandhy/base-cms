@@ -1,9 +1,9 @@
 <?php
 namespace Module\Post\Services;
 
-use Module\Main\Http\Repository\CrudRepository;
-use Module\Main\Services\BaseInstance;
-use Module\Main\Exceptions\InstanceException;
+use Core\Main\Http\Repository\CrudRepository;
+use Core\Main\Services\BaseInstance;
+use Core\Main\Exceptions\InstanceException;
 
 class PostInstance extends BaseInstance
 {

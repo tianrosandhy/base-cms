@@ -1,11 +1,11 @@
 <?php
 namespace Module\Page\Http\Controllers;
 
-use Module\Main\Http\Repository\CrudRepository;
-use Module\Main\Http\Controllers\AdminBaseController;
+use Core\Main\Http\Repository\CrudRepository;
+use Core\Main\Http\Controllers\AdminBaseController;
 use Module\Page\Http\Skeleton\PageSkeleton;
-use Module\Main\Transformer\Exportable;
-use Module\Main\Transformer\Seo;
+use Core\Main\Transformer\Exportable;
+use Core\Main\Transformer\Seo;
 
 class PageController extends AdminBaseController
 {

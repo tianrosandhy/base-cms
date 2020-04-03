@@ -3,7 +3,7 @@ namespace Module\Site;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
-use Module\Main\BaseServiceProvider;
+use Core\Main\BaseServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 
 class SiteServiceProvider extends BaseServiceProvider

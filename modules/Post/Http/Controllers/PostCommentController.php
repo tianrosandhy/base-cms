@@ -1,10 +1,10 @@
 <?php
 namespace Module\Post\Http\Controllers;
 
-use Module\Main\Http\Repository\CrudRepository;
-use Module\Main\Http\Controllers\AdminBaseController;
+use Core\Main\Http\Repository\CrudRepository;
+use Core\Main\Http\Controllers\AdminBaseController;
 use Module\Post\Http\Skeleton\PostCommentSkeleton;
-use Module\Main\Transformer\Exportable;
+use Core\Main\Transformer\Exportable;
 
 class PostCommentController extends AdminBaseController
 {

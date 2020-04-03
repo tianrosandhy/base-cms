@@ -1,7 +1,7 @@
 <?php
 namespace Module\Site\Services;
 
-use Module\Main\Http\Repository\CrudRepository;
+use Core\Main\Http\Repository\CrudRepository;
 use Module\Site\Exceptions\SiteException;
 
 class SiteInstance

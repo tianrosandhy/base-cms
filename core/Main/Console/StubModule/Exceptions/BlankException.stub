@@ -1,0 +1,9 @@
+<?php
+namespace Module\Blank\Exceptions;
+
+use Core\Main\Exceptions\InstanceException;
+
+class BlankException extends InstanceException
+{
+
+}

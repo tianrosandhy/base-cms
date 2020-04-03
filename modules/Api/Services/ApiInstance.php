@@ -1,8 +1,8 @@
 <?php
 namespace Module\Api\Services;
 
-use Module\Main\Http\Repository\CrudRepository;
-use Module\Main\Services\BaseInstance;
+use Core\Main\Http\Repository\CrudRepository;
+use Core\Main\Services\BaseInstance;
 use Module\Api\Exceptions\ApiException;
 
 class ApiInstance extends BaseInstance

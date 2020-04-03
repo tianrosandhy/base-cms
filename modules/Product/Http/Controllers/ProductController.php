@@ -1,10 +1,10 @@
 <?php
 namespace Module\Product\Http\Controllers;
 
-use Module\Main\Http\Repository\CrudRepository;
-use Module\Main\Http\Controllers\AdminBaseController;
+use Core\Main\Http\Repository\CrudRepository;
+use Core\Main\Http\Controllers\AdminBaseController;
 use Module\Product\Http\Skeleton\ProductSkeleton;
-use Module\Main\Transformer\Exportable;
+use Core\Main\Transformer\Exportable;
 
 class ProductController extends AdminBaseController
 {

@@ -1,14 +1,14 @@
 <?php
 namespace Module\Contact\Services;
 
-use Module\Main\Http\Repository\CrudRepository;
-use Module\Main\Services\BaseInstance;
+use Core\Main\Http\Repository\CrudRepository;
+use Core\Main\Services\BaseInstance;
 use Module\Contact\Exceptions\ContactException;
 use Validator;
 use Illuminate\Validation\ValidationException;
 use Mail;
-use Module\Main\Mail\MainMail;
-use Module\Main\Http\Traits\HandleRecaptcha;
+use Core\Main\Mail\MainMail;
+use Core\Main\Http\Traits\HandleRecaptcha;
 
 class ContactInstance extends BaseInstance
 {

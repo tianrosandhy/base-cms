@@ -11,7 +11,7 @@ class User extends Authenticatable
     use Notifiable;
 
     public function roles(){
-        return $this->belongsTo('Module\Main\Models\Role', 'role_id');
+        return $this->belongsTo('Core\Main\Models\Role', 'role_id');
     }
 
     /**

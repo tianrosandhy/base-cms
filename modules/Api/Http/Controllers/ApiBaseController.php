@@ -1,7 +1,7 @@
 <?php
 namespace Module\Api\Http\Controllers;
 
-use Module\Main\Http\Repository\CrudRepository;
+use Core\Main\Http\Repository\CrudRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Module\Api\Http\Traits\BaseResponse;

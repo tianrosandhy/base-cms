@@ -1,10 +1,10 @@
 <?php
 namespace Module\Navigation\Http\Controllers;
 
-use Module\Main\Http\Repository\CrudRepository;
-use Module\Main\Http\Controllers\AdminBaseController;
+use Core\Main\Http\Repository\CrudRepository;
+use Core\Main\Http\Controllers\AdminBaseController;
 use Module\Navigation\Http\Skeleton\NavigationSkeleton;
-use Module\Main\Transformer\Exportable;
+use Core\Main\Transformer\Exportable;
 use Module\Navigation\Http\Processors\NavigationProcessor;
 use NavigationInstance;
 use LanguageInstance;

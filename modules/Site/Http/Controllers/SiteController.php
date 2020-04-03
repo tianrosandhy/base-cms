@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use SiteInstance;
 use SlugInstance;
 use Illuminate\Http\Request;
-use Module\Main\Transformer\Seo;
+use Core\Main\Transformer\Seo;
 
 class SiteController extends Controller
 {

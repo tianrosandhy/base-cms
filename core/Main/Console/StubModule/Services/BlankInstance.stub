@@ -1,0 +1,14 @@
+<?php
+namespace Module\Blank\Services;
+
+use Core\Main\Http\Repository\CrudRepository;
+use Core\Main\Services\BaseInstance;
+use Module\Blank\Exceptions\BlankException;
+
+class BlankInstance extends BaseInstance
+{
+	public function __construct(){
+		parent::__construct('blank');
+	}
+
+}

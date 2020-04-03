@@ -1,7 +1,7 @@
 <?php
 namespace Module\Api\Http\Skeleton;
 
-use Module\Main\DataTable\DataTable;
+use Core\Main\DataTable\DataTable;
 use DataStructure;
 use DataSource;
 
