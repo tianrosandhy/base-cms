@@ -12,6 +12,8 @@ class BlankController extends AdminBaseController implements Crud
 {
 	use BasicCrud;
 	use Exportable;
+	use Extensions\BlankExtension;
+	
 	//hint => used as route name, url name, view alias
 	public $hint = 'blank';
 

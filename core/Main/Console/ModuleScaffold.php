@@ -106,6 +106,11 @@ class ModuleScaffold extends Command
             }
 
             $this->renameModules([
+                'Http/Controllers/Extensions/BlankExtension.php',
+                'Http/Controllers/Extensions/BlankCrudExtension.php',
+                'Http/Controllers/Extensions/BlankDeleteExtension.php',
+                'Http/Controllers/Extensions/BlankFormExtension.php',
+                'Http/Controllers/Extensions/BlankIndexExtension.php',
                 'Migrations/2018_08_25_000000_blank.php',
                 'Exceptions/BlankException.php',
                 'Facades/BlankFacade.php',
@@ -117,6 +122,11 @@ class ModuleScaffold extends Command
             $this->changeContents([
                 $name.'ServiceProvider.php',
                 'Http/Controllers/'.$name.'Controller.php',
+                'Http/Controllers/Extensions/'.$name.'Extension.php',
+                'Http/Controllers/Extensions/'.$name.'CrudExtension.php',
+                'Http/Controllers/Extensions/'.$name.'DeleteExtension.php',
+                'Http/Controllers/Extensions/'.$name.'FormExtension.php',
+                'Http/Controllers/Extensions/'.$name.'IndexExtension.php',
                 'Http/Skeleton/'.$name.'Skeleton.php',
                 'Migrations/2018_08_25_000000_'.$hint.'.php',
                 'Routes/api.php',

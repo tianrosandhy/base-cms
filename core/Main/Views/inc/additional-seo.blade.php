@@ -14,8 +14,6 @@ if(isset($data->seo)){
 }
 ?>
 <div>
-	<h4 class="display-5">SEO Section</h4>
-
 	<div class="row">
 		<div class="col-md-4">
 			<div class="form-group custom-form-group searchable">

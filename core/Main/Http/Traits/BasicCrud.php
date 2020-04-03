@@ -41,8 +41,8 @@ trait BasicCrud
 
 		$back = 'admin.'.$this->hint().'.index'; //back url
 		$multi_language = isset($this->multi_language) ? $this->multi_language : false;
-		$additional_field = method_exists($this, 'additionalField') ? $this->additionalField() : null;
-		$prepend_field = method_exists($this, 'prependField') ? $this->prependField() : null;
+		$append_form = method_exists($this, 'appendForm') ? $this->appendForm() : null;
+		$prepend_form = method_exists($this, 'prependForm') ? $this->prependForm() : null;
 		$seo = method_exists($this, 'seoFields') ? $this->seoFields() : null;
 
 		//data = blank entity
@@ -52,8 +52,8 @@ trait BasicCrud
 			'forms',
 			'back',
 			'multi_language',
-			'prepend_field',
-			'additional_field',
+			'prepend_form',
+			'append_form',
 			'seo',
 			'data',
 			'used_plugin'
@@ -108,8 +108,8 @@ trait BasicCrud
 		}
 
 		$multi_language = isset($this->multi_language) ? $this->multi_language : false;
-		$prepend_field = method_exists($this, 'prependField') ? $this->prependField($data) : null;
-		$additional_field = method_exists($this, 'additionalField') ? $this->additionalField($data) : null;
+		$append_form = method_exists($this, 'appendForm') ? $this->appendForm($data) : null;
+		$prepend_form = method_exists($this, 'prependForm') ? $this->prependForm($data) : null;
 		$seo = method_exists($this, 'seoFields') ? $this->seoFields($data) : null;
 
 		return view(config('module-setting.'.$this->hint().'.view.edit', 'main::master-crud'), compact(
@@ -118,8 +118,8 @@ trait BasicCrud
 			'back',
 			'data',
 			'multi_language',
-			'prepend_field',
-			'additional_field',
+			'append_form',
+			'prepend_form',
 			'seo',
 			'used_plugin',
 			'hint'
@@ -168,10 +168,6 @@ trait BasicCrud
 	//ini method utk hard delete
 	//soft delete menyusul
 
-	public function afterDelete($id=0){
-		return true;
-	}
-
 	public function delete($id=0){
 		if($id == 0 && $this->request->list_id && is_array($this->request->list_id)){
 			//batch remove checker
@@ -189,7 +185,9 @@ trait BasicCrud
 			$deleted_ids = [];
 			foreach($datas as $row){
 				$pk = $row->getKeyName();
-				$this->afterDelete($row->{$pk});
+				if(method_exists($this, 'beforeDelete')){
+					$this->beforeDelete($row);
+				}
 				\CMS::log($row, 'ADMIN DELETE DATA');
 				$deleted_ids[] = $row->{$pk};
 				if($this->multi_language){
@@ -198,6 +196,9 @@ trait BasicCrud
 			}
 			if(count($deleted_ids) > 0){
 				$this->repo->delete($deleted_ids);
+				if(method_exists($this, 'afterDelete')){
+					$this->afterDelete($deleted_ids);
+				}
 			}
 
 		}
@@ -209,8 +210,13 @@ trait BasicCrud
 			$data = $this->repo->show($id);
 			\CMS::log($data, 'ADMIN DELETE DATA');
 
-			$this->afterDelete($id);
+			if(method_exists($this, 'beforeDelete')){
+				$this->beforeDelete($row);
+			}
 			$this->repo->delete($id);
+			if(method_exists($this, 'afterDelete')){
+				$this->afterDelete([$id]);
+			}
 
 			if($this->multi_language){
 				$this->removeLanguage($data);

@@ -47,8 +47,12 @@
 <div class="content-box">
 	<form action="" method="post" class="crud-post" with-loader>
 		{{ csrf_field() }}
-		@if(isset($prepend_field))
-		{!! $prepend_field !!}
+		@if(isset($prepend_form))
+			@if(strlen(trim($prepend_form)) > 0)
+			<div class="card card-body">
+				{!! $prepend_form !!}
+			</div>
+			@endif
 		@endif
 
 		<?php 
@@ -56,72 +60,77 @@
 		?>
 		@if(count($tabs) > 0)
 		<div class="card">
+			@if(count($tabs) > 1 || isset($seo))
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 				@foreach($tabs as $tabname)
 					<li class="nav-item">
 						<a class="nav-link {{ $loop->first ? 'active' : '' }}" id="{{ slugify($tabname) }}-tab" data-toggle="tab" href="#form-tab-{{ slugify($tabname) }}" role="tab">{{ $tabname }}</a>
 					</li>
 				@endforeach
+				@if(isset($seo))
+				<li class="nav-item">
+					<a href="#form-tab-seo" class="nav-link" id="seo-tab" data-toggle="tab" role="tab">SEO</a>
+				</li>
+				@endif
 			</ul>
+			@endif
 		</div>
 		<div class="tab-content card" id="myTabContent">
 			@foreach($tabs as $tabname)
-		  <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="form-tab-{{ slugify($tabname) }}" role="tabpanel">
-		  	<div class="row">
-	  		<?php
-	  		$width = 0;
-	  		?>
-				@foreach(collect($forms->structure)->where('tab_group', $tabname) as $row)
-					@if($row->hide_form == true)
-						@php continue; @endphp
-					@endif
+			<div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="form-tab-{{ slugify($tabname) }}" role="tabpanel">
+				<div class="row">
 					<?php
-					$width += $row->form_column;
-					if($width > 12){ //kalo lebarnya lebih dari 12 kolom, langsung tutup
-						$width = 0;
-						echo '</div><div class="row">'; //bikin baris baru
-					}
+					$width = 0;
+					?>
+					@foreach(collect($forms->structure)->where('tab_group', $tabname) as $row)
+						@if($row->hide_form == true)
+							@php continue; @endphp
+						@endif
+						<?php
+						$width += $row->form_column;
+						if($width > 12){ //kalo lebarnya lebih dari 12 kolom, langsung tutup
+							$width = 0;
+							echo '</div><div class="row">'; //bikin baris baru
+						}
 
-					if(isset($data->id)){
-						$validation_rule = $row->update_validation;
-					}
-					else{
-						$validation_rule = $row->create_validation;
-					}
-					?>
-					<div class="col-md-{{ $row->form_column }} col-sm-12">
-						<div class="form-group custom-form-group {!! $row->input_type == 'radio' ? 'radio-box' : '' !!}">
-							<label for="{{ $row->input_attribute['id'] }}" class="text-uppercase {{ strpos($validation_rule, 'required') !== false ? 'required' : '' }}">{{ $row->name }}</label>
-							{!! $row->createInput($data, $multi_language) !!}
+						if(isset($data->id)){
+							$validation_rule = $row->update_validation;
+						}
+						else{
+							$validation_rule = $row->create_validation;
+						}
+						?>
+						<div class="col-md-{{ $row->form_column }} col-sm-12">
+							<div class="form-group custom-form-group {!! $row->input_type == 'radio' ? 'radio-box' : '' !!}">
+								<label for="{{ $row->input_attribute['id'] }}" class="text-uppercase {{ strpos($validation_rule, 'required') !== false ? 'required' : '' }}">{{ $row->name }}</label>
+								{!! $row->createInput($data, $multi_language) !!}
+							</div>
 						</div>
-					</div>
-					<?php
-					if($width == 12){
-						$width = 0;
-						echo '</div><div class="row">'; //bikin baris baru
-					}
-					?>
-				@endforeach
+						<?php
+						if($width == 12){
+							$width = 0;
+							echo '</div><div class="row">'; //bikin baris baru
+						}
+						?>
+					@endforeach
 				</div>
-		  </div>
-		  @endforeach
+			</div>
+			@endforeach
+			@if(isset($seo))
+			<div class="tab-pane fade" id="form-tab-seo" role="tabpanel">
+				{!! $seo !!}
+			</div>
+			@endif
 		</div>			
 		@endif
 
 
-
-		@if(isset($additional_field))
-			@if(strlen(trim($additional_field)) > 0)
+		@if(isset($append_form))
+			@if(strlen(trim($append_form)) > 0)
 			<div class="card card-body">
-				{!! $additional_field !!}
+				{!! $append_form !!}
 			</div>
 			@endif
-		@endif
-
-		@if(isset($seo))
-		<div class="card card-body">
-			{!! $seo !!}
-		</div>
 		@endif
 
 		<div class="save-buttons">

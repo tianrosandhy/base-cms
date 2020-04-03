@@ -12,6 +12,8 @@ class BlankController extends AdminBaseController implements Crud
 {
 	use BasicCrud;
 	use Exportable;
+	use Extensions\BlankExtension;
+
 	public $multi_language = true; //set ke false kalau sedang tidak di dual language module
 	//hint => used as route name, url name, view alias
 	public $hint = 'blank';

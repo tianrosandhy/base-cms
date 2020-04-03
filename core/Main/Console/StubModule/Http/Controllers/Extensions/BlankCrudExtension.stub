@@ -1,0 +1,12 @@
+<?php
+namespace Module\Blank\Http\Controllers\Extensions;
+
+// optional extendable class for index  
+trait BlankCrudExtension
+{
+
+	public function afterCrud($instance){
+		//logic after instance stored/updated
+	}
+
+}
