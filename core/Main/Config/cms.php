@@ -2,14 +2,13 @@
 return [
 	'max_filesize' => [
 		//sekalipun sudah dilimit (dalam MB), tapi kalau dari servernya cuma support dibawah X MB, yg dipakai adalah nilai terkecil
-		'image' => 5,
-		'file' => 10
+		'image' => 10,
+		'file' => 15
 	],
 
 	'social_login' => true,
 	'social_driver' => [
 		'facebook',
-		// 'twitter',
 		'google'
 	],
 
@@ -22,7 +21,7 @@ return [
 		],
 		'activate' => null,
 	],
-
+	
 	'admin' => [
 		'auth_guard_name' => 'admin',
 		'prefix' => 'p4n3lb04rd',
@@ -35,15 +34,6 @@ return [
 			'userinfo' => true,
 		],
 		'email_receiver' => 'tianrosandhy@gmail.com',
-		'styling' => [
-			'header' => [
-				'background' => '#fff',
-				'line_color' => '#fff',
-				'line_height' => 0,
-				'text_color' => '#333',
-			],
-		],
-
 		'menu' => [
 			'Dashboard' => [
 				'url' => '',
@@ -58,11 +48,9 @@ return [
 				'submenu' => [
 					'General' => [
 						'route' => 'admin.setting.index',
-						'icon' => '',
 					],
 					'Logs' => [
 						'route' => 'admin.log.index',
-						'icon' => '',
 					],
 				],
 			],
@@ -74,11 +62,9 @@ return [
 				'submenu' => [
 					'Priviledge' => [
 						'route' => 'admin.permission.index',
-						'icon' => ''
 					],
 					'User Lists' => [
 						'route' => 'admin.user.index',
-						'icon' => ''
 					]
 
 				]

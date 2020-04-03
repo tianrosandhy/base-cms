@@ -1161,7 +1161,7 @@ nav.sidebar{
 }
 
 .sidebar .nav.sub-menu .nav-item li a{
-	color:#000;
+	color:rgba(255,255,255,.65);
 }
 .sidebar .nav.sub-menu .nav-item.active li.active a, .sidebar .nav.sub-menu .nav-item.active .nav-link{
 	font-weight:bold!important;
