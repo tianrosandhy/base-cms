@@ -98,6 +98,15 @@ trait BasicCrudExtension
 
 
 	protected function usedLang($param=''){
+		//grab from module translation
+
+		$module_query = $this->module().'::module.'.$this->hint().'.'.$param;
+		$module_lang = trans($module_query);
+		if($module_lang <> $module_query){
+			return $module_lang;
+		}
+		return null;
+
 		if(!isset($this->language[$param])){
 			return false;
 		}

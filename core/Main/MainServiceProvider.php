@@ -17,6 +17,7 @@ class MainServiceProvider extends ServiceProvider
 		Builder::defaultStringLength(191);
 		//load migrations table
 		$this->loadMigrationsFrom(realpath(__DIR__."/Migrations"));
+		$this->loadTranslationsFrom(__DIR__ . '/Translation', 'main');
 		$this->registerValidator();
 		$this->publishAssets();
 	}

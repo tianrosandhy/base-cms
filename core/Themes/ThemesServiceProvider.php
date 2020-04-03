@@ -14,6 +14,7 @@ class ThemesServiceProvider extends BaseServiceProvider
 
 	public function boot(){
 		$this->loadMigrationsFrom(realpath(__DIR__."/Migrations"));
+		$this->loadTranslationsFrom(__DIR__ . '/Translation', 'themes');
 		$this->setActiveTheme();
 	}
 

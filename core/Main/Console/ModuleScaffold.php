@@ -129,6 +129,7 @@ class ModuleScaffold extends Command
                 'Http/Controllers/Extensions/'.$name.'IndexExtension.php',
                 'Http/Skeleton/'.$name.'Skeleton.php',
                 'Migrations/2018_08_25_000000_'.$hint.'.php',
+                'Translation/en/module.php',
                 'Routes/api.php',
                 'Routes/web.php',
                 'Config/cms.php',

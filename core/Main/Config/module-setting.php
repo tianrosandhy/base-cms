@@ -11,15 +11,6 @@ return [
 			'create' => 'main::module.user-crud',
 			'edit' => 'main::module.user-crud',
 		],
-		'lang_data' => [
-			'index.title' => 'User Management',
-			'create.title' => 'Add New User',
-			'edit.title' => 'Edit User Data',
-
-			'store.success' => 'User data has been saved',
-			'update.success' => 'User data has been updated',
-			'delete.success' => 'User data has been deleted',
-		],
 	],
 	'install' => [
 		'used_env' => [

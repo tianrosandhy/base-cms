@@ -15,6 +15,7 @@ class AdminBaseController extends Controller
 		$request,
 		$model,
 		$hint,
+		$module,
 		$repo,
 		$skeleton,
 		$language = [],
@@ -47,10 +48,21 @@ class AdminBaseController extends Controller
 
 
 	public function hint($var=''){
-		if(strlen($var) > 0)
+		if(strlen($var) > 0){
+			$this->hint = $var;
 			return $var;
+		}
 		return $this->hint;
 	}
+	
+	public function module($var=''){
+		if(strlen($var) > 0){
+			$this->module = $var;
+			return $var;
+		}
+		return ($this->module ? $this->module : $this->hint);
+	}
+	
 
 
 	//utk request datatable

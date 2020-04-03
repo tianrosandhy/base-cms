@@ -16,7 +16,7 @@ $header_config = config('cms.admin.styling.header');
       </button>
     </div>  
   </div>
-  <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end" style="background:transparent;">
+  <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
     <ul class="navbar-nav mr-lg-4 w-100">
       @if(config('cms.admin.components.search'))
         @include ('main::template.components.search')

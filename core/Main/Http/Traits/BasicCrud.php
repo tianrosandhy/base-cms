@@ -14,7 +14,7 @@ trait BasicCrud
 	//default index page
 	public function index(){
 		$datatable = $this->skeleton();
-		$title = $this->usedLang('index.title');
+		$title = $this->usedLang('index');
 		$hint = $this->hint();
 		$append_index = method_exists($this, 'appendIndex') ? $this->appendIndex() : null;
 		$prepend_index = method_exists($this, 'prependIndex') ? $this->prependIndex() : null;
@@ -56,7 +56,7 @@ trait BasicCrud
 
 
 	public function create(){
-		$title = $this->usedLang('create.title');
+		$title = $this->usedLang('create');
 		$forms = $this->skeleton();
 
 		$used_plugin = $this->getUsedPlugin($forms->structure);
@@ -112,7 +112,7 @@ trait BasicCrud
 		else{
 			$redirect = redirect()->route('admin.'. $this->hint() .'.index');
 		}
-		return $redirect->with('success', $this->usedLang('store.success'));
+		return $redirect->with('success', $this->usedLang('store_success'));
 	}
 
 
@@ -120,7 +120,7 @@ trait BasicCrud
 
 
 	public function edit($id=null){
-		$title = $this->usedLang('edit.title');
+		$title = $this->usedLang('edit');
 		$forms = $this->skeleton();
 		$back = 'admin.'.$this->hint().'.index';
 		$hint = $this->hint();
@@ -190,7 +190,7 @@ trait BasicCrud
 		else{
 			$redirect = redirect()->route('admin.'. $this->hint() .'.index');
 		}
-		return $redirect->with('success', $this->usedLang('update.success'));
+		return $redirect->with('success', $this->usedLang('update_success'));
 	}
 
 
@@ -257,7 +257,7 @@ trait BasicCrud
 
 		return [
 			'type' => 'success',
-			'message' => $this->usedLang('delete.success')
+			'message' => $this->usedLang('delete_success')
 		];
 
 	}

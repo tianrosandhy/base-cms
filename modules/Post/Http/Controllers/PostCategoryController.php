@@ -12,6 +12,7 @@ class PostCategoryController extends AdminBaseController implements Crud
 {
 	use BasicCrud;
 	use Exportable;
+	public $module = 'post';
 	public $hint = 'post_category';
 	public $multi_language = true;
 

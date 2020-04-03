@@ -12,6 +12,7 @@ class PostCommentController extends AdminBaseController implements Crud
 {
 	use BasicCrud;
 	use Exportable;
+	public $module = 'post';
 	public $hint = 'post_comment';
 
 	public function repo(){

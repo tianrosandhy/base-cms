@@ -1,0 +1,12 @@
+<?php
+return [
+	'blank' => [
+		'index' => 'Blank Data',
+		'create' => 'Create Blank Data',
+		'edit' => 'Update Blank Data',
+		'delete' => 'Delete Blank Data',
+		'store_success' => 'Blank data has been saved successfully',
+		'update_success' => 'Blank data has been updated successfully',
+		'delete_success' => 'Blank data has been deleted successfully',
+	],
+];

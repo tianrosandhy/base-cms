@@ -11,6 +11,7 @@ class ApiServiceProvider extends BaseServiceProvider
 
 	public function boot(){
 		$this->loadMigrationsFrom(realpath(__DIR__."/Migrations"));
+		$this->loadTranslationsFrom(__DIR__ . '/Translation', 'api');
 	}
 
 	protected function mapping(Router $router){

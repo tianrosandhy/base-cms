@@ -3,15 +3,6 @@ return [
 	'language' => [
 		'upload_path' => 'language',
 		'export_excel' => false,
-		'lang_data' => [
-			'index.title' => 'Language Data',
-			'create.title' => 'Add New Language',
-			'edit.title' => 'Edit Language Data',
-
-			'store.success' => 'Language data has been saved',
-			'update.success' => 'Language data has been updated',
-			'delete.success' => 'Language data has been deleted',
-		],
 		'view' => [
 			'index' => 'main::master-table',
 			'create' => 'main::master-crud',

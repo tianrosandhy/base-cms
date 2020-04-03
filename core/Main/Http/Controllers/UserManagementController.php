@@ -16,6 +16,7 @@ class UserManagementController extends AdminBaseController implements Crud
 	use BasicCrud;
 	use Exportable;
 	public $hint = 'user';
+	public $module = 'main';
 
 	public function repo(){
 		return $this->hint;

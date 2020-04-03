@@ -12,6 +12,7 @@ class NavigationServiceProvider extends BaseServiceProvider
 
 	public function boot(){
 		$this->loadMigrationsFrom(realpath(__DIR__."/Migrations"));
+		$this->loadTranslationsFrom(__DIR__ . '/Translation', 'navigation');
 	}
 
 	protected function mapping(Router $router){
