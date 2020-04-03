@@ -5,9 +5,12 @@ use Core\Main\Http\Repository\CrudRepository;
 use Core\Main\Http\Controllers\AdminBaseController;
 use Module\Blank\Http\Skeleton\BlankSkeleton;
 use Core\Main\Transformer\Exportable;
+use Core\Main\Contracts\Crud;
+use Core\Main\Http\Traits\BasicCrud;
 
-class BlankController extends AdminBaseController
+class BlankController extends AdminBaseController implements Crud
 {
+	use BasicCrud;
 	use Exportable;
 	//hint => used as route name, url name, view alias
 	public $hint = 'blank';
@@ -27,10 +30,6 @@ class BlankController extends AdminBaseController
 
 	public function afterCrud($instance){
 
-	}
-
-	public function image_field(){
-		return ['image'];
 	}
 
 }

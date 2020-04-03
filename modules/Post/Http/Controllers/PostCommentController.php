@@ -5,9 +5,12 @@ use Core\Main\Http\Repository\CrudRepository;
 use Core\Main\Http\Controllers\AdminBaseController;
 use Module\Post\Http\Skeleton\PostCommentSkeleton;
 use Core\Main\Transformer\Exportable;
+use Core\Main\Contracts\Crud;
+use Core\Main\Http\Traits\BasicCrud;
 
-class PostCommentController extends AdminBaseController
+class PostCommentController extends AdminBaseController implements Crud
 {
+	use BasicCrud;
 	use Exportable;
 	public $hint = 'post_comment';
 

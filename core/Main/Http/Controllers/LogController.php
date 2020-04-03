@@ -12,7 +12,7 @@ class LogController extends AdminBaseController
 
     //default index page
     public function index(){
-        $title = self::usedLang('index.title');
+        $title = 'Log';
         $hint = $this->hint();
 
         $active_log = $this->request->active_log;
@@ -107,7 +107,7 @@ class LogController extends AdminBaseController
 
 		return [
 			'type' => 'success',
-			'message' => self::usedLang('delete.success')
+			'message' => 'Log has been deleted'
 		];
 	}
 

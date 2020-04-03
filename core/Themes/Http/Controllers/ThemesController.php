@@ -7,9 +7,13 @@ use Core\Themes\Http\Skeleton\ThemesSkeleton;
 use Illuminate\Http\Request;
 use ThemesInstance;
 use Validator;
+use Core\Main\Contracts\Crud;
+use Core\Main\Http\Traits\BasicCrud;
 
-class ThemesController extends AdminBaseController
+class ThemesController extends AdminBaseController implements Crud
 {
+	use BasicCrud;
+
 	//hint => used as route name, url name, view alias
 	public $hint = 'themes';
 

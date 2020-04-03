@@ -7,9 +7,12 @@ use Module\Post\Http\Skeleton\PostSkeleton;
 use Core\Main\Transformer\Exportable;
 use PostInstance;
 use Core\Main\Transformer\Seo;
+use Core\Main\Contracts\Crud;
+use Core\Main\Http\Traits\BasicCrud;
 
-class PostController extends AdminBaseController
+class PostController extends AdminBaseController implements Crud
 {
+	use BasicCrud;
 	use Exportable, Seo;
 	public $hint = 'post';
 	public $multi_language = true;

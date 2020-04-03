@@ -8,9 +8,12 @@ use Mail;
 use Core\Main\Mail\MainMail;
 use Core\Main\Http\Skeleton\UserSkeleton;
 use Core\Main\Transformer\Exportable;
+use Core\Main\Contracts\Crud;
+use Core\Main\Http\Traits\BasicCrud;
 
-class UserManagementController extends AdminBaseController
+class UserManagementController extends AdminBaseController implements Crud
 {
+	use BasicCrud;
 	use Exportable;
 	public $hint = 'user';
 

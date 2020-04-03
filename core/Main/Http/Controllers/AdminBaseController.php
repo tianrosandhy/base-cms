@@ -4,15 +4,12 @@ namespace Core\Main\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Core\Main\Http\Repository\CrudRepository;
-use Core\Main\Http\Traits\BasicCrud;
 use Core\Main\Http\Middleware\AdminAuth;
 use Auth;
 use Illuminate\Validation\ValidationException;
 
 class AdminBaseController extends Controller
 {
-	//basic CRUD (index, create, store, edit, show, delete) ada di trait ini semua
-	use BasicCrud;
 
 	public 
 		$request,

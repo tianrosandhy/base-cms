@@ -4,13 +4,14 @@ namespace Core\Language\Http\Controllers;
 use Core\Main\Http\Repository\CrudRepository;
 use Core\Main\Http\Controllers\AdminBaseController;
 use Core\Language\Http\Skeleton\LanguageSkeleton;
-use Core\Main\Transformer\Exportable;
 use LanguageInstance;
 use Illuminate\Validation\ValidationException;
+use Core\Main\Contracts\Crud;
+use Core\Main\Http\Traits\BasicCrud;
 
-class LanguageController extends AdminBaseController
+class LanguageController extends AdminBaseController implements Crud
 {
-	use Exportable;
+	use BasicCrud;
 	//hint => used as route name, url name, view alias
 	public $hint = 'language';
 

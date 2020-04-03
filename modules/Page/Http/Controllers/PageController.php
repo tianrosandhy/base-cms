@@ -6,9 +6,12 @@ use Core\Main\Http\Controllers\AdminBaseController;
 use Module\Page\Http\Skeleton\PageSkeleton;
 use Core\Main\Transformer\Exportable;
 use Core\Main\Transformer\Seo;
+use Core\Main\Contracts\Crud;
+use Core\Main\Http\Traits\BasicCrud;
 
-class PageController extends AdminBaseController
+class PageController extends AdminBaseController implements Crud
 {
+	use BasicCrud;
 	use Exportable, Seo;
 	public 
 		$hint = 'page',

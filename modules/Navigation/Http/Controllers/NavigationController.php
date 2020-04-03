@@ -4,14 +4,15 @@ namespace Module\Navigation\Http\Controllers;
 use Core\Main\Http\Repository\CrudRepository;
 use Core\Main\Http\Controllers\AdminBaseController;
 use Module\Navigation\Http\Skeleton\NavigationSkeleton;
-use Core\Main\Transformer\Exportable;
 use Module\Navigation\Http\Processors\NavigationProcessor;
 use NavigationInstance;
 use LanguageInstance;
+use Core\Main\Contracts\Crud;
+use Core\Main\Http\Traits\BasicCrud;
 
-class NavigationController extends AdminBaseController
+class NavigationController extends AdminBaseController implements Crud
 {
-	use Exportable;
+	use BasicCrud;
 	public 
 		$hint = 'navigation',
 		$as_ajax = true;
