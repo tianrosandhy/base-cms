@@ -1207,6 +1207,11 @@ nav.sidebar{
 	font-size:1rem;
 }
 
+.sidebar-icon-only .save-buttons.stick{
+	left:70px;
+	width:calc(100% - 70px);
+}
+
 @media (max-width:991px){
 	.save-buttons.stick{
 		left:0;

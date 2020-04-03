@@ -19,6 +19,6 @@
         @endfor
     </div>
     <div class="padd">
-        <a href="#" class="btn btn-secondary btn-add-row"><i class="fa fa-plus"></i> Add Row</a>        
+        <a href="#" class="btn btn-info btn-sm btn-add-row"><i class="fa fa-plus"></i> Add Row</a>        
     </div>
 </div>

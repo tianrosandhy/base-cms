@@ -19,8 +19,8 @@
         {{ csrf_field() }}
         @include ('themes::partials.theme-option-tab')
         @if($theme_option)
-        <div class="padd">
-            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save Theme Option</button>
+        <div class="save-buttons stick">
+            <button type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Save Theme Option</button>
         </div>
         @endif
     </form>
