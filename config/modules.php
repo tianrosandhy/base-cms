@@ -5,7 +5,6 @@ return [
 		\Core\Media\MediaServiceProvider::class,
 		\Core\Language\LanguageServiceProvider::class,
 		\Core\Themes\ThemesServiceProvider::class,
-		\Module\Test\TestServiceProvider::class,
 
 		\Module\Api\ApiServiceProvider::class,
 		\Module\Ehehe\EheheServiceProvider::class,

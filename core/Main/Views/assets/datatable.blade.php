@@ -23,7 +23,7 @@ $(function(){
 				data : function(data){
 					{!! $datatable->searchQuery() !!}
 					data._token = window.CSRF_TOKEN
-				}
+				},
 			},
 			createdRow: function( row, data, dataIndex ) {
 		        // Set the data-status attribute, and add a class

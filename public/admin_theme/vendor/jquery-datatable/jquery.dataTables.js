@@ -6404,8 +6404,7 @@
 	 */
 	function _fnLog( settings, level, msg, tn )
 	{
-		msg = 'DataTables warning: '+
-			(settings ? 'table id='+settings.sTableId+' - ' : '')+msg;
+		msg = 'DataTables Warning: ' + msg;
 	
 		if ( tn ) {
 			msg += '. For more information about this error, please see '+

@@ -91,6 +91,10 @@ trait BasicCrud
 
 		//multiple values / relational type input is not processed here
 		$instance = $this->saveProcess();
+		if(!$instance){
+			//save process failed.
+			return redirect()->back()->withInput()->with('error', 'Sorry, we cannot save the data right now');
+		}
 		$this->storeSlug($instance);
 
 		//multiple values / relational type can be freely managed here
@@ -166,6 +170,10 @@ trait BasicCrud
 
 		//multiple values / relational type input is not processed here
 		$instance = $this->saveProcess($show);
+		if(!$instance){
+			//save process failed.
+			return redirect()->back()->withInput()->with('error', 'Sorry, we cannot save the data right now');
+		}
 		$this->storeSlug($instance);
 
 		//store SEO data

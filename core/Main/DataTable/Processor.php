@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use Validator;
 use Core\Main\DataTable\DataTable;
 use Core\Main\Http\Repository\CrudRepository;
-
+use Core\Main\Exceptions\DataTableException;
 
 class Processor
 {
@@ -29,12 +29,29 @@ class Processor
 	}
 
 	public function table(){
-		$this->setDataTable();
-		$this->validateRequest();
-		$this->process();
-		$this->tableFormat();
-		return $this->getResponse();
-	}	
+		try{
+			$this->setDataTable();
+			$this->validateRequest();
+			$this->process();
+			$this->tableFormat();
+			return $this->getResponse();
+		}catch(DataTableException $e){
+			return $this->errorResponse($e);
+		}catch(\Exception $e){
+			return $this->errorResponse($e);
+		}
+	}
+
+	private function errorResponse($e){
+		return [
+			'error' => $e instanceof DataTableException ? $e->getMessage() : 'Server Error. We cannot process your request right now',
+			'detail' => $e instanceof DataTableException ? null : (method_exists($e, 'getMessage') ? $e->getMessage() : null)
+		];
+	}
+
+	private function throwErr($msg){
+		throw new DataTableException($msg);
+	}
 
 	public function tableFormat(){
 		$out = [];
@@ -111,22 +128,30 @@ class Processor
 		$this->start = $this->request->start;
 		$this->length = $this->request->length;
 
-		return Validator::make($this->request->all(), [
+		$validator = Validator::make($this->request->all(), [
 			'draw' => 'required|numeric',
 			'columns' => 'required|array',
 			'order' => 'array',
 			'start' => 'required',
 			'length' => 'required',
-		])->validate();
+		]);
+
+		if($validator->fails()){
+			$this->throwErr('Invalid datatable request');
+		}
 	}
 
 	public function setModel($model){
 		//inputan bisa berupa class model langsung, maupun initial class
-		if($model instanceof Model){
-			$this->model = $model;
-		}
-		else{
-			$this->model = model($model);
+		try{
+			if($model instanceof Model){
+				$this->model = $model;
+			}
+			else{
+				$this->model = model($model);
+			}
+		}catch(DataTableException $e){
+			$this->throwErr('Cannot find the model instance for this datatable');
 		}
 	}
 
@@ -203,7 +228,7 @@ class Processor
 
 		$listing = (new CrudRepository($this->model))->modelTableListing();
 		if(empty($listing)){
-			return 'Invalid model or table instance';
+			$this->throwErr('Invalid model or table instance');
 		}
 		$orderBy = isset($listing[0]) ? $listing[0] : null; //asumsi kolom pertama itu primary key
 		$flow = 'DESC';

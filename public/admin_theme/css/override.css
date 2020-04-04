@@ -258,14 +258,20 @@ table.table th.sorting_desc::before{
 	position:relative;
 }
 
-.dataTables_processing{
+div.dataTables_wrapper div.dataTables_processing{
 	position:absolute;
-	width:100%;
+	width:100%!important;
 	height:100%;
-	background:#f3f5f8;
-	color:#000;
+	left:0;
+	top:0;
+	margin-top:0;
+	margin-left:0;
+	background:rgba(255,255,255,.85);
+	color:#bbb;
+	font-size:20px;
+	font-weight:300;
 	text-align:center;
-	z-index:1;
+	z-index:3;
 	display:flex;
 	display:-moz-flex;
 	display:-webkit-flex;

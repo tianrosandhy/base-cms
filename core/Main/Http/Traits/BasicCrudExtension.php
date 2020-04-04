@@ -26,6 +26,9 @@ trait BasicCrudExtension
 		if($changed_field > 0){
 			$instance->save();
 		}
+		else{
+			return false;
+		}
 		return $instance;
 	}
 
