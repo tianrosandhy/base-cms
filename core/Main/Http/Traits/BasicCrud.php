@@ -110,6 +110,12 @@ trait BasicCrud
 		}
 
 		\CMS::log($instance, 'ADMIN STORE DATA');
+		if($this->request->ajax()){
+			return [
+				'type' => 'success',
+				'message' => $this->usedLang('store_success')
+			];
+		}
 		if($this->request->save_only){
 			$redirect = redirect()->route('admin.'.$this->hint().'.edit', ['id' => $instance->id]);
 		}
@@ -192,6 +198,12 @@ trait BasicCrud
 
 		\CMS::log($instance, 'ADMIN UPDATE DATA');
 
+		if($this->request->ajax()){
+			return [
+				'type' => 'success',
+				'message' => $this->usedLang('update_success')
+			];
+		}
 		if($this->request->save_only){
 			$redirect = redirect()->back();
 		}

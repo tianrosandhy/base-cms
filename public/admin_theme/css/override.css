@@ -19,6 +19,14 @@
 	padding:1em 2em;
 }
 
+.modal .header-box{
+	padding:0;
+	margin-bottom:1em;
+}
+.modal .content-box{
+	padding:0;
+}
+
 .display-5{
 	font-weight:300;
 	line-height:1.5;
@@ -1216,6 +1224,11 @@ nav.sidebar{
 .sidebar-icon-only .save-buttons.stick{
 	left:70px;
 	width:calc(100% - 70px);
+}
+
+.modal .save-buttons.stick{
+	left:5%;
+	width:90%;
 }
 
 @media (max-width:991px){

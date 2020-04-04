@@ -1,6 +1,6 @@
 <?php
 return [
-	'user' => [
+	'navigation' => [
 		'index' => 'Navigation Data',
 		'create' => 'Create Navigation Data',
 		'edit' => 'Update Navigation Data',
