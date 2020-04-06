@@ -13,6 +13,9 @@ class NavigationInstance extends BaseInstance
 
     public function generateDefaultNavigation(){
         $default = $this->getDefaultNavigation();
+        if(!isset($default->lists)){
+        	return ;
+        }
         if($default->lists->count() > 0){
             return ;
         }
