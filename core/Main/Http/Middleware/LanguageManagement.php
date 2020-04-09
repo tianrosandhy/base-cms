@@ -1,5 +1,5 @@
 <?php
-namespace Module\Site\Http\Middleware;
+namespace Core\Main\Http\Middleware;
 
 use Closure;
 use LanguageInstance;

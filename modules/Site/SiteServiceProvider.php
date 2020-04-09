@@ -41,7 +41,6 @@ class SiteServiceProvider extends BaseServiceProvider
 				'namespace' => $this->namespace, 
 				'middleware' => [
 					'web',
-					\Module\Site\Http\Middleware\LanguageManagement::class,
 					\Module\Site\Http\Middleware\ThemeManagement::class,
 				]
 			], function($router){

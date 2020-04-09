@@ -23,6 +23,7 @@ $header_config = config('cms.admin.styling.header');
       @endif
     </ul>
     <ul class="navbar-nav navbar-nav-right">
+      @include ('main::template.components.language')
       @if(config('cms.admin.components.notification'))
         @include ('main::template.components.notification')
       @endif

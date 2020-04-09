@@ -129,10 +129,10 @@ class PostSkeleton extends DataTable
 
 		return [
 			'id' => $this->checkerFormat($row),
-			'title' => '<a class="text-black" style="display:block;" href="'.route('admin.post.detail', ['id' => $row->id]).'">'.$row->title.'</a>',
+			'title' => '<a class="text-black" style="display:block;" href="'.route('admin.post.detail', ['id' => $row->id]).'">'.$row->outputTranslate('title').'</a>',
 			'post_slug' => '<a class="text-black" style="display:block;" href="'.route('admin.post.detail', ['id' => $row->id]).'">'.$row->slug().'</a>',
 			'category' => $category,
-			'tags' => $row->tags,
+			'tags' => $row->outputTranslate('tags'),
 			'image' => $row->imageThumbnail('image', 'thumb', 75),
 			'related' => $related,
 			'like' => $row->likes->count() . ($row->likes->count() == 0 ? ' <span class="fa fa-heart-o text-danger"></span>' : ' <span class="fa fa-heart text-danger"></span>'),
