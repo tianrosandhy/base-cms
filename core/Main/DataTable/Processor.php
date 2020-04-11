@@ -251,7 +251,7 @@ class Processor
 			$result = $result->with($this->model_with);
 		}
 		$result = $result->paramManagement($ctx, $filter);
-		$result = $this->additionalSearchFilter($ctx);
+		$result = $this->additionalSearchFilter($result);
 
 		if($result instanceof \Illuminate\Database\Eloquent\Builder){
 			$this->query_count = $result->get()->count();
