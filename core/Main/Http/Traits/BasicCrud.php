@@ -140,9 +140,7 @@ trait BasicCrud
 
 		$data = $this->repo->show($id);
 		if(empty($data)){
-			return back()->withErrors([
-				'error' => 'Data not found'
-			]);
+			abort(404);
 		}
 
 		$multi_language = isset($this->multi_language) ? $this->multi_language : false;
