@@ -118,9 +118,19 @@ class InstallController extends Controller{
         (new SetRole)->actionRunner();
         \Setting::all(); #create default setting
         \LanguageInstance::isActive(); #install default language
-        \ThemesInstance::createDefaultValues(); #install default theme option
-        \NavigationInstance::generateDefaultNavigation(); #generate default navigation values
+        try{
+	        \ThemesInstance::createDefaultValues(); #install default theme option
+        }catch(\Exception $e){
+        	//failed means : module is not exists or fatal error in theme module
+        	//do nothing
+        }
 
+        try{
+	        \NavigationInstance::generateDefaultNavigation(); #generate default navigation values
+        }catch(\Exception $e){
+        	//failed means : module is not exists or fatal error in navigation module
+        	//do nothing
+        }
 
 		Artisan::call('vendor:publish', [
 			'--tag' => 'tianrosandhy-cms'
