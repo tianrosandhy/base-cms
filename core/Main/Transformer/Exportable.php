@@ -30,6 +30,26 @@ trait Exportable
 	}
 
 
+	//action for generate blank excel export file
+	public function exportExample(){
+		if(!config('module-setting.'.$this->hint.'.export_excel')){
+			return redirect()->route('admin.'.$this->hint.'.index')->withErrors([
+				'error' => 'This module cannot be exported'
+			]);
+		}
+		$this->exportConfig();
+		$skeleton = $this->skeleton();
+
+		$custom_field = isset($this->custom_field) ? $this->custom_field : [];
+
+		$viewData = view('main::master-export', compact(
+			'skeleton',
+			'custom_field'
+		));
+
+		return Excel::download(new MainExport($viewData), $this->hint.'-export-example.xlsx');
+	}
+
 
 	public function exportCondition($config=[]){
 		$this->exportCondition = $config;

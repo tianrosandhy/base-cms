@@ -2,7 +2,7 @@
 return [
 	'post' => [
 		'upload_path' => 'post',
-		'export_excel' => false,
+		'export_excel' => true,
 		'view' => [
 			'index' => 'main::master-table',
 			'create' => 'main::master-crud',

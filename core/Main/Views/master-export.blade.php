@@ -18,22 +18,24 @@ if(!isset($custom_field)){
 		</tr>
 	</thead>
 	<tbody>
-		@foreach($data as $row)
-			<?php
-			$x = $skeleton->rowFormat($row, true);
-			?>
-			<tr>
-				@foreach($skeleton->structure as $structure)
-					@if(!$structure->hide_table && !$structure->hide_export && $structure->field <> 'id')
-						<?php $fldname = str_replace('[]', '', $structure->field); ?>
-						<td>{{ $x[$fldname] }}</td>
-					@endif
-				@endforeach
+		@if(isset($data))
+			@foreach($data as $row)
+				<?php
+				$x = $skeleton->rowFormat($row, true);
+				?>
+				<tr>
+					@foreach($skeleton->structure as $structure)
+						@if(!$structure->hide_table && !$structure->hide_export && $structure->field <> 'id')
+							<?php $fldname = str_replace('[]', '', $structure->field); ?>
+							<td>{{ $x[$fldname] }}</td>
+						@endif
+					@endforeach
 
-				@foreach($custom_field as $field)
-					<td>{{ $x[$field] }}</td>
-				@endforeach
-			</tr>
-		@endforeach
+					@foreach($custom_field as $field)
+						<td>{{ $x[$field] }}</td>
+					@endforeach
+				</tr>
+			@endforeach
+		@endif
 	</tbody>
 </table>
