@@ -263,7 +263,7 @@ trait BasicCrud
 			\CMS::log($data, 'ADMIN DELETE DATA');
 
 			if(method_exists($this, 'beforeDelete')){
-				$this->beforeDelete($row);
+				$this->beforeDelete($data);
 			}
 			$this->repo->delete($id);
 			if(method_exists($this, 'afterDelete')){
