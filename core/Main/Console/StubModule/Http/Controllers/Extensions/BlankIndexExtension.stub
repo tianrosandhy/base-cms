@@ -7,14 +7,17 @@ trait BlankIndexExtension
 
 	public function prependIndex(){
 		//return html rendered view before table data
+		return view('blank::partials.index.before-table');
 	}
 	
 	public function appendIndex(){
 		//return html rendered view after table data
+		return view('blank::partials.index.after-table');
 	}
 	
 	public function appendIndexControlButton(){
 		//return html rendered view in control buttons
+		return view('blank::partials.index.control-button');
 	}
 
 }

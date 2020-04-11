@@ -140,7 +140,12 @@ class ModuleScaffold extends Command
                 'Exceptions/'.$name.'Exception.php',
                 'Facades/'.$name.'Facade.php',
                 'Services/'.$name.'Instance.php',
-                'SettingExtender/ModuleExtender.php'
+                'SettingExtender/ModuleExtender.php',
+                'Views/partials/crud/after-form.blade.php',
+                'Views/partials/crud/before-form.blade.php',
+                'Views/partials/index/after-table.blade.php',
+                'Views/partials/index/before-table.blade.php',
+                'Views/partials/index/control-button.blade.php',
             ]);
 
             $this->info('New module has been created for you. Now you just need to register the service provider (in config/modules.php or in config/app.php) , manage migration, manage the model and skeleton.');
