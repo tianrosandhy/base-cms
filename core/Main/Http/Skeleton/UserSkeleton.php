@@ -60,12 +60,8 @@ class UserSkeleton extends DataTable
 						$out[$current_role->id] = $current_role->name;
 						return $out + $structure->dropdown_list;
 					}
-					return [];
+					return $structure->dropdown_list;
 				})
-				// DataSource::model('role')->options('name', [
-				// 	['id', '>', 0],
-				// 	['is_sa', '(null)']
-				// ])
 			);
 
 		$this->structure[] = DataStructure::field('is_active')
