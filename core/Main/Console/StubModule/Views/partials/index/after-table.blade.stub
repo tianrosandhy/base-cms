@@ -1,1 +1,0 @@
-<!-- Any component here will be loaded after table view -->
