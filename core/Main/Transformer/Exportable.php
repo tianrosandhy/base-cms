@@ -16,7 +16,7 @@ trait Exportable
 		}
 		$this->exportConfig();
 		$data = $this->repo->filter($this->exportCondition);
-		$skeleton = $this->skeleton;
+		$skeleton = $this->skeleton();
 
 		$custom_field = isset($this->custom_field) ? $this->custom_field : [];
 

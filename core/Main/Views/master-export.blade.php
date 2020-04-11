@@ -7,13 +7,13 @@ if(!isset($custom_field)){
 	<thead>
 		<tr>
 			@foreach($skeleton->structure as $structure)
-			@if(!$structure->hide_table && $structure->field <> 'id')
-			<th>{{ strlen($structure->name) > 50 ? '' : $structure->name }}</th>
+			@if(!$structure->hide_table && !$structure->hide_export && $structure->field <> 'id')
+			<th><strong>{{ strlen($structure->name) > 50 ? '' : $structure->name }}</strong></th>
 			@endif
 			@endforeach
 
 			@foreach($custom_field as $field_name)
-			<th>{{ ucfirst($field_name) }}</th>
+			<th><strong>{{ ucfirst($field_name) }}</strong></th>
 			@endforeach
 		</tr>
 	</thead>
@@ -24,7 +24,7 @@ if(!isset($custom_field)){
 			?>
 			<tr>
 				@foreach($skeleton->structure as $structure)
-					@if(!$structure->hide_table && $structure->field <> 'id')
+					@if(!$structure->hide_table && !$structure->hide_export && $structure->field <> 'id')
 						<?php $fldname = str_replace('[]', '', $structure->field); ?>
 						<td>{{ $x[$fldname] }}</td>
 					@endif

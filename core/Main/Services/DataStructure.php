@@ -17,6 +17,7 @@ class DataStructure
 
 		$hide_form,
 		$hide_table,
+		$hide_export,
 		$form_column,
 		$input_type,
 		$input_attribute,
@@ -39,6 +40,7 @@ class DataStructure
 		$this->searchable = true;
 		$this->hide_form = false;
 		$this->hide_table = false;
+		$this->hide_export = false;
 		$this->form_column = 12;
 		$this->data_source = 'text';
 		$this->input_type = 'text';
@@ -146,6 +148,7 @@ class DataStructure
 		$this->name($name);
 		$this->inputType('yesno');
 		$this->dataSource($value);
+		$this->hideExport();
 		return $this;
 	}
 
@@ -243,6 +246,11 @@ class DataStructure
 	
 	public function hideTable(){
 		$this->hide_table = true;
+		return $this;
+	}
+
+	public function hideExport(){
+		$this->hide_export = true;
 		return $this;
 	}
 	
