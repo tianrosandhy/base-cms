@@ -17,7 +17,7 @@ if(is_array($value)){
 }
 
 $config = [
-  'value' => (isset($value) ? $value : null),
+  'value' => old($name, (isset($value) ? $value : null)),
   'name' => $name,
   'horizontal' => true
 ];

@@ -9,11 +9,13 @@ if(isset($class)){
 
 
 $cleaned_name = str_replace('[]', '', $name);
+$old_name = $cleaned_name;
 if(!isset($multi_language)){
   $multi_language = false;
 }
 if($multi_language){
   $name = $cleaned_name.'['.def_lang().'][]';
+  $old_name = $old_name.'.'.def_lang();
 }
 
 if(isset($value[def_lang()])){
@@ -28,10 +30,10 @@ if(strpos($name, '[]') === false){
 ?>
 <div class="row">
 	<div class="col-sm-6">
-    <input type="text" class="{!! implode(' ', $base_class) !!}" autocomplete="off" name="{!! $name !!}" {{ isset($monthly) ? 'data-month-start-range' : 'data-start-range' }} data-hash="{{ $hash }}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!} value="{{ isset($value[0]) ? $value['0'] : '' }}" />
+    <input type="text" class="{!! implode(' ', $base_class) !!}" autocomplete="off" name="{!! $name !!}" {{ isset($monthly) ? 'data-month-start-range' : 'data-start-range' }} data-hash="{{ $hash }}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!} value="{{ old($old_name.'.0', (isset($value[0]) ? $value['0'] : ''))  }}" />
 	</div>
 	<div class="col-sm-6" style="border-left:1px solid #ccc;">
-    <input type="text" class="{!! implode(' ', $base_class) !!}" autocomplete="off" name="{!! $name !!}" {{ isset($monthly) ? 'data-month-end-range' : 'data-end-range' }} data-hash="{{ $hash }}" value="{{ isset($value[1]) ? $value[1] : '' }}" />
+    <input type="text" class="{!! implode(' ', $base_class) !!}" autocomplete="off" name="{!! $name !!}" {{ isset($monthly) ? 'data-month-end-range' : 'data-end-range' }} data-hash="{{ $hash }}" value="{{ old($old_name.'.1', (isset($value[1]) ? $value[1] : '')) }}" />
 	</div>
 </div>
 <script>

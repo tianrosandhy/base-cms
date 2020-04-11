@@ -32,9 +32,9 @@ if(!isset($multi_language)){
     }
     ?>
     <div class="input-language" data-lang="{{ $lang['code'] }}" style="{!! def_lang() == $lang['code'] ? '' : 'display:none;' !!}">
-      <input type="{{ $type }}" name="{!! $input_name !!}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!} value="{{ isset($value[$lang['code']]) ? $value[$lang['code']] : null }}" id="input-{{ $cleaned_name }}-{{ $lang['code'] }}">
+      <input type="{{ $type }}" name="{!! $input_name !!}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!} value="{{ old($cleaned_name.'.'.$lang['code'], (isset($value[$lang['code']]) ? $value[$lang['code']] : null)) }}" id="input-{{ $cleaned_name }}-{{ $lang['code'] }}">
     </div>
   @endforeach
 @else
-  <input type="{{ $type }}" name="{{ $name }}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!} id="input-{{ $cleaned_name }}" value="{{ isset($value) ? $value : null }}">
+  <input type="{{ $type }}" name="{{ $name }}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!} id="input-{{ $cleaned_name }}" value="{{ old($cleaned_name, isset($value) ? $value : null) }}">
 @endif

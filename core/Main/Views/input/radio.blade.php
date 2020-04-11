@@ -24,8 +24,11 @@ else{
 //mencegah value multiple language. this input doesnt expect array value
 if(is_array($value)){
   if(array_key_exists(def_lang(), $value)){
-    $value = $value[def_lang()];
+    $value = old($cleaned_name.'.'.def_lang(), $value[def_lang()]);
   }
+}
+else{
+  $value = old($cleaned_name);
 }
 ?>
 <div class="box">

@@ -8,8 +8,10 @@ if(!isset($multi_language)){
 if($multi_language){
   $name = $name.'['.def_lang().']';
 }
+
+$cleaned_name = str_replace('[]', '', $name);
 if(!isset($value)){
-  $value = null;
+  $value = old($cleaned_name);
 }
 
 $config = [];

@@ -12,7 +12,7 @@ if(!isset($value)){
   $value = null;
 }
 
-$value = isset($value) ? (bool)$value : false;
+$value = old($name, isset($value) ? (bool)$value : false);
 ?>
 <div style="padding:.5em">
 	<input type="hidden" name="{{ $name }}" id="yesno_{{ $hash }}" value="{{ $value ? 1 : 0 }}">

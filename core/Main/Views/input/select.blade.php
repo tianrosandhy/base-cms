@@ -8,7 +8,7 @@ if(isset($class)){
 }
 
 $cleaned_name = str_replace('[]', '', $name);
-$value = isset($value) ? $value : null;
+$value = old($cleaned_name, isset($value) ? $value : null);
 $type = isset($type) ? $type : 'select';
 
 if(is_array($source)){
@@ -45,7 +45,7 @@ if(is_array($value)){
 }
 
 if($value instanceof \Illuminate\Support\Collection){
-  $value = $value->toArray();
+  $value = old($cleaned_name, $value->toArray());
 }
 ?>
 

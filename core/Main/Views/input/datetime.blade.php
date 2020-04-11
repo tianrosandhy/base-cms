@@ -8,12 +8,14 @@ if(isset($class)){
 }
 
 $cleaned_name = str_replace('[]', '', $name);
+$old_name = $cleaned_name;
 if(!isset($multi_language)){
   $multi_language = false;
 }
 
 if($multi_language){
   $name = $name.'['.def_lang().']';
+  $old_name = $cleaned_name.'.'.def_lang();
 }
 
 
@@ -37,4 +39,4 @@ if(is_array($value)){
   }
 }
 ?>
-<input name="{!! $name !!}" type="text" data-mask="{{ $mask }}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!} id="input-{{ $cleaned_name }}" value="{{ isset($value) ? $value : null }}">
+<input name="{!! $name !!}" type="text" data-mask="{{ $mask }}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!} id="input-{{ $cleaned_name }}" value="{{ old($old_name, (isset($value) ? $value : null)) }}">

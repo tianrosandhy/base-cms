@@ -28,11 +28,11 @@ if(!isset($multi_language)){
     }
     ?>
     <div class="input-language" data-lang="{{ $lang['code'] }}" style="{!! def_lang() == $lang['code'] ? '' : 'display:none;' !!}">
-      <textarea data-textarea name="{!! $input_name !!}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!}>{!! isset($value[$lang['code']]) ? $value[$lang['code']] : null !!}</textarea>
+      <textarea data-textarea name="{!! $input_name !!}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!}>{!! old($cleaned_name.'.'.$lang['code'], (isset($value[$lang['code']]) ? $value[$lang['code']] : null)) !!}</textarea>
       <span class="feedback"></span>
     </div>
   @endforeach
 @else
-  <textarea data-textarea name="{!! $name !!}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!}>{!! isset($value) ? $value : null !!}</textarea>
+  <textarea data-textarea name="{!! $name !!}" class="{!! implode(' ', $base_class) !!}" {!! isset($attr) ? array_to_html_prop($attr, ['class', 'type', 'name', 'id']) : null !!}>{!! old($cleaned_name, (isset($value) ? $value : null)) !!}</textarea>
   <span class="feedback"></span>
 @endif

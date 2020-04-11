@@ -6,7 +6,7 @@ if($multi_language){
   $name = $name.'['.def_lang().']';
 }
 if(!isset($value)){
-  $value = null;
+  $value = old($name);
 }
 
 $config = [];
