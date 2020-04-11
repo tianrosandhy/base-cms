@@ -248,6 +248,7 @@ class Processor
 		$ctx = $this->model;
 		$result = (new CrudRepository($ctx));
 		if($this->model_with){
+			$ctx = $this->model->with($this->model_with);
 			$result = $result->with($this->model_with);
 		}
 		$result = $result->paramManagement($ctx, $filter);
