@@ -1,6 +1,7 @@
 <?php
 namespace Core\Main\Http\Traits;
 
+use Core\Main\Http\Repository\CrudRepository;
 
 trait BasicCrud
 {
