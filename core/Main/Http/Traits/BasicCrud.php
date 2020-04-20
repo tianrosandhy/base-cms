@@ -12,6 +12,11 @@ trait BasicCrud
 		return $this->as_ajax;
 	}
 
+	public function getInstanceById($id){
+		return $this->repo->show($id);
+	}
+	
+
 	//default index page
 	public function index(){
 		$datatable = $this->skeleton();
@@ -138,7 +143,7 @@ trait BasicCrud
 
 		$used_plugin = $this->getUsedPlugin($forms->structure);
 
-		$data = $this->repo->show($id);
+		$data = $this->getInstanceById($id);;
 		if(empty($data)){
 			abort(404);
 		}
@@ -165,7 +170,7 @@ trait BasicCrud
 	public function update($id=0){
 		$this->setMode('update');
 		$this->skeleton()->formValidation($this->multi_language, 'update', $id);
-		$show = $this->repo->show($id);
+		$show = $this->getInstanceById($id);
 		if(empty($show)){
 			abort(404);
 		}
