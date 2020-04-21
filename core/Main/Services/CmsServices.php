@@ -144,9 +144,21 @@ DATA =>
             $trim = explode('.', $data['route']);
             unset($trim[count($trim)-1]);
             $trimmed = implode('.', $trim).'.';
-            if(strpos($current_route_name, $trimmed) !== false){
+            if($current_route_name == $data['route']){
                 $active = true;
             }
+            else{
+                if(strpos($current_route_name, $trimmed) !== false){
+                    $allowed_trim = ['index', 'store', 'create', 'update', 'edit'];
+                    $sisa_string_1 = str_replace($trimmed, '', $current_route_name);
+                    $sisa_string_2 = str_replace($trimmed, '', $data['route']);
+                    if(in_array($sisa_string_1, $allowed_trim) && in_array($sisa_string_2, $allowed_trim)){
+                        $active = true;
+                    }
+                }
+
+            }
+
         }
 
         return [
