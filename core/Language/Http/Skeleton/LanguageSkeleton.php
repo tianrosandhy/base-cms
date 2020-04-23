@@ -29,8 +29,7 @@ class LanguageSkeleton extends DataTable
 
 		$this->structure[] = DataStructure::field('image')
 			->name('Image Logo')
-			->formColumn(12)
-			->inputType('image')
+			->hideForm()
 			->searchable(false)
 			->orderable(false);
 

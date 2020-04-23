@@ -221,15 +221,15 @@ class ThemesInstance extends BaseInstance
         else{
             $out = $this->compiledDataManipulation($stored);
         }
-
         $this->compiled_config = $out;
     }
 
 
     public function getStoredOptions(){
+        // memastikan $this->stored yg tergenerate berurutan sesuai urutan inputan
         $datas = (new CrudRepository('themes'))->filter([
             ['theme', '=', $this->active_theme->getName()]
-        ]);
+        ], 'key', 0, 0, 'asc');
 
         $stored = [];
         foreach($datas as $row){
@@ -250,7 +250,6 @@ class ThemesInstance extends BaseInstance
     private function compiledDataManipulation($data)
     {
         $out = [];
-
         foreach ($data as $key => $value) {
             $array = '';
             $split = explode('.', $key);
@@ -259,17 +258,29 @@ class ThemesInstance extends BaseInstance
 
             unset($split[$lastIndex]);
 
+            // $value itu masih nilai default dari theme option. harus ambil dari $this->stored utk dapet nilai value terupdate, atau gunakan langsung $value sbg fallback
+            if(LanguageInstance::isActive()){
+                $temp_value = [];
+                foreach(available_lang(true) as $lang => $langdata){
+                    $temp_value[$lang] = $this->stored[$lang][$key] ?? $value;
+                }
+                //disimpen sbg htmlentity biar ga diparse decode
+                $value = json_encode($temp_value);
+            }
+            else{
+                $value = $this->stored[$key] ?? $value;
+                $value = '"'.addslashes($value).'"'; //menghindari nilai value json yg ikut ter-parsed
+            }
+
             $string = implode('.', $split);
             $array = str_replace('.', '":{"', $string);
-            $array = '{"'.$array.'":["'.$value.'"]';
+            $array = '{"'.$array.'":['.$value.']';
 
             for ($i = 0; $i < $lastIndex; $i++) {
                 $array .= '}';
             }
-
             $out = array_merge_recursive($out, json_decode($array, true));
         }
-
         return $out;
     }
 }
