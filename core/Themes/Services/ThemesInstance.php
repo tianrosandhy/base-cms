@@ -11,7 +11,7 @@ use LanguageInstance;
 
 class ThemesInstance extends BaseInstance
 {
-    public 
+    public
         $stored,
         $active_theme,
         $compiled_config;
@@ -214,55 +214,12 @@ class ThemesInstance extends BaseInstance
                 if(!isset($stored[$lang])){
                     continue;
                 }
-                foreach($stored[$lang] as $key => $value){
-                    $split = explode('.', $key);
-                    //MAAF MASI MANUAL BANGET.. GA DAPET LOGIC LOOPNYA :(
-                    if(count($split) == 6){
-                        $out[$split[0]][$split[1]][$split[2]][$split[3]][$split[4]][$split[5]][$lang] = $value;
-                    }
-                    elseif(count($split) == 5){
-                        $out[$split[0]][$split[1]][$split[2]][$split[3]][$split[4]][$lang] = $value;
-                    }
-                    elseif(count($split) == 4){
-                        $out[$split[0]][$split[1]][$split[2]][$split[3]][$lang] = $value;
-                    }
-                    if(count($split) == 3){
-                        $out[$split[0]][$split[1]][$split[2]][$lang] = $value;
-                    }
-                    if(count($split) == 2){
-                        $out[$split[0]][$split[1]][$lang] = $value;
-                    }
-                    if(count($split) == 5){
-                        $out[$split[0]][$split[1]][$split[2]][$split[3]][$split[4]][$lang] = $value;
-                    }
-                }
+                $out = $this->compiledDataManipulation($stored[$lang]);
             }
 
         }
         else{
-            foreach($stored as $key => $value){
-                $split = explode('.', $key);
-                //MAAF MASI MANUAL BANGET.. GA DAPET LOGIC LOOPNYA :(
-                if(count($split) == 6){
-                    $out[$split[0]][$split[1]][$split[2]][$split[3]][$split[4]][$split[5]] = $value;
-                }
-                elseif(count($split) == 5){
-                    $out[$split[0]][$split[1]][$split[2]][$split[3]][$split[4]] = $value;
-                }
-                elseif(count($split) == 4){
-                    $out[$split[0]][$split[1]][$split[2]][$split[3]] = $value;
-                }
-                if(count($split) == 3){
-                    $out[$split[0]][$split[1]][$split[2]] = $value;
-                }
-                if(count($split) == 2){
-                    $out[$split[0]][$split[1]] = $value;
-                }
-                if(count($split) == 5){
-                    $out[$split[0]][$split[1]][$split[2]][$split[3]][$split[4]] = $value;
-                }
-            }
-
+            $out = $this->compiledDataManipulation($stored);
         }
 
         $this->compiled_config = $out;
@@ -289,4 +246,30 @@ class ThemesInstance extends BaseInstance
         return $this->stored;
     }
 
+    // Need more testing
+    private function compiledDataManipulation($data)
+    {
+        $out = [];
+
+        foreach ($data as $key => $value) {
+            $array = '';
+            $split = explode('.', $key);
+            $total = count($split);
+            $lastIndex = $total - 1;
+
+            unset($split[$lastIndex]);
+
+            $string = implode('.', $split);
+            $array = str_replace('.', '":{"', $string);
+            $array = '{"'.$array.'":["'.$value.'"]';
+
+            for ($i = 0; $i < $lastIndex; $i++) {
+                $array .= '}';
+            }
+
+            $out = array_merge_recursive($out, json_decode($array, true));
+        }
+
+        return $out;
+    }
 }
