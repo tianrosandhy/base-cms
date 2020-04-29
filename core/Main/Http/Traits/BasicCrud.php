@@ -26,7 +26,9 @@ trait BasicCrud
 		$prepend_index = method_exists($this, 'prependIndex') ? $this->prependIndex() : null;
 		$ctrl_button = method_exists($this, 'appendIndexControlButton') ?  $this->appendIndexControlButton() : null;
 		$as_ajax = $this->asAjax();
+		$aliases = $this->allAlias();
 		return view(config('module-setting.'.$this->hint().'.view.index', 'main::master-table'), compact(
+			'aliases',
 			'title',
 			'hint',
 			'datatable',
@@ -67,7 +69,7 @@ trait BasicCrud
 
 		$used_plugin = $this->getUsedPlugin($forms->structure);
 
-		$back = 'admin.'.$this->hint().'.index'; //back url
+		$back = 'admin.'.$this->getRouteAlias().'.index'; //back url
 		$multi_language = isset($this->multi_language) ? $this->multi_language : false;
 		$append_form = method_exists($this, 'appendForm') ? $this->appendForm() : null;
 		$prepend_form = method_exists($this, 'prependForm') ? $this->prependForm() : null;
@@ -75,7 +77,9 @@ trait BasicCrud
 
 		//data = blank entity
 		$data = model($this->model);
-		return view(config('module-setting.'.$this->hint().'.view.create', 'main::master-crud'), compact(
+		$aliases = $this->allAlias();
+		return view(config('module-setting.'.$this->getConfigAlias().'.view.create', 'main::master-crud'), compact(
+			'aliases',
 			'title',
 			'forms',
 			'back',
@@ -123,10 +127,10 @@ trait BasicCrud
 			];
 		}
 		if($this->request->save_only){
-			$redirect = redirect()->route('admin.'.$this->hint().'.edit', ['id' => $instance->id]);
+			$redirect = redirect()->route('admin.'.$this->getRouteAlias().'.edit', ['id' => $instance->id]);
 		}
 		else{
-			$redirect = redirect()->route('admin.'. $this->hint() .'.index');
+			$redirect = redirect()->route('admin.'. $this->getRouteAlias() .'.index');
 		}
 		return $redirect->with('success', $this->usedLang('store_success'));
 	}
@@ -138,8 +142,7 @@ trait BasicCrud
 	public function edit($id=null){
 		$title = $this->usedLang('edit');
 		$forms = $this->skeleton();
-		$back = 'admin.'.$this->hint().'.index';
-		$hint = $this->hint();
+		$back = 'admin.'.$this->getRouteAlias().'.index';
 
 		$used_plugin = $this->getUsedPlugin($forms->structure);
 
@@ -153,7 +156,9 @@ trait BasicCrud
 		$prepend_form = method_exists($this, 'prependForm') ? $this->prependForm($data) : null;
 		$seo = method_exists($this, 'seoFields') ? $this->seoFields($data) : null;
 
-		return view(config('module-setting.'.$this->hint().'.view.edit', 'main::master-crud'), compact(
+		$aliases = $this->allAlias();
+		return view(config('module-setting.'.$this->getConfigAlias().'.view.edit', 'main::master-crud'), compact(
+			'aliases',
 			'title',
 			'forms',
 			'back',
@@ -162,8 +167,7 @@ trait BasicCrud
 			'append_form',
 			'prepend_form',
 			'seo',
-			'used_plugin',
-			'hint'
+			'used_plugin'
 		));
 	}
 
@@ -212,7 +216,7 @@ trait BasicCrud
 			$redirect = redirect()->back();
 		}
 		else{
-			$redirect = redirect()->route('admin.'. $this->hint() .'.index');
+			$redirect = redirect()->route('admin.'. $this->getRouteAlias() .'.index');
 		}
 		return $redirect->with('success', $this->usedLang('update_success'));
 	}

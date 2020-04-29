@@ -15,24 +15,53 @@ class BlankController extends AdminBaseController implements Crud
 	use Extensions\BlankExtension;
 
 	public $multi_language = true; //set ke false kalau sedang tidak di dual language module
-	//hint => used as route name, url name, view alias
 	public $hint = 'blank';
-
-	public function repo(){
-		//repo => model alias used (default : same as hint)
-		return $this->hint;
-	}
 
 	public function skeleton(){
 		return new BlankSkeleton;
 	}
 
-	public function afterValidation($mode='create', $instance=null){
 
+	/*
+	* EXTENSION METHODS
+	* By default, all the aliases below will use $this->hint as fallback. 
+	* So you can remove these methods if the alias is same as $this->hint.
+	*/
+	public function routeAlias(){
+		//change if you wanna use custom route name
+		//ex : admin.{custom_route_alias}.index
+		return 'blank';
 	}
 
-	public function afterCrud($instance){
-
+	public function configAlias(){
+		//change if you use custom key name in module-setting.php config
+		//ex : config('module-setting.{custom_config_name}')
+		return 'blank';
 	}
+
+	public function translationModuleAlias(){
+		//change to the translator module alias name (get from this module service provider ..->loadTranslationsFrom(..., "alias_name"))
+		return 'blank';
+	}
+
+	public function translationNameAlias(){
+		//change if you use custom key name in Translation/en/module.php key name
+		return 'blank';
+	}
+
+	public function repo(){
+		//current model alias name (get from config/model.php)
+		return 'blank';
+	}
+
+	public function repoRelation(){
+		//you can set the model from repo eager load relations name
+		//can return string for single relation, or array for multiple relation
+		return;
+	}
+
+	/*
+	* EXTENSION METHODS FINISH
+	*/
 
 }

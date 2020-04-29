@@ -6,11 +6,15 @@ trait BlankFormExtension
 {
 	public function prependForm($instance=null){
 		// return html rendered view before form box
-		return view('blank::partials.crud.before-form');
+		return view('blank::partials.crud.before-form', compact(
+			'instance'
+		));
 	}
 
 	public function appendForm($instance=null){
 		// return html rendered view after form box
-		return view('blank::partials.crud.after-form');
+		return view('blank::partials.crud.after-form', compact(
+			'instance'
+		));
 	}
 }

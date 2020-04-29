@@ -65,7 +65,9 @@ class MediaInstance
 		$decode = json_decode($single_json_data, true);
 		if(isset($decode['id'])){
 			$media = Media::find($decode['id']);
-			return $media->getRawThumbnailUrl('path', $decode['thumb']);
+			if(!empty($media)){
+				return $media->getRawThumbnailUrl('path', $decode['thumb']);
+			}
 		}
 
 		if($fallback){
@@ -81,7 +83,9 @@ class MediaInstance
 			if(!$thumb){
 				$thumb = $decode['thumb'];
 			}
-			return $media->getRawThumbnailUrl('path', $thumb);
+			if(!empty($media)){
+				return $media->getRawThumbnailUrl('path', $thumb);				
+			}
 		}
 
 		if($fallback){
@@ -94,7 +98,9 @@ class MediaInstance
 		$decode = json_decode($single_json_data, true);
 		if(isset($decode['id'])){
 			$media = Media::find($decode['id']);
-			return $media->getRawThumbnail('path', $decode['thumb']);
+			if(!empty($media)){
+				return $media->getRawThumbnail('path', $decode['thumb']);
+			}
 		}
 		return false;
 	}

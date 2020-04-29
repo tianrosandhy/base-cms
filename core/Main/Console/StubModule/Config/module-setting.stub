@@ -3,6 +3,8 @@ return [
 	'blank' => [
 		'upload_path' => 'blank',
 		'export_excel' => false,
+		'hide_create' => false,
+		'save_always_exit' => false,
 		'view' => [
 			'index' => 'main::master-table',
 			'create' => 'main::master-crud',

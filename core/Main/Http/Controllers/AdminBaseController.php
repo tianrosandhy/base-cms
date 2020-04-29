@@ -37,8 +37,63 @@ class AdminBaseController extends Controller
 		}
 	}
 
+	// alias management.
+	// list alias : model (repo), route, config, module, translation module, translation name
+	public function getRouteAlias(){
+		if(method_exists($this, 'routeAlias')){
+			return $this->routeAlias();
+		}
+		//$this->hint sbg base alias
+		return $this->hint;
+	}
+
+	public function getConfigAlias(){
+		if(method_exists($this, 'configAlias')){
+			return $this->configAlias();
+		}
+		return $this->hint;
+	}
+
+	public function getTranslationModuleAlias(){
+		if(method_exists($this, 'translationModuleAlias')){
+			return $this->translationModuleAlias();
+		}
+		return $this->hint;
+	}
+
+	public function getTranslationNameAlias(){
+		if(method_exists($this, 'translationNameAlias')){
+			return $this->translationNameAlias();
+		}
+		return $this->hint;
+	}
+
+	public function allAlias(){
+		return [
+			'hint' => $this->hint(),
+			'route' => $this->getRouteAlias(),
+			'config' => $this->getConfigAlias(),
+			'translation_module' => $this->getTranslationModuleAlias(),
+			'translation_name' => $this->getTranslationNameAlias(),
+		];
+	}
+	// list alias finish
+
+
 	public function useRepo($alias=''){
-		$this->repo = new CrudRepository($this->repo());
+		$relation = null;
+		if(method_exists($this, 'repoRelation')){
+			if(!empty($this->repoRelation())){
+				$relation = $this->repoRelation();
+			}
+		}
+
+		if(!empty($relation)){
+			$this->repo = (new CrudRepository($this->repo()))->with($relation);
+		}
+		else{
+			$this->repo = new CrudRepository($this->repo());
+		}
 	}
 
 	public function languageData(){
@@ -53,14 +108,6 @@ class AdminBaseController extends Controller
 			return $var;
 		}
 		return $this->hint;
-	}
-	
-	public function module($var=''){
-		if(strlen($var) > 0){
-			$this->module = $var;
-			return $var;
-		}
-		return ($this->module ? $this->module : $this->hint);
 	}
 	
 

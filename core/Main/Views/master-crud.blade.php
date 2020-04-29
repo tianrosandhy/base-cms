@@ -24,6 +24,10 @@
 @endif
 
 @section ('content')
+<?php
+$dictionary = __($aliases['translation_module'].'::module.'.$aliases['translation_name']);
+$config = config('module-setting.'.$aliases['config']);
+?>
 <div class="header-box">
 	<h3 class="display-4 mb-3">{{ $title }}</h3>
 	@if(!request()->ajax())
@@ -134,8 +138,13 @@
 		@endif
 
 		<div class="save-buttons">
-			<button type="submit" name="save_only" value="1" class="btn btn-lg btn-success"><i class="fa fa-save"></i> Save</button>
-			<button type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> Save & Exit</button>
+			<?php
+			$always_exit = $config['save_always_exit'] ?? false;
+			?>
+			<button type="submit" {!! $always_exit ? '' : 'name="save_only"' !!} value="1" class="btn btn-lg btn-success"><i class="fa fa-save"></i> {{ $dictionary['save_button'] ?? 'Save' }}</button>
+			@if(!$always_exit)
+			<button type="submit" class="btn btn-lg btn-primary"><i class="fa fa-save"></i> {{ $dictionary['save_and_exit_button'] ?? 'Save & Exit' }}</button>
+			@endif
 		</div>
 				
 	</form>	

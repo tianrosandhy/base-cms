@@ -7,30 +7,33 @@
 @endif
 
 @section ('content')
-
-
+<?php
+$dictionary = __($aliases['translation_module'].'::module.'.$aliases['translation_name']);
+?>
 <div class="header-box">
 	<h3 class="display-4 mb-3">{!! $title !!}</h3>
 
 	<div class="padd">
 		<div class="pull-left float-xs-left">
-			@if(Route::has('admin.'.$hint.'.store'))
-			@if(has_access('admin.'.$hint.'.store'))
+			@if(Route::has('admin.'.$aliases['route'].'.store'))
+			@if(has_access('admin.'.$aliases['route'].'.store'))
 				<?php
 				$hide = false;
-				if(config('module-setting.'.$hint.'.hide_create')){
+				if(config('module-setting.'.$aliases['config'].'.hide_create')){
 				    $hide=true;
 		    	}
 		    	?>
 	    	    @if(!$hide)
-				<a href="{{ url()->route('admin.'.$hint.'.store') }}" class="btn btn-primary" {{ $as_ajax ? 'as-ajax' : '' }}>Add Data</a>
+				<a href="{{ url()->route('admin.'.$aliases['route'].'.store') }}" class="btn btn-primary" {{ $as_ajax ? 'as-ajax' : '' }}>
+					{{ $dictionary['create_button'] ?? 'Add Data' }}
+				</a>
 	            @endif
 	    	@endif
 			@endif
 
-			@if(Route::has('admin.'.$hint.'.delete'))
-			@if(has_access('admin.'.$hint.'.delete'))
-			<a href="{{ url()->route('admin.'.$hint.'.delete', ['id' => 0]) }}" class="btn btn-danger batchbox multi-delete">Delete All Selected</a>
+			@if(Route::has('admin.'.$aliases['route'].'.delete'))
+			@if(has_access('admin.'.$aliases['route'].'.delete'))
+			<a href="{{ url()->route('admin.'.$aliases['route'].'.delete', ['id' => 0]) }}" class="btn btn-danger batchbox multi-delete">{{ $dictionary['delete_batch_button'] ?? 'Delete All Selected' }}</a>
 			@endif
 			@endif
 
@@ -38,9 +41,9 @@
 		</div>
 
 
-		@if(Route::has('admin.'.$hint.'.export') && config('module-setting.'.$hint.'.export_excel'))
+		@if(Route::has('admin.'.$aliases['route'].'.export') && config('module-setting.'.$aliases['config'].'.export_excel'))
 		<div class="pull-right float-xs-right">
-			<a href="{{ url()->route('admin.'.$hint.'.export') }}" class="btn btn-info">Export to Excel</a>
+			<a href="{{ url()->route('admin.'.$aliases['route'].'.export') }}" class="btn btn-info">{{ $dictionary['export_button'] ?? 'Export to Excel' }}</a>
 		</div>
 		@endif
 		<div class="clearfix"></div>
@@ -70,7 +73,7 @@
 
 @push ('script')
 @include ('main::assets.datatable', [
-	'url' => url()->route('admin.'.$hint.'.datatable')
+	'url' => url()->route('admin.'.$aliases['route'].'.datatable')
 ])
 <script>
 	$(".table-search-btn").on('click', function(){
