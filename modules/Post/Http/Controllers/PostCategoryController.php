@@ -12,9 +12,12 @@ class PostCategoryController extends AdminBaseController implements Crud
 {
 	use BasicCrud;
 	use Exportable;
-	public $module = 'post';
 	public $hint = 'post_category';
 	public $multi_language = true;
+
+	public function translationModuleAlias(){
+		return 'post';
+	}
 
 	public function repo(){
 		return $this->hint;
@@ -22,14 +25,6 @@ class PostCategoryController extends AdminBaseController implements Crud
 
 	public function skeleton(){
 		return new PostCategorySkeleton;
-	}
-
-	public function afterValidation($mode='create', $instance=null){
-
-	}
-
-	public function afterCrud($instance){
-
 	}
 
 

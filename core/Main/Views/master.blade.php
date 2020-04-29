@@ -30,8 +30,8 @@
   </div>
   <!-- container-scroller -->
   @include ('main::template.modal')
-  @include ('main::template.alert-management')
   @include ('main::template.scripts')
+  @include ('main::template.alert-management')
 </body>
 
 </html>

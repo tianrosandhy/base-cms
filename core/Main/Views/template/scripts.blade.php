@@ -10,12 +10,13 @@
 <script src="{{ admin_asset('vendor/timepicker/jquery.timepicker.min.js') }}"></script>
 <script src="{{ admin_asset('js/jquery.mask.min.js') }}"></script>
 <script src="{{ admin_asset('vendor/simplebar/simplebar.js') }}"></script>
+<script src="{{ admin_asset('vendor/toastr/toastr.min.js') }}"></script>
 <!-- inject:js -->
 <script src="{{ admin_asset('js/off-canvas.js') }}"></script>
 <script src="{{ admin_asset('js/hoverable-collapse.js') }}"></script>
 <script src="{{ admin_asset('js/template.js') }}"></script>
 
-<script src="{{ admin_asset('js/additional.js?v=1.0.1') }}"></script>
+<script src="{{ admin_asset('js/additional.js?v=1.1.0') }}"></script>
 <!-- endinject -->
 
 <script>

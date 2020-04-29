@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="{!! admin_asset('vendor/bootstrap-tag/bootstrap-tagsinput.css') !!}">
 <link rel="stylesheet" href="{!! admin_asset('vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css') !!}">
 <link rel="stylesheet" href="{{ admin_asset('vendor/timepicker/jquery.timepicker.min.css') }}">
+<link rel="stylesheet" href="{{ admin_asset('vendor/toastr/toastr.min.css') }}">
 <link rel="stylesheet" href="{{ admin_asset('vendor/simplebar/simplebar.css') }}">
 <!-- endinject -->
 
