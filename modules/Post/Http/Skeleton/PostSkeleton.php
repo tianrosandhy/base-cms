@@ -14,7 +14,7 @@ class PostSkeleton extends DataTable
 		$this->request = request();
 		//default fields
 		$this->setModel('post');
-		$this->setModelWith('category', 'related', 'comment');
+		$this->setModelWith('category', 'related');
 
 		$this->structure[] = DataStructure::checker();
 

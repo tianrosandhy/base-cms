@@ -227,6 +227,10 @@ class ThemesInstance extends BaseInstance
 
     public function getStoredOptions(){
         // memastikan $this->stored yg tergenerate berurutan sesuai urutan inputan
+        if(!$this->active_theme){
+            $this->stored = null;
+            return $this->stored;
+        }
         $datas = (new CrudRepository('themes'))->filter([
             ['theme', '=', $this->active_theme->getName()]
         ], 'key', 0, 0, 'asc');

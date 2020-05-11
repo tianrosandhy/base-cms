@@ -11,7 +11,7 @@ trait BasicCrudExtension
 	public function saveProcess($instance=null, $is_active_field = 'is_active'){
 		if(empty($instance)){
 			//create new blank instance model
-			$instance = $this->repo->model;
+			$instance = model($this->repo());
 		}
 
 		$inputData = $this->getUsedField();
