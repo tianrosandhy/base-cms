@@ -141,6 +141,7 @@ class ModuleScaffold extends Command
                 'Facades/'.$name.'Facade.php',
                 'Services/'.$name.'Instance.php',
                 'SettingExtender/ModuleExtender.php',
+                'SettingExtender/MigrationModifier.php',
                 'Views/partials/crud/after-form.blade.php',
                 'Views/partials/crud/before-form.blade.php',
                 'Views/partials/index/after-table.blade.php',
