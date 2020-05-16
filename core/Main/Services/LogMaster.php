@@ -13,7 +13,17 @@ class LogMaster
 	}
 
 	public function store(){
+		if(!setting('log.active')){
+			// gausa create log kalau setting log ga aktif
+			return;
+		}
+
 		$type = $this->friendlyErrorType();
+		if($type == '404'){
+			//gausa log page not found juga biar beban log servicenya ga berat
+			return;
+		}
+
 		$file = method_exists($this->exception, 'getFile') ? $this->exception->getFile() : null;
 		$line = method_exists($this->exception, 'getLine') ? $this->exception->getLine() : null;
 		$filepath = $file . ( $line ? ':'.$line : null );
