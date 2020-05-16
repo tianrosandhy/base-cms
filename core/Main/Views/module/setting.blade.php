@@ -109,8 +109,8 @@
 
 
 
-
 	@if(has_access('admin.maintenance.artisan'))
+	@if(!in_array(strtolower(env('APP_ENV')), ['production', 'live']))
 	<div class="card card-block card-body mt-5">
 		<h4>Artisan Runner</h4>
 		<form action="{{ route('admin.maintenance.artisan') }}" method="post">
@@ -130,6 +130,7 @@
 			</div>
 		</form>
 	</div>
+	@endif
 	@endif
 </div>
 
