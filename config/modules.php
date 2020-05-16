@@ -7,7 +7,6 @@ return [
 		\Core\Themes\ThemesServiceProvider::class,
 
 		\Module\Api\ApiServiceProvider::class,
-		\Module\Ehehe\EheheServiceProvider::class,
 		\Module\Navigation\NavigationServiceProvider::class,
 		\Module\Post\PostServiceProvider::class,
 		\Module\Page\PageServiceProvider::class,

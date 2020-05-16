@@ -35,9 +35,7 @@ class RoleStructure
 	
 
 	public function structuredRole($current_role=null){
-		$base_role = (new CrudRepository('role'))->filter([
-			['role_owner', '(null)']
-		]);
+		$base_role = app('role')->whereNull('role_owner');
 
 		$out = [];
 		foreach($base_role as $row){
@@ -88,6 +86,9 @@ class RoleStructure
 	}
 
 	protected function handleLoopStructure($row, $data=[]){
+		//ambil data dari singleton biar ga banyak koneksi database
+		$row = app('role')->where('id', $row->id)->first();
+
 		$data = [
 			'id' => $row->id,
 			'label' => $row->name,

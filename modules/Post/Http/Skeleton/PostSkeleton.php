@@ -14,7 +14,7 @@ class PostSkeleton extends DataTable
 		$this->request = request();
 		//default fields
 		$this->setModel('post');
-		$this->setModelWith('category', 'related', 'comment');
+		$this->setModelWith('category', 'related');
 
 		$this->structure[] = DataStructure::checker();
 
@@ -129,8 +129,8 @@ class PostSkeleton extends DataTable
 
 		return [
 			'id' => $this->checkerFormat($row),
-			'title' => '<a class="text-black" style="display:block;" href="'.route('admin.post.detail', ['id' => $row->id]).'">'.$row->outputTranslate('title').'</a>',
-			'post_slug' => '<a class="text-black" style="display:block;" href="'.route('admin.post.detail', ['id' => $row->id]).'">'.$row->slug().'</a>',
+			'title' => '<a class="text-black" style="display:block;" href="'.route('admin.'.$this->route.'.detail', ['id' => $row->id]).'">'.$row->outputTranslate('title').'</a>',
+			'post_slug' => '<a class="text-black" style="display:block;" href="'.route('admin.'.$this->route.'.detail', ['id' => $row->id]).'">'.$row->slug().'</a>',
 			'category' => $category,
 			'tags' => $row->outputTranslate('tags'),
 			'image' => $row->imageThumbnail('image', 'thumb', 75),

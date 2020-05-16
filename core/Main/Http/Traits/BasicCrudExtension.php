@@ -2,6 +2,8 @@
 namespace Core\Main\Http\Traits;
 
 use SlugInstance;
+use Illuminate\Database\Eloquent\Builder;
+
 
 trait BasicCrudExtension
 {
@@ -9,7 +11,7 @@ trait BasicCrudExtension
 	public function saveProcess($instance=null, $is_active_field = 'is_active'){
 		if(empty($instance)){
 			//create new blank instance model
-			$instance = $this->repo->model;
+			$instance = model($this->repo());
 		}
 
 		$inputData = $this->getUsedField();
@@ -42,7 +44,7 @@ trait BasicCrudExtension
 				$slug_stored = $this->request->$input_name;
 				if(!empty($slug_stored)){
 					//slug store logic : 
-					$table_name = $this->repo->model->getTable();
+					$table_name = $this->repo->getTableName();
 					$pk = $instance->id;
 					if(isset($slug_stored[def_lang()])){
 						foreach($slug_stored as $lang => $storedata){
@@ -64,6 +66,10 @@ trait BasicCrudExtension
 
 	protected function modelTableListing(){
 		$model = $this->repo->model;
+		if($model instanceof Builder){
+			$model = $model->getModel();
+		}
+
         return $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable());
 	}
 
@@ -103,7 +109,7 @@ trait BasicCrudExtension
 	protected function usedLang($param=''){
 		//grab from module translation
 
-		$module_query = $this->module().'::module.'.$this->hint().'.'.$param;
+		$module_query = $this->getTranslationModuleAlias().'::module.'.$this->getTranslationNameAlias().'.'.$param;
 		$module_lang = trans($module_query);
 		if($module_lang <> $module_query){
 			return $module_lang;

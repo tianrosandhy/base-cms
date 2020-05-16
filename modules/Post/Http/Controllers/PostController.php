@@ -20,16 +20,33 @@ class PostController extends AdminBaseController implements Crud
 	public $hint = 'post';
 	public $multi_language = true;
 
+
+	public function routeAlias(){
+		return 'post';
+	}
+
+	public function configAlias(){
+		return 'post';
+	}
+
+	public function translationModuleAlias(){
+		return 'post';
+	}
+
+	public function translationNameAlias(){
+		return 'post';
+	}
+
 	public function repo(){
-		return $this->hint;
+		return 'post';
+	}
+
+	public function repoRelation(){
+		return ['category', 'related'];
 	}
 
 	public function skeleton(){
 		return new PostSkeleton;
-	}
-
-	public function image_field(){
-		return ['image'];
 	}
 
 

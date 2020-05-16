@@ -23,7 +23,7 @@ class AdminAuth
             return $next($request);
 
         if($user){
-            $role = $user->roles;
+            $role = app('role')->find($user->role_id);
             if(!empty($role)){
                 $roles_bawahan = $this->getBawahanRole($role);
 
@@ -59,6 +59,7 @@ class AdminAuth
 
     //iterate children id
     protected function getBawahanRole($role, $data=[]){
+        $role = app('role')->find($role->id);
         $data[] = $role->id;
         if($role->children->count() > 0){
             foreach($role->children as $child){

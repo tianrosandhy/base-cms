@@ -17,7 +17,7 @@
 
 <div class="content-boxx">
 	@if(session('artisan'))
-	<div style="margin:1em 0;">
+	<div style="margin:1em;">
 		<strong>Artisan Command Result</strong>
 		<pre class="language"><code class="language">{!! session('artisan') !!}</code></pre>
 	</div>
@@ -109,28 +109,53 @@
 
 
 
-
 	@if(has_access('admin.maintenance.artisan'))
-	<div class="card card-block card-body mt-5">
-		<h4>Artisan Runner</h4>
-		<form action="{{ route('admin.maintenance.artisan') }}" method="post">
-			{{ csrf_field() }}
-			<div class="alert alert-warning">
-				<strong>Danger Zone.</strong>
-				Make sure you know what are you really doing here. For development only
-			</div>
-			<div class="input-group">
-				<div class="input-group-prepend">
-					<span class="input-group-text">php artisan</span>
+	@if(!in_array(strtolower(config('app.env')), ['production', 'live']))
+	<div class="content-box">
+		<div class="alert alert-warning mt-5">
+			<strong>Danger Zone.</strong>
+			Make sure you know what are you really doing here. For development only
+		</div>
+		<div class="card card-block card-body">
+			<h4>Artisan Runner</h4>
+			<form action="{{ route('admin.maintenance.artisan') }}" method="post">
+				{{ csrf_field() }}
+				<div class="alert alert-info">For <strong>one call command only</strong>. Please dont call background process commands</div>
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text">php artisan</span>
+					</div>
+					<input type="text" name="key" class="form-control" placeholder="Put your artisan command here">
+					<div class="input-group-btn">
+						<button class="btn btn-danger">Run Command</button>
+					</div>
 				</div>
-				<input type="text" name="key" class="form-control" placeholder="Put your artisan command here">
-				<div class="input-group-btn">
-					<button class="btn btn-danger">Run Command</button>
+			</form>
+		</div>
+
+		<div class="card card-block card-body">
+			<h4>Environtment Data</h4>
+			<a href="#" data-toggle="collapse" data-target="#collapseExample" class="btn btn-block btn-primary">Show Current .env Data</a>
+			<div class="collapse" id="collapseExample">
+				<div class="card card-body">
+					<?php
+					try{
+						$env = base_path('.env');
+						$env_file = fopen($env, 'r');
+						$env_text = fread($env_file, filesize($env));
+					}catch(\Exception $e){
+						$env_text = 'Dont have permission to read .env';
+					}
+					?>
+					<pre style="background:#222; color:#fff; font-family:monospace;"><code>{!! $env_text !!}</code></pre>
 				</div>
 			</div>
-		</form>
+
+		</div>		
 	</div>
 	@endif
+	@endif
+
 </div>
 
 @stop

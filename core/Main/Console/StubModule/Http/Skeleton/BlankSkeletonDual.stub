@@ -14,6 +14,7 @@ class BlankSkeleton extends DataTable
 		$this->request = request();
 		//default fields
 		$this->setModel('blank');
+		//$this->setModelWith(['eager_loading', 'relation_name']);
 
 		$this->structure[] = DataStructure::checker();
 

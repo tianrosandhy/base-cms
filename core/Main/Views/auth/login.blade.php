@@ -104,9 +104,9 @@
     @include ('main::auth.partials.reset-password')
     @include ('main::auth.partials.resend-validation')
     @include ('main::template.modal')
-    @include ('main::template.alert-management')
 
     @include ('main::template.scripts')
+    @include ('main::template.alert-management')
 </body>
 </html>
 

@@ -134,8 +134,12 @@ class SettingController extends AdminBaseController
 	public function postArtisan(){
 		//simple artisan command
 		$key = $this->request->key;
+		if(empty($key)){
+			$key = 'list';
+		}
+
 		try{
-			\Artisan::call($this->request->key);
+			\Artisan::call($key);
 			$output = \Artisan::output();
 		}catch(Exception $e){
 			return back()->with('artisan', 'Command not available');			

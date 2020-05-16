@@ -26,7 +26,10 @@ function admin_data($field=''){
 }
 
 function is_sa(){
-  $sa = isset(admin_guard()->user()->roles->is_sa) ? admin_guard()->user()->roles->is_sa : false;
+  $current_user = admin_guard()->user();
+  $current_roles = $current_user->role_id;
+  $role = app('role')->where('id', $current_roles)->first();
+  $sa = $role->is_sa ?? false;
   return (bool)$sa;
 }
 

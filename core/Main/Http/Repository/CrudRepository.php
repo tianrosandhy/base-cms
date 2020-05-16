@@ -2,6 +2,7 @@
 namespace Core\Main\Http\Repository;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class CrudRepository{
 	public $model;
@@ -24,7 +25,7 @@ class CrudRepository{
 		$args = func_get_args();
 		if(is_array($args)){
 			if(count($args) == 1){
-				$check_value = array_values($args)[0];
+                $check_value = array_values($args)[0];
 				$this->model = $this->model->with($check_value);
 			}
 			else{
@@ -71,15 +72,18 @@ class CrudRepository{
 
 	public function modelTableListing(){
 		$model = $this->model;
-		try{
-			$listing = $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable());
-		}catch(\Exception $e){
+		if($model instanceof Builder){
 			$model = $model->getModel();
-			$listing = $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable());
 		}
+		return $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable());
+	}
 
-
-        return $listing;
+	public function getTableName(){
+		$model = $this->model;
+		if($model instanceof Builder){
+			$model = $model->getModel();
+		}
+		return $model->getTable();
 	}
 
 

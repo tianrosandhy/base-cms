@@ -170,6 +170,11 @@ function initPlugin(){
 				tg = sisa.join('-');
 				$("[data-slug='"+tg+"']").val(convertToSlug(current));
 			});
+			if($(this).val().length == 0){
+				//create default slugify value
+				cr = $("#input-"+target).val();
+				$(this).val(convertToSlug(cr));
+			}
 		});
 	}
 
@@ -203,17 +208,17 @@ function toggleSuccess(reload){
 
 
 function swal(type, messages){
-	$("#alertModal .modal-header h5").html(type);
-	out = '';
-	$(messages).each(function(ky, msg){
-		if(type == 'error'){
-			type = 'danger';
-		}
-		out += '<div class="alert alert-'+type+' text-center">'+msg+'</div>';
-	});
-	$("#alertModal .alert-modal-content").html(out);
+	//now use toastr
+	toastr.options.timeOut = 10000;
+	if(typeof messages == 'string'){
+		toastr[type](messages);
+	}
+	else{
+		$(messages).each(function(k, msg){
+			toastr[type](msg);
+		});
+	}
 	hideLoading();
-	$("#alertModal").modal();
 }
 
 //init slugify
