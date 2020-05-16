@@ -19,14 +19,53 @@ class LogController extends AdminBaseController
         $available_log = $this->getAvailableFileLog();
         $log_size = $this->getLogSize();
 
+        $stored_log_count = model('log_master')->where('is_reported', 0)->count();
+        $reported_stored_log_count = model('log_master')->where('is_reported', 1)->count();
+        $stored_log = model('log_master')->where('is_reported', 0)->orderBy('created_at', 'DESC')->take(30)->get([
+            'id', 'url', 'type', 'description', 'file_path', 'is_reported', 'created_at'
+        ]);
+
         return view('main::module.log', compact(
             'title',
             'hint',
             'available_log',
             'active_log',
-            'log_size'
+            'log_size',
+            'stored_log',
+            'stored_log_count',
+            'reported_stored_log_count'
         ));
     }
+
+    public function detail($id){
+        $data = model('log_master')->find($id);
+        if(empty($data)){
+            abort(404);
+        }
+
+        $title = 'Log Detail';
+        return view('main::module.log-detail', compact(
+            'data',
+            'title'
+        ));
+    }
+
+    public function markAsReported(){
+        $changed = model('log_master')->where('is_reported', 0)->update([
+            'is_reported' => 1
+        ]);
+
+        if($changed){
+            $msg = $changed .' error report has been marked as reported';
+        }
+        else{
+            $msg = 'All error report has been marked';
+        }
+
+        return redirect()->route('admin.log.index')->with('success', $msg);
+    }
+
+
 
     public function getLogSize(){
         $this->request->active_log;

@@ -195,6 +195,7 @@ class MainServiceProvider extends ServiceProvider
 	        'Setting' => \Core\Main\Facades\SettingFacades::class,
 	        'Input' => \Core\Main\Facades\InputFacades::class,
 	        'SlugInstance' => \Core\Main\Facades\SlugInstanceFacades::class,
+	        'LogMaster' => \Core\Main\Facades\LogMasterFacades::class,
         ];
 
         foreach($aliasData as $al => $src){

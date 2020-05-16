@@ -19,6 +19,12 @@ class ModuleExtender extends BaseSetting
 		$item[] = new Item('admin.logo', 'Admin Image Logo', new DataType('image'));
 		$item[] = new Item('admin.favicon', 'Admin Favicon Logo', new DataType('image'));
 
+		$item[] = new Item('log.active', 'Use Email Log Reporting', new DataType('select', [
+			0 => 'No',
+			1 => 'Yes'
+		]), 0);
+		$item[] = new Item('log.email_receiver', 'Log Email Receiver', new DataType('text'));
+
 		$this->registers($item);
 	}
 }

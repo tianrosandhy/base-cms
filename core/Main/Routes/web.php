@@ -47,4 +47,6 @@ Route::post('setting/user/delete/{id}', 'UserManagementController@delete')->name
 
 Route::get('log', 'LogController@index')->name('admin.log.index');
 Route::get('log/export', 'LogController@export')->name('admin.log.export');
+Route::get('log-detail/{id}', 'LogController@detail')->name('admin.log.detail');
+Route::get('log/mark-as-reported', 'LogController@markAsReported')->name('admin.log.mark-as-reported');
 Route::post('setting/log/delete/{id}', 'LogController@delete')->name('admin.log.delete');

@@ -5,6 +5,7 @@
 return [
 	'user' => 'Core\Main\Models\User',
 	'role' => 'Core\Main\Models\Role',
+	'log_master' => 'Core\Main\Models\LogMaster',
 
 	'setting_structure' => 'Core\Main\Models\SettingStructure',
 	'translator' => 'Core\Main\Models\Translator',
