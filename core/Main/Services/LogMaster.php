@@ -14,7 +14,9 @@ class LogMaster
 
 	public function store(){
 		$type = $this->friendlyErrorType();
-		$filepath = $this->exception->getFile().':'.$this->exception->getLine();
+		$file = method_exists($this->exception, 'getFile') ? $this->exception->getFile() : null;
+		$line = method_exists($this->exception, 'getLine') ? $this->exception->getLine() : null;
+		$filepath = $file . ( $line ? ':'.$line : null );
 		$description = $this->exception->getMessage();
 
 		$check = Model::where('file_path', $filepath)

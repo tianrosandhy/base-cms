@@ -42,7 +42,13 @@
 		@if(!$email_receiver)
 		<div class="alert alert-warning">You are still not set the email receiver for mail error reporting feature. You can set the email receiver in <a href="{{ admin_url('setting') }}" class="btn btn-sm btn-warning">Setting >> Log</a></div>
 		@else
-		<div class="alert alert-success">Email error reporting feature is currently active. Any error log report in this site will be sent to <strong>{{ $email_receiver }}</strong></div>
+		<div class="alert alert-success">
+			Email error reporting feature is currently active. Any error log report in this site will be sent to <strong>{{ $email_receiver }}</strong>. 
+			@if(config('app.env') != 'production' && config('app.env') != 'live')
+			<br>
+			Make sure you already create the cronjob for command <strong>php artisan logmaster:send</strong> with your free interval, so the email reporting will be sent when needed.
+			@endif
+		</div>
 		@endif
 
 		@if($stored_log->count() > 0)

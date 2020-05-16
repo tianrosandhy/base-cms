@@ -110,7 +110,7 @@
 
 
 	@if(has_access('admin.maintenance.artisan'))
-	@if(!in_array(strtolower(env('APP_ENV')), ['production', 'live']))
+	@if(!in_array(strtolower(config('app.env')), ['production', 'live']))
 	<div class="content-box">
 		<div class="alert alert-warning mt-5">
 			<strong>Danger Zone.</strong>

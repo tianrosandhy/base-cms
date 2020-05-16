@@ -86,6 +86,8 @@ class MainServiceProvider extends ServiceProvider
 			Console\ModuleScaffold::class,
 			Console\NewAdmin::class,
 			Console\SetRole::class,
+			Console\SendLogMaster::class,
+			Console\ClearLogMaster::class,
 		]);
 	}
 
