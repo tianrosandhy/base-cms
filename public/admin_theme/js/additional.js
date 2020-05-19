@@ -208,6 +208,8 @@ function toggleSuccess(reload){
 
 
 function swal(type, messages){
+	type = type.toLowerCase();
+
 	//now use toastr
 	toastr.options.timeOut = 10000;
 	if(typeof messages == 'string'){
@@ -264,7 +266,7 @@ function deletePrompt(url, callback){
 	dtcl = callback || '';
 
 	output = '<p>Are you sure? Once deleted, you will not be able to recover the data</p><button class="btn btn-primary" data-dismiss="modal">Cancel</button> <button class="btn btn-danger" onclick="ajaxUrlProcess(\''+url+'\' '+ (dtcl ? ',\''+dtcl+'\'' : '') +')">Yes, Delete</button>';
-	swal('Delete Confirmation', [output]);
+	swal('info', [output]);
 }
 
 function ajaxUrlProcess(url, callback, ajax_type){
