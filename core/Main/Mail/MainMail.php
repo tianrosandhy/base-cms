@@ -14,15 +14,15 @@ class MainMail extends Mailable
     public 
         $subject,
         $precontent,
+        $banner_image,
         $title,
-        $subheader,
-        $top_description,
+        $subtitle,
         $content,
+        $additional_content,
         $button,
-        $unsubscribe_url,
-        $additional_footer,
-        $additional_view,
+        $footer_text,
         $file,
+        $theme,
         $var,
         $rep;
 
@@ -44,16 +44,18 @@ class MainMail extends Mailable
     	}
     }
 
+    public function mailViewPath(){
+        return 'main::mail.theme1.master';
+    }
+
     public function setVar($additional=[]){
     	$this->var = array_merge([
-			'max-width' => 500,
-			'background-color' => '#f0f0f0',
-			'main-top-color' => '#0089d1',
-			'button-color' => '#37b349',
-			'button-text-color' => '#fff',
-			'logo' => asset('styling/src/img/logo.png'),
-			'logo-height' => 50,
-			'content-align' => 'center',
+            'body_background' => '#DDDBDB',
+            'wrapper_background' => '#fafafa',
+            'primary_color' => '#0F75BB',
+            'text_color_light' => '#fafafa',
+            'text_color_dark' => '#333333',
+            'max_width' => 600
 		], $additional);
 		return $this;
     }
@@ -63,6 +65,7 @@ class MainMail extends Mailable
         if(empty($this->var)){
         	$this->setVar();
         }
+        $this->theme = $this->var;
 
         $objvar = get_object_vars($this);
         $exclude  = [
@@ -76,7 +79,7 @@ class MainMail extends Mailable
 
         $output = $this
             ->subject($this->subject)
-            ->view('main::mail.master')
+            ->view($this->mailViewPath())
             ->with($objvar);
 
         if(!empty($this->rep)){
@@ -84,8 +87,13 @@ class MainMail extends Mailable
         }
 
         if(!empty($this->file)){
-            foreach($this->file as $file){
-                $output = $output->attach($file);
+            if(is_array($this->file)){
+                foreach($this->file as $file){
+                    $output = $output->attach($file);
+                }
+            }
+            else{
+                $output = $output->attach($this->file);
             }
         }
 
