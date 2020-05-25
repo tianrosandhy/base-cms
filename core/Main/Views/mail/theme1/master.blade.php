@@ -1,38 +1,69 @@
-<!doctype html>
-<html lang="en">
+<?php
+$var = [
+	'max-width' => 480,
+	'logo' => url(env('APP_URL').'/styling/src/img/logo.png'),
+];
+?>
+<!DOCTYPE html>
+<html>
 <head>
 	@include ('main::mail.theme1.partials.metadata')
 </head>
 <body>
-	<div id="wrapper" style="max-width:{{ $theme['max_width'] }}px;">
-		<table style="width:100%; background:{{ $theme['wrapper_background'] }};" cellspacing="0" cellpadding=0>
-			@include ('main::mail.theme1.partials.header')
+	<table width="{{ $var['max-width'] }}" style="margin: 32px auto; border: solid 1px #f5f5f5; box-shadow: 4px 4px 8px rgba(0,0,0,.05); color: #333333; border-radius: 8px">
+		@include ('main::mail.theme1.partials.header')
+		<tr>
+			<td style="padding: 0 16px">
+				<table>
+					<tr>
+						<td>
+							<div class="content">
+								@if(isset($title))
+								<strong>{{ $title }}</strong>
+								@endif
 
-			@if(isset($content))
-			<tr>
-				<td style="padding:1.5em; font-size:18px; line-height:1.45em; font-weight:300; color:{{ $theme['text_color_dark'] }}">
-					{!! $content !!}
-					{!! isset($additional_content) ? $additional_content : '' !!}
-				</td>
-			</tr>
-			@endif
-			@if(isset($button))
-			<tr>
-				<td style="padding:1.5em;" align="center">
-					@if(isset($button['url']) && isset($button['label']))
-					<a href="{{ $button['url'] }}" class="button" style="text-decoration:none; color:{{ $theme['text_color_light'] }}">{{ $button['label'] }}</a>
-					@else
-						@foreach($button as $btns)
-							@if(isset($btns['url']) && isset($btns['label']))
-							<a href="{{ $btns['url'] }}" class="button" style="text-decoration:none; color:{{ $theme['text_color_light'] }}">{{ $btns['label'] }}</a>
+								@if(isset($content))
+									{!! $content !!}
+									{!! isset($additional_content) ? $additional_content : '' !!}
+								@endif
+							</div>
+
+							@if(isset($button))
+								@if(isset($button['url']) && isset($button['label']))
+								<div>
+									<a href="{{ url($button['url']) }}" style="color: #0089D1; font-weight: bold; text-decoration: none; border-bottom: dotted 1px #0089d1;">
+										{{ $button['label'] }}
+									</a>
+								</div>
+								@else
+									@foreach($button as $btns)
+										@if(isset($btns['url']) && isset($btns['label']))
+										<div>
+											<a href="{{ url($btns['url']) }}" style="color: #0089D1; font-weight: bold; text-decoration: none; border-bottom: dotted 1px #0089d1;">
+												{{ $btns['label'] }}
+											</a>
+										</div>
+										@endif
+									@endforeach
+								@endif
 							@endif
-						@endforeach
-					@endif
-				</td>
-			</tr>
-			@endif
-		</table>
-		@include ('main::mail.theme1.partials.footer')
-	</div>
+
+							@include ('main::mail.theme1.partials.footer')
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<table width="{{ $var['max-width'] }}" style="margin: auto;">
+		<tr>
+			<td>
+				<p style="text-align: center; border-top: solid 1px #f5f5f5; color: #999999; margin-bottom: 32px; padding-top: 32px;">
+					Copyright &copy; {{ setting('site.title') }} {{ date('Y') }}
+				</p>
+			</td>
+		</tr>
+	</table>
 </body>
 </html>
+

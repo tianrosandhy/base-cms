@@ -22,8 +22,6 @@ class MainMail extends Mailable
         $button,
         $footer_text,
         $file,
-        $theme,
-        $var,
         $rep;
 
     public function __call($name, $arguments){
@@ -48,25 +46,7 @@ class MainMail extends Mailable
         return 'main::mail.theme1.master';
     }
 
-    public function setVar($additional=[]){
-    	$this->var = array_merge([
-            'body_background' => '#DDDBDB',
-            'wrapper_background' => '#fafafa',
-            'primary_color' => '#0F75BB',
-            'text_color_light' => '#fafafa',
-            'text_color_dark' => '#333333',
-            'max_width' => 600
-		], $additional);
-		return $this;
-    }
-
-
     public function build(){
-        if(empty($this->var)){
-        	$this->setVar();
-        }
-        $this->theme = $this->var;
-
         $objvar = get_object_vars($this);
         $exclude  = [
         	'html', 'view', 'textView', 'viewData', 'callbacks', 'connection', 'queue', 'chainConnection', 'chainQueue', 'delay', 'chained'

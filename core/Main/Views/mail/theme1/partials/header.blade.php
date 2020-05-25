@@ -4,22 +4,10 @@
 	</td>
 </tr>
 <tr>
-	<td style="padding:1.5em;" align="center">
-		<a href="{{ url('/') }}">
-			@include ('main::template.components.logo', ['height' => 60, 'width' => 150])
-		</a>
+	<td style="padding: 16px;">
+		@include ('main::template.components.logo', ['height' => 60, 'width' => 150])
 	</td>
 </tr>
-@if(isset($title) || isset($subtitle))
-<tr>
-	<td style="padding:1.5em 2.5em;" bgcolor="{{ $theme['primary_color'] }}">
-		<h1 style="color:{{ $theme['text_color_light']  }}">{{ $title }}</h1>
-		@if(isset($subtitle))
-		<h2 style="color:{{ $theme['text_color_light'] }}">{{ $subtitle }}</h2>
-		@endif
-	</td>
-</tr>
-@endif
 @if(isset($banner_image))
 <tr>
 	<td>
