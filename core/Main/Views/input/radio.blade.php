@@ -28,7 +28,7 @@ if(is_array($value)){
   }
 }
 else{
-  $value = old($cleaned_name);
+  $value = old($cleaned_name, $value);
 }
 ?>
 <div class="box">
