@@ -8,7 +8,9 @@ trait Seoable
 	}
 
 	public function seoDescription(){
-		return descriptionMaker($this->excerpt, 15);
+		if($this->excerpt){
+			return descriptionMaker($this->excerpt, 15);
+		}
 	}
 
 	public function seoKeyword(){

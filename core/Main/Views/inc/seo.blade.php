@@ -12,6 +12,9 @@ if(strpos($config['image'], 'http') === false){
 	$json_img = json_decode($config['image'], true);
 	if(isset($json_img['id'])){
 		$image_url = MediaInstance::readJsonPath($config['image']);
+		if(strpos($image_url, 'http') === false){
+			$image_url = Storage::url($image_url);
+		}
 	}
 	else{
 		if(strlen($config['image']) > 0){
