@@ -169,6 +169,14 @@ $(function(){
 		setFormGroupBg($(this));
 	});
 
+	$("input, select, textarea").on('change', function(){
+		startNavigate();
+	});
+
+	$("form").on('submit', function(){
+		clearNavigate();
+	});
+
 	var inc = 1;
 	if($("[data-gutenberg]").length){
 		$("[data-gutenberg]").each(function(){
@@ -207,6 +215,17 @@ function setFormGroupBg(instance){
 		instance.closest('.radio-box').addClass('success');
 		instance.closest('.radio-box').removeClass('danger');
 	}
+}
+
+function clearNavigate(){
+	$(window).off('beforeunload');
+}
+
+function startNavigate(){
+	console.log('startNavigate called');
+	$(window).on('beforeunload', function(){
+		return 'Are you sure you want to leave?';
+	});
 }
 </script>
 @endpush
