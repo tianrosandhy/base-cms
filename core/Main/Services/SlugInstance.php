@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class SlugInstance
 {
 	public function create($table, $id, $string, $language=null){
+		if(empty($language)){
+			$language = def_lang();
+		}
 		$slug = slugify($string);
 		$instance = SlugMaster::where('table', $table)->where('primary_key', $id)->where('language', $language)->first();
 		$slug = $this->slugForSaved($slug, $instance);
 
-		if(empty($language)){
-			$language = def_lang();
-		}
 
 		if(empty($instance)){
 			$instance = new SlugMaster;
